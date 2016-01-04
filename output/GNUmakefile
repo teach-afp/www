@@ -2,7 +2,7 @@ USERR = russo
 LAYOUT = $(shell find ../lout -type f -name '*')
 URL_COURSE = $(USERR)@remote12.chalmers.se:/chalmers/groups/edu2009/www/www.cse.chalmers.se/year/2015/course/TDA383_LP1/
 
-all: index.html information exercises labs lectures exams.html 
+all: index.html information exercises labs lectures exams.html
 
 
 
@@ -49,7 +49,7 @@ lang_inf.html: ../input/lang_inf.md $(LAYOUT)
 	 generate-md --input ../input/lang_inf.md --output ./ --layout ../lout/
 
 # Exercises
-exercises: exercises.html ex1.html 
+exercises: exercises.html ex1.html
 
 exercises.html: ../input/exercises.md $(LAYOUT)
 	 generate-md --input ../input/exercises.md --output ./ --layout ../lout/
@@ -62,10 +62,23 @@ exams.html: ../input/exams.md $(LAYOUT)
 	 generate-md --input ../input/exams.md --output ./ --layout ../lout/
 
 # Labs
-labs: labs.html 
+labs: labs.html lab1.html lab2.html lab3.html lab4.html
 
 labs.html: ../input/labs.md $(LAYOUT)
 	 generate-md --input ../input/labs.md --output ./ --layout ../lout/
+
+lab1.html: ../input/lab1.md $(LAYOUT)
+	 generate-md --input ../input/lab1.md --output ./ --layout ../lout/
+
+lab2.html: ../input/lab2.md $(LAYOUT)
+	 generate-md --input ../input/lab2.md --output ./ --layout ../lout/
+
+lab3.html: ../input/lab3.md $(LAYOUT)
+	 generate-md --input ../input/lab3.md --output ./ --layout ../lout/
+
+lab4.html: ../input/lab4.md $(LAYOUT)
+	 generate-md --input ../input/lab4.md --output ./ --layout ../lout/
+
 
 # Lectures
 lectures: lec.html lecture1.html lecture2.html lecture3.html lecture4.html lecture5.html lecture6.html lecture7.html lecture8.html lecture9.html lecture10.html

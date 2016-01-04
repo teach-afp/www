@@ -1,7 +1,7 @@
 <img style="float:right"
-     class="img-circle"
-     src="http://upload.wikimedia.org/wikipedia/en/5/5c/Chalmers_logo.png"
-     height="190">
+     class="img"
+     src="https://www.chalmers.se/SiteCollectionImages/Logotyper/Chalmers%20logotyp/AvancezChalmers_black_centered.png"
+     height="200">
 <img style="float:right"
      class="img-circle"
      src="http://upload.wikimedia.org/wikipedia/en/8/82/G%C3%B6teborgs_universitet_seal.svg"
