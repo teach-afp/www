@@ -31,22 +31,10 @@ index.html: ../input/index.md $(LAYOUT)
 
 # Information of the course
 
-information: course_inf.html lit_inf.html time_inf.html comp_inf.html lang_inf.html
+information: inf.html
 
-course_inf.html: ../input/course_inf.md $(LAYOUT)
-	 generate-md --input ../input/course_inf.md --output ./ --layout ../lout/
-
-lit_inf.html: ../input/lit_inf.md $(LAYOUT)
-	 generate-md --input ../input/lit_inf.md --output ./ --layout ../lout/
-
-time_inf.html: ../input/time_inf.md $(LAYOUT)
-	 generate-md --input ../input/time_inf.md --output ./ --layout ../lout/
-
-comp_inf.html: ../input/comp_inf.md $(LAYOUT)
-	 generate-md --input ../input/comp_inf.md --output ./ --layout ../lout/
-
-lang_inf.html: ../input/lang_inf.md $(LAYOUT)
-	 generate-md --input ../input/lang_inf.md --output ./ --layout ../lout/
+inf.html: ../input/inf.md $(LAYOUT)
+	 generate-md --input ../input/inf.md --output ./ --layout ../lout/
 
 # Exercises
 exercises: exercises.html ex1.html
