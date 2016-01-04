@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Concurrent Programming Lectures (TDA382/DIT390)">
+    <meta name="author" content="Alejandro Russo">
+
+    <title>TDA382/DIT390</title>
+    <link href="{{assetsRelative}}/css/bootstrap.css" 
+          rel="stylesheet">
+    <link href="{{assetsRelative}}/css/bootstrap-theme.min.css"
+          rel="stylesheet">
+    <style>
+      code, pre {
+           white-space: pre-wrap;
+           white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+           white-space: -pre-wrap;      /* Opera 4-6 */
+           white-space: -o-pre-wrap;    /* Opera 7 */
+           word-wrap: break-word;
+      }
+      body {padding-top: 60px;}
+      mark {background-color:#666633;}
+      li.L0, li.L1, li.L2, li.L3,
+      li.L5, li.L6, li.L7, li.L8
+      { list-style-type: decimal !important }
+
+      .cremona { font-family: arial; font-size: 40; font-style: bold;
+      background-color:LightGreen; } 
+      .state { font-family: arial; font-size: 35; font-style: bold; background-color:MediumTurquoise; } 
+    </style>
+ 
+    <style type="text/css">
+    <!-- h2   {font-size: 43px ;} -->
+    <!-- h3   {font-size: 37px ;} -->
+    <!-- p    {font-size: 30px ;} -->
+    <!-- li   {font-size: 25px ;} -->
+    <!-- pre  {font-size: 25px ;} -->
+    <!-- prettyprint {font-size: 25px ;} -->
+    <!-- th   {font-size: 30px ;} -->
+    <!-- .imgright { float: right; } -->
+    <!-- td   {font-size: 30px ;} -->
+    </style>
+  </head>
+<body>
+
+
+   <!-- Fixed navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">TDA382/DIT390</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="index.html">Home/News</a></li>
+            <li class="dropdown">
+              <a href="./" class="dropdown-toggle"
+              data-toggle="dropdown">Information<b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                    <li><a href="./course_inf.html">About the course</a></li>
+                    <li><a href="./lit_inf.html">Literature</a></li>
+                    <li><a href="./time_inf.html">Time schedule</a></li>
+                    <li><a href="./comp_inf.html">Computer issues</a></li>
+                    <li><a href="./lang_inf.html">Resources for Java and Erlang</a></li>
+              </ul>
+            </li>
+            <li class="active"><a href="./lec.html">Lectures</a></li>
+            <li class="dropdown">
+              <a href="./" class="dropdown-toggle"
+              data-toggle="dropdown">Exercises<b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                  <li><a href="./exercises.html">Overview</a></li>
+                  <li role="presentation" class="divider"></li>
+                  <li><a href="./ex1.html">Exercise 1</a></li>
+                  <li><a href="http://www.cse.chalmers.se/edu/year/2013/course/TDA382_Concurrent_Programming_2013-2014_LP1/exercises/solutions/1.zip">Solution</a></li>
+                  <li role="presentation" class="divider"></li>
+                  <li><a href="./ex2.html">Exercise 2</a></li>
+                  <li><a href="http://www.cse.chalmers.se/edu/year/2013/course/TDA382_Concurrent_Programming_2013-2014_LP1/exercises/solutions/2.zip">Solution</a></li>
+                  <li role="presentation" class="divider"></li>
+                  <li><a href="./ex3.html">Exercise 3</a></li>
+                  <li><a href="http://www.cse.chalmers.se/edu/year/2013/course/TDA382_Concurrent_Programming_2013-2014_LP1/exercises/solutions/3.zip">Solution</a></li>
+              </ul>
+            </li> 
+            <li class="dropdown">
+              <a href="./" class="dropdown-toggle"
+              data-toggle="dropdown">Assignments<b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                  <li><a href="./labs.html">General information</a></li>
+                  <li><a href="./lab1.html">Lab 1: Trainspotting</a></li>
+                  <li><a href="./lab2.html">Lab 2: Trainspotting II</a></li>
+                  <li><a href="./cchat.html">Lab 3: CCHAT</a></li>
+                  <li><a href="./dchat.html">Lab 4: DCHAT</a></li>
+              </ul>
+            </li>
+            <li class="active"><a href="./exams.html">Exams</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+
+  <div class="container">
+    {{content}}
+  </div>
+
+
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=erlang&skin=default"></script>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="{{assetsRelative}}/js/bootstrap.min.js"></script>
+
+
+<script>
+var tags = {{hash_items}} ;
+for (var i = 0 ; i < tags.length; i++) {
+ $('a[href='+ tags[i] + ']').on('click',function(e){
+   // prevent normal scrolling action
+   e.preventDefault();
+   var target = $(this.hash);
+   target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+      if (target.length) {
+            window.scrollTo(0, target.offset().top - 60); // <-- our offset
+       return false;
+   }
+ });
+}
+</script>
+
+</body>
+</html>
