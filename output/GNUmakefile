@@ -2,7 +2,7 @@ USERR = russo
 LAYOUT = $(shell find ../lout -type f -name '*')
 URL_COURSE = $(USERR)@remote12.chalmers.se:/chalmers/groups/edu2009/www/www.cse.chalmers.se/year/2015/course/TDA383_LP1/
 
-all: index.html information exercises labs lectures exams.html erlang
+all: index.html information exercises labs lectures exams.html 
 
 
 
@@ -49,7 +49,7 @@ lang_inf.html: ../input/lang_inf.md $(LAYOUT)
 	 generate-md --input ../input/lang_inf.md --output ./ --layout ../lout/
 
 # Exercises
-exercises: exercises.html ex1.html ex2.html ex3.html
+exercises: exercises.html ex1.html 
 
 exercises.html: ../input/exercises.md $(LAYOUT)
 	 generate-md --input ../input/exercises.md --output ./ --layout ../lout/
@@ -57,41 +57,16 @@ exercises.html: ../input/exercises.md $(LAYOUT)
 ex1.html: ../input/ex1.md $(LAYOUT)
 	 generate-md --input ../input/ex1.md --output ./ --layout ../lout/
 
-ex2.html: ../input/ex2.md $(LAYOUT)
-	 generate-md --input ../input/ex2.md --output ./ --layout ../lout/
-
-ex3.html: ../input/ex3.md $(LAYOUT)
-	 generate-md --input ../input/ex3.md --output ./ --layout ../lout/
-
 # Exams
 exams.html: ../input/exams.md $(LAYOUT)
 	 generate-md --input ../input/exams.md --output ./ --layout ../lout/
 
 # Labs
-labs: labs.html lab1.html lab2.html cchat.html dchat.html
+labs: labs.html 
 
 labs.html: ../input/labs.md $(LAYOUT)
 	 generate-md --input ../input/labs.md --output ./ --layout ../lout/
 
-lab1.html: ../input/lab1.md $(LAYOUT)
-	 generate-md --input ../input/lab1.md --output ./ --layout ../lout/
-
-lab2.html: ../input/lab2.md $(LAYOUT)
-	 generate-md --input ../input/lab2.md --output ./ --layout ../lout/
-
-cchat.html: ../input/cchat.md ../output/make_menu.sh ../output/pretty.sh $(LAYOUT)
-	 ../output/pretty.sh ../input/cchat.md ../input/cchatP.md
-	 generate-md --input ../input/cchatP.md --output ./ --layout ../lout/
-	 mv cchatP.html cchat.html
-	 ../output/make_menu.sh cchat.html
-	 rm ../input/cchatP.md
-
-dchat.html: ../input/dchat.md ../output/make_menu.sh ../output/pretty.sh $(LAYOUT)
-	 ../output/pretty.sh ../input/dchat.md ../input/dchatP.md
-	 generate-md --input ../input/dchatP.md --output ./ --layout ../lout/
-	 mv dchatP.html dchat.html
-	 ../output/make_menu.sh dchat.html
-	 rm ../input/dchatP.md
 # Lectures
 lectures: lec.html lecture1.html lecture2.html lecture3.html lecture4.html lecture5.html lecture6.html lecture7.html lecture8.html lecture9.html lecture10.html
 
@@ -151,56 +126,6 @@ lecture10.html: ../input/lecture10.md ./make_menu.sh ./pretty.sh $(LAYOUT)
 	 generate-md --input ../input/lecture10P.md --output ./ --layout ../lout/
 	 mv lecture10P.html lecture10.html
 	 rm ../input/lecture10P.md
-
-
-# Erlang material
-erlang: erlangmaterial.html erlang.html erlangc.html clientserver.html epatterns.html parallel.html cchat.html morepatterns.html
-
-erlangmaterial.html: ../input/index.md $(LAYOUT)
-	 generate-md --input ../input/erlangmaterial.md --output ./ --layout ../lout/
-
-
-erlang.html: ../input/erlang.md ./make_menu.sh ./pretty.sh $(LAYOUT)
-	 ./pretty.sh ../input/erlang.md ../input/erlangP.md
-	 generate-md --input ../input/erlangP.md --output ./ --layout ../lout/
-	 mv erlangP.html erlang.html
-	 ./make_menu.sh erlang.html
-	 rm ../input/erlangP.md
-
-erlangc.html: ../input/erlangc.md ./make_menu.sh ./pretty.sh $(LAYOUT)
-	 ./pretty.sh ../input/erlangc.md ../input/erlangcP.md
-	 generate-md --input ../input/erlangcP.md --output ./ --layout ../lout/
-	 mv erlangcP.html erlangc.html
-	 ./make_menu.sh erlangc.html
-	 rm ../input/erlangcP.md
-
-clientserver.html: ../input/clientserver.md ./make_menu.sh ./pretty.sh $(LAYOUT)
-	 ./pretty.sh ../input/clientserver.md ../input/clientserverP.md
-	 generate-md --input ../input/clientserverP.md --output ./ --layout ../lout/
-	 mv clientserverP.html clientserver.html
-	 ./make_menu.sh clientserver.html
-	 rm ../input/clientserverP.md
-
-epatterns.html: ../input/epatterns.md ./make_menu.sh ./pretty.sh $(LAYOUT)
-	 ./pretty.sh ../input/epatterns.md ../input/epatternsP.md
-	 generate-md --input ../input/epatternsP.md --output ./ --layout ../lout/
-	 mv epatternsP.html epatterns.html
-	 ./make_menu.sh epatterns.html
-	 rm ../input/epatternsP.md
-
-parallel.html: ../input/parallel.md ./make_menu.sh ./pretty.sh $(LAYOUT)
-	 ./pretty.sh ../input/parallel.md ../input/parallelP.md
-	 generate-md --input ../input/parallelP.md --output ./ --layout ../lout/
-	 mv parallelP.html parallel.html
-	 ./make_menu.sh parallel.html
-	 rm ../input/parallelP.md
-
-morepatterns.html: ../input/morepatterns.md ./make_menu.sh ./pretty.sh $(LAYOUT)
-	 ./pretty.sh ../input/morepatterns.md ../input/morepatternsP.md
-	 generate-md --input ../input/morepatternsP.md --output ./ --layout ../lout/
-	 mv morepatternsP.html morepatterns.html
-	 ./make_menu.sh morepatterns.html
-	 rm ../input/morepatternsP.md
 
 clean:
 	rm -f *.html
