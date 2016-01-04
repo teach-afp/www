@@ -1,3 +1,7 @@
+<!-- Added weird extra section, because otherwise Alejandro's does not appear -->
+<!-- ## Empty -->
+<!-- --- -->
+
 <img style="float:right"
      class="img"
      src="https://www.chalmers.se/SiteCollectionImages/Logotyper/Chalmers%20logotyp/AvancezChalmers_black_centered.png"
@@ -15,4 +19,3 @@
 
 
 # News!
-
