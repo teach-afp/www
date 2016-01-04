@@ -81,7 +81,7 @@ Coming soon!
 ## Discussion Group
 
 You can register
-[here](https://groups.google.com/forum/#!forum/tda383-dit390-concurrent-programming-period-1-2015-2016)
+[here](https://groups.google.com/d/forum/afp2016)
 to the Google Group of the course. The google group is meant to be used to post
 questions and have discussions related to the course. *Sharing (total or
 partial) solutions in the google group is forbidden*.
@@ -111,11 +111,7 @@ material will be provided with the lectures.
 <!-- Trick to avoid wrapping around more text than it should -->
 <div class="row">
 
-
-
 </div>
-
----
 
 ### Extra reading material
 
