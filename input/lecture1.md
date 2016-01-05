@@ -244,38 +244,215 @@ that `f` is a pure function.
 * Evaluation of expressions often trigger a lot of side-effects (memory
    allocation, garbage collector, etc.) even though they are pure.
 
-<div class="alert alert-info">
-That expressions denote the same value does not mean that they are equally
-convenient to use in practice!
-</div>
+   <div class="alert alert-info">
+   That expressions denote the same value does not mean that they are equally
+   convenient to use in practice!
+  </div>
 
 ## Evaluation orders ##
 
+* Eager evaluation
+
+  - ML uses this strategy
+  - It reduces variables as soon as they get bound, e.g., it reduces functions'
+    arguments first.
+    <div class="alert alert-info">
+    Graph in lambda calculus
+    </div>
+    <table class="table table-bordered">
+    <thead>
+    <tr>
+    <th>Eager evaluation</th>
+    </tr>
+    </thead>
+
+    <tr class="success">
+    <td> Programmer dictates the execution order </td>
+    </tr>
+
+    <tr class="success">
+    <td> The runtime is usually small  </td>
+    </tr>
+
+    <tr class="danger">
+    <td> It promotes early error propagation </td>
+    </tr>
+
+    <tr class="danger">
+    <td> Evaluation of unnecessary expressions </td>
+    </tr>
+
+    <tr  class="danger">
+    <td> Programmers need to organize the code for optimal
+    execution based on the reduction order </td>
+    </tr>
+    </table>
 
 
-## Lazy evaluation ##
+* Lazy evaluation
 
   - Haskell is a lazy language
   - Expressions are evaluated *at most once*
   - Expressions are evaluated *only when needed*
   - Expressions are never evaluated twice
 
-(We will explore more in detail what this means)
+  (We will explore more in detail what this means)
 
-## Observing when expressions get evaluated ##
+  <div class="alert alert-info">
+  Graph in lambda calculus
+  </div>
 
+## Observing evaluations in Haskell ##
 
-```haskell
-fun :: Maybe Int -> Int
-fun mx  | isNothing mx   = 0
-        | otherwise      = x + 3
- where
-  x = fromJust mx
+* Use `error "message"` or `undefined` to see whether something gets evaluated
 
-fromJust :: Maybe a -> a -- also available in module Data.Maybe
+   ```haskell
+   testLazy2 = head [3, undefined, 17]
+   testLazy3 = head (3:4:error "no tail")
+   testLazy4 = head [error "no first elem", 17, 13]
+   testLazy5 = head (error "no list at all")```
+
+## Lazy evaluation: skipping unnecessary computations ##
+
+* Consider the following functions
+
+  ```haskell
+  expn :: Integer -> Integer
+  expn n | n <= 1    = 1
+  | otherwise = expn (n-1) + expn (n-2)
+
+  choice :: Bool -> a -> a -> a
+  choice False  f  _t  =  f
+  choice True   _f  t  =  t
+  ```
+
+* Function `expn` is "expensive" to compute. Do you see why?
+
+* What does it happen when running?
+
+  ```haskell
+  testChoice1 :: Integer
+  testChoice1 = choice False 17 (expn 99)
+
+  testChoice2 :: Integer
+  testChoice2 = choice False 17 (error "Don't touch me!")
+  ```
+
+## Lazy evaluation: programming style ##
+
+* Programs separate the
+  - **construction**
+  - and **selection** of data for a given purpose
+
+* Modularity: "It makes it practical to modularise a program as a generator
+  which constructs a large number of possible answers, and a selector which
+  chooses the appropriate one."
+
+  [Why Functional Programming Matters by John Hughes](http://www.cse.chalmers.se/~rjmh/Papers/whyfp.pdf)
+
+## Lazy evaluation: when is a value "needed"? ##
+
+* An argument is evaluated when a pattern match occurs
+
+  ```haskell
+  strange :: Bool -> Integer
+  strange False = 17
+  strange True  = 17
+
+  testStrange = strange undefined
+  ```
+
+* *Primitive functions* also evaluate their arguments
+
+## Lazy evaluation: at most once? ##
+
+```haskelln
+ff :: Integer -> Integer
+ff x = (x - 2) * 10
+
+foo :: Integer -> Integer
+foo x = ff x + ff x
+
+bar :: Integer -> Integer -> Integer
+bar x y = ff 17 + x + y
+
+testBar =  bar 1 2 + bar 3 4
 ```
 
-adfasdf
-sdafasd
+* `ff x` gets evaluated twice in `foo x`
 
-que esta pasando?
+* `ff 17` is evaluated twice in `testBar`
+
+* Why is that?
+
+* In lazy evaluation, *bindings* are evaluated at most once!
+
+  - We can adapt `foo` above to evaluate `ff x` at most once by introducing a
+  local binding
+
+   ```haskell
+   foo :: Integer -> Integer
+   foo x = ffx + ffx
+       where ffx = ff x
+   ```
+
+  - The evaluation happens *at most once* in the corresponding scope!
+
+  - What about `f 17`? How can we change `bar` to evaluate it at most once?
+
+     ```haskell
+      bar :: Integer -> Integer -> Integer
+      bar x y = ff17 + x + y
+
+      ff17 :: Integer
+      ff17 = ff 17 ```
+
+     We introduce a top-level binding, which are really evaluated at most once.
+
+## Lazy evaluation: infinite data structures ##
+
+* Because of laziness, Haskell is able to denote infinite structures
+
+* They are not compute completely!
+
+* Instead, Haskell only computes the needed parts from them
+
+* Infinite lists examples
+  ```haskellln
+  take n [3..]
+  xs `zip` [1..]
+  ```
+
+
+<table class="table table-bordered">
+
+<thead>
+      <tr>
+         <th>Lazy evaluation</th>
+      </tr>
+</thead>
+
+<tr class="success">
+  <td> Avoid unnecessary computations </td>
+</tr>
+
+<tr class="success">
+  <td> It provides error recovery </td>
+</tr>
+
+<tr class="success">
+  <td> It allows to describe infinity data structures </td>
+</tr>
+
+<tr class="danger">
+  <td> It is hard to do complexity analysis </td>
+</tr>
+
+<tr class="danger">
+  <td> It is hardly suitable for time-critical operations </td>
+</tr>
+
+<tr  class="danger">
+  <td>  </td>
+</tr>
+</table>
