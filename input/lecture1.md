@@ -1,5 +1,5 @@
 
-## This course
+## This course ##
 
 * Advance Programming Language Features
   - Type systems
@@ -12,7 +12,7 @@
   - Signals processing, graphics, web programming, security
   - Domain Specific Languages
 
-## Self study
+## Self study ##
 
 * You need to read *yourself*
 
@@ -31,7 +31,7 @@
    Hours coming soon!
    </div>
 
-## Organization
+## Organization ##
 
 * **2** Lectures per week
   - Including a few guest lectures
@@ -46,7 +46,7 @@
   **Final grade: 60% labs + 40% exam**
   </div>
 
-## Getting help
+## Getting help ##
 
 * Course homepage
   - It should be comprehensive -- complain if it is not!
@@ -66,7 +66,7 @@
    Hours coming soon!
    </div>
 
-## Recalling Haskell
+## Recalling Haskell ##
 
 * Purely functional language
   - Functions vs. Actions
@@ -81,7 +81,7 @@
   - Type families
   - etc.
 
-## Functions vs. Actions
+## Functions vs. Actions ##
 
 * Consider
 ```haskell
@@ -114,7 +114,8 @@ that `f` is a pure function.
 
   - **modify anything**, e.g., files, send packages over the network, etc.
 
-## Programming with `IO`
+## Programming with `IO` ##
+
 [code](https://bitbucket.org/russo/afp-code/src/76efb6f9850e4f82ce7b3ef6724b03768a3c2a1c/L1/Lect1.hs?at=master&fileviewer=file-view-default)
 
 * Interacting with the user
@@ -169,6 +170,112 @@ that `f` is a pure function.
   sequence_ :: [IO ()] -> IO () -- Prelude
   ```
 
-## Referential transparency
+## Referential transparency ##
 
 * What is it?
+
+  "...An expression may contain certain 'names' which stand for unknown
+  quantities, but it is normal in mathematical notation to presume that
+  different occurrences of the same name refer to the same unknown
+  quantity... "
+
+  "...the meaning of an expression is its value and there are no other effects,
+  hidden or otherwise, in any procedure for actually obtaining it. Furthermore,
+  the value of an expression depends only on the values of its constituent
+  expressions (if any)..."
+
+  Source:
+  [Introduction to Functional Programming by R. Bird and P. Walder (First
+  edition, page 4)](https://www.google.se/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwiAjceq75LKAhUmJnIKHdT3BZcQFggeMAA&url=http%3A%2F%2Fusi-pl.github.io%2Flc%2Fsp-2015%2Fdoc%2FBird_Wadler.%2520Introduction%2520to%2520Functional%2520Programming.1ed.pdf&usg=AFQjCNF7fvckPQD0PLe0f8aZ4OFxZ41yKQ&sig2=KdJ2BqyfK__SLvzRvo0Q6g)
+
+* What does it buy us?
+
+  - Equational reasoning, i.e., expressions can be freely changed by others that
+    denote the same value.
+
+   <div class="alert alert-danger">
+   Do the graphic!
+   </div>
+
+  - A classic property for function `reverse`:
+  ```haskell
+  reverse (reverse xs) = xs
+  ```
+
+* What about programs with I/O?
+
+  - In Haskell, expressions of type `IO a` (for some type `a`) are pure
+    expressions which **denote** (describe) I/O actions.
+
+  - In other words, an expression of type `IO a` is not the computation itself
+    but rather a *pure* description of it.
+
+  - This enable us to also do equational reasoning on IO actions.
+
+  - Unfortunately, we do not always have the definition of the functions
+    describing I/O effects (e.g., `putStrLn`, `getLine`, etc.). Nevertheless, we
+    can still do some reasoning based on the underlying structure of `IO`
+    (monad). For instance, the code
+
+    ```haskell
+    do putStrLn "Hi!"
+       name <- getLine
+       return ("hi!" ++ name)
+    ```
+
+    is equivalent to
+
+    ```haskell
+    do putStrLn "Hi!"
+       name <- getLine
+       return 42
+       return ("hi!" ++ name)
+    ```
+
+## Referential transparency in practice ##
+
+* In practice, changing expressions by others denoting the same values might have
+  consequences in
+  - Memory consumption
+  - Performance
+  - Energy consumption
+  - etc.
+
+* Evaluation of expressions often trigger a lot of side-effects (memory
+   allocation, garbage collector, etc.) even though they are pure.
+
+<div class="alert alert-info">
+That expressions denote the same value does not mean that they are equally
+convenient to use in practice!
+</div>
+
+## Evaluation orders ##
+
+
+
+## Lazy evaluation ##
+
+  - Haskell is a lazy language
+  - Expressions are evaluated *at most once*
+  - Expressions are evaluated *only when needed*
+  - Expressions are never evaluated twice
+
+(We will explore more in detail what this means)
+
+## Observing when expressions get evaluated ##
+
+
+```haskell
+fun :: Maybe Int -> Int
+fun mx  | isNothing mx   = 0
+        | otherwise      = x + 3
+ where
+  x = fromJust mx
+
+fromJust :: Maybe a -> a -- also available in module Data.Maybe
+```
+
+adfasdf
+sdafasd
+
+que esta pasando?
