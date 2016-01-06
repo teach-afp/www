@@ -559,6 +559,8 @@ testBar =  bar 1 2 + bar 3 4
 
 ## Type classes ##
 
+[code](https://bitbucket.org/russo/afp-code/src/7ef0c2401bb4d7244eae0c45a4b8fc24a7034a67/L1/TypeClasses.hs?at=master&fileviewer=file-view-default)
+
 * It is a distinctive feature in Haskell.
 * What does it provide?
   - *Systematic* manner of achieving *overloading*
