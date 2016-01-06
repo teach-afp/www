@@ -168,9 +168,14 @@ that `f` is a pure function.
 * What does it buy us?
   - Equational reasoning, i.e., expressions can be freely changed by others that
     denote the same value.
-   <div class="alert alert-danger">
-   Do the graphic!
-   </div>
+
+    <img class="img-thumbnail"
+     src="./assets/img/reftrans.png"
+     height="50%"
+     width="50%"
+     style="float:left" >
+
+     <div class="row"> </div>
   - A classic property for function `reverse`:
 
   ```haskell
@@ -224,9 +229,13 @@ that `f` is a pure function.
   - ML uses this strategy
   - It reduces variables as soon as they get bound, e.g., it reduces functions'
     arguments first.
-    <div class="alert alert-info">
-    Graph in lambda calculus
-    </div>
+
+    <img class="img-thumbnail"
+     src="./assets/img/eager.png"
+     height="40%"
+     width="40%"
+     style="float:left" >
+
     <table class="table table-bordered">
     <thead>
     <tr>
@@ -263,11 +272,18 @@ that `f` is a pure function.
   - Expressions are evaluated *only when needed*
   - Expressions are never evaluated twice
 
-  (We will explore more in detail what this means)
+    (We will explore more in detail what this means)
 
-  <div class="alert alert-info">
-  Graph in lambda calculus
-  </div>
+    <img class="img-thumbnail"
+     src="./assets/img/lazy.png"
+     height="40%"
+     width="40%"
+     style="float:left" >
+
+
+<div class="row">
+
+</div>
 
 ## Observing evaluations in Haskell ##
 
