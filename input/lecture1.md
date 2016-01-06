@@ -1,30 +1,21 @@
 
 ## This course ##
-
 * Advance Programming Language Features
   - Type systems
   - Programming techniques
-
 * In the context of Functional Programming
   - Haskell
-
 * Applications
   - Signals processing, graphics, web programming, security
   - Domain Specific Languages
 
 ## Self study ##
-
 * You need to read *yourself*
-
 * Find out information *yourself*
-
 * *Solve* problems *yourself*
-
 * With a lo of help from us!
   - All information is on the web page for the course
-
 * [Discussion board](https://groups.google.com/forum/#!forum/afp2016)
-
 * Office hours
   - A few times a week
    <div class="alert alert-danger">
@@ -32,34 +23,27 @@
    </div>
 
 ## Organization ##
-
 * **2** Lectures per week
   - Including a few guest lectures
   - Two exercise sessions (we solve, for example, previous exams)
-
 * **3** Programming assignments (labs)
   - Done in pairs (use the discussion groups to pair up)
   - No scheduled lab supervision (use the office hours instead!)
-
 * **1** Written exam
   <div class="alert alert-info">
   **Final grade: 60% labs + 40% exam**
   </div>
 
 ## Getting help ##
-
 * Course homepage
   - It should be comprehensive -- complain if it is not!
-
 * Discussion board (Google group)
   - Everyone should become a member
   - Discuss general topics, find lab partner, etc.
   - **Don't post (partial or complete) lab solutions
-
 * Send e-mails to teachers (myself and the assistants)
   - Organizational help, lectures, etc. (Lecturer)
   - Specific help with programming labs (Assistants)
-
 * Office hours
   - A few times a week
    <div class="alert alert-danger">
@@ -67,14 +51,11 @@
    </div>
 
 ## Recalling Haskell ##
-
 * Purely functional language
   - Functions vs. Actions
   - Referential transparency
-
 * Lazy evaluation
   - Things are evaluated at most once
-
 * Advance (always evolving) type system
   - Polymorphism
   - Type classes
@@ -82,30 +63,29 @@
   - etc.
 
 ## Functions vs. Actions ##
-
 * Consider
+
 ```haskell
 f :: String -> Int
 ```
+
 Only the knowledge about the string is needed to *produce* the result. We say
 that `f` is a pure function.
-
 * Input and output are key for real world programs!
-
 * Haskell has a distinctive feature with respect to other programming languages
   <div class="alert alert-info">
   Pure code is separated from that which could affect the external world!
   </div>
-
 * How?
   <div class="alert alert-info">
   Types!
   </div>
-
 * Code which has side-effects in the real world has type `IO a` (for some `a`)
+
   ```haskell
   g :: String -> IO Int
   ```
+
   As `f`, this function produces an *action* which, when executed, produces an
   integer. However, it might
 
@@ -156,9 +136,7 @@ that `f` is a pure function.
 
 * IO actions are first class, i.e., you can pass them around and store them as
   any other value.
-
 * Can we write `printTable` differently?
-
   - Let us create a list of actions and then sequentially show them.
 
   ```haskellln
@@ -173,7 +151,6 @@ that `f` is a pure function.
 ## Referential transparency ##
 
 * What is it?
-
   "...An expression may contain certain 'names' which stand for unknown
   quantities, but it is normal in mathematical notation to presume that
   different occurrences of the same name refer to the same unknown
@@ -189,29 +166,23 @@ that `f` is a pure function.
   edition, page 4)](https://www.google.se/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwiAjceq75LKAhUmJnIKHdT3BZcQFggeMAA&url=http%3A%2F%2Fusi-pl.github.io%2Flc%2Fsp-2015%2Fdoc%2FBird_Wadler.%2520Introduction%2520to%2520Functional%2520Programming.1ed.pdf&usg=AFQjCNF7fvckPQD0PLe0f8aZ4OFxZ41yKQ&sig2=KdJ2BqyfK__SLvzRvo0Q6g)
 
 * What does it buy us?
-
   - Equational reasoning, i.e., expressions can be freely changed by others that
     denote the same value.
-
    <div class="alert alert-danger">
    Do the graphic!
    </div>
-
   - A classic property for function `reverse`:
+
   ```haskell
   reverse (reverse xs) = xs
   ```
 
 * What about programs with I/O?
-
   - In Haskell, expressions of type `IO a` (for some type `a`) are pure
     expressions which **denote** (describe) I/O actions.
-
   - In other words, an expression of type `IO a` is not the computation itself
     but rather a *pure* description of it.
-
   - This enable us to also do equational reasoning on IO actions.
-
   - Unfortunately, we do not always have the definition of the functions
     describing I/O effects (e.g., `putStrLn`, `getLine`, etc.). Nevertheless, we
     can still do some reasoning based on the underlying structure of `IO`
@@ -243,16 +214,13 @@ that `f` is a pure function.
 
 * Evaluation of expressions often trigger a lot of side-effects (memory
    allocation, garbage collector, etc.) even though they are pure.
-
    <div class="alert alert-info">
    That expressions denote the same value does not mean that they are equally
    convenient to use in practice!
   </div>
 
 ## Evaluation orders ##
-
 * Eager evaluation
-
   - ML uses this strategy
   - It reduces variables as soon as they get bound, e.g., it reduces functions'
     arguments first.
@@ -290,7 +258,6 @@ that `f` is a pure function.
 
 
 * Lazy evaluation
-
   - Haskell is a lazy language
   - Expressions are evaluated *at most once*
   - Expressions are evaluated *only when needed*
@@ -327,7 +294,6 @@ that `f` is a pure function.
   ```
 
 * Function `expn` is "expensive" to compute. Do you see why?
-
 * What does it happen when running?
 
   ```haskell
@@ -339,11 +305,9 @@ that `f` is a pure function.
   ```
 
 ## Lazy evaluation: programming style ##
-
 * Programs separate the
   - **construction**
   - and **selection** of data for a given purpose
-
 * Modularity: "It makes it practical to modularise a program as a generator
   which constructs a large number of possible answers, and a selector which
   chooses the appropriate one."
@@ -380,13 +344,9 @@ testBar =  bar 1 2 + bar 3 4
 ```
 
 * `ff x` gets evaluated twice in `foo x`
-
 * `ff 17` is evaluated twice in `testBar`
-
 * Why is that?
-
 * In lazy evaluation, *bindings* are evaluated at most once!
-
   - We can adapt `foo` above to evaluate `ff x` at most once by introducing a
   local binding
 
@@ -397,7 +357,6 @@ testBar =  bar 1 2 + bar 3 4
   ```
 
   - The evaluation happens *at most once* in the corresponding scope!
-
   - What about `f 17`? How can we change `bar` to evaluate it at most once?
 
   ```haskell
@@ -407,17 +366,15 @@ testBar =  bar 1 2 + bar 3 4
   ff17 :: Integer
   ff17 = ff 17 ```
 
-     We introduce a top-level binding, which are really evaluated at most once.
+  We introduce a top-level binding, which are really evaluated at most once.
 
 ## Lazy evaluation: infinite lists ##
 
 * Because of laziness, Haskell is able to denote infinite structures
-
 * They are not compute completely!
-
 * Instead, Haskell only computes the needed parts from them
-
 * Infinite lists examples
+
   ```haskellln
   take n [3..]
   xs `zip` [1..]
@@ -434,12 +391,13 @@ testBar =  bar 1 2 + bar 3 4
   ]
   testTable3 = printTable3 lussekatter
   ```
+
   Observe that `zip` takes an infinite lists but it will only use as many
    elements as the `length xs`
 
 * Other examples
-
   -  Raising functions to a positive power
+
   ```haskell
   iterate :: (a -> a) -> a -> [a]
   iterate f x = x : iterate f (f x)
@@ -458,13 +416,13 @@ testBar =  bar 1 2 + bar 3 4
     ```
 
   - Creating periodic lists
+
     ```haskell
     cycle :: [a] -> [a]
     cycle xs = xs ++ cycle xs
     ```
 
-   - Alternative definitions
-
+  - Alternative definitions
    ```haskell
    repeat :: a -> [a]
    repeat = iterate id
@@ -481,7 +439,9 @@ testBar =  bar 1 2 + bar 3 4
   replicate :: Int -> a -> [a]
   replicate = ?
   ```
+
   such that
+
   ```bash
   > replicate 5 'a'
   "aaaaa"
@@ -498,6 +458,7 @@ testBar =  bar 1 2 + bar 3 4
   group :: Int -> [a] -> [[a]]
   group = ?
   ```
+
   ```bash
   > group 4 "thisthatok!!"
   ["this", "that", "ok!!"]
@@ -508,6 +469,7 @@ testBar =  bar 1 2 + bar 3 4
         . map (take n)
         . iterate (drop n)
   ```
+
   Function composition `(.)` connects data processing "stages" -- like Unix
   pipes!
 
@@ -536,7 +498,31 @@ testBar =  bar 1 2 + bar 3 4
   Eratosthenes](https://www.cs.hmc.edu/~oneill/papers/Sieve-JFP.pdf) for more
   details.
 
+## Lazy evaluation: infinite data structures ##
 
+* Consider the following data structure:
+
+    ```haskell
+    data Labyrinth  = Crossroad {
+                          what  :: String
+                        , left  :: Labyrinth
+                        , right :: Labyrinth
+                      } ```
+
+* Let us define a labyrinth.
+
+    ```haskell
+    labyrinth :: Labyrinth
+    labyrinth = start
+     where
+      start  = Crossroad "start"  forest town
+      town   = Crossroad "town"   start  forest
+      forest = Crossroad "forest" town   exit
+      exit   = Crossroad "exit"   exit   exit ```
+
+    What does it happen when we print out `labyrinth`?
+
+## Lazy evaluation: conclusions ##
 
 <table class="table table-bordered">
 
@@ -547,7 +533,7 @@ testBar =  bar 1 2 + bar 3 4
 </thead>
 
 <tr class="success">
-  <td> Avoid unnecessary computations </td>
+  <td> Avoid unnecessary computations (a different programming style) </td>
 </tr>
 
 <tr class="success">
@@ -558,15 +544,68 @@ testBar =  bar 1 2 + bar 3 4
   <td> It allows to describe infinity data structures </td>
 </tr>
 
+<tr class="success">
+  <td> It can make programs more modular </td>
+</tr>
+
 <tr class="danger">
   <td> It is hard to do complexity analysis </td>
 </tr>
 
 <tr class="danger">
-  <td> It is hardly suitable for time-critical operations </td>
-</tr>
-
-<tr  class="danger">
-  <td>  </td>
+  <td> It is not suitable for time-critical operations </td>
 </tr>
 </table>
+
+## Type classes ##
+
+* It is a distinctive feature in Haskell.
+* What does it provide?
+  - *Systematic* manner of achieving *overloading*
+  - It even enables to do some type-level programming
+* Examples
+
+    ```haskellln
+    class Eq a where            -- simplified version
+      (==) :: a -> a -> Bool
+
+    class Eq a => Ord a where   -- simplified version
+      (<=) :: a -> a -> Bool
+      (>=) :: a -> a -> Bool
+
+    instance Eq Int where
+      (==) = somePrimitiveEqualityTest
+
+    somePrimitiveEqualityTest :: Int -> Int -> Bool
+    somePrimitiveEqualityTest = ...  ```
+
+* Let us consider the following type class.
+
+    ```haskell
+    class Finite a where
+          domain :: [a]  ```
+
+    What types could be an instance of this class?
+    Can you make functions instances of `Eq` now?
+
+## Focus of this course ##
+
+* Libraries &hArr; little languages
+  - Express and solve a problem
+  - In a problem domain
+* Programming languages
+  - General purpose
+  - Domain-specific
+    * Description languages (e.g., JavaScript, HTML, Postscript)
+* Embedded languages
+  - A little language implemented as a library
+
+## Typical embedded language ##
+
+* Modeling the behavior of elements in a problem domain
+* Functions for **creating** elements
+  - *Constructor functions*
+* Functions for **modifying** or **combining** elements
+  - *Combinators*
+* Functions for observing elements
+  - *Run functions*
