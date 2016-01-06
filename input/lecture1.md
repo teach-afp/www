@@ -390,26 +390,26 @@ testBar =  bar 1 2 + bar 3 4
   - We can adapt `foo` above to evaluate `ff x` at most once by introducing a
   local binding
 
-   ```haskell
-   foo :: Integer -> Integer
-   foo x = ffx + ffx
-       where ffx = ff x
-   ```
+  ```haskell
+  foo :: Integer -> Integer
+  foo x = ffx + ffx
+  where ffx = ff x
+  ```
 
   - The evaluation happens *at most once* in the corresponding scope!
 
   - What about `f 17`? How can we change `bar` to evaluate it at most once?
 
-     ```haskell
-      bar :: Integer -> Integer -> Integer
-      bar x y = ff17 + x + y
+  ```haskell
+  bar :: Integer -> Integer -> Integer
+  bar x y = ff17 + x + y
 
-      ff17 :: Integer
-      ff17 = ff 17 ```
+  ff17 :: Integer
+  ff17 = ff 17 ```
 
      We introduce a top-level binding, which are really evaluated at most once.
 
-## Lazy evaluation: infinite data structures ##
+## Lazy evaluation: infinite lists ##
 
 * Because of laziness, Haskell is able to denote infinite structures
 
@@ -422,6 +422,120 @@ testBar =  bar 1 2 + bar 3 4
   take n [3..]
   xs `zip` [1..]
   ```
+
+* We can write "generic code" which gets "instantiate" to the appropriated
+  case.
+
+  ```haskell
+  printTable3 :: [String] -> IO ()
+  printTable3 xs =
+  sequence_ [ putStrLn (show i ++ ":" ++ x)
+  | (x,i) <- xs `zip` [1..]
+  ]
+  testTable3 = printTable3 lussekatter
+  ```
+  Observe that `zip` takes an infinite lists but it will only use as many
+   elements as the `length xs`
+
+* Other examples
+
+  -  Raising functions to a positive power
+  ```haskell
+  iterate :: (a -> a) -> a -> [a]
+  iterate f x = x : iterate f (f x)
+  ```
+
+  ```bash
+  > iterate (2*) 1
+  [1,2,4,8,16,32,64,128,256,512,1024,...]
+  ```
+
+  - Repeating a number infinitely
+
+    ```haskell
+    repeat :: a -> [a]
+    repeat x = x : repeat x
+    ```
+
+  - Creating periodic lists
+    ```haskell
+    cycle :: [a] -> [a]
+    cycle xs = xs ++ cycle xs
+    ```
+
+   - Alternative definitions
+
+   ```haskell
+   repeat :: a -> [a]
+   repeat = iterate id
+
+   cycle :: [a] -> [a]
+   cycle xs = concat (repeat xs)
+   ```
+
+## Lazy evaluation: infinite lists exercises ##
+
+* Problem: let us define the function
+
+  ```haskell
+  replicate :: Int -> a -> [a]
+  replicate = ?
+  ```
+  such that
+  ```bash
+  > replicate 5 'a'
+  "aaaaa"
+  ```
+
+  ```haskell
+  replicate :: Int -> a -> [a]
+  replicate n x = take n (repeat x)
+  ```
+
+* Problem: grouping lists elements into lists of equal size
+
+  ```haskell
+  group :: Int -> [a] -> [[a]]
+  group = ?
+  ```
+  ```bash
+  > group 4 "thisthatok!!"
+  ["this", "that", "ok!!"]
+  ```
+
+  ```haskell
+  group n = takeWhile (not . null)
+        . map (take n)
+        . iterate (drop n)
+  ```
+  Function composition `(.)` connects data processing "stages" -- like Unix
+  pipes!
+
+* Problem: prime numbers
+
+  ```haskell
+  primes :: [Integer]
+  primes = ?
+  ```
+
+  ```bash
+  > take 4 primes
+  [2,3,5,7]
+  ```
+
+  ```haskell
+  primes :: [Integer]
+  primes = sieve [2..]
+   where
+    sieve (p:xs)  = p : sieve [ y | y <- xs, y `mod` p /= 0 ]
+    sieve []      = error "sieve: empty list is impossible"
+  ```
+
+  This algorithm is commonly mistaken for Eratosthenes' sieve -- see that paper
+  [The Genuine Sieve of
+  Eratosthenes](https://www.cs.hmc.edu/~oneill/papers/Sieve-JFP.pdf) for more
+  details.
+
 
 
 <table class="table table-bordered">
