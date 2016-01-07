@@ -65,9 +65,9 @@
 ## Functions vs. Actions ##
 * Consider
 
-```haskell
-f :: String -> Int
-```
+    ```haskell
+    f :: String -> Int
+    ```
 
 Only the knowledge about the string is needed to *produce* the result. We say
 that `f` is a pure function.
@@ -137,7 +137,7 @@ that `f` is a pure function.
 * IO actions are first class, i.e., you can pass them around and store them as
   any other value.
 * Can we write `printTable` differently?
-  - Let us create a list of actions and then sequentially show them.
+* Let us create a list of actions and then sequentially show them.
 
   ```haskellln
   printTable2 :: [String] -> IO ()
@@ -171,16 +171,16 @@ that `f` is a pure function.
 
     <img class="img-thumbnail"
      src="./assets/img/reftrans.png"
-     height="50%"
-     width="50%"
+     height="70%"
+     width="70%"
      style="float:left" >
 
      <div class="row"> </div>
   - A classic property for function `reverse`:
 
-  ```haskell
-  reverse (reverse xs) = xs
-  ```
+      ```haskell
+      reverse (reverse xs) = xs
+      ```
 
 * What about programs with I/O?
   - In Haskell, expressions of type `IO a` (for some type `a`) are pure
@@ -232,8 +232,8 @@ that `f` is a pure function.
 
     <img class="img-thumbnail"
      src="./assets/img/eager.png"
-     height="40%"
-     width="40%"
+     height="60%"
+     width="60%"
      style="float:left" >
 
     <table class="table table-bordered">
@@ -276,8 +276,8 @@ that `f` is a pure function.
 
     <img class="img-thumbnail"
      src="./assets/img/lazy.png"
-     height="40%"
-     width="40%"
+     height="60%"
+     width="60%"
      style="float:left" >
 
 
@@ -414,15 +414,15 @@ testBar =  bar 1 2 + bar 3 4
 * Other examples
   -  Raising functions to a positive power
 
-  ```haskell
-  iterate :: (a -> a) -> a -> [a]
-  iterate f x = x : iterate f (f x)
-  ```
+     ```haskell
+     iterate :: (a -> a) -> a -> [a]
+     iterate f x = x : iterate f (f x)
+     ```
 
-  ```bash
-  > iterate (2*) 1
-  [1,2,4,8,16,32,64,128,256,512,1024,...]
-  ```
+     ```bash
+     > iterate (2*) 1
+     [1,2,4,8,16,32,64,128,256,512,1024,...]
+     ```
 
   - Repeating a number infinitely
 
