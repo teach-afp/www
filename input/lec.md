@@ -21,3 +21,10 @@ update!
     abstract types, and Chapter 17 on laziness.
   - The Haskell School of Expression: Chapter 12 on type classes, Chapter 14 on
     streams, Section 18.1 on higher-order types.
+
+## 2. [Domain Specific Embedded Languages (EDSL)](./lecture2.html).
+
+* **Topics**:
+
+* **Reading**: Chapters 5 has a EDSL for pretty printing, Chapter 9 for file
+searching and Chapter 13 one for arithmetic expressions.
