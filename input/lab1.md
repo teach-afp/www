@@ -76,11 +76,11 @@ started on Part II before the deadline for Part I.
 
 ### Task 1 - Free code!
 
-Download and unpack this stub cabal package (or the OpenGL/GLUT version). The
-archive contains a file structure and some useful code snippets for you to build
-your implementation on. You are free to modify the package however you wish or
-build a new package from scratch, but if you deviate significantly from the
-structure in the stub file you may want to explain why your version is an
+Download and unpack this [stub cabal package]( ) (or the [OpenGL/GLUT version](
+) ). The archive contains a file structure and some useful code snippets for you
+to build your implementation on. You are free to modify the package however you
+wish or build a new package from scratch, but if you deviate significantly from
+the structure in the stub file you may want to explain why your version is an
 improvement.
 
 Make sure "cabal configure", "cabal build" and "cabal haddock" works (switch the
