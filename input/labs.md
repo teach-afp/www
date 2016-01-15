@@ -31,12 +31,12 @@ personal deadline for you. You may then get an extension of the deadline.
 </thead>
 
 <tr>
-    <td class="success" > Part 1 </td>
+    <td class="success" > Part I </td>
     <td class="alert-info" >  January 28th (Thursday, course week 2) </td>
 </tr>
 
 <tr>
-    <td class="success" > Part 2 </td>
+    <td class="success" > Part II </td>
     <td class="alert-info" >  February 4th (Thursday, course week 3) </td>
 </tr>
 </table>
@@ -50,12 +50,12 @@ personal deadline for you. You may then get an extension of the deadline.
 </thead>
 
 <tr>
-    <td class="success" > Part 1 </td>
+    <td class="success" > Part I </td>
     <td class="alert-info" >  February 11st (Thursday, course week 4) </td>
 </tr>
 
 <tr>
-    <td class="success" > Part 2 </td>
+    <td class="success" > Part II </td>
     <td class="alert-info" >  February 25th (Thursday, course week 6) </td>
 </tr>
 </table>
@@ -70,20 +70,21 @@ personal deadline for you. You may then get an extension of the deadline.
 </thead>
 
 <tr>
-    <td class="success" > Part 1 </td>
+    <td class="success" > Part I </td>
     <td class="alert-info" >  February 29th (Monday, course week 7) </td>
 </tr>
 
 <tr>
-    <td class="success" > Part 2 </td>
+    <td class="success" > Part II </td>
     <td class="alert-info" >  March 13rd (Sunday, course week 8) </td>
 </tr>
 </table>
 
+Your last attempt has to be submitted before the final deadline. If you fail to
+do this, your submission will be rejected.
 
-<div class="alert alert-info">
-**Final Deadline**: March 20th (Sunday, exam week)
-</div>
+<div class="alert alert-info"> **Final Deadline**: March 20th (Sunday, exam
+week) </div>
 
 
 ## Grading
