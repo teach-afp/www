@@ -39,12 +39,28 @@ Lectures (note different lecture rooms on different week days)
 
 ## Assistants
 
+
+<div class="row">
+<div class="col-sm-2 col-xs-6 text-center">
+	<div class="thumbnail">
+		<img class="img-no-resize" src="" alt="Dan's picture">
+		<div class="caption">
+			[Dan Rosén](https://www.chalmers.se/en/staff/Pages/danr.aspx)
+                        <p> **Office hours**: Monday 10-12, Friday 13-15 (only
+                        for week 3) </p>
+		  </div>
+	</div>
+</div>
+
+
 <div class="row">
 <div class="col-sm-2 col-xs-6 text-center">
 	<div class="thumbnail">
 		<img class="img-no-resize" src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAALaAAAAJDIwZDc5MjRlLTE3ZGItNDhmMy04MjVmLTczYjY4YjNkYmJlYw.jpg" alt="Anton's picture">
 		<div class="caption">
 			[Anton Ekblad](http://ekblad.cc/)
+                        <p> **Office hours**: Wednesday 13-15, Friday 13-15 (only
+                        for week 4) </p>
 		  </div>
 	</div>
 </div>
@@ -54,18 +70,12 @@ Lectures (note different lecture rooms on different week days)
 		<img class="img-no-resize" src="http://johnjcamilleri.com/images/john-j-camilleri.jpg" alt="John's picture">
 		<div class="caption">
 			[John J. Camilleri](http://www.cse.chalmers.se/~cajohn/)
+                        <p> **Office hours**: Friday 13-15 (except week 3 and 4) </p>
 		  </div>
 	</div>
 </div>
 
 </div>
-
-### Office hours
-
-<div class="alert alert-danger">
-Coming soon!
-</div>
-
 
 ---
 
@@ -178,11 +188,4 @@ AFP course.
 </div>
 
 
-</div>
-
-### Online resources
-
-
-<div class="alert alert-danger">
-TBA
 </div>
