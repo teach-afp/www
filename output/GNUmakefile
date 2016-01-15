@@ -1,30 +1,17 @@
 USERR = russo
 LAYOUT = $(shell find ../lout -type f -name '*')
-URL_COURSE = $(USERR)@remote12.chalmers.se:/chalmers/groups/edu2009/www/www.cse.chalmers.se/year/2016/course/TDA342_Advanced_Functional_Programming
+URL_COURSE = $(USERR)@remote11.chalmers.se:/chalmers/groups/edu2009/www/www.cse.chalmers.se/year/2016/course/TDA342_Advanced_Functional_Programming
 
 all: index.html information haskell labs lectures exams.html
 
 
 
 upload:
-	 rsync -rv -f"+ */" -f"- *" ./assets $(URL_COURSE)
-	 rsync -rv --rsh=ssh ./assets/css ./assets/fonts ./assets/img ./assets/js \
-	       $(URL_COURSE)/assets
-	 rsync -rv ./assets/erl/*.erl  $(URL_COURSE)/assets/erl
-	 rsync -rv ./assets/java/*.java  $(URL_COURSE)/assets/java
-	 rsync -rv ./assets/gl/*  $(URL_COURSE)/assets/gl
-	 rsync -rv ./assets/exams/*  $(URL_COURSE)/assets/exams
-	 rsync -rv ./*.html $(URL_COURSE)
+	 #rsync -rv -f"+ */" -f"- *" ./assets $(URL_COURSE)
+	 rsync -rv ./ $(URL_COURSE)
 
 upload_lectures:
-	 # @read -p "Enter User Name:" module; \
-	 # module_dir=./modules/$$module; \
-	 # mkdir -p $$module_dir/build \
-	 # rsync -avp ./*.html $(URL_COURSE)
-	 # echo "Username: ";
-	 read -p "Username: " user; \
-	 rsync -rvt ./*.html $$user@remote11.chalmers.se:/chalmers/groups/edu2009/www/www.cse.chalmers.se/year/2015/course/TDA383_LP1/
-
+	 rsync -rv ./*.html $(URL_COURSE)
 
 index.html: ../input/index.md $(LAYOUT)
 	 generate-md --input ../input/index.md --output ./ --layout ../lout/
