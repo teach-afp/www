@@ -177,6 +177,8 @@ define the limited version in terms of the unlimited one?  Finally make a
 program that would draw a finite spiral and when done starts drawing an infinite
 spiral where the finite spiral ended.
 
+---
+
 ## Part II
 
 In this part of the assignment you will implement your turtle language and write
