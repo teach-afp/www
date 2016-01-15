@@ -2,7 +2,7 @@ USERR = russo
 LAYOUT = $(shell find ../lout -type f -name '*')
 URL_COURSE = $(USERR)@remote12.chalmers.se:/chalmers/groups/edu2009/www/www.cse.chalmers.se/year/2016/course/TDA342_Advanced_Functional_Programming
 
-all: index.html information exercises labs lectures exams.html
+all: index.html information haskell labs lectures exams.html
 
 
 
@@ -36,11 +36,15 @@ information: inf.html
 inf.html: ../input/inf.md $(LAYOUT)
 	 generate-md --input ../input/inf.md --output ./ --layout ../lout/
 
-# Exercises
-exercises: exercises.html ex1.html
+# Haskell
+haskell: haskell.html
 
-exercises.html: ../input/exercises.md $(LAYOUT)
-	 generate-md --input ../input/exercises.md --output ./ --layout ../lout/
+haskell.html: ../input/haskell.md $(LAYOUT)
+	 ./pretty.sh ../input/haskell.md ../input/haskellP.md
+	 generate-md --input ../input/haskellP.md --output ./ --layout ../lout/
+	 mv haskellP.html haskell.html
+	 rm ../input/haskellP.md
+
 
 ex1.html: ../input/ex1.md $(LAYOUT)
 	 generate-md --input ../input/ex1.md --output ./ --layout ../lout/
