@@ -357,7 +357,7 @@ etc. We will reject your solution if it is not clean. Clean code:
 
 ### Where?
 
-Go to the Fire System!
+[Go to the Fire System!](https://xdat09.ce.chalmers.se/2016/lp3/afp/)
 
 ## Grading
 
