@@ -26,9 +26,18 @@ update!
 
 ## 2. [Domain Specific Embedded Languages (EDSL)](./lecture2.html).
 
-* **Topics**:
+* **Topics**: Developing EDSL for describing shapes (e.g., squares, disc, etc.)
+    and signals (to represent change of values over time). Shape animation. Deep
+    vs. shallow embedding. Compositionality and abstraction.
 
 * [Source code](https://bitbucket.org/russo/afp-code/src/1f5af2807b33b925059be1380ffe7e1049fbb9cb/L2/?at=master)
 
-* **Reading**: Chapters 5 has a EDSL for pretty printing, Chapter 9 for file
-searching and Chapter 13 one for arithmetic expressions.
+* **Reading**: [DSL for the Uninitiated by Debasish
+    Ghosh](http://cacm.acm.org/magazines/2011/7/109910-dsl-for-the-uninitiated/fulltext),
+    Chapters 5 has a EDSL for pretty printing, Chapter 9 for file searching and
+    Chapter 13 one for arithmetic expressions.
+
+* **Exercises**:
+  - Shape: extend the library with colored shapes
+  - Shape: define derived opertations `x-reflection`, `y-reflection`, and `zoom_in`
+  - Signal: define `mapS` as a derived operation
