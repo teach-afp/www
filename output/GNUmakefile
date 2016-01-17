@@ -76,7 +76,11 @@ lecture1.html: ../input/lecture1.md $(LAYOUT)
 	 rm ../input/lecture1P.md
 
 lecture2.html: ../input/lecture2.md $(LAYOUT)
-	 generate-md --input ../input/lecture2.md --output ./ --layout ../lout/
+	 ./pretty.sh ../input/lecture2.md ../input/lecture2P.md
+	 generate-md --input ../input/lecture2P.md --output ./ --layout ../lout/
+	 mv lecture2P.html lecture2.html
+	 rm ../input/lecture2P.md
+
 
 lecture3.html: ../input/lecture3.md $(LAYOUT)
 	 ./pretty.sh ../input/lecture3.md ../input/lecture3P.md
