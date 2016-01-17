@@ -55,7 +55,7 @@
 * In contrast, an embedded DSL is written in a host language.
   - It inherits the infrastructure (and programming language abstractions) of
     the host language.
-  - In this course, we use Haskell as the host language.
+  - In this course, we use Haskell as the host language
   - We will leverage Haskell
     * powerful type system,
     * generic programming features,
@@ -311,18 +311,209 @@ Let us get into a specific first in order to create a EDSL in Haskell.
   zoom_in :: Int -> Shape -> Shape
   ```
 
+## Shape rotation
 
+* Axes rotation (math revisited)
 
-## Rasterific: A EDSL for drawing
+  <div class="container">
+     <img class="img-responsive col-md-8"
+       src="./assets/img/rotation.png">
+  </div>
 
-[Rasterific in Hackage](http://hackage.haskell.org/package/Rasterific-0.6.1/docs/Graphics-Rasterific.html)
+* Which direction is the square shape rotated?
+  ```haskell
+  transform (m (pi/10)) square
+    where m alpha = matrix
+                       (cos alpha)    (sin alpha)
+                       (-(sin alpha)) (cos alpha) ```
 
-* Install the Hackage package
-  ```bash
-  cabal install rasterific
+  Clock-wise! Can you see why?
+
+## Points, Vectors, and Matrices in a separate module
+
+* The interface for shapes uses auxiliary mathematical abstractions
+
+* We define them in a different module (`Matrix.hs`)
+
+## Alternative implementation : deep embedding
+
+* **Types**: represent how shapes are constructed (i.e., either by a basic shape
+  or a combination of them).
+  ```haskell
+  data Shape where
+    -- Constructor functions
+    Empty   :: Shape
+    Disc    :: Shape
+    Square  :: Shape
+    -- Combinators
+    Translate :: Vec ->   Shape -> Shape
+    Transform :: Matrix-> Shape -> Shape
+    Intersect :: Shape -> Shape -> Shape
+    Invert    :: Shape -> Shape
   ```
-* Rasterific is designed to talk the language of *vectorial graphics*.
-  - Made of lines and paths.
-  - They scale without loosing definition.
-  - Ideal for logos.
-  - Take less space as pixel-based formats (e.g., BMP, JPEG, etc.)
+
+* **Constructors** and **combinators**: almost for free! Simply map them into
+    the appropriated constructors in the data type.
+
+  ```haskell
+  empty  :: Shape
+  empty  = Empty
+
+  disc   :: Shape
+  disc   = Disc
+
+  square :: Shape
+  square = Square
+
+  transform :: Matrix -> Shape -> Shape
+  transform = Transform
+
+  translate :: Vec -> Shape -> Shape
+  translate = Translate
+
+  intersect :: Shape -> Shape -> Shape
+  intersect = Intersect
+
+  invert :: Shape -> Shape
+  invert = Invert
+  ```
+
+* **Run** (observation) function: all the work is here!
+
+  ```haskell
+   inside :: Point -> Shape -> Bool
+   _p `inside` Empty             = False
+   p  `inside` Disc              = sqDistance p <= 1
+   p  `inside` Square            = maxnorm  p <= 1
+   p  `inside` Translate v sh    = (p `sub` v) `inside` sh
+   p  `inside` Transform m sh    = (inv m `mul` p) `inside` sh
+   p  `inside` Union sh1 sh2     = p `inside` sh1 || p `inside` sh2
+   p  `inside` Intersect sh1 sh2 = p `inside` sh1 && p `inside` sh2
+   p  `inside` Invert sh         = not (p `inside` sh)
+
+   -- * Helper functions
+   sqDistance :: Point -> Double
+   sqDistance p = x*x+y*y -- proper distance would use sqrt
+     where x = ptX p
+           y = ptY p
+
+   maxnorm :: Point -> Double
+   maxnorm p = max (abs x) (abs y)
+     where x = ptX p
+           y = ptY p
+   ```
+
+## Shallow vs. Deep embedding
+
+* A shallow embedding (when it works out) is often more elegant and compact.
+  - Working out the type which provides the right semantics might be tricky.
+
+* A deep embedding is easier to extend.
+  - Adding new operations (by adding new constructors).
+  - Adding new run functions.
+  - Adding optimizations (e.g., by data type manipulation).
+
+* Most of the time you get a *mixed* between shallow and deep embedding.
+
+* In any case, **abstraction** is important!
+
+  ```haskell
+  module Shape.Shallow
+  (
+    -- * Types
+    Shape -- abstract
+    -- * Constructor functions
+  , empty, disc, square
+    -- * Primitive combinators
+  , transform, translate
+  , union, intersect, invert
+    -- * Run functions
+  , inside
+  )
+  where ...
+  ```
+  The interface should not change based on a shallow or deep embedding
+  implementation! No difference for the user of the EDSL!
+
+## Rendering a shape to ASCII-art
+
+* A very interesting *run function*
+* It introduces the concept of windows
+  ```haskell
+  defaultWindow :: Window
+  defaultWindow = Window
+    { bottomLeft  = point (-1.5) (-1.5)
+    , topRight    = point 1.5 1.5
+    , resolution  = (40, 40)
+    }
+  ```
+  - It has a dimension in terms of characters
+  - It has a dimension in terms of points
+
+* The render function essentially maps points to characters in a window.
+
+  ```haskell
+  -- | Generate a list of evenly spaces (n :: Int) points in an interval.
+  samples :: Double -> Double -> Int -> [Double]
+
+  -- | Generate the matrix of points corresponding to the pixels of a window.
+  pixels :: Window -> [[Point]]
+
+  -- | Render a shape in a given window.
+  render :: Window -> Shape -> String
+  render win sh = unlines $ map (concatMap putPixel) (pixels win)
+    where
+      putPixel p  | p `inside` sh = "[]"
+                  | otherwise     = "  "
+  ```
+
+  - Function `unlines` and `concatMap` are standard.
+
+
+## Signal: Another EDSL
+
+* We are interested to produce animated shapes.
+* For that, we need to model how they might change based on time.
+* We take inspiration from [functional reactive
+  programming](https://wiki.haskell.org/Functional_Reactive_Programming#Publications_and_talks)
+  approaches.
+* We introduce the concept of `Signal`, a value that changes over time.
+* More specifically, we have the following API for our new EDSL.
+  ```haskell
+  -- Constructors
+  constS :: a -> Signal a
+  timeS  :: Signal Time
+  -- Combinators
+  ($$)   :: Signal (a -> b) -> Signal a -> Signal b
+  mapT   :: (Time -> Time)  -> Signal a -> Signal a
+  -- Derived operation
+  mapS   :: (a -> b) -> Signal a -> Signal b
+  -- Run function
+  sample :: Signal a -> Time -> a
+  ```
+
+
+
+## Discussion
+
+* Adding colored shapes
+  - Discuss what you need to do
+* Bad shallow implementations
+  - Looking at the render run function, we might decide to go for
+    ```haskell
+    newtype Shape = Shape (Window -> String)
+    ```
+  - Discuss the problem with this implementation
+* Other questions/comments?
+
+## Summary
+
+* Different kind of operations
+  - Constructors, combinators, and run functions
+  - Primive or derived operations
+* Implementation styles
+  - Shallow embedding: representation given by semantics
+  - Deep embedding: representation given by operations
+* Remember
+  - Compositionality
+  - Abstraction
