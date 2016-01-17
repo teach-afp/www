@@ -14,6 +14,8 @@ repetition of what you have seen in Introduction to Functional Programming at
 Chalmers). Note that it is ~200 pages, so start reading now if you need an
 update!
 
+* [Source code](https://bitbucket.org/russo/afp-code/src/1f5af2807b33b925059be1380ffe7e1049fbb9cb/L1/?at=master)
+
 * **Optional reading**:
   - Applicative Functors are introduced in Real World Haskell Chapter 10, used
     more later in the same book Chapter 16.
@@ -25,6 +27,8 @@ update!
 ## 2. [Domain Specific Embedded Languages (EDSL)](./lecture2.html).
 
 * **Topics**:
+
+* [Source code](https://bitbucket.org/russo/afp-code/src/1f5af2807b33b925059be1380ffe7e1049fbb9cb/L2/?at=master)
 
 * **Reading**: Chapters 5 has a EDSL for pretty printing, Chapter 9 for file
 searching and Chapter 13 one for arithmetic expressions.
