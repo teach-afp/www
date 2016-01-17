@@ -7118,3 +7118,7 @@ td.visible-print {
   }
 }
 
+.vertical-align {
+    display: flex;
+    align-items: center;
+}
