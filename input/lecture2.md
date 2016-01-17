@@ -102,6 +102,7 @@
 Let us get into a specific first in order to create a EDSL in Haskell.
 
 ## Shapes: a simple EDSL for vectorial graphics
+[code](https://bitbucket.org/russo/afp-code/src/3c7e3a02880d98cc9747892cda6398043fadca8c/L2/src/ExampleShape.hs?at=master&fileviewer=file-view-default)
 
 * Design a language to describe *vectorial graphics*.
   - Made of some basic shapes.
@@ -469,31 +470,6 @@ Let us get into a specific first in order to create a EDSL in Haskell.
 
   - Function `unlines` and `concatMap` are standard.
 
-
-## Signal: Another EDSL
-
-* We are interested to produce animated shapes.
-* For that, we need to model how they might change based on time.
-* We take inspiration from [functional reactive
-  programming](https://wiki.haskell.org/Functional_Reactive_Programming#Publications_and_talks)
-  approaches.
-* We introduce the concept of `Signal`, a value that changes over time.
-* More specifically, we have the following API for our new EDSL.
-  ```haskell
-  -- Constructors
-  constS :: a -> Signal a
-  timeS  :: Signal Time
-  -- Combinators
-  ($$)   :: Signal (a -> b) -> Signal a -> Signal b
-  mapT   :: (Time -> Time)  -> Signal a -> Signal a
-  -- Derived operation
-  mapS   :: (a -> b) -> Signal a -> Signal b
-  -- Run function
-  sample :: Signal a -> Time -> a
-  ```
-
-
-
 ## Discussion
 
 * Adding colored shapes
@@ -505,6 +481,136 @@ Let us get into a specific first in order to create a EDSL in Haskell.
     ```
   - Discuss the problem with this implementation
 * Other questions/comments?
+
+## Signal: Another EDSL
+
+* We are interested to produce animated shapes.
+* For that, we need to model how they might change based on time.
+* We take inspiration from [functional reactive
+  programming](https://wiki.haskell.org/Functional_Reactive_Programming#Publications_and_talks)
+  approaches.
+* We introduce the concept of `Signal`, a value that changes over time.
+* More specifically, we have the following initial API for our new EDSL.
+  ```haskell
+  -- Constructors
+  constS :: a -> Signal a
+  timeS  :: Signal Time
+  -- Combinators
+  ($$)   :: Signal (a -> b) -> Signal a -> Signal b
+  -- Run function
+  sample :: Signal a -> Time -> a
+  ```
+
+  - Function `constS` produces a constant value, i.e., it does not change with
+    time
+  - Function `timeS` reveals the current time, i.e., it is a signal which
+    arrives at time T and produces the value T
+  - Combinator `(SS)` takes a functional signal and converts it into a function
+    which changes `Signal a` into `Signal b`
+  - Run function `sample` just extracts the meaning of a signal
+
+## How do we program with it?
+[code](https://bitbucket.org/russo/afp-code/src/c3dff247914a07741c1fe9650e45055f0fa7b09c/L2/src/ExampleSignal.hs?at=master&fileviewer=file-view-default)
+
+* We write time-dependent pure functions
+  - Let us write a function which intermittently displays two shapes
+    ```haskell
+    -- | It displays a shape on "odd times" and another one in "even times".
+    change :: Shape -> Shape -> Time -> Shape
+    change sh1 sh2 t
+           | odd (floor t) = sh1
+           | otherwise     = sh2
+    ```
+
+* Convert them into signals
+    ```haskell
+    constS (change disc square) :: Signal (Time -> Shape)
+    ```
+
+    <div class="alert alert-info">
+    Graphic time -> shape
+    </div>
+
+* Convert the functional signal into a signal (corresponding to the image of the
+    function) by applying time information. How do get time information? We use
+    `timeS`!
+
+    ```haskell constS (change disc square) $$ timeS ```
+
+    <div class="alert alert-info"> Combination of signals </div>
+
+## More operations
+
+* We will consider two more operations
+
+  ```haskell
+  -- Combinator
+  mapT   :: (Time -> Time)  -> Signal a -> Signal a
+  -- Derived operation
+  mapS   :: (a -> b) -> Signal a -> Signal b
+  ```
+
+* Combinator `mapT` allows to alter the mapping among `Time` and `Shape`
+
+  ```haskell
+  to_zero :: Time -> Time
+  to_zero = const 0
+
+  always_disc = mapT to_zero square_disc
+  ```
+* Exercise: write `mapS` as a derived operation
+
+## Implementation: shallow embedding
+
+We will model signals as Haskell functions of time `Time -> a`
+```haskell
+type Time = Double
+newtype Signal a = Sig {unSig :: Time -> a}
+
+constS :: a -> Signal a
+constS x = Sig (const x)
+
+timeS :: Signal Time
+timeS = Sig id
+
+($$) :: Signal (a -> b) -> Signal a -> Signal b
+fs $$ xs = Sig (\t -> unSig fs t  (unSig xs t))
+
+mapT :: (Time -> Time) -> Signal a -> Signal a
+mapT f xs = Sig (unSig xs . f)
+
+sample :: Signal a -> Time -> a
+sample = unSig
+```
+
+## Implementation: deep embedding
+
+```haskell
+type Time = Double
+data Signal a where
+  ConstS :: a -> Signal a
+  TimeS  :: Signal Time
+  MapT   :: (Time -> Time) -> Signal a -> Signal a
+  (:$$)  :: Signal (a -> b) -> Signal a -> Signal b
+
+constS = ConstS
+timeS  = TimeS
+...
+```
+
+The run function generates the functions of type `Time -> a` (most of the work
+is here!)
+
+```haskell
+-- | Sampling a signal at a given time point.
+sample (ConstS x)  = const x
+sample TimeS       = id
+sample (f :$$ s)   = \t -> sample f t $ sample s t
+sample (MapT f s)  = sample s . f
+```
+
+## Go live!
+[code](https://bitbucket.org/russo/afp-code/src/c3dff247914a07741c1fe9650e45055f0fa7b09c/L2/src/Example.hs?at=master&fileviewer=file-view-default)
 
 ## Summary
 
