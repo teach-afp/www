@@ -81,9 +81,11 @@ Lectures (note different lecture rooms on different week days)
 
 ## Course Representatives
 
-<div class="alert alert-danger">
-Coming soon!
-</div>
+* David Berg Marklund, davmarkl@student.chalmers.se
+* Konstantinos Matthaios Brilakis, brilakis@student.chalmers.se
+* Anton Lindgren, antlind@chalmers.se
+* Henning Phan, phanh@student.chalmers.se
+* Mengcheng Zhang, mezhang@student.chalmers.se
 
 
 ---
