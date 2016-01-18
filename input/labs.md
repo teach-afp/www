@@ -140,3 +140,34 @@ use another student's code.
 
 It is possible that exceptions to these rules are granted, but only you should
 talk to the lecturer as soon as the problem arises.
+
+## GHC setup for Chalmers machines
+
+The labs in this course require you to use a fairly recent version of GHC.
+Unfortunately, the version provided by default on the Chalmers machines is
+quite ancient. If you want to use the Chalmers machines for your lab work,
+you will need to add the directory `/chalmers/sw/unsup64/phc/b/binh` to your
+`$PATH`.
+
+One way to achieve this is to run the following in a terminal:
+
+```
+echo 'export PATH=/chalmers/sw/unsup64/phc/b/binh:$PATH' >> $HOME/.bashrc
+```
+
+After executing the above command, close your terminal window and open a new
+one. Then check that everything works as expected:
+
+```
+ghc --version
+```
+
+GHC should then print:
+
+```
+The Glorious Glasgow Haskell Compilation System, version 7.10.2
+```
+
+If the version printed is 7.10.2, then you're all set up and good to go. Note
+that you only need to perform this setup *once* on your Chalmers account,
+as these changes persist across reboots.
