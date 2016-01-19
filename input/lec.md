@@ -2,7 +2,7 @@ We will try to have the lecture notes available on-line before the lecture so
 you can bring them to the lecture to do notes and (in case of errors)
 corrections. However, *it might not happen* since there are some changes for
 this year. For impatient students, you could check last [year's web
-page](http://www.cse.chalmers.se/edu/course/afp/).
+page](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/).
 
 ## 1. [Introduction to the course](./lecture1.html).
 
