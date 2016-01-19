@@ -175,8 +175,11 @@ interface. In their syntax it looks like:
 </div>
 
 You will not be able to run your spiral example yet, but it should type check.
-Also, make one version of the spiral example that goes on forever. Can you
-define the limited version in terms of the unlimited one?  Finally make a
+Also, make one version of the spiral example that goes on forever.
+<div class="alert alert-info">
+**Question**: Can you define the limited version in terms of the unlimited one?
+</div>
+Finally make a
 program that would draw a finite spiral and when done starts drawing an infinite
 spiral where the finite spiral ended.
 
@@ -217,7 +220,8 @@ Add a parallel composition combinator to your turtle language. One possible inte
 
 When you run a turtle program `p <|> q`, there will be two turtles, one running
 `p` and the other running `q`, in parallel. In your textual interface you should
-show which actions occur in parallel.
+show which actions occur in parallel. Importantly, it must be the case that
+operator `(<|>)` could potentially be applied in any part of your program.
 
 <div class="alert alert-info">
 **Questions**: What happens after a parallel composition finishes? Is your
@@ -366,8 +370,8 @@ to formulate precise requirements for each grade without solving the problem for
 you (by telling you which design to use).
 
 This does not mean that we judge your submission arbitrarily. If you come and
-talk to us during office hours we can give you more precise descriptions of how
-you need to improve your submission for a higher grade.
+talk to us during office hours **we can give you more precise descriptions of how
+you need to improve your submission for a higher grade**.
 
 Here are some qualities that count towards higher grades:
 
@@ -403,3 +407,5 @@ during office hours.
 * The relationships between your operators and some relevant algebraic laws must
   be defined as a list of equations. You do not need to prove or test the
   equalities, but the more obvious they are from your code the better.
+* The behavior of the parallel operator is clearly defined and contrasted with
+  other alternatives.
