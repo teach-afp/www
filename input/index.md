@@ -19,3 +19,20 @@
 
 
 # News!
+
+* January 19th
+
+  <div class="alert alert-danger">
+  By mistake, we placed solutions for the first lab into the afp-code repository
+  for a short period of time. Of course, we removed them already -- they were
+  online for about 30 minutes. In case you got them, please, remember the cheating
+  guidelines and the consequences of using someone else code!
+  </div>
+
+  <div class="alert alert-info">
+  Updates on the office hours for this Friday!
+  </div>
+
+  <div class="alert alert-info">
+  Minimal changes to the lab 1 statement (nothing mayor)
+  </div>
