@@ -18,10 +18,7 @@
   - All information is on the web page for the course
 * [Discussion board](https://groups.google.com/forum/#!forum/afp2016)
 * Office hours
-  - A few times a week
-   <div class="alert alert-danger">
-   Hours coming soon!
-   </div>
+  - A few times a week. [Check the hours here](./inf.html).
 
 ## Organization ##
 * **2** Lectures per week
@@ -45,11 +42,6 @@
 * Send e-mails to teachers (myself and the assistants)
   - Organizational help, lectures, etc. (Lecturer)
   - Specific help with programming labs (Assistants)
-* Office hours
-  - A few times a week
-   <div class="alert alert-danger">
-   Hours coming soon!
-   </div>
 
 ## Recalling Haskell ##
 * Purely functional language
@@ -70,8 +62,8 @@
     f :: String -> Int
     ```
 
-Only the knowledge about the string is needed to *produce* the result. We say
-that `f` is a pure function.
+* Only the knowledge about the string is needed to *produce* the result. We say
+  that `f` is a pure function.
 * Input and output are key for real world programs!
 * Haskell has a distinctive feature with respect to other programming languages
   <div class="alert alert-info">
@@ -180,8 +172,7 @@ that `f` is a pure function.
   - A classic property for function `reverse`:
 
       ```haskell
-      reverse (reverse xs) = xs
-      ```
+      reverse (reverse xs) = xs ```
 
 * What about programs with I/O?
   - In Haskell, expressions of type `IO a` (for some type `a`) are pure
@@ -213,10 +204,8 @@ that `f` is a pure function.
 
 * In practice, changing expressions by others denoting the same values might have
   consequences in
-  - Memory consumption
+  - Memory and energy consumption
   - Performance
-  - Energy consumption
-  - etc.
 
 * Evaluation of expressions often trigger a lot of side-effects (memory
    allocation, garbage collector, etc.) even though they are pure.
@@ -245,7 +234,7 @@ that `f` is a pure function.
     </thead>
 
     <tr class="success">
-    <td> Programmer dictates the execution order </td>
+    <td> Programmer dictates the execution order by the structure of their code</td>
     </tr>
 
     <tr class="success">
@@ -301,6 +290,7 @@ that `f` is a pure function.
 * Consider the following functions
 
   ```haskell
+  -- | Fibonacci
   expn :: Integer -> Integer
   expn n | n <= 1    = 1
   | otherwise = expn (n-1) + expn (n-2)
@@ -347,7 +337,7 @@ that `f` is a pure function.
 
 ## Lazy evaluation: at most once? ##
 
-```haskelln
+```haskell
 ff :: Integer -> Integer
 ff x = (x - 2) * 10
 
@@ -365,25 +355,25 @@ testBar =  bar 1 2 + bar 3 4
 * Why is that?
 * In lazy evaluation, *bindings* are evaluated at most once!
   - We can adapt `foo` above to evaluate `ff x` at most once by introducing a
-  local binding
+    local binding
 
-  ```haskell
-  foo :: Integer -> Integer
-  foo x = ffx + ffx
-  where ffx = ff x
-  ```
+     ```haskell
+     foo :: Integer -> Integer
+     foo x = ffx + ffx
+     where ffx = ff x
+     ```
 
   - The evaluation happens *at most once* in the corresponding scope!
   - What about `f 17`? How can we change `bar` to evaluate it at most once?
 
-  ```haskell
-  bar :: Integer -> Integer -> Integer
-  bar x y = ff17 + x + y
+     ```haskell
+     bar :: Integer -> Integer -> Integer
+     bar x y = ff17 + x + y
 
-  ff17 :: Integer
-  ff17 = ff 17 ```
+     ff17 :: Integer
+     ff17 = ff 17 ```
 
-  We introduce a top-level binding, which are really evaluated at most once.
+     We introduce a top-level binding, which are really evaluated at most once.
 
 ## Lazy evaluation: infinite lists ##
 
@@ -404,8 +394,8 @@ testBar =  bar 1 2 + bar 3 4
   printTable3 :: [String] -> IO ()
   printTable3 xs =
   sequence_ [ putStrLn (show i ++ ":" ++ x)
-  | (x,i) <- xs `zip` [1..]
-  ]
+              | (x,i) <- xs `zip` [1..]
+            ]
   testTable3 = printTable3 lussekatter
   ```
 
