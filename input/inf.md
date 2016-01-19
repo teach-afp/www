@@ -47,7 +47,7 @@ Lectures (note different lecture rooms on different week days)
 		<div class="caption">
 			[Dan Rosén](https://www.chalmers.se/en/staff/Pages/danr.aspx)
                         <p> **Office hours**: Monday 10-12, Friday 13-15 (only
-                        for week 3) </p>
+                        for week 4) </p>
 		  </div>
 	</div>
 </div>
@@ -60,7 +60,7 @@ Lectures (note different lecture rooms on different week days)
 		<div class="caption">
 			[Anton Ekblad](http://ekblad.cc/)
                         <p> **Office hours**: Wednesday 13-15, Friday 13-15 (only
-                        for week 4) </p>
+                        for week 3) </p>
 		  </div>
 	</div>
 </div>
