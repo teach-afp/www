@@ -191,33 +191,45 @@
 
 * Is `E a` a monad? Is `E a` such special data type?
   - Not yet, we need to define the connector `(>>=)`
-  -
+  - Furthermore, monads have another primitive: `return`.  This primitive takes
+    a value and *construct an instruction that does nothing but producing that
+    value*!
+* In Haskell, a data type is a monad if `return` and `(>>=)` are provided
+
     ```haskell
     class Monad m where
        return :: a -> m a
-       (>>=)  :: m a -> (a -> m b) -> m b
-    ```
+       (>>=)  :: m a -> (a -> m b) -> m b  ```
+
+* What is the implementation of `return` and `(>>=)` for `E a`?
 
     ```haskell
     instance Monad E where
       return = Value
       Wrong   >>= f = Wrong
-      Value a >>= f = f a
-    ```
+      Value a >>= f = f a  ```
 
     Monad `E` is known as the `Maybe` monad!
 
 ## Error handling in the interpreter
 
--
+```haskell
+m_interpE :: Expr -> E Int
+m_interpE (Con i)     = return i
+m_interpE (Div e1 e2) = m_interpE e1 >>=
+                        (\i1 -> m_interpE e2 >>=
+                               (\i2 -> return (i1 `div` i2)))
+```
 
-    ```haskell
-    m_interpE :: Expr -> E Int
-    m_interpE (Con i)     = return i
-    m_interpE (Div e1 e2) = m_interpE e1 >>=
-                            (\i1 -> m_interpE e2 >>=
-                                   (\i2 -> return (i1 `div` i2)))
-    ```
+Observe that the code has no traces of error handling, i.e., it does not inspect
+every recursive call for an error.
+  - It is handled by the monad!
+  - All the plumbing is hidden!
 
-    Observe that the code has no traces of error handling, e.g., pattern matching
-    on every recursive call. It is handled by the monad!
+## Systematic log generation
+
+
+<div class="container">
+  <img class="img-responsive col-md-10"
+  src="./assets/img/monad_log.png">
+</div>
