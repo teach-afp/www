@@ -512,8 +512,16 @@ Let us get into a specific first in order to create a EDSL in Haskell.
 ## How do we program with it?
 [code](https://bitbucket.org/russo/afp-code/src/c3dff247914a07741c1fe9650e45055f0fa7b09c/L2/src/ExampleSignal.hs?at=master&fileviewer=file-view-default)
 
-* We write time-dependent pure functions
-  - Let us write a function which intermittently displays two shapes
+* Let us try to get the next simple animation:
+
+  <div class="container">
+     <img class="img-responsive col-md-6"
+       src="./assets/img/shapeanimation.png">
+  </div>
+
+* We write time-dependent functions which generate shapes
+
+  - A function for intermittently displaying two shapes
     ```haskell
     -- | It displays a shape on "odd times" and another one in "even times".
     change :: Shape -> Shape -> Time -> Shape
@@ -527,8 +535,9 @@ Let us get into a specific first in order to create a EDSL in Haskell.
     constS (change disc square) :: Signal (Time -> Shape)
     ```
 
-    <div class="alert alert-info">
-    Graphic time -> shape
+    <div class="container">
+     <img class="img-responsive col-md-6"
+       src="./assets/img/signal_f.png">
     </div>
 
 * Convert the functional signal into a signal (corresponding to the image of the
@@ -537,7 +546,12 @@ Let us get into a specific first in order to create a EDSL in Haskell.
 
     ```haskell constS (change disc square) $$ timeS ```
 
-    <div class="alert alert-info"> Combination of signals </div>
+    <div class="container">
+     <img class="img-responsive col-md-8"
+       src="./assets/img/signal_apply_f.png">
+    </div>
+
+
 
 ## More operations
 
