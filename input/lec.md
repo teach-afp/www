@@ -41,3 +41,19 @@ update!
   - Shape: extend the library with colored shapes
   - Shape: define derived opertations `x-reflection`, `y-reflection`, and `zoom_in`
   - Signal: define `mapS` as a derived operation
+
+## 3. [Monads](./lecture3.html).
+
+* **Topics**: Monads, Functors, and Applicative.
+
+* **Reading**: Chapters 14
+
+* [Source
+  code](https://bitbucket.org/russo/afp-code/src/c01749c2f1f5f6729907666103acf83e969a7729/L3/?at=master)
+
+* **Optional reading**:
+  - Chapter 15
+  - [Monads for functional programming by Philip
+     Wadler](http://homepages.inf.ed.ac.uk/wadler/papers/marktoberdorf/baastad.pdf)
+     The interpreter for arithmetic expressions is traken from this paper.
+  - The beauty and the beast?

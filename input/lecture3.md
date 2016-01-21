@@ -216,9 +216,9 @@
 ```haskell
 m_interpE :: Expr -> E Int
 m_interpE (Con i)     = return i
-m_interpE (Div e1 e2) = m_interpE e1 >>=
-                        (\i1 -> m_interpE e2 >>=
-                               (\i2 -> return (i1 `div` i2)))
+m_interpE (Div e1 e2) = m_interpE e1 >>= (\i1 ->
+                          m_interpE e2 >>= (\i2 ->
+                            return (i1 `div` i2)))
 ```
 
 Observe that the code has no traces of error handling, i.e., it does not inspect
@@ -226,10 +226,154 @@ every recursive call for an error.
   - It is handled by the monad!
   - All the plumbing is hidden!
 
-## Systematic log generation
+Let remove some parenthesis due to the connector `(>>=)` precedence
 
+```haskell
+m_interpE :: Expr -> E Int
+m_interpE (Con i)     = return i
+m_interpE (Div e1 e2) = m_interpE e1 >>= \i1 ->
+                          m_interpE e2 >>= \i2 ->
+                            return (i1 `div` i2)
+```
+
+## Systematic log generation
 
 <div class="container">
   <img class="img-responsive col-md-10"
   src="./assets/img/monad_log.png">
 </div>
+
+* The connector has the responsibility to count the number of divisions. We
+  introduce a new data type to keep that information.
+
+  ```haskell
+  data L a = L (a, Int) ```
+
+* The new interpreter
+
+  ```haskell
+  m_interpL :: Expr -> L Int
+  m_interpL (Con i)     = return i
+  m_interpL (Div e1 e2) = m_interpL e1 >>= \i1 ->
+                            m_interpL e2 >>= \i2 ->
+                              return (i1 `div` i2)
+  ```
+
+* Putting the types aside for a second, the definition is the same as for
+  `m_interpE`!
+  - Indeed, it is the same description but side-effects are different!
+  - The monad is *hiding all the plumbing*!
+
+## Enter Monads
+
+* **Definition**
+
+  A data type `m` is a monad if it supports the following two operations:
+
+  ```haskell
+  (>>=)  :: m a -> (a -> m b) -> m b
+  return :: a -> m a ```
+
+  Functions `return` and `(>>=)` are known as *return* and the *bind*
+  operations, respectively.
+
+  Furthermore, these operation are required to fulfill the next laws:
+
+  <table class="table table-bordered">
+  <thead>
+    <tr>
+    <th>Name</th>
+    <th>Law</th>
+    </tr>
+  </thead>
+
+  <tr>
+  <td> Left identity: </td>
+  <td>  ```haskell return a >>= f ≡ f a ```
+  </td>
+  </tr>
+
+  <tr>
+  <td> Right identity: </td>
+
+  <td> ```haskell m >>= return ≡ m ```
+  </td>
+  </tr>
+
+  <tr>
+  <td> Associativity: </td>
+  <td> ```haskell (m >>= f) >>= g ≡ m >>= (\x -> f x >>= g) ```
+  </td>
+  </tr>
+
+  </table>
+
+  <div class="alert alert-info">
+    **Exercise**: Check that `E` and `L` respects these laws.
+  </div>
+
+* **Terminology**
+  - *Monadic* simply means pertaining to monads.
+    - A monadic type `M` means that it is an instance of the `Monad` type class;
+      a monadic value has a monadic type.
+
+* **Notation**
+
+  Writing code with the bind might be unfamiliar and it requires indentation at
+  every application of `(>>=)` to keep the code readable.
+
+  ```haskell
+  m1 >>= \r1 ->
+     m2 >>= r2 ->
+        m3
+  ```
+
+  Haskell supports *do-notation*, a more familiar manner to write monadic code.
+
+  ```haskell
+  do r1 <- m1
+     r2 <- m2
+     m3
+  ```
+
+## Interpreters revisited
+[code](https://bitbucket.org/russo/afp-code/src/c01749c2f1f5f6729907666103acf83e969a7729/L3/Interpr.hs?at=master&fileviewer=file-view-default)
+
+```haskell
+m_interpE :: Expr -> E Int
+m_interpE (Con i)     = return i
+m_interpE (Div e1 e2) =
+   do i1 <- m_interpE e1
+      i2 <- m_interpE e2
+      return (i1 `div` i2)
+```
+
+```haskell
+m_interpL :: Expr -> L Int
+m_interpL (Con i)     = return i
+m_interpL (Div e1 e2) =
+   do i1 <- m_interpL e1
+      i2 <- m_interpL e2
+      return (i1 `div` i2)
+```
+
+## Programmer-controlled log
+
+*
+```haskell
+m_interpL :: Expr -> L Int
+m_interpL (Con i)     = do
+   log "-- Hit Con -- \n"
+   return i
+
+m_interpL (Div e1 e2) = do
+   log "-- Hit a Div -- \n"
+
+   log "** Left recursive call**"
+   i1 <- m_interpL e1
+
+   log "** Right recursive call**"
+   i2 <- m_interpL e2
+
+   return (i1 `div` i2)
+```
