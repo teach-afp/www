@@ -54,7 +54,8 @@
                            Wrong -> Wrong
                            Value i1 -> case maybe_i2 of
                                        Wrong -> Wrong
-                                       Value i2 -> Value $ i1 `div` i2
+                                       Value i2 -> if i2 == 0 then Wrong
+                                                              else Value $ i1 `div` i2
        where maybe_i1 = interpE e1
              maybe_i2 = interpE e2
    ```
@@ -62,6 +63,14 @@
 * Basically, **every recursive call needs to be checked for errors**! If one of
   them fails, then the program should abort.
 * Consider what would happen if `Expr` had many other recursive constructors
+* One possible `run` function
+
+  ```haskell
+  runE :: Expr -> IO ()
+  runE e = case interpE e of
+                Wrong -> putStrLn "Something went wrong!"
+                Value i -> putStrLn $ show i
+  ```
 
 ## Logging
 
@@ -80,13 +89,22 @@
 
    interpL :: Expr -> L Int
    interpL (Con i)      = L (i, 0)
-   interpL (Div e1 e2)  = L (i1 `div` i2, divs1 + divs2)
+   interpL (Div e1 e2)  = L (i1 `div` i2, divs1 + divs2 + 1)
       where L (i1, divs1) = interpL e1
             L (i2, divs2) = interpL e2   ```
 
 * Basically, the results of **every recursive call*** needs to be inspected to
   obtain the number of divisions performed by them.
 * Consider what would happen if `Expr` had many other recursive constructors
+* One possible *run* function
+  ```haskell
+  runL :: Expr -> IO ()
+  runL e = do putStr "The result is:"
+              putStrLn $ show i
+              putStrLn "Number of divisions:"
+              putStrLn $ show n
+     where L (i,n) = interpL e
+  ```
 
 ## Side-effects & pure functional programming
 
@@ -137,7 +155,7 @@
 * Programs can be conceived as a *sequence* of instructions put together
 
   <div class="container">
-     <img class="img-responsive col-md-6"
+     <img class="img-responsive col-md-8"
        src="./assets/img/monad_seq.png">
   </div>
 
@@ -147,7 +165,7 @@
   precisely,
 
   <div class="container">
-     <img class="img-responsive col-md-8"
+     <img class="img-responsive col-md-10"
       src="./assets/img/monad_seq_2.png">
   </div>
 
@@ -157,7 +175,7 @@
   - Let us first introduce the types for instructions.
 
     <div class="container">
-     <img class="img-responsive col-md-8"
+     <img class="img-responsive col-md-10"
       src="./assets/img/monad_seq_type_instr.png">
     </div>
 
@@ -174,6 +192,7 @@
     </div>
 
 ## Systematic error handling
+[code](https://bitbucket.org/russo/afp-code/src/c01749c2f1f5f6729907666103acf83e969a7729/L3/Interpr.hs?at=master&fileviewer=file-view-default)
 
 * The connector is placed in the "right place" to abort any computation as soon as
   an instruction fails
@@ -211,58 +230,122 @@
 
     Monad `E` is known as the `Maybe` monad!
 
+* We need to add a primitive to make everything fail
+
+  ```haskell
+  abort :: E a
+  abort = Wrong
+  ```
+  This function is known as a *non-proper morphism*. In other words, non-proper
+  morphisms are monadic operations which are not `return` and `(>>=)`. They
+  handle or affect the side-effectful part of the computation (in the case
+  above, the failure!)
+
+* One possible `run` function
+  ```haskell
+   m_runE :: Expr -> IO ()
+   m_runE e = case m_interpE e of
+                   Wrong -> putStrLn "Something went wrong!"
+                   Value i -> putStrLn $ show i
+  ```
+
+  It did not change much as the non-monadic version
+
 ## Error handling in the interpreter
 
-```haskell
-m_interpE :: Expr -> E Int
-m_interpE (Con i)     = return i
-m_interpE (Div e1 e2) = m_interpE e1 >>= (\i1 ->
-                          m_interpE e2 >>= (\i2 ->
-                            return (i1 `div` i2)))
-```
+* Let us rewrite the interpreter using the monad `E`
 
-Observe that the code has no traces of error handling, i.e., it does not inspect
-every recursive call for an error.
+   ```haskell
+   m_interpE :: Expr -> E Int
+   m_interpE (Con i)     = return i
+   m_interpE (Div e1 e2) = m_interpE e1 >>= (\i1 ->
+                             m_interpE e2 >>= (\i2 ->
+                               if i2 == 0 then abort
+                                          else return (i1 `div` i2))) ```
+
+* Observe that the code has no traces of error handling, i.e., it does not inspect
+  every recursive call for an error.
+
   - It is handled by the monad!
   - All the plumbing is hidden!
 
-Let remove some parenthesis due to the connector `(>>=)` precedence
+* Let us remove some parenthesis due to the connector `(>>=)` precedence
 
-```haskell
-m_interpE :: Expr -> E Int
-m_interpE (Con i)     = return i
-m_interpE (Div e1 e2) = m_interpE e1 >>= \i1 ->
-                          m_interpE e2 >>= \i2 ->
-                            return (i1 `div` i2)
-```
+   ```haskell
+   m_interpE :: Expr -> E Int
+   m_interpE (Con i)     = return i
+   m_interpE (Div e1 e2) = m_interpE e1 >>= \i1 ->
+                             m_interpE e2 >>= \i2 ->
+                               if i2 == 0 then abort
+                                          else return (i1 `div` i2)   ```
 
-## Systematic log generation
 
-<div class="container">
-  <img class="img-responsive col-md-10"
-  src="./assets/img/monad_log.png">
-</div>
+## Log messages
 
-* The connector has the responsibility to count the number of divisions. We
-  introduce a new data type to keep that information.
+* We would like to be able to control what information gets logged
+  - So far, our monad `L` just counts numbers of divisions
+* More precisely, we would like something like
+
+   ```haskell
+   m_interpLM :: Expr -> LM Int
+   m_interpLM (Con i)     = do
+      msg "-- Hit Con --\n"
+      return i
+
+   m_interpLM (Div e1 e2) = do
+      msg "-- Hit a Div --\n"
+
+      msg "** Left recursive call**\n"
+      i1 <- m_interpLM e1
+
+      msg "** Right recursive call**\n"
+      i2 <- m_interpLM e2
+
+      return (i1 `div` i2)
+   ```
+
+* We want to implement the side-effect of logging, i.e., the program computes
+  the result of arithmetic expressions and, as a side-effects, generates a log
+  of messages.
+
+   <div class="container">
+     <img class="img-responsive col-md-8"
+       src="./assets/img/monad_msg.png">
+   </div>
+
+
+* What is a suitable data type for our monad?
 
   ```haskell
-  data L a = L (a, Int) ```
+  data LM a = LM { val :: a, msgs :: [String] } ```
 
-* The new interpreter
+* What about `return` and `(>>=)`?
+
+   ```haskell
+   instance Monad LM where
+     return x   = LM x []  -- recall the identity laws!
+     instr >>= f = case f (val instr) of
+                        LM x msgss -> LM x (msgs instr ++ msgss) ```
+
+   - Function `return` produces the empty lists (recall the monadic laws)
+   - Function `(>>=)` concatenates the messages
+
+* We need to implement the *non-proper morphism* `msg`!
 
   ```haskell
-  m_interpL :: Expr -> L Int
-  m_interpL (Con i)     = return i
-  m_interpL (Div e1 e2) = m_interpL e1 >>= \i1 ->
-                            m_interpL e2 >>= \i2 ->
-                              return (i1 `div` i2)
+  msg :: String -> LM ()
+  msg m = LM () [msg] ```
+
+* One possible *run* function
+
+  ```haskell
+  runLM :: Expr -> IO ()
+  runLM m = do putStr "Result: "
+               putStrLn $ show result
+               putStrLn "Messages:"
+               putStrLn $ concat log
+     where LM result log = m_interpLM m
   ```
-
-* Putting the types aside for a second, the definition is the same as for
-  `m_interpE`!
-  - Indeed, it is the same description but side-effects are different!
-  - The monad is *hiding all the plumbing*!
 
 ## Enter Monads
 
@@ -336,8 +419,7 @@ m_interpE (Div e1 e2) = m_interpE e1 >>= \i1 ->
      m3
   ```
 
-## Interpreters revisited
-[code](https://bitbucket.org/russo/afp-code/src/c01749c2f1f5f6729907666103acf83e969a7729/L3/Interpr.hs?at=master&fileviewer=file-view-default)
+
 
 ```haskell
 m_interpE :: Expr -> E Int
@@ -355,25 +437,4 @@ m_interpL (Div e1 e2) =
    do i1 <- m_interpL e1
       i2 <- m_interpL e2
       return (i1 `div` i2)
-```
-
-## Programmer-controlled log
-
-*
-```haskell
-m_interpL :: Expr -> L Int
-m_interpL (Con i)     = do
-   log "-- Hit Con -- \n"
-   return i
-
-m_interpL (Div e1 e2) = do
-   log "-- Hit a Div -- \n"
-
-   log "** Left recursive call**"
-   i1 <- m_interpL e1
-
-   log "** Right recursive call**"
-   i2 <- m_interpL e2
-
-   return (i1 `div` i2)
 ```
