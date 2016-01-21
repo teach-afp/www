@@ -176,9 +176,11 @@ interface. In their syntax it looks like:
 
 You will not be able to run your spiral example yet, but it should type check.
 Also, make one version of the spiral example that goes on forever.
+
 <div class="alert alert-info">
 **Question**: Can you define the limited version in terms of the unlimited one?
 </div>
+
 Finally make a
 program that would draw a finite spiral and when done starts drawing an infinite
 spiral where the finite spiral ended.
@@ -294,11 +296,10 @@ higher-order functions, laziness, polymorphism?
   [Applicative/Alternative](http://hackage.haskell.org/package/base-4.3.1.0/docs/Control-Applicative.html). Also,
   consider the following:
 
-* How does `<|>` and `>*>` interact?
-* How does idle and die interact with your combinators?
-* How does forever and times interact with your combinators?
-* Can you find any law that is unexpected, unintuitive or undesired, but follows
-* from your operators?
+* How do `<|>` and `>*>` interact?
+* How do idle and die interact with your combinators?
+* How do forever and times interact with your combinators?
+* Can you find any law that is unexpected, unintuitive or undesired, but follows from your operators?
 
 <div class="alert alert-info">
 **Question**:Is your program data type a Monoid? Under which operations? There may
@@ -336,8 +337,7 @@ etc. We will reject your solution if it is not clean. Clean code:
 * Does not have long lines (< 80 characters)
 * Has a consistent layout
 * Has type signatures for all top-level functions
-* Has good comments for all modules, functions, data types and instances. The
-  comments should look good when compiled to HTML with Haddock.
+* Has good comments for all modules, functions, data types and instances. The comments should look good when compiled to HTML with Haddock.
 * Has no junk (junk is unused code, commented code, unnecessary comments)
 * Has no overly complicated function definitions
 * Does not contain any repetitive code (copy-and-paste programming)
