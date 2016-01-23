@@ -1,5 +1,8 @@
-# Monads and Functors
+<div class="alert alert-danger">
+  To run the examples below, you need GHC <= version 7.8
+</div>
 
+# Monads and Functors
 
 ## Some programming features in imperative languages
 * Error handling
@@ -36,6 +39,7 @@
     Everything crashes!
 
 ## Handling errors explicitly
+[code](https://bitbucket.org/russo/afp-code/src/c01749c2f1f5f6729907666103acf83e969a7729/L3/Interpr.hs?at=master&fileviewer=file-view-default)
 
 - The error handling mechanism that we consider is
 
@@ -73,38 +77,43 @@
   ```
 
 ## Logging
+[code](https://bitbucket.org/russo/afp-code/src/c01749c2f1f5f6729907666103acf83e969a7729/L3/Interpr.hs?at=master&fileviewer=file-view-default)
 
-* We want to count the number of divisions that our interpreter is performing.
-  - After all, we know that they are more expensive then other arithmetic
-    operations.
+* We want to create a trace of the program
+  - Send messages to a log
   - This information could be used to improve future interpreter optimizations
+    or detection of bugs
 
   <div class="alert alert-info">
-      We count the number of divisions computed by an expression
+      We want to send messages to a log at every instruction
   </div>
 
 - Let us modify the interpreter to log the number of divisions.
   ```haskell
-   data L a = L (a, Int)
+   data L a = L (a, [String])
 
    interpL :: Expr -> L Int
-   interpL (Con i)      = L (i, 0)
-   interpL (Div e1 e2)  = L (i1 `div` i2, divs1 + divs2 + 1)
-      where L (i1, divs1) = interpL e1
-            L (i2, divs2) = interpL e2   ```
+   interpL (Con i)      = L (i, ["-- Hit Con --\n"])
+   interpL (Div e1 e2)  = L (i1 `div` i2,
+                             "-- Hit a Div --\n" :
+                             "** Left recursive call**\n" :
+                             msgs1 ++
+                             "** Right recursive call**\n" :
+                             msgs2 )
+      where L (i1, msgs1) = interpL e1
+            L (i2, msgs2) = interpL e2 ```
 
 * Basically, the results of **every recursive call*** needs to be inspected to
-  obtain the number of divisions performed by them.
+  obtain the corresponding logs.
 * Consider what would happen if `Expr` had many other recursive constructors
 * One possible *run* function
   ```haskell
-  runL :: Expr -> IO ()
-  runL e = do putStr "The result is:"
-              putStrLn $ show i
-              putStrLn "Number of divisions:"
-              putStrLn $ show n
-     where L (i,n) = interpL e
-  ```
+   runL :: Expr -> IO ()
+   runL e = do putStr "The result is:"
+               putStrLn $ show i
+               putStrLn "Log:"
+               putStrLn $ show msgs
+      where L (i,msgs) = interpL e ```
 
 ## Side-effects & pure functional programming
 
@@ -191,7 +200,7 @@
       src="./assets/img/monad_bind2.png">
     </div>
 
-## Systematic error handling
+## Error handling
 [code](https://bitbucket.org/russo/afp-code/src/c01749c2f1f5f6729907666103acf83e969a7729/L3/Interpr.hs?at=master&fileviewer=file-view-default)
 
 * The connector is placed in the "right place" to abort any computation as soon as
@@ -237,7 +246,7 @@
   abort = Wrong
   ```
   This function is known as a *non-proper morphism*. In other words, non-proper
-  morphisms are monadic operations which are not `return` and `(>>=)`. They
+  morphisms are operations which are not `return` and `(>>=)`. They
   handle or affect the side-effectful part of the computation (in the case
   above, the failure!)
 
@@ -252,6 +261,7 @@
   It did not change much as the non-monadic version
 
 ## Error handling in the interpreter
+[code](https://bitbucket.org/russo/afp-code/src/c01749c2f1f5f6729907666103acf83e969a7729/L3/Interpr.hs?at=master&fileviewer=file-view-default)
 
 * Let us rewrite the interpreter using the monad `E`
 
@@ -263,7 +273,7 @@
                                if i2 == 0 then abort
                                           else return (i1 `div` i2))) ```
 
-* Observe that the code has no traces of error handling, i.e., it does not inspect
+* Observe that the code has **minimum traces of error handling**, i.e., it does not inspect
   every recursive call for an error.
 
   - It is handled by the monad!
@@ -280,72 +290,94 @@
                                           else return (i1 `div` i2)   ```
 
 
-## Log messages
+## Logging
+[code](https://bitbucket.org/russo/afp-code/src/c01749c2f1f5f6729907666103acf83e969a7729/L3/Interpr.hs?at=master&fileviewer=file-view-default)
 
 * We would like to be able to control what information gets logged
-  - So far, our monad `L` just counts numbers of divisions
-* More precisely, we would like something like
-
-   ```haskell
-   m_interpLM :: Expr -> LM Int
-   m_interpLM (Con i)     = do
-      msg "-- Hit Con --\n"
-      return i
-
-   m_interpLM (Div e1 e2) = do
-      msg "-- Hit a Div --\n"
-
-      msg "** Left recursive call**\n"
-      i1 <- m_interpLM e1
-
-      msg "** Right recursive call**\n"
-      i2 <- m_interpLM e2
-
-      return (i1 `div` i2)
-   ```
 
 * We want to implement the side-effect of logging, i.e., the program computes
   the result of arithmetic expressions and, as a side-effects, generates a log
   of messages.
 
    <div class="container">
-     <img class="img-responsive col-md-8"
+     <img class="img-responsive col-md-10"
        src="./assets/img/monad_msg.png">
    </div>
 
 
-* What is a suitable data type for our monad?
-
-  ```haskell
-  data LM a = LM { val :: a, msgs :: [String] } ```
-
-* What about `return` and `(>>=)`?
+* Let us define `return` and `(>>=)` for `L`
 
    ```haskell
-   instance Monad LM where
-     return x   = LM x []  -- recall the identity laws!
-     instr >>= f = case f (val instr) of
-                        LM x msgss -> LM x (msgs instr ++ msgss) ```
+   instance Monad L where
+     return x   = L (x, [])  -- recall the identity laws!
+     L (x,msgs) >>= f = case f x of
+                        L (x,msgss) -> L (x, msgs ++ msgss) ```
 
    - Function `return` produces the empty lists (recall the monadic laws)
-   - Function `(>>=)` concatenates the messages
+   - Function `(>>=)` concatenates the *logs*
 
-* We need to implement the *non-proper morphism* `msg`!
+* We need to implement a *non-proper morphism* which writes into the log -- we
+  call it `msg`
 
   ```haskell
-  msg :: String -> LM ()
-  msg m = LM () [msg] ```
+  msg :: String -> L ()
+  msg m = L ((), [m]) ```
+
+* Let us rewrite the interpreter using the monad `L`
+
+   ```haskell
+   m_interpL (Con i) = do
+       msg "-- Hit Con --\n"
+       return i
+
+   m_interpL (Div e1 e2) =
+      msg "-- Hit a Div --\n" >>= \_ ->
+          msg "** Left recursive call**\n" >>= \_ ->
+             m_interpL e1 >>= \i1 ->
+                msg "** Right recursive call**\n" >>= \_ ->
+                    m_interpL' e2 >>= \i2 ->
+                          return (i1 `div` i2) ```
+
+* Observe that the code has **minimum traces about how the log is constructed**
+
+  - It is handled by the monad!
+  - All the plumbing is hidden!
+  - It looks like imperative programming!
+
+* Observe that we use many times ` m >>= \_ -> ... ` when `m` does not produce a
+  useful value for the computation but a useful side-effect! (in this case,
+  logging)
+
+  - Monads use the operation `(>>)`, called *blind*, to capture such situation
+    and save us from writing functions which ignore arguments.
+
+    ```haskell
+    (>>) :: m a -> m b -> m b
+    m1 >> m2 = m1 >>= \_ -> m2 ```
+
+   Observe that function `(>>)` is a derived operation.
+
+* Let us rewrite the interpreter once more
+
+   ```haskell
+   m_interpL (Div e1 e2) =
+      msg "-- Hit a Div --\n" >>
+          msg "** Left recursive call**\n" >>
+             m_interpL e1 >>= \i1 ->
+                msg "** Right recursive call**\n" >>
+                    m_interpL e2 >>= \i2 ->
+                          return (i1 `div` i2) ```
 
 * One possible *run* function
-
   ```haskell
-  runLM :: Expr -> IO ()
-  runLM m = do putStr "Result: "
-               putStrLn $ show result
-               putStrLn "Messages:"
-               putStrLn $ concat log
-     where LM result log = m_interpLM m
+  m_runL :: Expr -> IO ()
+  m_runL e = do  putStr "Result: "
+                 putStrLn $ show result
+                 putStrLn "Messages:"
+                 putStrLn $ concat log
+     where L (result,log) = m_interpL e
   ```
+
 
 ## Enter Monads
 
@@ -407,7 +439,7 @@
 
   ```haskell
   m1 >>= \r1 ->
-     m2 >>= r2 ->
+     m2 >>= \r2 ->
         m3
   ```
 
@@ -419,22 +451,224 @@
      m3
   ```
 
+  Similarly,
+  ```haskell
+  m1 >>
+    m2 >>= \r2 ->
+       m3
+  ```
+  can be written as
+  ```haskell
+  do m1
+     r2 <- m2
+     m3
+  ```
+
+## Revised interpreters
+[code](https://bitbucket.org/russo/afp-code/src/c01749c2f1f5f6729907666103acf83e969a7729/L3/Interpr.hs?at=master&fileviewer=file-view-default)
+
+* Error handling
+
+  ```haskell
+  m_interpE :: Expr -> E Int
+  m_interpE (Con i)     = return i
+  m_interpE (Div e1 e2) =
+     do i1 <- m_interpE e1
+        i2 <- m_interpE e2
+        if i2 == 0 then abort
+                  else return (i1 `div` i2)
+  ```
+
+* Logging
+
+  ```haskell
+  m_interpL :: Expr -> L Int
+  m_interpL (Con i)     = do
+     msg "-- Hit Con --\n"
+     return i
+
+  m_interpL (Div e1 e2) = do
+     msg "-- Hit a Div --\n"
+     msg "** Left recursive call**\n"
+     i1 <- m_interpL e1
+     msg "** Right recursive call**\n"
+     i2 <- m_interpL e2
+     return (i1 `div` i2)
+  ```
+
+* It looks and feel like imperative programming (**but it is not!**)
+* Monads alleviate all the *explicit data flow* required to implement error
+  handling and logging.
+
+## Monads and EDSL?
+
+* In our examples above, we talk about monadic types, constructors, combinators,
+  non-proper morphisms, and run functions
+
+  ```haskell
+  -- Types
+  data E Expr
+  -- Constructors
+  return :: a -> E Expr
+  abort  :: E Expr
+  -- Combinators
+  (>>=) :: E Expr -> (a -> E Expr) -> E Expr
+  -- Run function
+  m_runE :: Expr -> IO()
+  ```
+
+  The type `E` and monadic operations `return` and `(>>=)` are *polymorphic*; in
+  fact, monads require them to be (recall the type class `Monad`). However, when
+  instantiate them to the type that we are interested in, i.e., in this case
+  `Expr`, we have a **EDSL**!
+
+* <div class="alert alert-info">
+  Monads are also useful to define EDSL in Haskell, but not every EDSL is
+  necessarily a monad!
+  </div>
+
+* Are shallow or deep embedding monads `E` and `L`?
+  - Shallow!
+    ```haskell
+     data E a = Value a | Wrong
+    ```
+    An expression of type `E a` is either a value or indicates that something
+    went wrong! It denotes its semantics! The same phenomenon occurs with `L a`.
+
+## Deep embedding for error handling monad
+[code](https://bitbucket.org/russo/afp-code/src/c01749c2f1f5f6729907666103acf83e969a7729/L3/Interpr.hs?at=master&fileviewer=file-view-default)
+
+* We start defining our data type
+
+  ```haskell
+  data E_deep a where
+     -- Constructors
+     Return :: a -> E_deep a
+     Abort  :: E_deep a
+     -- Combinators
+     Bind   :: E_deep a -> (a -> E_deep b) -> E_deep b
+  ```
+  To implement this data type, we need to tell GHC to use the GADTs extension by
+  adding
+  ```haskell
+  {-# LANGUAGE GADTs #-}
+  ```
+  at the beginning of the file. We will study more about GADTs in the course,
+  but so far just notice the definition of `Bind`. It returns `E_deep b`
+  although the data type is defined on `E_deep a` -- this is one of the key
+  features of GADTs!
+
+* The definition for `return`, `(>>=)`, and non-proper morphisms are trivial
+
+   ```haskell
+   instance Monad E_deep where
+      return = Return
+      (>>=) = Bind
+
+   abort_deep = Abort   ```
+
+* The *run* function is the interesting one.
+
+   ```haskell
+   run_deep :: Expr -> IO ()
+   run_deep e = case (to_semantics (interp_deep e)) of
+                   Wrong -> putStrLn "Something went wrong!"
+                   Value i -> putStrLn $ show i
+     where
+           -- It will not accept E_deep Int -> E Int due to Bind
+           to_semantics :: E_deep a -> E a
+           to_semantics (Return i) = Value i
+           to_semantics  Abort     = Wrong
+           to_semantics (Bind m f) = case to_semantics m of
+                                          Wrong   -> Wrong
+                                          Value i -> to_semantics (f i)  ```
 
 
-```haskell
-m_interpE :: Expr -> E Int
-m_interpE (Con i)     = return i
-m_interpE (Div e1 e2) =
-   do i1 <- m_interpE e1
-      i2 <- m_interpE e2
-      return (i1 `div` i2)
-```
+## Stateful computations
 
-```haskell
-m_interpL :: Expr -> L Int
-m_interpL (Con i)     = return i
-m_interpL (Div e1 e2) =
-   do i1 <- m_interpL e1
-      i2 <- m_interpL e2
-      return (i1 `div` i2)
-```
+* There is no more imperative feature like having a global state and transforming
+  it during a computation
+
+* Imagine that we want to count the number of division in our interpreter
+  - This could be useful for future optimization
+
+* Assuming that we have a *unique global counter*, we would like to have a code
+  like the following:
+
+   ```haskell
+   interpS (Con i)     = return i
+   interpS (Div e1 e2) = do
+      i1 <- interpS e1
+      i2 <- interpS e2
+      -- Read the global counter
+      dvs <- get
+      -- Increment it by one
+      put (dvs+1)
+      return (i1 `div`i2)  ```
+
+* We start by describing the type for stateful computations
+  ```haskell
+  data St s a
+  ```
+  A monadic expression of type `St s a` denotes an stateful computation, with
+  state of type `s`, which produces a value of type `a`.
+
+  The monad here is `St s`!
+
+* Besides `return` and `(>>=)`, do we need non-proper morphisms?
+
+  Yes! To control the side-effects, i.e., to read and write the state.
+
+  ```haskell
+  get :: St s s
+  put :: s -> St s ()
+  ```
+  Observe that `get` returns the state as a value, while `put` returns `()`
+  since it does not produce any value but modifies the state.
+
+* To summarize, we have the following interface for stateful computations.
+
+  ```haskell
+  -- Type
+  data St s a
+  -- Constructors
+  get    :: St s s
+  put    :: s -> St s ()
+  return :: a -> St s a
+  -- Combinators
+  (>>=)  :: St s a -> (a -> St s b) -> St s b
+  ```
+
+## Implementation (shallow embedding)
+
+* Semantics for stateful computations
+
+  What is the semantics of an instruction which can read and modify a given
+  state?
+
+  <div class="container">
+     <img class="img-responsive col-md-6"
+       src="./assets/img/monad_st_1.png">
+  </div>
+
+* An instruction produces some result, but also read or write into the state.
+
+* Separating the reading and writing actions to the state, we can draw the
+  graphic above as follows
+
+  <div class="container">
+     <img class="img-responsive col-md-8"
+       src="./assets/img/monad_st_2.png">
+  </div>
+
+* An instruction in the state monad is a function!
+
+  - This reflects the fact that it depends on the state
+
+* A program, i.e., a sequence of instructions built with the monadic operations,
+  is also a function of type `s -> (a, s)`.
+
+  <div class="alert alert-info">
+    The definition of `(>>=)` is responsible of
+    passing along the state from one instruction to the other.
+  </div>
