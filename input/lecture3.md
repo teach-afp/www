@@ -668,7 +668,37 @@
 * A program, i.e., a sequence of instructions built with the monadic operations,
   is also a function of type `s -> (a, s)`.
 
+* More concretely,
+   ```haskell
+   data St s a = MkSt (s -> (a,s))
+
+   get :: St s s
+   get = MkSt $ \s -> (s,s)
+
+   put :: s -> St s ()
+   put s = MkSt $ \_ -> ((),s)
+
+   instance Monad (St s) where
+     return x       = MkSt $ \s -> (x,s) ```
+
+   Function `get` just places the state (receiving as an argument) as the result
+   of the computation. Function `put` ignores the state given as an
+   argument and sets the one given as an argument. Operation `return` does not
+   change the state and produces as a result its argument.
+
+* What about `(>>=)`?
+
   <div class="alert alert-info">
     The definition of `(>>=)` is responsible of
     passing along the state from one instruction to the other.
   </div>
+
+  <div class="container">
+     <img class="img-responsive col-md-12"
+       src="./assets/img/monad_bind_st.png">
+  </div>
+
+  ```haskell
+  (MkSt m) >>= k = MkSt $ \s_1 -> let (a, s_2)  = m s_1
+                                      MkSt k_m = k a
+                                  in k_m s_2 ```
