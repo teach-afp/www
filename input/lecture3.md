@@ -702,3 +702,41 @@
   (MkSt m) >>= k = MkSt $ \s_1 -> let (a, s_2)  = m s_1
                                       MkSt k_m = k a
                                   in k_m s_2 ```
+
+* A possible `run` function
+
+   ```haskell
+   m_runS :: Expr -> IO ()
+   m_runS e = do
+      putStr "Result: "
+      putStrLn $ show result
+      putStrLn "Number divisions:"
+      putStrLn $ show final_st
+
+      where MkSt f = interpS e
+            (result,final_st) = f 0 ```
+
+
+## Monads so far
+
+* Imperative side-effects
+
+  - Error handling
+  - Logging
+  - State
+
+* The concept of monads goes beyond that
+
+  - Security
+  - Probability programming
+  - Non-determinism
+  - Software transnational memory
+
+  We will see more of these monads later in the course.
+
+* What about combining effects?
+
+  - State, error, and logging!
+  - Next lecture
+
+## XX
