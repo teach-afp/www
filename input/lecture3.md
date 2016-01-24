@@ -5,7 +5,7 @@
   for such extra lines in the next lecture.
 </div>
 
-# Monads and Functors
+# Monads
 
 ## Some programming features in imperative languages
 * Error handling
@@ -84,10 +84,9 @@
   - Send messages to a log
   - This information could be used to improve future interpreter optimizations
     or detection of bugs
-
-  <div class="alert alert-info">
-      We want to send messages to a log at every instruction
-  </div>
+    <div class="alert alert-info">
+        We want to send messages to a log at every instruction
+    </div>
 
 - Let us modify the interpreter to log the number of divisions.
   ```haskell
