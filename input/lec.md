@@ -57,3 +57,17 @@ update!
   - [Monads for functional programming by Philip
      Wadler](http://homepages.inf.ed.ac.uk/wadler/papers/marktoberdorf/baastad.pdf)
      (the interpreter for arithmetic expressions is traken from this paper)
+
+## 4. [Functors, Applicative Functors, and Monads](./lecture4.html)
+
+* **Topics**: Functors. Applicative functors. Relation among functors,
+    applicative functors, and monads. More example of monads (modeling IO).
+
+* **Reading**: Chapters 10 (Section Introducing Functors),
+
+* [Source
+  code]()
+
+* **Optional reading**:
+  - [Page 1 and 2 from "Functional Pearl: F for Functor" by R. Hinze,
+     J. Hackett, and D. W. H. James](http://www.cs.ox.ac.uk/people/daniel.james/functor/functor.pdf)
