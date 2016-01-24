@@ -42,18 +42,18 @@ update!
   - Shape: define derived opertations `x-reflection`, `y-reflection`, and `zoom_in`
   - Signal: define `mapS` as a derived operation
 
-## 3. [Monads](./lecture3.html).
+## 3. [Monads](./lecture3.html)
 
-* **Topics**: Monads, Functors, and Applicative.
+* **Topics**: Side-effects in pure functional programming. Monads. Monads for
+    error handling, logging, and state. Monads and EDSL.
 
 * **Reading**: Chapters 14
 
 * [Source
-  code](https://bitbucket.org/russo/afp-code/src/c01749c2f1f5f6729907666103acf83e969a7729/L3/?at=master)
+  code](https://bitbucket.org/russo/afp-code/src/a581a6b1208c6ab826276bd26ad95f90e1819865/L3/Interpr.hs?at=master&fileviewer=file-view-default)
 
 * **Optional reading**:
   - Chapter 15
   - [Monads for functional programming by Philip
      Wadler](http://homepages.inf.ed.ac.uk/wadler/papers/marktoberdorf/baastad.pdf)
-     The interpreter for arithmetic expressions is traken from this paper.
-  - The beauty and the beast?
+     (the interpreter for arithmetic expressions is traken from this paper)

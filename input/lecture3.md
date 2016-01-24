@@ -1,5 +1,8 @@
-<div class="alert alert-danger">
-  To run the examples below, you need GHC <= version 7.8
+<div class="alert alert-info">
+  The examples in this lecture run in GHC <= version 7.8. If you have GHC
+  >= version 7.10, you need some extra lines -- see the source code -- to make
+  it work. However, you do not need to understand them. We will cover the reason
+  for such extra lines in the next lecture.
 </div>
 
 # Monads and Functors
@@ -39,7 +42,6 @@
     Everything crashes!
 
 ## Handling errors explicitly
-[code](https://bitbucket.org/russo/afp-code/src/c01749c2f1f5f6729907666103acf83e969a7729/L3/Interpr.hs?at=master&fileviewer=file-view-default)
 
 - The error handling mechanism that we consider is
 
@@ -77,7 +79,6 @@
   ```
 
 ## Logging
-[code](https://bitbucket.org/russo/afp-code/src/c01749c2f1f5f6729907666103acf83e969a7729/L3/Interpr.hs?at=master&fileviewer=file-view-default)
 
 * We want to create a trace of the program
   - Send messages to a log
@@ -201,7 +202,6 @@
     </div>
 
 ## Error handling
-[code](https://bitbucket.org/russo/afp-code/src/c01749c2f1f5f6729907666103acf83e969a7729/L3/Interpr.hs?at=master&fileviewer=file-view-default)
 
 * The connector is placed in the "right place" to abort any computation as soon as
   an instruction fails
@@ -261,8 +261,6 @@
   It did not change much as the non-monadic version
 
 ## Error handling in the interpreter
-[code](https://bitbucket.org/russo/afp-code/src/c01749c2f1f5f6729907666103acf83e969a7729/L3/Interpr.hs?at=master&fileviewer=file-view-default)
-
 * Let us rewrite the interpreter using the monad `E`
 
    ```haskell
@@ -291,8 +289,6 @@
 
 
 ## Logging
-[code](https://bitbucket.org/russo/afp-code/src/c01749c2f1f5f6729907666103acf83e969a7729/L3/Interpr.hs?at=master&fileviewer=file-view-default)
-
 * We would like to be able to control what information gets logged
 
 * We want to implement the side-effect of logging, i.e., the program computes
@@ -465,7 +461,6 @@
   ```
 
 ## Revised interpreters
-[code](https://bitbucket.org/russo/afp-code/src/c01749c2f1f5f6729907666103acf83e969a7729/L3/Interpr.hs?at=master&fileviewer=file-view-default)
 
 * Error handling
 
@@ -536,8 +531,6 @@
     went wrong! It denotes its semantics! The same phenomenon occurs with `L a`.
 
 ## Deep embedding for error handling monad
-[code](https://bitbucket.org/russo/afp-code/src/c01749c2f1f5f6729907666103acf83e969a7729/L3/Interpr.hs?at=master&fileviewer=file-view-default)
-
 * We start defining our data type
 
   ```haskell
@@ -738,5 +731,3 @@
 
   - State, error, and logging!
   - Next lecture
-
-## XX
