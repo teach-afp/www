@@ -14,7 +14,7 @@
 
 # Welcome!
 
-  * Web page for Advance Functional Programming (TDA342/DIT260)
+  * Web page for Advanced Functional Programming (TDA342/DIT260)
   * Period 3 school year 2015-2016.
 
 
