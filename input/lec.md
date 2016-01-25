@@ -58,6 +58,7 @@ update!
      Wadler](http://homepages.inf.ed.ac.uk/wadler/papers/marktoberdorf/baastad.pdf)
      (the interpreter for arithmetic expressions is traken from this paper)
 
+<!--
 ## 4. [Functors, Applicative Functors, and Monads](./lecture4.html)
 
 * **Topics**: Functors. Applicative functors. Relation among functors,
@@ -69,5 +70,9 @@ update!
   code]()
 
 * **Optional reading**:
-  - [Page 1 and 2 from "Functional Pearl: F for Functor" by R. Hinze,
+  - Functors: [Page 1 and 2 from "Functional Pearl: F for Functor" by R. Hinze,
      J. Hackett, and D. W. H. James](http://www.cs.ox.ac.uk/people/daniel.james/functor/functor.pdf)
+
+  - Applicative functors: [FUNCTIONAL PEARL Applicative programming with
+  effects](http://strictlypositive.org/IdiomLite.pdf)
+-->
