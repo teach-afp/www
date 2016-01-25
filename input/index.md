@@ -20,6 +20,12 @@
 
 # News!
 
+* January 24th
+
+  <div class="alert alert-info">
+  Lecture for monday (number 3) is up!
+  </div>
+
 * January 19th
 
   <div class="alert alert-danger">

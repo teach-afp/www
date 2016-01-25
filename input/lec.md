@@ -41,3 +41,38 @@ update!
   - Shape: extend the library with colored shapes
   - Shape: define derived opertations `x-reflection`, `y-reflection`, and `zoom_in`
   - Signal: define `mapS` as a derived operation
+
+## 3. [Monads](./lecture3.html)
+
+* **Topics**: Side-effects in pure functional programming. Monads. Monads for
+    error handling, logging, and state. Monads and EDSL.
+
+* **Reading**: Chapters 14
+
+* [Source
+  code](https://bitbucket.org/russo/afp-code/src/a581a6b1208c6ab826276bd26ad95f90e1819865/L3/Interpr.hs?at=master&fileviewer=file-view-default)
+
+* **Optional reading**:
+  - Chapter 15
+  - [Monads for functional programming by Philip
+     Wadler](http://homepages.inf.ed.ac.uk/wadler/papers/marktoberdorf/baastad.pdf)
+     (the interpreter for arithmetic expressions is traken from this paper)
+
+<!--
+## 4. [Functors, Applicative Functors, and Monads](./lecture4.html)
+
+* **Topics**: Functors. Applicative functors. Relation among functors,
+    applicative functors, and monads. More example of monads (modeling IO).
+
+* **Reading**: Chapters 10 (Section Introducing Functors),
+
+* [Source
+  code]()
+
+* **Optional reading**:
+  - Functors: [Page 1 and 2 from "Functional Pearl: F for Functor" by R. Hinze,
+     J. Hackett, and D. W. H. James](http://www.cs.ox.ac.uk/people/daniel.james/functor/functor.pdf)
+
+  - Applicative functors: [FUNCTIONAL PEARL Applicative programming with
+  effects](http://strictlypositive.org/IdiomLite.pdf)
+-->
