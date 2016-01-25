@@ -47,7 +47,7 @@ Lectures (note different lecture rooms on different week days)
 		<div class="caption">
 			[Dan Rosén](https://www.chalmers.se/en/staff/Pages/danr.aspx)
                         <p> **Office hours**: Monday 10-12, Friday 13-15 (only
-                        for week 4) </p>
+                        29/1, study week 1) Office: 5453</p>
 		  </div>
 	</div>
 </div>
@@ -60,7 +60,7 @@ Lectures (note different lecture rooms on different week days)
 		<div class="caption">
 			[Anton Ekblad](http://ekblad.cc/)
                         <p> **Office hours**: Wednesday 13-15, Friday 13-15 (only
-                        for week 3) </p>
+                        22/1, study week 1) Office: 5463</p>
 		  </div>
 	</div>
 </div>
@@ -70,7 +70,7 @@ Lectures (note different lecture rooms on different week days)
 		<img class="img-no-resize" src="http://johnjcamilleri.com/images/john-j-camilleri.jpg" alt="John's picture">
 		<div class="caption">
 			[John J. Camilleri](http://www.cse.chalmers.se/~cajohn/)
-                        <p> **Office hours**: Friday 13-15 (except week 3 and 4) </p>
+                        <p> **Office hours**: Friday 13-15 (except study week 1 and 2) Office: 5446</p>
 		  </div>
 	</div>
 </div>
