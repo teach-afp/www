@@ -152,21 +152,6 @@
   As data types can be built from other ones, so do functors! (thus achieving modularity)
   </div>
 
-## Not a functor
-
-* Not every data type is a functor
-
-  ```haskell
-   type NotAFunctor = Equal
-   newtype Equal a = Equal {runEqual :: a -> a -> Bool}
-
-   fmapEqual :: (a -> b) -> Equal a -> Equal b
-   fmapEqual _f (Equal _op) = Equal $ \_b1 _b2 -> error "Hopeless!" ```
-
-* What is the problem?
-
-  Values of type `a` are in "negative position", i.e., they are given to the
-  function (not produced by it).
 
 ## Multi-parameter functions map to multiple containers
 
@@ -441,6 +426,51 @@
   information check the
   [Functor-Applicative-Monad](https://wiki.haskell.org/Functor-Applicative-Monad_Proposal)
   proposal.
+
+
+
+## Not a functor
+
+* Not every data type is a functor
+
+  ```haskell
+   type NotAFunctor = Equal
+   newtype Equal a = Equal {runEqual :: a -> a -> Bool}
+
+   fmapEqual :: (a -> b) -> Equal a -> Equal b
+   fmapEqual _f (Equal _op) = Equal $ \_b1 _b2 -> error "Hopeless!" ```
+
+* What is the problem?
+
+  Values of type `a` are in "negative position", i.e., they are given to the
+  function (not produced by it).
+
+## A functor, not applicative
+
+
+data Pair r a = P r a
+
+instance Functor (Pair r) where
+    fmap f (P r a) = P r (f a)
+
+   {- Observe that the value of type r is kept as it is in
+      the container.
+
+      Exercise: check that Pair satisfies the functor laws
+   -}
+
+
+instance Applicative (Pair r) where
+   pure x = P (error "Hopeless!") x
+   {- To create a container (as pure does), we need to have a value of
+      type r, which is never abailable to pure.
+   -}
+   f <*> v = error "Hopeless!"
+
+
+
+## Applicative, not a monad
+
 
 
 ## Structures learned so far
