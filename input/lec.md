@@ -76,3 +76,27 @@ update!
   - Applicative functors: [FUNCTIONAL PEARL Applicative programming with
   effects](http://strictlypositive.org/IdiomLite.pdf)
 -->
+
+
+## 8. Looking forward! (February 11st)
+
+* **Topics**: In this lecture / excercise session we will work through old AFP
+    exam questions in groups to identify important topics and practice
+    collaborative problem solving and discussion. This is in response to student
+    comments wanting more practice of the kind of problems typically included in
+    the written exams.
+
+* **Assistants on charge**: Dan Rosén and Anton Ekblad
+
+## 14. Looking forward! (March 3rd)
+
+* **Topics**: Second instance of the excercise session with exam questions.
+
+## 16. Looking back! (March 10th)
+
+* **Topics**: In this lecture we briefly look back at the learning outcomes and
+    how they relate to the different parts of the course and what parts of the
+    Real world Haskell book are covered. Then we go through a few examples
+    chosen by popular vote by the participants.
+
+* **Assistants on charge**: John J. Camilleri and Anton Ekblad

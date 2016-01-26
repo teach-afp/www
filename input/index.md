@@ -20,6 +20,14 @@
 
 # News!
 
+* January 26th
+
+  <div class="alert alert-info">
+  Schedule for lectures updated! Please, check the lecture/exercise sessions
+  where we will solve past AFP exams.
+  </div>
+
+
 * January 24th
 
   <div class="alert alert-info">
