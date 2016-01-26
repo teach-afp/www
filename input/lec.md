@@ -58,13 +58,14 @@ update!
      Wadler](http://homepages.inf.ed.ac.uk/wadler/papers/marktoberdorf/baastad.pdf)
      (the interpreter for arithmetic expressions is traken from this paper)
 
-<!--
 ## 4. [Functors, Applicative Functors, and Monads](./lecture4.html)
 
 * **Topics**: Functors. Applicative functors. Relation among functors,
     applicative functors, and monads. More example of monads (modeling IO).
 
-* **Reading**: Chapters 10 (Section Introducing Functors),
+* **Reading**: Chapters 10 (Section Introducing Functors), [FUNCTIONAL PEARL
+    Applicative programming with effects (Page 1 -
+    6)](http://strictlypositive.org/IdiomLite.pdf)
 
 * [Source
   code]()
@@ -72,11 +73,12 @@ update!
 * **Optional reading**:
   - Functors: [Page 1 and 2 from "Functional Pearl: F for Functor" by R. Hinze,
      J. Hackett, and D. W. H. James](http://www.cs.ox.ac.uk/people/daniel.james/functor/functor.pdf)
-
   - Applicative functors: [FUNCTIONAL PEARL Applicative programming with
   effects](http://strictlypositive.org/IdiomLite.pdf)
--->
-
+  - Blog on [Functors are containers by
+    B. Milewski](http://bartoszmilewski.com/2014/01/14/functors-are-containers/). This
+    blog post explains Functors, Applicative Functors, and Monads using the
+    concept of containers.
 
 ## 8. Looking forward! (February 11st)
 

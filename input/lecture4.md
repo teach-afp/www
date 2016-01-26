@@ -168,7 +168,7 @@
   Values of type `a` are in "negative position", i.e., they are given to the
   function (not produced by it).
 
-## Multi-parameter functions applied to multiple containers
+## Multi-parameter functions map to multiple containers
 
 * In a more general case, sometimes we would like to transform elements in a
   container (data type) based on applying a "*multi-parameter function*" to
@@ -222,9 +222,11 @@
 * An *applicative functor* (or functor with application) is a functor with the following operations
 
   ```haskell
-  class Applicative d where
+  class Functor d => Applicative d where
         pure  :: a -> d a
         (<*>) :: d (a -> b) -> d a -> d b  ```
+
+* Observe that an applicative functor **is** a functor
 
 * The pure operation creates a container with the given argument. The interesting
    operation is "application" `(<*>)`, which we can describe it graphically as
@@ -238,8 +240,239 @@
   It takes a container of functions and a container of arguments and returns a
   container of the result of applying such functions.
 
-*
+* An applicative functor must obey the following laws
+
+  <table class="table table-bordered">
+  <thead>
+    <tr>
+    <th>Name</th>
+    <th>Law</th>
+    </tr>
+  </thead>
+
+  <tr>
+  <td> Identity: </td>
+  <td>  ```haskell pure id <&#42;> vv ≡ vv ```
+  </td>
+  </tr>
+
+  <tr>
+  <td> Composition: </td>
+
+  <td> ```haskell pure (.) <&#42;> ff <&#42;> gg <&#42;> zz ≡ ff <&#42;> (gg <&#42;> zz) ```
+  </td>
+  </tr>
+
+  <tr>
+  <td> Homomorphism: </td>
+
+  <td> ```haskell pure f <&#42;> pure v ≡ pure (f v) ```
+  </td>
+  </tr>
+
+  <tr>
+  <td> Interchange: </td>
+
+  <td> ```haskell ff <&#42;> pure v ≡ pure ($ v) <&#42;> ff ```
+  </td>
+  </tr>
+
+  </table>
+
+  In the rules above, double letters indicate that the denote element is in a
+  container, e.g., ff means that it is a function f inside a container, vv is a
+  value which is inside a container and so on.
+
+  One of the most interesting rules is *interchange*. Before explaining it, let
+  us see the types of the expressions involved.
+
+  ```haskell
+  ff :: d (a -> b)
+  vv :: d a
+  pure ($ v) :: d ((a -> b) -> b)
+  ```
+  The rule says that instead of obtaining a `d b` as `ff <*> pure v`, where
+  ``ff`` is a container with a function and `pure v` is its argument, it is
+  possible to apply function `($ v)` to the container `ff`.
+
+## Applicative Maybe
+
+* Let us go back to our example using `Maybe`
+
+  ```haskell
+   instance Functor Maybe where
+      fmap f Nothing  = Nothing
+      fmap f (Just a) = Just (f a)
+
+   instance Applicative Maybe where
+       pure           = Just
+       Nothing <*> vv = Nothing
+       Just f  <*> vv = fmap f vv ```
+
+* What can we do know with that?
+
+  ```haskell
+  -- xx :: Maybe String
+  -- yy :: Maybe String
+  pure (++) <*> xx <*> yy
+  ```
+
+  We can apply concatenation on strings store in containers. All the wrapping
+  and unwrapping is handled by the applicative functor.
+
+* Applicative functors common pattern of use is as follows.
+
+  ```haskell
+  pure f <*> xx <*> yy <*> zz ...
+  ```
+
+  More precisely, a function `f` in a container as the leftmost term follow by its container
+  arguments!
+
+  To make this pattern to look better, the applicative interface provides a
+  *derived* operation called `(<$>)` which removes the `pure` from the leftmost term.
+
+  ```haskell
+  (<$>) :: Functor d => (a -> b) -> d a -> d b
+  ```
+
+  So, the expression
+  ```haskell
+  pure f <*> xx <*> yy <*> zz ...
+  ```
+  becomes
+  ```haskell
+  f <$> xx <*> yy <*> zz ...
+  ```
 
 ## Relation with monads
+[Blog on Applicative Functors](https://pbrisbin.com/posts/applicative_functors/)
 
-## A monad for I/O
+* Observe what we have written using the applicative functor `Maybe`
+
+  ```haskell
+  pure (++) <*> xx <*> yy ```
+
+* If we consider `Maybe` as a monad instead (which we defined in the previous lecture), we can
+  achieve the same things.
+
+  ```haskell
+  do x <- xx
+     y <- yy
+     return (x ++ y) ```
+
+* What is the difference between `Maybe` as an applicative functor or a monad?
+
+* In the case above, both programs produce **the same result** (`x++y`). Observe
+  that `x` gets bounded but it is not used until the `return` instruction -- the
+  same occurs with `y`. However, the effects in a monadic program or an
+  applicative one could be run in a different order.
+
+  <div class = "alert alert-info">
+  The difference between monad and applicative functors is the difference
+  between *sequential* vs. *parallel* execution of side-effects
+  </div>
+
+* To appreciate this difference, let us consider a dramatic side-effect:
+  *launching a missile*. We need to write a program which launches two missiles
+  to a given target.
+
+  **Monadic code**
+
+  <div class="container">
+     <img class="img-responsive col-md-9"
+       src="./assets/img/missile_monad.png">
+  </div>
+
+  <div class = "alert alert-info">
+  The side-effects are sequentially executed!
+  </div>
+
+  **Applicative code**
+
+  The applicative structure does not impose an order on the execution of the
+  *container arguments*. Observe that the effects could be run in parallel if
+  possible.
+
+  <div class="container">
+     <img class="img-responsive col-md-9"
+       src="./assets/img/missile_app.png">
+  </div>
+
+* Let see closely the types
+
+  <div class="container">
+     <img class="img-responsive col-md-9"
+       src="./assets/img/monad_app_types.png">
+  </div>
+
+
+* What is better? Monads, Applicative Functors?
+
+  [FUNCTIONAL PEARL Applicative
+  programming with effects by C. McBride and
+  R. Paterson](http://strictlypositive.org/IdiomLite.pdf)
+
+  <div class = "alert alert-warning">
+  The moral is this: if you’ve got an Applicative functor, that’s good; if
+  you’ve also got a Monad, that’s even better! And the dual of the moral is this:
+  if you want a Monad, that’s good; if you only want an Applicative functor,
+  that’s even better!
+  </div>
+
+  <div class = "alert alert-info">
+  Theory can prove that every monad is an applicative functor and that
+  every applicative functor is a functor.
+  </div>
+
+  <div class="container">
+     <img class="img-responsive col-md-9"
+       src="./assets/img/monad-proposal.png">
+  </div>
+
+  From GHC 7.10, if you define a monad, i.e., give an instance of the type class
+  `Monad`, you also need to give an instance of `Applicative` and `Functor`
+
+  ```haskell
+  class Functor d     => Applicative d where
+  class Applicative d => Monad d       where ```
+
+  In GHC 7.8, you get a warning but your program still compiles. For more
+  information check the
+  [Functor-Applicative-Monad](https://wiki.haskell.org/Functor-Applicative-Monad_Proposal)
+  proposal.
+
+
+## Structures learned so far
+
+* Monads
+  - **Sequential** construction of programs
+
+  - Useful to implement side-effects (e.g., error handling, logging, stateful
+    computations, etc.)
+
+      * Simplify code, i.e., it hides plumbing needed to handle the side-effects)
+
+* Applicative functors
+
+   - Useful to apply "multi-parameters" functions to multiple container
+     arguments
+
+       * **Simplify code**, i.e., it hides the plumbing to take out functions and
+         its arguments from containers, applying the function, and place the
+         result back in a container.
+
+   - Side-effects could potentially be executed in parallel
+
+   - They are more generic than monads
+
+* Functors
+
+   - Useful to map functions into containers, i.e., transform data inside
+     containers without breaking them.
+
+       * **Simplify code**, i.e., it hides the plumbing of destructing the
+         container to obtain the value, apply the function, and put the result
+         in a container.
+
+   - The most general structure
