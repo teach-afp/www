@@ -68,7 +68,7 @@ update!
     6)](http://strictlypositive.org/IdiomLite.pdf)
 
 * [Source
-  code]()
+  code](https://bitbucket.org/russo/afp-code/src/c5e03aa3cd3074246e8a698c5f70041d9ddd92b1/L4/?at=master)
 
 * **Optional reading**:
   - Functors: [Page 1 and 2 from "Functional Pearl: F for Functor" by R. Hinze,

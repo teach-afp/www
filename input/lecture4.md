@@ -1,5 +1,290 @@
 # Functors, Applicative, and Monads
 
+## A simple monadic EDSL for input/output (deep embedding)
+[code](https://bitbucket.org/russo/afp-code/src/e1107f839f5424f1a209e2e1393d278237e480f1/L4/EDSL_Deep1.hs?at=master&fileviewer=file-view-default)
+
+* We will develop a simple I/O EDSL in Haskell
+
+  ```haskell
+  -- Types
+  data Program a
+  -- Constructors
+  return :: a -> Program a
+  putC   :: Char -> Program ()
+  getC   :: Program (Maybe Char)
+  -- Combinators
+  (>>=) :: Program a -> (a -> Program b) -> Program b
+  -- Run function
+  type IOSem a
+  run :: Program a -> IOSem a  ```
+
+* We will use monads to handle the I/O effects!
+
+* Scenario
+
+  <div class="container">
+     <img class="img-responsive col-md-11"
+       src="./assets/img/terminal.png">
+  </div>
+
+
+* Types for inputs and outputs
+
+   ```haskell
+   type Input   =  String
+   type Output  =  String  ```
+
+* Following the deep embedding guidelines, we have a constructor in `Program`
+   per constructor / combinator.
+
+    ```haskell
+    data Program a where
+      Put    :: Char -> Program ()
+      Get    :: Program (Maybe Char)
+      Return :: a -> Program a
+      Bind   :: Program a -> (a -> Program b) -> Program b ```
+
+    Observe the use of GADTs!
+
+    - In the definition of `Get`, why using `Maybe Char` instead of `Char`?
+    - We need to indicate the "end of input" somehow, i.e., by using `Nothing`
+
+    ```haskell
+    getC = Get
+    putC = Put ```
+
+* What's the implementation of the type `IOSem`, i.e., the semantics of a program?
+
+  ```haskell
+  type IOSem a = Input  -> (a, Input, Output)
+  ```
+
+* The `run` function
+
+  ```haskell
+  run :: Program a -> IOSem a
+  run (Put c)    inp =     (()     ,inp   , c:"")
+  run (Get)      ""  =     (Nothing, ""   , ""  )
+  run (Get)      (c:cs) =  (Just c ,cs    , ""  )
+  run (Return x) inp =     (x      ,inp   , ""  )
+  run (Bind p g) inp =     (someb  ,someinpp, someoutp ++ someoutpp)
+     where   (somea, someinp, someoutp) = run p inp
+             pb = g somea
+             (someb, someinpp, someoutpp) = run pb someinp  ```
+
+* Let us write an "echo" program
+
+  ```haskell
+  echo :: Program ()
+  echo = getC >>= f
+    where f Nothing  = return ()
+          f (Just c) = putC c ```
+
+  To run it, we need to give it an input when executing it
+
+  ```haskell
+  run echo "a"
+  > ((), "", "a") ```
+
+  <div class = "alert alert-info">
+  **Exercise**: write a program which does a *double echo*, i.e., it reads a character
+  from the input and writes it twice into the output
+  </div>
+
+## A simple monadic EDSL for input/output (intermediate embedding)
+[code](https://bitbucket.org/russo/afp-code/src/b0fa3655c8e45ae63daa0d9c16de3ef4f1bb7f9c/L4/EDSL_Deep2.hs?at=master&fileviewer=file-view-default)
+
+* It is often good to move away a bit from the pure deep embedding towards some
+  kind of "normal form". In our case, we can start by looking at how `Put` and `Get`
+  can be used. The only combinator in our language is `Bind` `(>>=)` so lets looks at
+  the different cases for the first argument to `Bind`.
+
+  ```haskell
+       Put c >>= f
+         Get >>= f
+    Return x >>= f
+   (m >>= g) >>= f
+  ```
+
+* ```haskell
+   Put c >>= f ```
+
+   From the types of `Put` and `Bind`  we note that `f` must have type
+
+   ```haskell
+   () -> m a  ```
+
+   which is basically just a value of type `m a`. Another way to think
+   about it is that `Put` does not really return any useful value (the
+   actual "putting" is implemented as a "side-effect"). So the function
+   after bind can ignore its argument.
+
+   ```haskell
+   Put c >>= \_ -> p ≡ Put c >> p ```
+
+   We will now give a name to this new combination
+
+   ```haskell
+   PutThen c p ≡ Put c >> p ```
+
+   This is a `Program` which starts by printing `c` and the behaves like `p`.
+
+* ```haskell
+  Get >>= f ```
+
+  In a similar way we can introduce a new name for the combination of `Get`
+  and `Bind`:
+
+  ```haskell
+  GetBind f ≡ Get >>= f ```
+
+* ```haskell
+  Return x >>= f ```
+
+  The third combination would be `ReturnBind`
+
+  ```haskell
+  ReturnBind x f ≡ Return x >>= f ```
+
+  but the first monad law already tells us that this is just `(f x)` so no
+  new constructor is needed for this combination.
+
+* For the last combination, i.e., `(m >>= g) >>= f`, the associative monadic
+  law tell us how we can rewrite it.
+
+* We then define program using the first two combinations and return
+
+  ```haskell
+  data Program a where
+    PutThen :: Char -> Program a         -> Program a
+    GetBind :: (Maybe Char -> Program a) -> Program a
+    Return  :: a                         -> Program a
+  ```
+
+  Observe that the data type is a **regular Haskell data type** and it does not use
+  any of the features of a GADT.
+
+* One way to think about `PutThen` and `GetBind` is with *continuations*. For
+  instance, `PutThen c p` writes a character into the output of the program and
+  continues behaving as `p`. Similarly, `Get f` reads maybe a character `mc`
+  from the input and continues behaving as program `f mc`.
+
+   ```haskell
+   putC :: Char -> Program ()
+   putC c = PutThen c $ Return () ```
+
+   Function `putC` writes a character in the output and then it behaves as `Return ()`
+
+   ```haskell
+    getC :: Program (Maybe Char)
+    getC = GetBind Return ```
+
+    Function `getC` reads maybe a character from the input and, once that is
+    done, it behaves as `Return ()`
+
+* The bind is not going to be a part of the `Program` data structure, but rather
+  part of the `instance Monad`, i.e., the `bind` is not deeply implemented as a
+  constructor (intermediate embedding)
+
+## Calculating `(>>=)` for `Program` as a monad (intermediate embedding)
+
+* What is the definition for bind?
+
+   ```haskell
+   instance Monad Program where
+      return  = Return
+      (>>=)   = bindP
+
+   bindP :: Program a -> (a -> Program b) -> Program b
+   bindP (PutThen c p)  k   =  ?
+   bindP (GetBind f)    k   =  ?
+   bindP (Return x)     k   =  ?  ```
+
+   <div class ="alert alert-info">
+   We can *calculate* the correct definition of bindP using
+   the definitions of `PutThen`, `GetBind`, and the monadic laws!
+   </div>
+
+*  ```haskell
+   bindP (Return x) k = ? ```
+
+   ```haskell
+     bindP (Return x)    k
+   = Def. >>=
+     (Return x) >>= k
+   =  Law 1.  return x >>= f ≡ f x
+     k x
+   ```
+
+   ```haskell
+   bindP (Return x) k = k x  ```
+
+*  ```haskell
+   bindP (GetBind f) k = ? ```
+
+   ```haskell
+     bindP (GetBind f)   k
+   = Def. of (>>=)
+     (GetBind f) >>=  k
+   = Def. GetBind
+     (Get >>= f) >>=  k
+   = Law 3.  (m >>= f) >>= g  ==  m >>= (\x -> f x >>= g)
+     with m = Get, f = f, g = k
+     Get >>= (\x -> f x >>= k)
+   = Def. GetBind
+     GetBind (\x -> f x >>= k)
+   = Def. of (>>=)
+     GetBind (\x -> bindP (f x) k) ```
+
+   ```haskell
+   bindP (GetBind f) k = GetBind (\x -> bindP (f x) k) ```
+
+* ```haskell
+     bindP (PutThen c p) k = ? ```
+
+   ```haskell
+     bindP (PutThen c p) k
+   = { Def. of (>>=) }
+     (PutThen c p) >>= k
+   = { Def. of PutThen }
+     (Put c >> p) >>= k
+   =
+     (Put c >>= \_ -> p) >>= k
+   = Law3 with m = Put c, f = \_->p, g = k
+     Put c >>= (\x -> (\_->p) x >>= k)
+   = simplify
+     Put c >>= (\_ -> p >>= k)
+   = Def. of >>
+     Put c >> (p >>= k)
+   = Def. of PutThen
+     PutThen c (p >>= k) ```
+
+  ```haskell
+  bindP (PutThen c p) k =  PutThen c (bindP p k) ```
+
+* So, we can now complete defining `Program` as a monad
+
+  ```haskell
+  -- | It turns out that bind can still be defined!
+  instance Monad Program where
+    return  = Return
+    (>>=)   = bindP
+
+  -- | Bind takes the first argument apart:
+  bindP :: Program a -> (a -> Program b) -> Program b
+  bindP (PutThen c p)  k   =  PutThen c (bindP p k)
+  bindP (GetBind f)    k   =  GetBind (\x -> bindP (f x) k)
+  bindP (Return x)     k   =  k x ```
+
+## A simple monadic EDSL for input/output (shallow embedding)
+
+* <div class = "alert alert-info">
+  This is an exercise for you to do!
+  </div>
+
+  [Please, check the code skeleton for that](https://bitbucket.org/russo/afp-code/src/c5e03aa3cd3074246e8a698c5f70041d9ddd92b1/L4/EDSL_Shallow.hs?at=master&fileviewer=file-view-default)
+
+
 ## Monads
 
 * A structure that represents computations defined as sequences of steps.
@@ -18,8 +303,10 @@
 * We are familiar with the `map` function over lists
   ```haskell
   map (+1) [2,3,4,5,6] ```
-  which *applies the function `(+1)` to every element of the list*, and produces
+
+  which *applies* the function `(+1)` to every element of the list*, and produces
   the list
+
   ```haskell [3,4,5,6,7]
   ```
 
@@ -219,7 +506,7 @@
 
   <div class="container">
      <img class="img-responsive col-md-9"
-       src="./assets/img/applicative.png">
+       src="./assets/img/applicative2.png">
   </div>
 
   It takes a container of functions and a container of arguments and returns a
