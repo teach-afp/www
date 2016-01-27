@@ -750,7 +750,7 @@
 
   ```haskell
   instance Applicative (Pair r) where
-     pure x = P (error "Hopeless!") x
+     pure x  = P (error "Hopeless!") x
      f <*> v = error "Hopeless!"  ```
 
 ## Applicative, not a monad
@@ -784,10 +784,20 @@
 
    ```haskell
    instance Monad AppNotMonad where
-       return x = AppNotMonad True
+                    return x = AppNotMonad True
        (AppNotMonad t) >>= f = error "Hopeless!"  ```
 
-   Function `return x` could have been also defined as `AppNotMonad False`
+   (Function `return x` could have been also defined as `AppNotMonad False`)
+
+   You might try to write
+
+   ```haskell
+   instance Monad AppNotMonad where
+                    return x = AppNotMonad True
+       (AppNotMonad t) >>= f = AppNotMonad t ```
+
+   that type-checks, but there is (at least) one monadic law that it does not
+   hold. Can you see which one?
 
 ## Structures learned so far
 
