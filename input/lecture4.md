@@ -447,31 +447,60 @@
 
 ## A functor, not applicative
 
+* Not every functor is applicative
 
-data Pair r a = P r a
+  ```haskell
+  data Pair r a = P r a
 
-instance Functor (Pair r) where
-    fmap f (P r a) = P r (f a)
+  instance Functor (Pair r) where
+      fmap f (P r a) = P r (f a)
+  ```
 
-   {- Observe that the value of type r is kept as it is in
-      the container.
+* Observe that the value of type `r` is kept as it is in the container (the
+  functor does not create new elements, but modify existing ones)
 
-      Exercise: check that Pair satisfies the functor laws
-   -}
+* If we want to create a container, we need an `r` but `pure` only receives an `a`
 
-
-instance Applicative (Pair r) where
-   pure x = P (error "Hopeless!") x
-   {- To create a container (as pure does), we need to have a value of
-      type r, which is never abailable to pure.
-   -}
-   f <*> v = error "Hopeless!"
-
-
+  ```haskell
+  instance Applicative (Pair r) where
+     pure x = P (error "Hopeless!") x
+     f <*> v = error "Hopeless!"  ```
 
 ## Applicative, not a monad
 
+* Not every applicative functor is a monad
 
+  ```haskell
+  data AppNotMonad a = AppNotMonad Bool
+
+  instance Functor AppNotMonad where
+     fmap f (AppNotMonad b) = AppNotMonad b  ```
+
+  Observe that the functor does not change the container at all. In the
+     definition above, `AppNotMonad b :: a` in the argument of `fmap` and
+     `AppNotMonad b :: b` on the right hand side of the definition. The trick
+     here is that the definition of `AppNotMonad` uses a phantom type.
+
+* So, thanks to that phantom type we can define an applicative functor that only
+  handles `AppNotMonad True` as the underlying container.
+
+  ```haskell
+  instance Applicative AppNotMonad where
+    pure x = AppNotMonad True -- You choose either True or False
+    AppNotMonad b1 <*> AppNotMonad b2 = AppNotMonad (b1 == b2)
+  ```
+  The last method of the class could have been defined as  `AppNotMonad b1` or `AppNotMonad b2`
+  or any other expressions which returns the value `AppNotMonad True`.
+
+* When defining a monad, however, the second argument of the bind (of type
+  `a -> AppNotMonad b`) requires an `a` but we only have booleans in `AppNotMonad`!
+
+   ```haskell
+   instance Monad AppNotMonad where
+       return x = AppNotMonad True
+       (AppNotMonad t) >>= f = error "Hopeless!"  ```
+
+   Function `return x` could have been also defined as `AppNotMonad False`
 
 ## Structures learned so far
 
