@@ -23,6 +23,10 @@
 * January 27th
 
   <div class="alert alert-info">
+  Lab 2 - Part I is up!
+  </div>
+
+  <div class="alert alert-info">
   Lecture for tomorrow is up!
   </div>
 
