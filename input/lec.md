@@ -79,6 +79,10 @@ update!
     B. Milewski](http://bartoszmilewski.com/2014/01/14/functors-are-containers/). This
     blog post explains Functors, Applicative Functors, and Monads using the
     concept of containers.
+  - Intermediate embedding: [Beauty in the Beast, A Functional Semantics for
+    the Awkward Squad by W. Swierstra and
+    T. Altenkirch](http://www.cs.nott.ac.uk/~psztxa/publ/beast.pdf) Sections 1, 2
+    and 3.
 
 ## 8. Looking forward! (February 11st)
 
