@@ -5,6 +5,8 @@
 
 Coming soon!
 
+In the meantime, you get access to them in the [last's year course page](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/exam.html)
+
 ## More exams?
 
 The list above will give you a pretty good idea what to expect from an exam. Of
