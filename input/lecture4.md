@@ -83,7 +83,7 @@
     where f Nothing  = return ()
           f (Just c) = putC c ```
 
-  To run it, we need to give it an input when executing it
+  To run it, we need to give it an input
 
   ```haskell
   run echo "a"
@@ -98,9 +98,10 @@
 [code](https://bitbucket.org/russo/afp-code/src/b0fa3655c8e45ae63daa0d9c16de3ef4f1bb7f9c/L4/EDSL_Deep2.hs?at=master&fileviewer=file-view-default)
 
 * It is often good to move away a bit from the pure deep embedding towards some
-  kind of "normal form". In our case, we can start by looking at how `Put` and `Get`
-  can be used. The only combinator in our language is `Bind` `(>>=)` so lets looks at
-  the different cases for the first argument to `Bind`.
+  kind of "normal form" ("optimized", "elemental" embedding). In our case, we can
+  start by looking at how `Put` and `Get` can be used. The only combinator in
+  our language is `Bind` `(>>=)` so lets looks at the different cases for the
+  first argument to `Bind`.
 
   ```haskell
        Put c >>= f
