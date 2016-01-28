@@ -3,6 +3,10 @@ switch(f[f.length-1]) {
 case 'lab1.html':
 case 'lab2.html':
 case 'lab3.html':
+case 'inf.html':
+case 'index.html':
+case 'exams.html':
+case 'labs.html':
     var e = document.createElement('style');
     e.textContent  = '#main-content {font-size: 12pt;}';
     e.textContent += '#main-content p {font-size: 12pt;}';
