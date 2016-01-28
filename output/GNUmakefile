@@ -44,7 +44,10 @@ lab1.html: ../input/lab1.md $(LAYOUT)
 
 
 lab2.html: ../input/lab2.md $(LAYOUT)
-	 generate-md --input ../input/lab2.md --output ./ --layout ../lout/
+	 ./pretty.sh ../input/lab2.md ../input/lab2P.md
+	 generate-md --input ../input/lab2P.md --output ./ --layout ../lout/
+	 mv lab2P.html lab2.html
+	 rm ../input/lab2P.md
 
 lab3.html: ../input/lab3.md $(LAYOUT)
 	 generate-md --input ../input/lab3.md --output ./ --layout ../lout/
