@@ -166,7 +166,10 @@
 
 
 <script>
-var tags = {{hash_items}} ;
+// This breaks any following JS if there are no tags, so disable.
+// TODO: use proper template conditional here instead of just commenting it out
+//var tags = {{hash_items}} ;
+var tags = [];
 for (var i = 0 ; i < tags.length; i++) {
  $('a[href='+ tags[i] + ']').on('click',function(e){
    // prevent normal scrolling action
