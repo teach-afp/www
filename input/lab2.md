@@ -284,8 +284,8 @@ Task 3: testing the `Replay` monad
 ----------------------------------
 
 Once you have implemented your Replay monad transformer you should make sure
-that it works properly. Here is a testing framework to help you get started:
-[Test.hs](TODO: link to code here).
+that it works properly. Here is a small testing framework to help you get
+started: [Test.hs](https://bitbucket.org/russo/afp-code/src/820a698f0ebd5387ad671b7de7b4b0fe03b4595c/assignment2/?at=master).
 Put the framework in a subdirectory called test, then add this to your
 .cabal file to create a test suite:
 
@@ -315,7 +315,7 @@ implementation is correct. Try to think about possible corner cases.
 
 **For grades 4 and 5**
 
-Use the generalised interface from [Task 2](#task2), and replace
+Use the generalised interface from [task 2](#task2), and replace
 the `IO` monad with a `State` monad.
 
 **For grade 5**
