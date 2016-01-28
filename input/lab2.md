@@ -272,8 +272,10 @@ liftR :: (Monad m, Show a, Read a) => m a -> ReplayT m q r a
 Remember to generalise all functions to the new interface where possible.
 Consider which functions are primitive and which are derived.
 
-**Question:** why is it not possible to make your transformer an instance of
+<div class="alert alert-info">
+**Question**: why is it not possible to make your transformer an instance of
 `MonadTrans`?
+</div>
 
 **Note:** If you do this task, you should *not* submit the non-generalised
 version from task 1.
@@ -407,8 +409,8 @@ the form tag to get.
 You should see the inputted value in the
 [query string](http://en.wikipedia.org/wiki/Query_string) of the address.
 
-**Make sure that you can run the above program and understand what is going on
-before you continue!**
+*Make sure that you can run the above program and understand what is going on
+before you continue!*
 
 
 Task 1: a library for web forms
