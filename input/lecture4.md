@@ -59,6 +59,9 @@
   type IOSem a = Input  -> (a, Input, Output)
   ```
 
+  It is a function which takes an input and returns a result (of type `a`), the
+  *left over* input (of type `Input`), and an output (of type `Output`).
+
 * The `run` function
 
   ```haskell
