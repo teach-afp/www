@@ -156,7 +156,7 @@
 * For the last combination, i.e., `(m >>= g) >>= f`, the associative monadic
   law tell us how we can rewrite it.
 
-* We then define program using the first two combinations and return
+* We then define `Program` using the first two combinations and return
 
   ```haskell
   data Program a where
