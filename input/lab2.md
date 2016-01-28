@@ -459,7 +459,7 @@ In order for this to work, you need to do the following:
     You can run `IO` computations in this monad using [`liftIO`](http://hackage.haskell.org/package/transformers-0.3.0.0/docs/Control-Monad-IO-Class.html#v:liftIO).
     This can also be used to make your server print debug information.
 
-  - Store the trace as "hidden" information on the generated web form.
+  - Store the trace as *hidden* information on the generated web form.
     Hidden information can be introduced by adding a tag like
     `<input type="hidden" name="name" value="value">` in a form.
 
@@ -678,20 +678,33 @@ We will reject your solution if it is not clean. Clean code:
 * does not contain any repetitive code (copy-paste programming).
 
 
-Submission
-----------
+What to submit
+--------------
 
 Your submission needs to include the following information:
 
-* Your cabal package containing: a library with at least two modules (one
-  for the `Replay` monad and one for the Web DSL), an executable example, and
-  a test suite for the `Replay` monad.
-  Use `cabal sdist` to generate the source tarball.
-  Make sure the tarball is working by extracting it in another directory and
-  running `cabal configure --enable-tests`, `cabal build`, `cabal test` and
-  `cabal haddock` and checking that everything looks right.
+* **For [part I](#part1):**
+  your cabal package, containing:
+  - a library containing your `Replay` monad and
+  - a test suite for your library.
 
-* `report.txt` or `report.pdf`, a file containing documentation of what
-  you have done. Also give the motivations you were asked to give in the
+* **For [part II](#part2):**
+  your cabal package from part I, extended with:
+  - your web library, contained in one or more separate modules (that is,
+    do not implement your web library in the same module as `Replay`);
+  - an example executable using your web library.
+
+* **For both:** `report.txt` or `report.pdf`, a file containing documentation of
+  what you have done. Also give the motivations you were asked to give in the
   assignments, answers to questions, and instructions on how to use your
   language.
+
+Use `cabal sdist` to generate the source tarball.
+Make sure the tarball is working by extracting it in another directory and
+running `cabal configure --enable-tests`, `cabal build`, `cabal test` and
+`cabal haddock` and checking that everything looks right.
+
+Where?
+------
+
+Go to [the Fire system](https://xdat09.ce.chalmers.se/2016/lp3/afp/)!
