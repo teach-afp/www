@@ -58,21 +58,51 @@ update!
      Wadler](http://homepages.inf.ed.ac.uk/wadler/papers/marktoberdorf/baastad.pdf)
      (the interpreter for arithmetic expressions is traken from this paper)
 
-<!--
 ## 4. [Functors, Applicative Functors, and Monads](./lecture4.html)
 
 * **Topics**: Functors. Applicative functors. Relation among functors,
     applicative functors, and monads. More example of monads (modeling IO).
 
-* **Reading**: Chapters 10 (Section Introducing Functors),
+* **Reading**: Chapters 10 (Section Introducing Functors), [FUNCTIONAL PEARL
+    Applicative programming with effects (Page 1 -
+    6)](http://strictlypositive.org/IdiomLite.pdf)
 
 * [Source
-  code]()
+  code](https://bitbucket.org/russo/afp-code/src/c5e03aa3cd3074246e8a698c5f70041d9ddd92b1/L4/?at=master)
 
 * **Optional reading**:
   - Functors: [Page 1 and 2 from "Functional Pearl: F for Functor" by R. Hinze,
      J. Hackett, and D. W. H. James](http://www.cs.ox.ac.uk/people/daniel.james/functor/functor.pdf)
-
   - Applicative functors: [FUNCTIONAL PEARL Applicative programming with
   effects](http://strictlypositive.org/IdiomLite.pdf)
--->
+  - Blog on [Functors are containers by
+    B. Milewski](http://bartoszmilewski.com/2014/01/14/functors-are-containers/). This
+    blog post explains Functors, Applicative Functors, and Monads using the
+    concept of containers.
+  - Intermediate embedding: [Beauty in the Beast, A Functional Semantics for
+    the Awkward Squad by W. Swierstra and
+    T. Altenkirch](http://www.cs.nott.ac.uk/~psztxa/publ/beast.pdf) Sections 1, 2
+    and 3.
+
+## 8. Looking forward! (February 11st)
+
+* **Topics**: In this lecture / excercise session we will work through old AFP
+    exam questions in groups to identify important topics and practice
+    collaborative problem solving and discussion. This is in response to student
+    comments wanting more practice of the kind of problems typically included in
+    the written exams.
+
+* **Assistants on charge**: Dan Rosén and Anton Ekblad
+
+## 14. Looking forward! (March 3rd)
+
+* **Topics**: Second instance of the excercise session with exam questions.
+
+## 16. Looking back! (March 10th)
+
+* **Topics**: In this lecture we briefly look back at the learning outcomes and
+    how they relate to the different parts of the course and what parts of the
+    Real world Haskell book are covered. Then we go through a few examples
+    chosen by popular vote by the participants.
+
+* **Assistants on charge**: John J. Camilleri and Anton Ekblad

@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <script src="{{assetsRelative}}/js/zoom-lab-pms.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Advance Functional Programming (TDA342/DIT260)">
+    <meta name="description" content="Advanced Functional Programming (TDA342/DIT260)">
     <meta name="author" content="Alejandro Russo">
 
     <!-- <meta http-equiv="refresh" content="3" > -->
@@ -41,11 +42,11 @@
     <style type="text/css">
     <!-- h2   {font-size: 33px ;} -->
     <!-- h3   {font-size: 27px ;} -->
-    <!-- <\!-- p    {font-size: 30px ;} -\-> -->
-    <!-- p    {font-size: 20px ;} -->
-    <!-- li   {font-size: 20px ;} -->
+    <!-- p    {font-size: 25px ;} -->
+    <!-- p    {font-size: 25px ;} -->
+    <!-- li   {font-size: 25px ;} -->
     <!-- pre  {font-size: 20px ;} -->
-     prettyprint {font-size: 18px ;}
+    <!-- prettyprint {font-size: 25px ;} -->
     <!-- th   {font-size: 20px ;} -->
     <!-- .imgright { float: right; } -->
     <!-- td   {font-size: 20px ;} -->
@@ -87,6 +88,15 @@
   </head>
 <body>
 
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-72960105-1', 'auto');
+  ga('send', 'pageview');
+</script>
 
    <!-- Fixed navbar -->
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -116,7 +126,6 @@
             <!--   </ul> -->
             <!-- </li> -->
             <li class="active"><a href="./lec.html">Lectures</a></li>
-            <li class="active"><a href="./haskell.html">Haskell</a></li>
             <li class="dropdown">
               <a href="./" class="dropdown-toggle"
               data-toggle="dropdown">Assignments<b class="caret"></b></a>
@@ -134,19 +143,19 @@
     </div>
 
 
-  <div class="container">
+  <div class="container" id="main-content">
     {{~> content}}
     <br>
     <hr>
       <footer>
-	Advance Functional Programming 2016 - Chalmers University of Technology &amp; Gothenburg University
+	Advanced Functional Programming 2016 - Chalmers University of Technology &amp; Gothenburg University
       </footer>
       <br>
       <br>
   </div>
 
 
-<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=erlang&skin=default"></script>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=hs&skin=default"></script>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -156,7 +165,10 @@
 
 
 <script>
-var tags = {{hash_items}} ;
+// This breaks any following JS if there are no tags, so disable.
+// TODO: use proper template conditional here instead of just commenting it out
+//var tags = {{hash_items}} ;
+var tags = [];
 for (var i = 0 ; i < tags.length; i++) {
  $('a[href='+ tags[i] + ']').on('click',function(e){
    // prevent normal scrolling action

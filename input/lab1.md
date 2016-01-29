@@ -1,4 +1,4 @@
-## Deadlines
+# Deadlines
 
 <table class="table table-bordered">
 <thead>
@@ -20,7 +20,7 @@
 </table>
 
 
-## Description
+# Description
 
 This lab assignment asks you to implement a library for so-called turtle
 graphics. The library will be interfaced to as an embedded language. Several
@@ -33,7 +33,7 @@ just enough features for this assignment. If you prefer (or if you plan on using
 or you may use [gtk2hs](https://wiki.haskell.org/Gtk2Hs). If you would like to
 use a different graphics library please ask before starting the assignment.
 
-## Turtle graphics
+# Turtle graphics
 
 The idea of turtle graphics was originally part of the [Logo programming
 language](https://en.wikipedia.org/wiki/Logo_(programming_language). It
@@ -69,12 +69,12 @@ comments](https://www.haskell.org/haddock/) for modules and fuctions. There are
 also several questions in this description, make sure you answer all of them in
 your report.
 
-## Part I
+# Part I
 
 The first part of this assignment is just to get you started. You should get
 started on Part II before the deadline for Part I.
 
-### Task 1 - Free code!
+## Task 1 - Free code!
 
 Download and unpack this [stub cabal
 package](https://bitbucket.org/russo/afp-code/src/9999649d46bc2fdafc3009a9e8e1b14b7a82b5be/assignment1/turtle-graphics-0.1.0.0/?at=master)
@@ -96,7 +96,7 @@ Familiarise yourself with the graphics library you are using by writing a simple
 program which opens a window and draws something in it (the provided code
 already does this for HGL, but make sure you understand how it is used).
 
-### Task 2 - Library interface
+## Task 2 - Library interface
 
 The turtle graphics language should be implemented as an embedded language
 library in Haskell. The turtle language should be provided to the user as a
@@ -151,7 +151,7 @@ not forget to add at least one run function for your programs (the types of the
 run functions may be a bit sketchy at this stage, but explain what each of them
 do in their comments).
 
-### Task 3 - Example
+## Task 3 - Example
 
 Write down the **spiral** example from the Logo programming language using your
 interface. In their syntax it looks like:
@@ -187,12 +187,12 @@ spiral where the finite spiral ended.
 
 ---
 
-## Part II
+# Part II
 
 In this part of the assignment you will implement your turtle language and write
 a report.
 
-### Task 1 - Implementation
+## Task 1 - Implementation
 
 Implement the library you designed in Part I. Clearly separate primitive and
 derived operations, and try to keep the set of primitive operations as small as
@@ -212,7 +212,7 @@ only the things you want a user to see (the interface you have designed).
 single time unit)?
 </div>
 
-### Task 2 - Parallel composition
+## Task 2 - Parallel composition
 
 Add a parallel composition combinator to your turtle language. One possible interface parallel composition could have is:
 
@@ -240,7 +240,7 @@ if not - how would you fix it?
 specify how it works.)
 </div>
 
-###  Task 3 - Additional operators (only required for grade 4 or 5)
+##  Task 3 - Additional operators (only required for grade 4 or 5)
 
 Add a new module TurtleExtras to your cabal package. This module should contain
 some derived operators that you think may be a useful addition to the
@@ -250,7 +250,7 @@ shapes as well as operators that capture common patterns.
 Operators that demonstrate the flexibility of your turtle language are
 encouraged. See the [grading section]() for more hints.
 
-### Task 4 - Examples
+## Task 4 - Examples
 
 Implement a few examples that together use all of the constructs you have
 implemented. (Do this in a different module that imports the module defining the
@@ -262,7 +262,7 @@ animation. This program should be the main function of your executable module,
 so building your cabal package yields an executable that runs the program in
 graphical mode.
 
-### Task 5 - Thoughts and reflections
+## Task 5 - Thoughts and reflections
 
 Please, address all the following points:
 
@@ -307,7 +307,7 @@ be several possible Monoid instances. Would it be a Monoid if some small change
 was made to your operators?
 </div>
 
-## Hints about coding and writing
+# Hints about coding and writing
 
 * The report should be well structured. Avoid adding trivial or
   misleading/incorrect information to your report.
@@ -325,9 +325,9 @@ was made to your operators?
   than short and obfuscated.
 
 
-## Submission
+# Submission
 
-### Clean code
+## Clean code
 
 Before you submit your code, *clean it up!* Submitting clean code is really
 important, and simply the polite thing to do. After you feel you are done, spend
@@ -342,7 +342,7 @@ etc. We will reject your solution if it is not clean. Clean code:
 * Has no overly complicated function definitions
 * Does not contain any repetitive code (copy-and-paste programming)
 
-### Files to submit
+## Files to submit
 
 * For **Part I** the submission format is not so important, use the stub cabal
   package or just submit one or two .hs files if you prefer -- as long as they
@@ -359,11 +359,11 @@ etc. We will reject your solution if it is not clean. Clean code:
     you have done. Please, give the motivations you were asked to give in the
     assignments, answers to questions, and how to use your language.
 
-### Where?
+## Where?
 
 [Go to the Fire System!](https://xdat09.ce.chalmers.se/2016/lp3/afp/)
 
-## Grading
+# Grading
 
 One of the focuses for this lab is DSL design. This means that it is difficult
 to formulate precise requirements for each grade without solving the problem for

@@ -14,11 +14,30 @@
 
 # Welcome!
 
-  * Web page for Advance Functional Programming (TDA342/DIT260)
+  * Web page for Advanced Functional Programming (TDA342/DIT260)
   * Period 3 school year 2015-2016.
 
 
 # News!
+
+* January 27th
+
+  <div class="alert alert-info">
+  Lab 2 - Part I is up!
+  </div>
+
+  <div class="alert alert-info">
+  Lecture for tomorrow is up!
+  </div>
+
+
+* January 26th
+
+  <div class="alert alert-info">
+  Schedule for lectures updated! Please, check the lecture/exercise sessions
+  where we will solve past AFP exams.
+  </div>
+
 
 * January 24th
 

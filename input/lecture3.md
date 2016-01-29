@@ -645,7 +645,7 @@
 
 * An instruction produces some result, but also read or write into the state.
 
-* Separating the reading and writing actions to the state, we can draw the
+* Separating the reading and writing actions in the state, we can draw the
   graphic above as follows
 
   <div class="container">

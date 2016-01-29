@@ -1,7 +1,7 @@
 # Introduction to the course
 
 ## This course ##
-* Advance Programming Language Features
+* Advanced Programming Language Features
   - Type systems
   - Programming techniques
 * In the context of Functional Programming
@@ -49,7 +49,7 @@
   - Referential transparency
 * Lazy evaluation
   - Things are evaluated at most once
-* Advance (always evolving) type system
+* Advanced (always evolving) type system
   - Polymorphism
   - Type classes
   - Type families
