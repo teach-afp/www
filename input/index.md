@@ -20,6 +20,14 @@
 
 # News!
 
+* January 29th
+
+  <div class="alert alert-info">
+  Anton will not have his regular office hours next week (Feb. 3rd)
+  </div>
+
+
+
 * January 27th
 
   <div class="alert alert-info">
