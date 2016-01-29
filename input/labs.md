@@ -93,6 +93,12 @@ Assignments will be graded on a scale of 3 to 5 and will count towards your
 final grade on the course.  Your last attempt has to be submitted before the
 final deadline. If you fail to do this, your submission will be rejected.
 
+<div class="alert alert-info">
+Assistants will send you feedback between
+three to four *working days* after submission.
+</div>
+
+
 ## On cheating
 
 <div class="alert alert-danger">
