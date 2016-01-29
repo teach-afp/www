@@ -59,7 +59,7 @@ Lectures (note different lecture rooms on different week days)
 		<img class="img-no-resize" src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAALaAAAAJDIwZDc5MjRlLTE3ZGItNDhmMy04MjVmLTczYjY4YjNkYmJlYw.jpg" alt="Anton's picture">
 		<div class="caption">
 			[Anton Ekblad](http://ekblad.cc/)
-                        <p> **Office hours**: Wednesday 13-15, Friday 13-15 (only
+                        <p> **Office hours**: Wednesday 13-15 (except Feb. 3rd), Friday 13-15 (only
                         22/1, study week 1) Office: 5463</p>
 		  </div>
 	</div>
