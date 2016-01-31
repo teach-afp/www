@@ -98,20 +98,31 @@
 [code](https://bitbucket.org/russo/afp-code/src/b0fa3655c8e45ae63daa0d9c16de3ef4f1bb7f9c/L4/EDSL_Deep2.hs?at=master&fileviewer=file-view-default)
 
 * It is often good to move away a bit from the pure deep embedding towards some
-  kind of "normal form" ("optimized", "elemental" embedding). In our case, we can
-  start by looking at how `Put` and `Get` can be used. The only combinator in
-  our language is `Bind` `(>>=)` so lets looks at the different cases for the
-  first argument to `Bind`.
+  kind of "normal form" ("optimized", "elemental" embedding).
+
+* We want to remove the `Bind` operator. How are we going to write sequential
+  actions then?
+
+  <div class= "alert alert-info">
+  `(>>=)` is going to be executed when constructing the program, but not when
+  running it!
+  </div>
+
+* Methodology:
+
+   - Looking the most typical usage patterns of `Bind`,
+   - Introduce new constructors to capture such cases, and
+   - Simplify the data type with the new constructors
+
+* Lets looks at the different cases for the first argument of `Bind`.
 
   ```haskell
        Put c >>= f
          Get >>= f
     Return x >>= f
-   (m >>= g) >>= f
   ```
 
-* ```haskell
-   Put c >>= f ```
+* ```haskell Put c >>= f ```
 
    From the types of `Put` and `Bind`  we note that `f` must have type
 
