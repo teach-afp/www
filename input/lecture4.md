@@ -98,20 +98,31 @@
 [code](https://bitbucket.org/russo/afp-code/src/b0fa3655c8e45ae63daa0d9c16de3ef4f1bb7f9c/L4/EDSL_Deep2.hs?at=master&fileviewer=file-view-default)
 
 * It is often good to move away a bit from the pure deep embedding towards some
-  kind of "normal form" ("optimized", "elemental" embedding). In our case, we can
-  start by looking at how `Put` and `Get` can be used. The only combinator in
-  our language is `Bind` `(>>=)` so lets looks at the different cases for the
-  first argument to `Bind`.
+  kind of "normal form" ("optimized", "elemental" embedding).
+
+* We want to remove the `Bind` operator. How are we going to write sequential
+  actions then?
+
+  <div class= "alert alert-info">
+  `(>>=)` is going to be executed when constructing the program, but not when
+  running it!
+  </div>
+
+* Methodology:
+
+   - Looking the most typical usage patterns of `Bind`,
+   - Introduce new constructors to capture such cases, and
+   - Simplify the data type with the new constructors
+
+* Lets looks at the different cases for the first argument of `Bind`.
 
   ```haskell
        Put c >>= f
          Get >>= f
     Return x >>= f
-   (m >>= g) >>= f
   ```
 
-* ```haskell
-   Put c >>= f ```
+* ```haskell Put c >>= f ```
 
    From the types of `Put` and `Bind`  we note that `f` must have type
 
@@ -761,47 +772,110 @@
 
 * Not every applicative functor is a monad
 
-  ```haskell
-  data AppNotMonad a = AppNotMonad Bool
+* To show that, we need some preliminaries.
 
-  instance Functor AppNotMonad where
-     fmap f (AppNotMonad b) = AppNotMonad b  ```
-
-  Observe that the functor does not change the container at all. In the
-     definition above, `AppNotMonad b :: a` in the argument of `fmap` and
-     `AppNotMonad b :: b` on the right hand side of the definition. The trick
-     here is that the definition of `AppNotMonad` uses a phantom type.
-
-* So, thanks to that phantom type we can define an applicative functor that only
-  handles `AppNotMonad True` as the underlying container.
+* Every monoid is a *phanton applicative functor*
 
   ```haskell
-  instance Applicative AppNotMonad where
-    pure x = AppNotMonad True -- You choose either True or False
-    AppNotMonad b1 <*> AppNotMonad b2 = AppNotMonad (b1 == b2)
+   newtype Phanton o a =  Phanton o ```
+
+   Here, the type `o` is an element from a monoid. Roughly speaking, a monoid is
+   a set of elements which contains a *neutral* element and an operation between
+   the elements of such set.
+
+   ```haskell
+    mempty  :: o
+    mappend :: o -> o -> o  ```
+
+    The neutral element has no effect on the result produced by `mappend`, i.e.,
+    `mappend mempty o == o` and `mappend o mempty == o`
+
+* We declare `Phanton` to be a functor and an applicative functor as follows.
+
+  ```haskell
+   instance Functor (Phanton o) where
+      fmap f (Phanton o) = Phanton o
+
+   instance Monoid o => Applicative (Phanton o) where
+      pure x = Phanton mempty
+      Phanton o1 <*> Phanton o2 = Phanton (mappend o1 o2) ```
+
+   Observe that every application of `<*>` applies `mappend`.
+
+* To make this idea more concrete, let us define a concrete monoid: natural
+  numbers.
+
+  ```haskell
+   data Nat = Zero | Suc Nat
+
+   instance Monoid Nat where
+      mempty            = Zero
+      mappend Zero    m = m
+      mappend (Suc n) m = Suc (mappend n m) ```
+
+   Function `mappend` is simply addition.
+
+   Let us define the `Phanton` number one.
+
+   ```haskell
+   onePhanton :: Phanton Nat Int
+   onePhanton = Phanton (Suc Zero) ```
+
+   In some cases, when `onePhanton` is applied to an applicative function, it
+   counts the total number of its occurrences.
+
+   ```haskell
+   (\x y -> x) <$> onePhanton <*> onePhanton
+   > Phanton (Suc (Suc Zero))  ```
+
+* Let us try to define `Phanton Nat` as a monad
+
+  ```haskell
+  instance Monad (Phanton Nat) where
+    return = pure   ```
+
+  The interesting case is `(>>=)`
+
+  ```haskell
+  Phanton n >>= k = ?   ```
+
+  Observe that `n :: Nat` and `k` is waiting for an argument of type `a` and we
+  have none! To make our instance type-checked, we ignore `k`.
+
+  ```haskell
+  Phanton n >>= k = Phanton m
+            where m = Suc ( ... ) ```
+
+  You are free to choose the `m` in the returned `Phanton`!
+
+  By the *left identity* rule for Monads, we have that
+
+  ```haskell
+  return x >>= k ≡ k x
   ```
-  The last method of the class could have been defined as  `AppNotMonad b1` or `AppNotMonad b2`
-  or any other expressions which returns the value `AppNotMonad True`.
 
-* When defining a monad, however, the second argument of the bind (of type
-  `a -> AppNotMonad b`) requires an `a` but we only have booleans in `AppNotMonad`!
+  By the definition of `(>>=)` above, we know that
 
-   ```haskell
-   instance Monad AppNotMonad where
-                    return x = AppNotMonad True
-       (AppNotMonad t) >>= f = error "Hopeless!"  ```
+  ```haskell
+  return x >>= k ≡ Phantom m
+  ```
 
-   (Function `return x` could have been also defined as `AppNotMonad False`)
+  By combining these two equations, we have that
 
-   You might try to write
+  ```haskell
+  Phantom m ≡ k x
+  ```
 
-   ```haskell
-   instance Monad AppNotMonad where
-                    return x = AppNotMonad True
-       (AppNotMonad t) >>= f = AppNotMonad t ```
+  Then, it is easy to come up with a function `k` where this equation does not hold. For
+  instance,
 
-   that type-checks, but there is (at least) one monadic law that it does not
-   hold. Can you see which one?
+  ```haskell
+  k = \_ -> ((\x1 x2 .. xm xm1) -> x1) <$> onePhanton <*> .. <*> onePhantom
+  ```
+
+  In other words, `k` is returning `Phantom (Suc m)` which is different from
+  `Phanton m`. Contradiction! Therefore, `Phantom Nat` cannot be a monad.
+
 
 ## Structures learned so far
 
