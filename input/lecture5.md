@@ -119,124 +119,127 @@
 
 * Before we get into the implementation details, let us describe some laws that
   we expect from the API -- in that manner, we can detect early on if we are doing
-  things right! Moreover, *we will use these laws later to derive an efficient implementation of
-  the library.*
+  things right!
 
+  <div class="alert alert-info">
+  We will use these laws later to derive an efficient implementation of
+  the library!
+  </div>
 
-  - Monads
+    * Monads
 
-    <table class="table table-bordered">
-    <thead>
-      <tr>
-      <th>Monadic primitives</th>
-      <th>Laws</th>
-      </tr>
-    </thead>
+        <table class="table table-bordered">
+        <thead>
+          <tr>
+          <th>Monadic primitives</th>
+          <th>Laws</th>
+          </tr>
+        </thead>
 
-    <tr>
-    <td> **L1** (Left Identity): </td>
-    <td>  ```haskell return a >>= f ≡ f a ```
-    </td>
-    </tr>
+        <tr>
+        <td> **L1** (Left Identity): </td>
+        <td>  ```haskell return a >>= f ≡ f a ```
+        </td>
+        </tr>
 
-    <tr>
-    <td> **L2** (Right Identity): </td>
+        <tr>
+        <td> **L2** (Right Identity): </td>
 
-    <td> ```haskell p >>= return ≡ p ```
-    </td>
-    </tr>
+        <td> ```haskell p >>= return ≡ p ```
+        </td>
+        </tr>
 
-    <tr>
-    <td> **L3** (Associativity): </td>
+        <tr>
+        <td> **L3** (Associativity): </td>
 
-    <td> ```haskell  (p >>= f) >>= g ≡ p >>= (\x -> f x >>= g) ```
-    </td>
-    </tr>
-    </table>
+        <td> ```haskell  (p >>= f) >>= g ≡ p >>= (\x -> f x >>= g) ```
+        </td>
+        </tr>
+        </table>
 
-  - Miscellaneous I
+    * Miscellaneous I
 
-    <table class="table table-bordered">
-    <thead>
-      <tr>
-      <th>`fail`, `(+++)`, and `(>>=)`</th>
-      <th>Laws</th>
-      </tr>
-    </thead>
+        <table class="table table-bordered">
+        <thead>
+          <tr>
+          <th>`fail`, `(+++)`, and `(>>=)`</th>
+          <th>Laws</th>
+          </tr>
+        </thead>
 
-    <tr>
-    <td> **L4**: </td>
-    <td>  ```haskell fail >>= f ≡ fail ```
-    </td>
-    </tr>
+        <tr>
+        <td> **L4**: </td>
+        <td>  ```haskell fail >>= f ≡ fail ```
+        </td>
+        </tr>
 
-    <tr>
-    <td> **L5**: </td>
+        <tr>
+        <td> **L5**: </td>
 
-    <td> ```haskell (p +++ q) >>= f ≡ (p >>= f) +++ (q >>= f) ```
-    </td>
-    </tr>
-    </table>
+        <td> ```haskell (p +++ q) >>= f ≡ (p >>= f) +++ (q >>= f) ```
+        </td>
+        </tr>
+        </table>
 
-  - Miscellaneous II
-    <table class="table table-bordered">
-    <thead>
-      <tr>
-      <th>More on `fail` and `(+++)` </th>
-      <th>Laws</th>
-      </tr>
-    </thead>
-    <tr>
-    <td> **L6**: </td>
-    <td>  ```haskell fail +++ q ≡ q```
-    </td>
-    </tr>
-    <tr>
-    <td> **L7**: </td>
-    <td> ```haskell  p +++ fail  ≡ p ```
-    </td>
-    </tr>
-    </table>
+    * Miscellaneous II
+        <table class="table table-bordered">
+        <thead>
+          <tr>
+          <th>More on `fail` and `(+++)` </th>
+          <th>Laws</th>
+          </tr>
+        </thead>
+        <tr>
+        <td> **L6**: </td>
+        <td>  ```haskell fail +++ q ≡ q```
+        </td>
+        </tr>
+        <tr>
+        <td> **L7**: </td>
+        <td> ```haskell  p +++ fail  ≡ p ```
+        </td>
+        </tr>
+        </table>
 
-    - Choice operator
-    <table class="table table-bordered">
-    <thead>
-      <tr>
-      <th>On `(+++)`</th>
-      <th>Laws</th>
-      </tr>
-    </thead>
+    * Choice operator
+        <table class="table table-bordered">
+         <thead>
+           <tr>
+           <th>On `(+++)`</th>
+           <th>Laws</th>
+           </tr>
+         </thead>
 
-    <tr>
-    <td> **L8** (Associativity): </td>
-    <td>  ```haskell (p +++ q) +++ r ≡ p +++ (q +++ r) ```
-    </td>
-    </tr>
+         <tr>
+         <td> **L8** (Associativity): </td>
+         <td>  ```haskell (p +++ q) +++ r ≡ p +++ (q +++ r) ```
+         </td>
+         </tr>
 
-    <tr>
-    <td> **L9** (Commutativity): </td>
+         <tr>
+         <td> **L9** (Commutativity): </td>
 
-    <td> ```haskell  p +++ q ≡ q +++ p ```
-    </td>
-    </tr>
-    </table>
+         <td> ```haskell  p +++ q ≡ q +++ p ```
+         </td>
+         </tr>
+         </table>
 
-  - Key law for efficiency!
-    <table class="table table-bordered">
-    <thead>
-      <tr>
-      <th>On `(>>=)`, `(+++)`, and `symbol` </th>
-      <th>Laws</th>
-      </tr>
-    </thead>
+    * Key law for efficiency!
+        <table class="table table-bordered">
+         <thead>
+           <tr>
+           <th>On `(>>=)`, `(+++)`, and `symbol` </th>
+           <th>Laws</th>
+           </tr>
+         </thead>
 
-    <tr>
-    <td> **L10**: </td>
-    <td>  ```haskell (symbol >>= f) +++ (symbol >>= g) ≡
-                      symbol >>= (\c -> f c +++ g c) ```
-    </td>
-    </tr>
-    </table>
+         <tr>
+         <td> **L10**: </td>
+         <td>  ```haskell (symbol >>= f) +++ (symbol >>= g) ≡
+                           symbol >>= (\c -> f c +++ g c) ```
+         </td>
+         </tr>
+         </table>
 
 ## Reference semantics
 
@@ -260,46 +263,91 @@
                                         , (b, s_f)  <- [| f a |] s_p
                             |} ```
 
-* Using this semantics we can prove (exercise) a the laws about parsers given
+* Using this semantics we can prove (exercise) the laws about parsers given
   before.
 
+  For instance, here is the proof of **L10** for the case of a non-empty input
+  string:
+
   ```haskell
-  data Parser1 s a where
+  ==  { Def. of [| p +++ q |] }
+    [| symbol >>= f |] (c:s)  \/  [| symbol >>= g |] (c:s)
+  ==  { Def. of [| p >>= f |] and [| symbol |] }
+    [| f c |] s  \/  [| g c |] s
+  ==  { Def. of [| p +++ q |] "backwards" }
+    [| f c +++ g c |] s
+  ==  { Def. of [| p >>= f |] and [| symbol |] "backwards" }
+    [| symbol >>= (\c -> f c +++ g c) |] (c:s) ```
+
+  <div class = "alert alert-info">
+  Exercise: prove or test the rest of the laws
+  </div>
+
+* The reference semantics is useful for reasoning, but inefficient.
+
+* There are three sources of possibly inefficiency that we can
+  identify:
+
+    <table class="table table-bordered">
+    <thead>
+    <tr>
+    <th> Source </th>
+    <th> Reason</th>
+    </tr>
+    </thead>
+
+     <tr class="alert alert-warning">
+     <td> Definition of `(+++)` </td>
+     <td>  Union of bags
+     </td>
+     </tr>
+
+     <tr class="alert alert-warning">
+     <td> Definition of (`>>=`) </td>
+
+     <td> Creation of many intermediate results (e.g., `[| p |] s` and `[| f a |]` ```
+     </td>
+     </tr>
+
+     </table>
+
+
+## Parser0: our first implementation
+
+* Every constructor and combinator is a constructor in the `Parser` data type.
+
+  ```haskell
+  data Parser0 s a where
     {-- Constructors --}
-    Symbol  ::  Parser1 s s
-    Fail    ::  Parser1 s a
+    Symbol  ::  Parser0 s s
+    Fail    ::  Parser0 s a
     {-- Combinators --}
-    Choice  ::  Parser1 s a -> Parser1 s a -> Parser1 s a
-    Return  ::  a -> Parser1 s a
-    (:>>=)  ::  Parser1 s a -> (a -> Parser1 s b) -> Parser1 s b ```
+    Choice  ::  Parser0 s a -> Parser0 s a -> Parser0 s a
+    Return  ::  a -> Parser0 s a
+    (:>>=)  ::  Parser0 s a -> (a -> Parser0 s b) -> Parser0 s b ```
 
-    We call it `Parser1` since it is our first attempt
+  We call it `Parser0` since it is our first attempt.
 
-* What about our `run` function? We need to define the semantics of parsers.
+* What about our `run` function?
 
-  The semantic function `[| _ |]`, also called `run`, is defined as follows
-  (we use `{| |}` to denote multisets and `\/` for multiset union).
+  To start with, and for simplicity, we use lists instead of bags to denote the
+  semantics of parsers.
 
-run :: Parser1 s a -> [s] -> {| (a, [s]) |}
-[| symbol   |] (c : s) = {| (c, s) |}
-[| symbol   |] []      = {| |}
-[| pfail    |] s       = {| |}
-[| p +++ q  |] s       = [| p |] s  \/  [| q |] s
-[| return x |] s       = {| (x, s) |}
-[| p >>= f  |] s       = {| (y, s'') | (x, s')  <- [| p   |] s
-                                     , (y, s'') <- [| f x |] s'
-                         |}
+  ```haskell
+  type Semantics s a = [s] -> [(a,[s])] ```
 
+  The run function maps the constructors to their semantics.
 
+  ```haskell
+  run0 :: Parser0 s a -> Semantics s a
+  run0 Symbol          [] = []
+  run0 Symbol      (s:ss) = [(s,ss)]
+  run0 Fail            _  = []
+  run0 (Choice p q)    ss = (run0 p ss) ++ (run0 q ss)
+  run0 (Return x)      ss = [(x,ss)]
+  run0 (p :>>= f)      ss = [(y,s2) | (x,s1) <- run0 p ss,
+                                      (y,s2) <- run0 (f x) s1] ```
 
-
-* The semantics of a parser of type 'Parser1 s a' is a function from a string of 's'
-  to a multiset of results paired with the remaining parts of the input string. We
-  use a multiset to capture the fact that we don't care about the order of the
-  results.
-
-  The semantic function [| _ |], also called run, is defined as follows
-  (we use {| |} to denote multisets and \/ for multiset union).
 
 
 ## Basic parsing laws
