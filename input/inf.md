@@ -46,8 +46,7 @@ Lectures (note different lecture rooms on different week days)
 		<img class="img-no-resize" src="" alt="Dan's picture">
 		<div class="caption">
 			[Dan Rosén](https://www.chalmers.se/en/staff/Pages/danr.aspx)
-                        <p> **Office hours**: Monday 10-12, Friday 13-15 (only
-                        29/1, study week 2) Office: 5453</p>
+                        <p> **Office hours**: Monday 10-12 Office: 5469</p>
 		  </div>
 	</div>
 </div>
