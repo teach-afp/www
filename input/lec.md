@@ -84,6 +84,31 @@ update!
     T. Altenkirch](http://www.cs.nott.ac.uk/~psztxa/publ/beast.pdf) Sections 1, 2
     and 3.
 
+## 5. [Parsers derivation](./lecture5.html)
+
+* **Topics**: Another application of monads, namely parsing. Refinement of
+    implementation by program derivation. The focus here is on learning outcome
+    "Spec: use specifictaion based development techniques".
+
+* [Source
+  code](https://bitbucket.org/russo/afp-code/src/b5a911ca5deb0cfc6c4c438f3204b9d731ab5428/L5/?at=master)
+
+* **Reading**: Chapters 16, until p. 390 or so; to get a feel for what parser
+    combinators are, [Parallel Parser
+    Combinators](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/Papers/parser-claessen.pdf),
+    [Koen's slides](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/lectures/lecture4/lecture4.pdf)
+
+* **Optional reading**:
+
+  - [Monadic Parser
+    Combinators](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/Papers/parser-hutton.ps)
+    by Graham Hutton and Erik Meijer.
+
+  - [The Design of a Pretty-printing
+     Library](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/Papers/pretty-hughes.ps)
+     by John Hughes.
+
+
 ## 8. Looking forward! (February 11st)
 
 * **Topics**: In this lecture / excercise session we will work through old AFP
