@@ -1,4 +1,4 @@
-# Parsers derivation
+# Parser derivation
 
 ## Parsers and Functional Programming
 

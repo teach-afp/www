@@ -84,7 +84,7 @@ update!
     T. Altenkirch](http://www.cs.nott.ac.uk/~psztxa/publ/beast.pdf) Sections 1, 2
     and 3.
 
-## 5. [Parsers derivation](./lecture5.html)
+## 5. [Parser derivation](./lecture5.html)
 
 * **Topics**: Another application of monads, namely parsing. Refinement of
     implementation by program derivation. The focus here is on learning outcome
