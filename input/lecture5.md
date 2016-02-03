@@ -60,13 +60,13 @@
     hand-side parser only runs if the left hand-side fails; *deterministic
     choice* where a symbol look ahead can resolved which parser to use.
 
-    * Deterministic parsers [Deterministic, Error-Correcting Combinator Parsers
+    * Deterministic parsers: [Deterministic, Error-Correcting Combinator Parsers
       by S. Swierstra and
       L. Duponcheel](http://www.staff.science.uu.nl/~swier101/Papers/1996/DetErrCorrComPars.pdf)
 
-    * Non-deterministic parsers [Combinator Parsers: From Toys to Tools by S. Swierstra](http://www.cs.nott.ac.uk/~pszgmh/papers/18.ps)
+    * Non-deterministic parsers: [Combinator Parsers: From Toys to Tools by S. Swierstra](http://www.cs.nott.ac.uk/~pszgmh/papers/18.ps)
 
-  In any of the work mentioned above, there is a *general choice* combinator
+  In all of the work mentioned above, there is a *general choice* combinator
   which still suffers from inefficiencies.
 
 ## This lecture
@@ -122,8 +122,8 @@
   things right!
 
   <div class="alert alert-info">
-  We will use these laws later to derive an efficient implementation of
-  the library!
+  This is the **domain knowledge**, which we will use later to gain
+  performance!
   </div>
 
     * Monads
@@ -313,6 +313,7 @@
 
 
 ## Parser0: our first implementation
+[code](https://bitbucket.org/russo/afp-code/src/b5a911ca5deb0cfc6c4c438f3204b9d731ab5428/L5/Parser0.hs?at=master&fileviewer=file-view-default)
 
 * Every constructor and combinator is a constructor in the `Parser` data type.
 
@@ -371,6 +372,7 @@
   </div>
 
 ## Parser1: removing bind
+[code](https://bitbucket.org/russo/afp-code/src/b5a911ca5deb0cfc6c4c438f3204b9d731ab5428/L5/Parser1.hs?at=master)
 
 * The use of list comprehension in `run0 (p :>>= f)` builds a lot of
    intermediate lists which might be costly
@@ -380,11 +382,16 @@
   We move towards an *intermediate* representation, where the bind takes place
   when constructing the program -- not when running it!
 
-* Methodology (the same that we use for the I/O example in Lecture 4):
+* Methodology:
 
-  * Looking the most typical usage patterns of `(>>=)`,
-  * Introduce new constructors to capture such cases, and
-  * Simplify the data type with the new constructors
+  * Remove `(:>>=)` from the data type
+  * Try to define `(>>=)` anyways, and analyze the *usage patterns which
+    we cannot write*
+  * Introduce new constructors to capture such cases
+  * Simplify the data type with the new constructors and *derive the definition
+    for `(>>=)`*
+
+* Let us try to define `(>>=)`
 
 * ```haskell Fail >>= k ```
 
@@ -392,8 +399,7 @@
 
    ```haskell Fail >>= k ≡ Fail ```
 
-   We have that constructor already, thus we do not need to modify the data type
-   based on this case.
+   Success! (Nothing to be done)
 
 * ```haskell Choice p q >>= f ```
 
@@ -401,12 +407,14 @@
 
   ```haskell Choice p q >>= f ≡ Choice (p >>= f) (q >>= f) ```
 
-  In this case, we go to another `Choice`, another constructor that we already have.
+   Success! (Nothing to be done)
 
 * ```haskell Return x >>= f ```
 
-  The first monad law already tells us that this is just `(f x)` so no new
-  constructor is needed for this usage case.
+  The first monad law already tells us that this is just `(f x)`.
+
+  Success! (Nothing to be done)
+
 
 * ```haskell Symbol >>= k ```
 
@@ -470,37 +478,364 @@
   ```haskell
   SymbolBind Return ≡ Symbol >>= Return ```
 
-  By the right associate law of monads, we know that
+  By **L2** (Right Identity), we know that
 
   ```haskell
   SymbolBind Return ≡ Symbol ```
 
   So, `SymbolBind` corresponds to the notion of `Symbol` in `Parser0`!
 
-* What about `return` and `(>>=)`?
+* What about `return`?
 
-  Function `return` is as before
+  Function `return` is just as before.
 
   ```haskell return = Return ```
 
-  The interesting case is `(>>=)`.
+* The interesting case is `(>>=)`
+
+   How are we going to define it?
+
+   So far, we have that
+
+   ```haskell
+   Fail       >>= k = Fail
+   Choice p q >>= f = Choice (p >>= f) (q >>=f)
+   Return a   >>= k = k a ```
+
+   What about our recently introduced constructor (`SymbolBind`)?
+
+   ```haskell
+   SymbolBind f >>= k = ? ```
+
+   By definition of `SymbolBind`, we know that
+
+   ```haskell SymbolBind f >>= k ≡ Symbol >>= f >>= k ```
+
+   By **L3** (Associativity of monads), we have that
+
+   ```haskell Symbol >>= f >>= k ≡ Symbol >>= (\s -> f s >>= k) ```
+
+   By our definition of `SymbolBind`, we have that
+
+   ```haskell Symbol >>= (\s -> f s >>= k) ≡ SymbolBind (\s -> f s >>= k) ```
+
+   So, we finally have that
+
+   ```haskell SymbolBind f >>= k = SymbolBind (\s -> f s >>= k) ```
+
+* We can now define `Parser1` as a monad
+
+  ```haskell
+  {- | Monadic instance for Parser1 -}
+  instance Monad (Parser1 s) where
+     return = Return
+     Fail           >>= k = Fail
+     Choice p q     >>= k = Choice (p >>= k) (q >>= k)
+     Return x       >>= k = k x
+     (SymbolBind f) >>= k = SymbolBind (\s -> f s >>= k) ```
+
+   <div class = "alert alert-info">
+   Observe that the definition of `(>>=)` was derived from the
+   domain knowledge and monadic laws. We cannot get it wrong!
+   </div>
 
 
-## Basic parsing laws
+## Transforming parsers of type `Parser0` into parsers of type `Parser1`
 
-## Semantics
+* Is `Parser1` as expressive as `Parser0`? In other words, can any parser you
+  wrote of type `Parser0` be reformulated as a parser of type `Parser1`?
 
-## Commutativity of choice
+  Yes! We can write a function which transform a `Parser0` into a `Parser1`
 
-## Choice and symbol
+  ```haskell cast :: P0.Parser0 s a -> Parser1 s a ```
 
-## Inefficiencies
+  To avoid name crashes, all the constructors and types from `Parser0` are
+  qualified as `P0`
 
-## Removing bind
+  Let us see the easy cases.
 
-## Removing choice
+  ```haskell
+  cast :: P0.Parser0 s a -> Parser1 s a
+  cast P0.Symbol       = SymbolBind Return -- L1
+  cast P0.Fail         = Fail
+  cast (P0.Choice p q) = Choice (cast p) (cast q)
+  cast (P0.Return x)   = Return x ```
 
-## Associativity of bind
+  The core of the translation is bind!
+
+  ```haskell
+   cast (P0.Symbol P0.:>>= k)       = SymbolBind (cast . k)
+                                      -- def of SymbolBind
+
+   cast (P0.Fail P0.:>>= _)         = Fail
+                                      -- Parser law, L4.
+
+   cast ((P0.Choice p q) P0.:>>= k) = Choice (cast (p P0.:>>= k))
+                                             (cast (q P0.:>>= k))
+                                      -- Parser law, L5
+
+   cast ((P0.Return x) P0.:>>= k)   = cast (k x)
+                                      -- monad law, L1
+
+   cast ((p P0.:>>= f) P0.:>>= k)   = cast (p P0.:>>= (\x -> f x P0.:>>= k))
+                                      -- monad law, L3 ```
+
+   <div class = "alert alert-info">
+   Observe that for every case, there is some law which helps to derive the
+   translation of bind!
+   </div>
+
+## Parser2: improving choice
+[code](https://bitbucket.org/russo/afp-code/src/b5a911ca5deb0cfc6c4c438f3204b9d731ab5428/L5/Parser2.hs?at=master&fileviewer=file-view-default)
+
+* If we observe the `run1` function again
+
+   ```haskell
+   run1 :: Parser1 s a -> Semantics s a
+   run1 (SymbolBind k)     [] = []
+   run1 (SymbolBind k) (s:ss) = run1 (k s) ss
+   run1 Fail                _ = []
+   run1 (Choice p q)       ss = (run1 p ss) ++ (run1 q ss)
+   run1 (Return x)         ss = [(x,ss)] ```
+
+   We have another source of inneficiency. Can you see it?
+
+   The list append `(++)` is linear in its first argument which means that left
+   nested applications `(+++)` get a quadratic behaviour, e.g., consider
+   expressions of the form `((s1 ++ s2) ++ s3)`.
+
+* How can we optimize `Choice`, i.e., `(+++)`?
+
+  Similar as we did with bind, we remove it from our data type.  The choice
+  operator `(+++)` then takes place when building the program -- not when
+  running it!
+
+* The new data type for parsers
+
+  ```haskell
+   data Parser2 s a where
+    SymbolBind ::  (s -> Parser2 s a) -> Parser2 s a
+    Fail       ::  Parser2 s a
+    Return     ::  a -> Parser2 s a ```
+
+* Let us try to define `(+++)`
+
+  For `Fail` is easy due to laws **L6** and **L7**.
+
+  ```haskell
+   (+++) :: Parser2 s a -> Parser2 s a -> Parser2 s a
+   Fail +++ _    = Fail
+   q    +++ Fail = Fail ```
+
+   For `SymbolBind`, we know by **L10** that
+
+   ```haskell
+   SymbolBind f +++ SymbolBind q = SymbolBind (\s -> f s +++ q s) ```
+
+   If `SymbolBind` is combined with `Fail` instead, we know the result (see **L6** and
+   **L7**).
+
+   The tricky case is when `SymbolBind` is pattern-matched with `Return`.
+
+   ```haskell
+   SymbolBind f +++ Return x     = ?
+   Return x     +++ SymbolBind f = ? ```
+
+   It seems that `Return` is stopping us from defining `(+++)`. In fact, what is
+   the definition of `(+++)` when it only deals with `Return`?
+
+   ```haskell
+   Return x +++ Return y = ? ```
+
+* For these cases, therefore introduce a new constructor.
+
+  ```haskell
+  ReturnChoice x p ≡ Return x +++ p ```
+
+  Observe that, by **L7**,
+
+  ```haskell
+  Return x ≡ ReturnChoice x Fail ```
+
+  `ReturnChoice` can encode `Return`!
+
+* Therefore, let us take the definition of `Parser2` and change `Return` by
+  `ReturnChoice`
+
+  ```haskell
+  data Parser2 s a where
+      SymbolBind   ::  (s -> Parser2 s a) -> Parser2 s a
+      Fail         ::  Parser2 s a
+      ReturnChoice ::  a -> Parser2 s a -> Parser2 s a ```
+
+* Let us *now* define `(+++)` by using parser laws, commutative, and associative
+  laws.
+
+  ```haskell
+  (+++) :: Parser2 s a -> Parser2 s a -> Parser2 s a
+  SymbolBind f     +++ SymbolBind g     = SymbolBind (\s -> f s +++ g s)
+                                          -- L10
+  p                +++ Fail             = p
+                                          -- L6
+  Fail             +++ q                = q
+                                          -- L7
+
+  ReturnChoice x p +++ q                = ?
+
+  p                +++ ReturnChoice x q = ? ```
+
+  We derive the tricky cases.
+
+  By definition of `ReturnChoice`, we have that
+  ```haskell
+  ReturnChoice x p +++ q ≡ (Return x +++ p) +++ q ```
+
+  By **L8** (associativity of `(+++)`), we have that
+
+  ```haskell
+  (Return x +++ p) +++ q ≡ Return x +++ (p +++ q) ```
+
+  By definition of `ReturnChoice`, we obtain
+
+  ```haskell
+  Return x +++ (p +++ q) ≡ ReturnChoice x (p +++ q) ```
+
+  <div class = "alert alert-info">
+  Exercise: derive the definition for `p +++ ReturnChoice x q`
+  </div>
+
+    ```haskell
+  (+++) :: Parser2 s a -> Parser2 s a -> Parser2 s a
+  SymbolBind f     +++ SymbolBind g     = SymbolBind (\s -> f s +++ g s)
+                                          -- L10
+  p                +++ Fail             = p
+                                          -- L6
+  Fail             +++ q                = q
+                                          -- L7
+
+  ReturnChoice x p +++ q                = ReturnChoice x (p +++ q)
+
+  p                +++ ReturnChoice x q = ReturnChoice x (p +++ q) ```
 
 
-##
+* So, we obtain `(+++)` defined, but we should fix `(>>=)` since
+  we change `Return` by `ReturnChoice`
+
+  ```haskell
+  {- | Monadic instance for Parser1 -}
+  instance Monad (Parser2 s) where
+     return x = ReturnChoice x Fail
+     Fail             >>= k = Fail
+     (SymbolBind f)   >>= k = SymbolBind (\s -> f s >>= k)
+     ReturnChoice x p >>= k = ? ```
+
+  By definition of `ReturnChoice`, we have that
+
+  ```haskell
+  ReturnChoice x p >>= k ≡ (Return x +++ p) >>= k ```
+
+  By **L5**, we have that
+
+  ```haskell
+ (Return x +++ p) >>= k ≡ (Return x >>= k) +++ (p >>= k)  ```
+
+  By **L1** (Left Identity), we conclude that
+
+  ```haskell (Return x >>= k) +++ (p >>= k) ≡ k x +++ (p >>= k) ```
+
+  So, we obtain that
+
+  ```haskell  ReturnChoice x p >>= k = k x +++ (p >>= k) ```
+
+  ```haskell
+  {- | Monadic instance for Parser1 -}
+  instance Monad (Parser2 s) where
+     return x = ReturnChoice x Fail
+     Fail             >>= k = Fail
+     (SymbolBind f)   >>= k = SymbolBind (\s -> f s >>= k)
+     ReturnChoice x p >>= k = k x +++ (p >>= k) ```
+
+* We have completed the implementation of `(+++)` and `(>>=)` which gets
+  computed when constructed parsers -- not when running them!
+
+* Let us see the run function
+
+  We take `run1` for parsers of type `Parser1`, remove the case for `Choice`,
+  and see what happens when placing `ReturnChoice` in the place of `Return`.
+
+  ```haskell
+  run2 :: Parser2 s a -> Semantics s a
+  run2 (SymbolBind k)     [] = []
+  run2 (SymbolBind k) (s:ss) = run2 (k s) ss
+  run2 Fail                _ = []
+  run2 (ReturnChoice x p) ss = ? ```
+
+  We are going to try deriving the definition. However, since we are dealing
+  with the run function, we need to consider the ideal semantics of parsers.
+
+  By definition of `ReturnChoice`, we obtain that
+
+  ```haskell [| ReturnChoice x p |] ss ≡  [| Return x +++ p |] ss```
+
+  By the semantics of `(+++)`, we obtain that
+
+  ```haskell
+  [| Return x +++ p |] ss ≡ [| Return x |] ss \/ [| p |] ss ```
+
+  By the semantics of `Return x`, we have that
+
+  ```haskell
+   [| Return x |] ss \/ [| p |] ss ≡ {| (x, ss) |} \/ [| p |] ss ```
+
+  Summarizing, we have that
+
+  ```haskell [| ReturnChoice x p |] ss ≡ {| (x, ss) |} \/ [| p |] ss ```
+
+  So, we complete the definition of `run2` as follows.
+
+  ```haskell
+  run2 :: Parser2 s a -> Semantics s a
+  run2 (SymbolBind k)     [] = []
+  run2 (SymbolBind k) (s:ss) = run2 (k s) ss
+  run2 Fail                _ = []
+  run2 (ReturnChoice x p) ss = (x, ss) : run2 p ss ```
+
+
+## Transforming parsers of type `Parser1` into parsers of type `Parser2`
+
+* Is `Parser2` as expressive as `Parser1`? In other words, can any parser you
+  wrote of type `Parser1` be reformulated as a parser of type `Parser2`?
+
+  Yes! We can write a function which transform a `Parser1` into a `Parser2`
+
+  ```haskell cast2 :: Parser1 s a -> Parser2 s a ```
+
+  <div class = "alert alert-info">
+  Exercise: write `cast2`
+  </div>
+
+## Parser3: optimizing `(>>=)`
+
+* There is still one remaining source of inefficiency.
+
+* If you look at the definition of `(>>=)`, you'll see that it's linear in the
+  size of its first argument.
+
+  This means that we get a similar problem to the use of `(++)`, namely a
+  quadratic behaviour for left nested uses of `(>>=)`.
+
+* In order to fix this we cannot use the method we've been using so far, there
+  is no constructor to remove to fix the problem. Instead, we have to use
+  another technique, called a "context passing" implementation.
+
+* Read more about it in the paper.
+
+## Summary
+
+* Parsers laws ≡ domain knowledge
+
+* Detect inefficiencies and introduce changes
+
+* Derivation to synthesize the right code (no hacking!)
+
+  - Leveraging domain and monad laws
