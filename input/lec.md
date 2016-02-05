@@ -56,7 +56,7 @@ update!
   - Chapter 15
   - [Monads for functional programming by Philip
      Wadler](http://homepages.inf.ed.ac.uk/wadler/papers/marktoberdorf/baastad.pdf)
-     (the interpreter for arithmetic expressions is traken from this paper)
+     (the interpreter for arithmetic expressions is taken from this paper)
 
 ## 4. [Functors, Applicative Functors, and Monads](./lecture4.html)
 

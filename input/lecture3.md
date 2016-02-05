@@ -1,6 +1,6 @@
 <div class="alert alert-info">
   The examples in this lecture run in GHC <= version 7.8. If you have GHC
-  >= version 7.10, you need some extra lines -- see the source code -- to make
+  >= version 7.10, you need some extra lines — see the source code — to make
   it work. However, you do not need to understand them. We will cover the reason
   for such extra lines in the next lecture.
 </div>
@@ -46,7 +46,7 @@
 - The error handling mechanism that we consider is
 
   <div class="alert alert-info">
-      If something goes run, the *whole* computation aborts!
+      If something goes wrong, the *whole* computation aborts!
   </div>
 
   (We do not consider recovery options)
@@ -219,7 +219,7 @@
 * Is `E a` a monad? Is `E a` such special data type?
   - Not yet, we need to define the connector `(>>=)`
   - Furthermore, monads have another primitive: `return`.  This primitive takes
-    a value and *construct an instruction that does nothing but producing that
+    a value and *constructs an instruction that does nothing but producing that
     value*!
 * In Haskell, a data type is a monad if `return` and `(>>=)` are provided
 
@@ -521,7 +521,7 @@
   necessarily a monad!
   </div>
 
-* Are shallow or deep embedding monads `E` and `L`?
+* Are monads `E` and `L` shallow or deep embeddings?
   - Shallow!
     ```haskell
      data E a = Value a | Wrong
@@ -691,7 +691,7 @@
   </div>
 
   ```haskell
-  (MkSt m) >>= k = MkSt $ \s_1 -> let (a, s_2)  = m s_1
+  (MkSt m) >>= k = MkSt $ \s_1 -> let (a, s_2) = m s_1
                                       MkSt k_m = k a
                                   in k_m s_2 ```
 
