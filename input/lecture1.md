@@ -89,7 +89,7 @@
 
 ## Programming with `IO` ##
 
-[code](https://bitbucket.org/russo/afp-code/src/76efb6f9850e4f82ce7b3ef6724b03768a3c2a1c/L1/Lect1.hs?at=master&fileviewer=file-view-default)
+[code](https://bitbucket.org/russo/afp-code/src/HEAD/L1/Lect1.hs?at=master&fileviewer=file-view-default)
 
 * Interacting with the user
 
@@ -566,7 +566,7 @@ testBar =  bar 1 2 + bar 3 4
 
 ## Type classes ##
 
-[code](https://bitbucket.org/russo/afp-code/src/7ef0c2401bb4d7244eae0c45a4b8fc24a7034a67/L1/TypeClasses.hs?at=master&fileviewer=file-view-default)
+[code](https://bitbucket.org/russo/afp-code/src/HEAD/L1/TypeClasses.hs?at=master&fileviewer=file-view-default)
 
 * It is a distinctive feature in Haskell.
 * What does it provide?
