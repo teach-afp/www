@@ -126,7 +126,7 @@ update!
     Interpreters](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/Papers/modular-interpreters-liang.ps)
     by Sheng Liang, Paul Hudak, and Mark Jones.
 
-## 8. Looking forward! (February 11st)
+## 7. Looking forward! (February 11st)
 
 * **Topics**: In this lecture / excercise session we will work through old AFP
     exam questions in groups to identify important topics and practice
