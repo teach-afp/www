@@ -844,7 +844,7 @@
 
   ```haskell
   Phanton n >>= k = Phanton m
-            where m = Suc ( ... ) ```
+            where m = ... ```
 
   You are free to choose the `m` in the returned `Phanton`!
 
