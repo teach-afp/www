@@ -20,6 +20,12 @@
 
 # News!
 
+* Feb 7th
+
+  <div class="alert alert-info">
+  Tomorrow lecture is up!
+  </div>
+
 * Feb 3rd
 
   <div class="alert alert-info">
