@@ -77,9 +77,9 @@ started on Part II before the deadline for Part I.
 ## Task 1 - Free code!
 
 Download and unpack this [stub cabal
-package](https://bitbucket.org/russo/afp-code/src/9999649d46bc2fdafc3009a9e8e1b14b7a82b5be/assignment1/turtle-graphics-0.1.0.0/?at=master)
+package](https://bitbucket.org/russo/afp-code/src/HEAD/assignment1/turtle-graphics-0.1.0.0/?at=master)
 or the [OpenGL/GLUT
-version](https://bitbucket.org/russo/afp-code/src/9999649d46bc2fdafc3009a9e8e1b14b7a82b5be/assignment1/turtle-graphics-glut-0.1.0.0/?at=master). The
+version](https://bitbucket.org/russo/afp-code/src/HEAD/assignment1/turtle-graphics-glut-0.1.0.0/?at=master). The
 archive contains a file structure and some useful code snippets for you to build
 your implementation on. You are free to modify the package however you wish or
 build a new package from scratch, but if you deviate significantly from the
