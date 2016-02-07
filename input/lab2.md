@@ -1,6 +1,6 @@
 Deadlines
 =========
-  
+
 <table class="table table-bordered">
 <thead>
 <tr>
@@ -75,7 +75,7 @@ The monad is parameterised on the types of questions (`q`) and answers
   The user of the program can then examine the question. When the user wants
   to continue the program they restart it with the generated trace, extended
   with an answer to the question.
-  
+
   If the question has already been answered in the input trace, the answer
   from the trace is used instead of stopping execution, and the program
   continues on to the next `ask`.
@@ -285,7 +285,7 @@ Task 3: testing the `Replay` monad
 
 Once you have implemented your Replay monad transformer you should make sure
 that it works properly. Here is a small testing framework to help you get
-started: [Test.hs](https://bitbucket.org/russo/afp-code/src/820a698f0ebd5387ad671b7de7b4b0fe03b4595c/assignment2/?at=master).
+started: [Test.hs](https://bitbucket.org/russo/afp-code/src/HEAD/assignment2/?at=master).
 Put the framework in a subdirectory called test, then add this to your
 .cabal file to create a test suite:
 
