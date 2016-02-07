@@ -14,7 +14,7 @@ repetition of what you have seen in Introduction to Functional Programming at
 Chalmers). Note that it is ~200 pages, so start reading now if you need an
 update!
 
-* [Source code](https://bitbucket.org/russo/afp-code/src/1f5af2807b33b925059be1380ffe7e1049fbb9cb/L1/?at=master)
+* [Source code](https://bitbucket.org/russo/afp-code/src/HEAD/L1/?at=master)
 
 * **Optional reading**:
   - Applicative Functors are introduced in Real World Haskell Chapter 10, used
@@ -30,7 +30,7 @@ update!
     and signals (to represent change of values over time). Shape animation. Deep
     vs. shallow embedding. Compositionality and abstraction.
 
-* [Source code](https://bitbucket.org/russo/afp-code/src/1f5af2807b33b925059be1380ffe7e1049fbb9cb/L2/?at=master)
+* [Source code](https://bitbucket.org/russo/afp-code/src/HEAD/L2/?at=master)
 
 * **Reading**: [DSL for the Uninitiated by Debasish
     Ghosh](http://cacm.acm.org/magazines/2011/7/109910-dsl-for-the-uninitiated/fulltext),
@@ -50,7 +50,7 @@ update!
 * **Reading**: Chapters 14
 
 * [Source
-  code](https://bitbucket.org/russo/afp-code/src/a581a6b1208c6ab826276bd26ad95f90e1819865/L3/Interpr.hs?at=master&fileviewer=file-view-default)
+  code](https://bitbucket.org/russo/afp-code/src/HEAD/L3/Interpr.hs?at=master&fileviewer=file-view-default)
 
 * **Optional reading**:
   - Chapter 15
@@ -68,7 +68,7 @@ update!
     6)](http://strictlypositive.org/IdiomLite.pdf)
 
 * [Source
-  code](https://bitbucket.org/russo/afp-code/src/c5e03aa3cd3074246e8a698c5f70041d9ddd92b1/L4/?at=master)
+  code](https://bitbucket.org/russo/afp-code/src/HEAD/L4/?at=master)
 
 * **Optional reading**:
   - Functors: [Page 1 and 2 from "Functional Pearl: F for Functor" by R. Hinze,
@@ -91,7 +91,7 @@ update!
     "Spec: use specifictaion based development techniques".
 
 * [Source
-  code](https://bitbucket.org/russo/afp-code/src/b5a911ca5deb0cfc6c4c438f3204b9d731ab5428/L5/?at=master)
+  code](https://bitbucket.org/russo/afp-code/src/HEAD/L5/?at=master)
 
 * **Reading**: Chapters 16, until p. 390 or so; to get a feel for what parser
     combinators are, [Parallel Parser
