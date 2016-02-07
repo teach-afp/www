@@ -109,6 +109,23 @@ update!
      by John Hughes.
 
 
+## 6. [Monad transformers](./lecture6.html)
+
+* **Topics**: we learn how to build complicated monads from simple building
+    blocks. We cover the reader and state monad transformers. We apply them to
+    write a interpreter for simple expressions.
+
+* [Source
+  code](https://bitbucket.org/russo/afp-code/src/HEAD/L6/?at=master)
+
+* **Reading**: Chapters 18 on Monad Transformers.
+
+* **Optional reading**:
+
+  - [Monad Transformers and Modular
+    Interpreters](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/Papers/modular-interpreters-liang.ps)
+    by Sheng Liang, Paul Hudak, and Mark Jones.
+
 ## 8. Looking forward! (February 11st)
 
 * **Topics**: In this lecture / excercise session we will work through old AFP
