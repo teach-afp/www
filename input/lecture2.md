@@ -102,7 +102,7 @@
 Let us get into a specific first in order to create a EDSL in Haskell.
 
 ## Shapes: a simple EDSL for vectorial graphics
-[code](https://bitbucket.org/russo/afp-code/src/3c7e3a02880d98cc9747892cda6398043fadca8c/L2/src/ExampleShape.hs?at=master&fileviewer=file-view-default)
+[code](https://bitbucket.org/russo/afp-code/src/HEAD/L2/src/ExampleShape.hs?at=master&fileviewer=file-view-default)
 
 * Design a language to describe *vectorial graphics*.
   - Made of some basic shapes.
@@ -510,7 +510,7 @@ Let us get into a specific first in order to create a EDSL in Haskell.
   - Run function `sample` just extracts the meaning of a signal
 
 ## How do we program with it?
-[code](https://bitbucket.org/russo/afp-code/src/c3dff247914a07741c1fe9650e45055f0fa7b09c/L2/src/ExampleSignal.hs?at=master&fileviewer=file-view-default)
+[code](https://bitbucket.org/russo/afp-code/src/HEAD/L2/src/ExampleSignal.hs?at=master&fileviewer=file-view-default)
 
 * Let us try to get the next simple animation:
 
@@ -624,7 +624,7 @@ sample (MapT f s)  = sample s . f
 ```
 
 ## Go live!
-[code](https://bitbucket.org/russo/afp-code/src/c3dff247914a07741c1fe9650e45055f0fa7b09c/L2/src/Example.hs?at=master&fileviewer=file-view-default)
+[code](https://bitbucket.org/russo/afp-code/src/HEAD/L2/src/Example.hs?at=master&fileviewer=file-view-default)
 
 ## Summary
 
