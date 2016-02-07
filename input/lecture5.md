@@ -99,7 +99,7 @@
   {-- Constructors --}
   symbol :: Parser s s
   fail   :: Parser s a
-  return :: a -> Parser1 s a
+  return :: a -> Parser s a
   {-- Combinators --}
   (+++)  :: Parser s a -> Parser s a -> Parser s a
   (:>>=) :: Parser s a -> (a -> Parser s b) -> Parser s b ```

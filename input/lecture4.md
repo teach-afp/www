@@ -56,7 +56,7 @@
 * What's the implementation of the type `IOSem`, i.e., the semantics of a program?
 
   ```haskell
-  type IOSem a = Input  -> (a, Input, Output)
+  type IOSem a = Input -> (a, Input, Output)
   ```
 
   It is a function which takes an input and returns a result (of type `a`), the
@@ -114,7 +114,7 @@
    - Introduce new constructors to capture such cases, and
    - Simplify the data type with the new constructors
 
-* Lets looks at the different cases for the first argument of `Bind`.
+* Let's look at the different cases for the first argument of `Bind`.
 
   ```haskell
        Put c >>= f
@@ -165,7 +165,7 @@
   new constructor is needed for this combination.
 
 * For the last combination, i.e., `(m >>= g) >>= f`, the associative monadic
-  law tell us how we can rewrite it.
+  law tells us how we can rewrite it.
 
 * We then define `Program` using the first two combinations and return
 
@@ -367,7 +367,7 @@
   and a generalized `map`-function called `fmap`
 
 * In Haskell, `fmap` is an overloaded function, i.e., defined for every
-  container which support a `map`-like operation
+  container which supports a `map`-like operation
 
   ```haskell
   class Functor d where
@@ -440,8 +440,9 @@
                   BranchG [LeafG 13, LeafG 14, LeafG 15]] ```
   produces
   ```haskell
-  BranchG [LeafG 11,BranchG [LeafG 12,LeafG 13],BranchG [LeafG 14,LeafG 15,LeafG 16]]
-  ```
+  BranchG [LeafG 11,
+          BranchG [LeafG 12, LeafG 13],
+          BranchG [LeafG 14, LeafG 15, LeafG 16]] ```
 
 * To summarize:
 
@@ -566,8 +567,8 @@
 
   </table>
 
-  In the rules above, double letters indicate that the denote element is in a
-  container, e.g., ff means that it is a function f inside a container, vv is a
+  In the rules above, double letters indicate that the denoted element is in a
+  container, e.g., `ff` means that it is a function `f` inside a container, `vv` is a
   value which is inside a container and so on.
 
   One of the most interesting rules is *interchange*. Before explaining it, let
@@ -596,7 +597,7 @@
        Nothing <*> vv = Nothing
        Just f  <*> vv = fmap f vv ```
 
-* What can we do know with that?
+* What can we do now with that?
 
   ```haskell
   -- xx :: Maybe String
@@ -604,10 +605,10 @@
   pure (++) <*> xx <*> yy
   ```
 
-  We can apply concatenation on strings store in containers. All the wrapping
+  We can apply concatenation on strings stored in containers. All the wrapping
   and unwrapping is handled by the applicative functor.
 
-* Applicative functors common pattern of use is as follows.
+* A common usage pattern of applicative functors is as follows.
 
   ```haskell
   pure f <*> xx <*> yy <*> zz ...
@@ -632,7 +633,7 @@
   f <$> xx <*> yy <*> zz ...
   ```
 
-## Relation with monads
+## Relation to monads
 [Blog on Applicative Functors](https://pbrisbin.com/posts/applicative_functors/)
 
 * Observe what we have written using the applicative functor `Maybe`
@@ -651,7 +652,7 @@
 * What is the difference between `Maybe` as an applicative functor or a monad?
 
 * In the case above, both programs produce **the same result** (`x++y`). Observe
-  that `x` gets bounded but it is not used until the `return` instruction -- the
+  that `x` gets bound but it is not used until the `return` instruction — the
   same occurs with `y`. However, the effects in a monadic program or an
   applicative one could be run in a different order.
 
@@ -686,7 +687,7 @@
        src="./assets/img/missile_app.png">
   </div>
 
-* Let see closely the types
+* Let's see the types closely
 
   <div class="container">
      <img class="img-responsive col-md-9"
@@ -774,10 +775,10 @@
 
 * To show that, we need some preliminaries.
 
-* Every monoid is a *phanton applicative functor*
+* Every monoid is a *phantom applicative functor*
 
   ```haskell
-   newtype Phanton o a =  Phanton o ```
+   newtype Phantom o a =  Phantom o ```
 
    Here, the type `o` is an element from a monoid. Roughly speaking, a monoid is
    a set of elements which contains a *neutral* element and an operation between
@@ -790,15 +791,15 @@
     The neutral element has no effect on the result produced by `mappend`, i.e.,
     `mappend mempty o == o` and `mappend o mempty == o`
 
-* We declare `Phanton` to be a functor and an applicative functor as follows.
+* We declare `Phantom` to be a functor and an applicative functor as follows.
 
   ```haskell
-   instance Functor (Phanton o) where
-      fmap f (Phanton o) = Phanton o
+   instance Functor (Phantom o) where
+      fmap f (Phantom o) = Phantom o
 
-   instance Monoid o => Applicative (Phanton o) where
-      pure x = Phanton mempty
-      Phanton o1 <*> Phanton o2 = Phanton (mappend o1 o2) ```
+   instance Monoid o => Applicative (Phantom o) where
+      pure x = Phantom mempty
+      Phantom o1 <*> Phantom o2 = Phantom (mappend o1 o2) ```
 
    Observe that every application of `<*>` applies `mappend`.
 
@@ -815,29 +816,29 @@
 
    Function `mappend` is simply addition.
 
-   Let us define the `Phanton` number one.
+   Let us define the `Phantom` number one.
 
    ```haskell
-   onePhanton :: Phanton Nat Int
-   onePhanton = Phanton (Suc Zero) ```
+   onePhantom :: Phantom Nat Int
+   onePhantom = Phantom (Suc Zero) ```
 
-   In some cases, when `onePhanton` is applied to an applicative function, it
+   In some cases, when `onePhantom` is applied to an applicative function, it
    counts the total number of its occurrences.
 
    ```haskell
-   (\x y -> x) <$> onePhanton <*> onePhanton
-   > Phanton (Suc (Suc Zero))  ```
+   (\x y -> x) <$> onePhantom <*> onePhantom
+   > Phantom (Suc (Suc Zero))  ```
 
-* Let us try to define `Phanton Nat` as a monad
+* Let us try to define `Phantom Nat` as a monad
 
   ```haskell
-  instance Monad (Phanton Nat) where
+  instance Monad (Phantom Nat) where
     return = pure   ```
 
   The interesting case is `(>>=)`
 
   ```haskell
-  Phanton n >>= k = ?   ```
+  Phantom n >>= k = ?   ```
 
   Observe that `n :: Nat` and `k` is waiting for an argument of type `a` and we
   have none! To make our instance type-checked, we ignore `k`.
@@ -846,7 +847,7 @@
   Phanton n >>= k = Phanton m
             where m = ... ```
 
-  You are free to choose the `m` in the returned `Phanton`!
+  You are free to choose the `m` in the returned `Phantom`!
 
   By the *left identity* rule for Monads, we have that
 
@@ -870,11 +871,11 @@
   instance,
 
   ```haskell
-  k = \_ -> ((\x1 x2 .. xm xm1) -> x1) <$> onePhanton <*> .. <*> onePhantom
+  k = \_ -> ((\x1 x2 .. xm xm1) -> x1) <$> onePhantom <*> .. <*> onePhantom
   ```
 
   In other words, `k` is returning `Phantom (Suc m)` which is different from
-  `Phanton m`. Contradiction! Therefore, `Phantom Nat` cannot be a monad.
+  `Phantom m`. Contradiction! Therefore, `Phantom Nat` cannot be a monad.
 
 
 ## Structures learned so far
@@ -885,15 +886,15 @@
   - Useful to implement side-effects (e.g., error handling, logging, stateful
     computations, etc.)
 
-      * Simplify code, i.e., it hides plumbing needed to handle the side-effects)
+      * **Simplify code**, i.e., it hides plumbing needed to handle the side-effects
 
 * Applicative functors
 
    - Useful to apply "multi-parameters" functions to multiple container
      arguments
 
-       * **Simplify code**, i.e., it hides the plumbing to take out functions and
-         its arguments from containers, applying the function, and place the
+       * **Simplify code**, i.e., it hides the plumbing needed to take out functions and
+         their arguments from containers, applying the function, and place the
          result back in a container.
 
    - Side-effects could potentially be executed in parallel
