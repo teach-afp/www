@@ -76,7 +76,7 @@
 ## Interpreter0: no side-effects
 [code](https://bitbucket.org/russo/afp-code/src/HEAD/L6/Interpreter0.hs?at=master&fileviewer=file-view-default)
 
-* Any code can be "lifted" into the *identity monad*, i.e., a monad with not
+* Any code can be "lifted" into the *identity monad*, i.e., a monad with no
   side-effects.
 
    <div class="container">
