@@ -137,7 +137,7 @@ addAnswer t r = t ++ [Answer r]
 When we run the above example, providing it with the empty trace, we get
 the following result:
 
-```
+```haskell
 GHCi> do x <- run example []; print x
 Hello!
 Left ("What is your age?",[Result "1164117157",Result "()"])
@@ -149,7 +149,7 @@ has happened in the program so far. When we have found the answer to
 the question, (for example 27), we can re-run the computation,
 augmenting the trace with an extra element:
 
-```
+```haskell
 GHCi> do x <- run example [Result "1164117157", Result "()", Answer "27"]; print x
 You are 27.
 Left ("What is your name?",[Result "1164117157",Result "()",Answer "27",Result "()"])
@@ -161,7 +161,7 @@ but now with a different trace!
 Again, we augment that trace with the answer we want to give,
 running the program again:
 
-```
+```haskell
 GHCi> do x <- run example [Result "1164117157", Result "()", Answer "27", Result "()",
 Answer "Starbuck"]; print x
 Starbuck is 27 years old
@@ -185,10 +185,10 @@ running prog = play emptyTrace
   play t = do
     r <- run prog t    -- this is the same prog every time!
     case r of
-      Left (q,t') -> do
+      Left (q,t2) -> do
         putStr ("Question: " ++ q ++ " ")
         r <- getLine
-        play (addAnswer t' r)
+        play (addAnswer t2 r)
       Right x -> return x
 ```
 
@@ -196,7 +196,7 @@ There is very little reason for why we would like to use this particular
 run function, because it does not use the full generality of the Replay monad.
 Here is how it works on the example:
 
-```
+```haskell
 GHCi> running example
 Hello!
 Question: What is your age? 59
@@ -289,7 +289,7 @@ started: [Test.hs](https://bitbucket.org/russo/afp-code/src/HEAD/assignment2/?at
 Put the framework in a subdirectory called test, then add this to your
 .cabal file to create a test suite:
 
-```
+```bash
 Test-Suite test-replay
     type:            exitcode-stdio-1.0
     hs-source-dirs:  test
@@ -299,7 +299,7 @@ Test-Suite test-replay
 
 If done correctly this sequence of commands should execute your test suite:
 
-```
+```bash
 cabal configure --enable-tests
 cabal build
 cabal test
@@ -385,14 +385,14 @@ main = scotty 3000 $ do
 
     page :: Text -> Text
     page s = mconcat $
-        [ "<html><body>"
-        , "<p>Input was: ", s, "</p>"
-        , "<form method=post>"
-        , "<p>Type something here:</p>"
-        , "<input name=text_input_id>"
-        , "<input type=submit value=OK>"
-        , "</form>"
-        , "</body></html>"
+        [ "&lt;html&gt;&lt;body&gt;"
+        , "&lt;p&gt;Input was: ", s, "&lt;/p&gt;"
+        , "&lt;form method=post&gt;"
+        , "&lt;p&gt;Type something here:&lt;/p&gt;"
+        , "&lt;input name=text_input_id&gt;"
+        , "&lt;input type=submit value=OK&gt;"
+        , "&lt;/form&gt;"
+        , "&lt;/body&gt;&lt;/html&gt;"
         ]
 ```
 
@@ -528,8 +528,8 @@ more space-efficient. For example, `askAge` above could be implemented as
 follows:
 
 ```haskell
-askAge' :: ReplayT IO String String Int
-askAge' = cut askAge
+askAgeCut :: ReplayT IO String String Int
+askAgeCut = cut askAge
 ```
 
 In short, when you replay `cut m`, one of three things can happen.
