@@ -648,7 +648,7 @@ without doing any of these.
   serialisation than using `Read` and `Show`.
   What libraries can you choose from here?
 
-* These days, [Ajax](http://en.wikipedia.org/wiki/Ajax_(programming)) is
+* These days, [Ajax](http://en.wikipedia.org/wiki/Ajax_%28programming%29) is
   much more common than page-reloading forms.
   What would need to be passed from the scotty back end in such a setting?
   Would you change the serialisation format?
