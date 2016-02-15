@@ -86,7 +86,7 @@
   ```haskell
   s -> (Either err a, s) ```
 
-  Since the state is hidden inside `m`, it is not affected by whether we return
+  Since the state is hidden inside `m_st`, it is not affected by whether we return
   `Right a` or `Left err`.
 
   <div class = "alert alert-info">
