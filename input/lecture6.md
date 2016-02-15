@@ -85,8 +85,8 @@
    </div>
 
   ```haskell
-  import qualified Control.Monad.Identity as CMI
-  type Eval a = CMI.Identity a
+  import Control.Monad.Identity
+  type Eval a = Identity a
   ```
 
   Type `Eval a` denotes a monadic computation.
@@ -243,7 +243,7 @@
      localScope n v = local (Map.insert n v) ```
 
 * The interpreter is extended by simply adding cases for the
-  two new constructs. (None of the old cases has to change.)
+  two new constructs. (None of the old cases has to be changed.)
 
   ```haskell
    eval :: Expr -> Eval Value
@@ -262,8 +262,8 @@
 
    Observe how we run the reader monad first, and then the identify monad.
 
-   When monad transformers, you start running the outermost monad and
-   finish with the innermost one in your *monad stack*.
+   When using monad transformers, you start running the outermost monad and
+   finish with the innermost one of your *monad stack*.
 
    <div class="container">
       <img class="img-responsive col-md-11 "
