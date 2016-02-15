@@ -136,6 +136,18 @@ update!
 
 * **Assistants on charge**: Dan Rosén and Anton Ekblad
 
+## 8. [Monad transformers II](./lecture8.html)
+
+* **Topics**: This lecture looks into the consequences of the application order
+    of `StateT` and `ExceptT` monad transformers in the interpreter. The lecture
+    also shows how to create your own monad transformers -- for that, we show an
+    implementation for `StateT`, `ExceptT`, and `ReaderT`.
+
+* [Source
+  code](https://bitbucket.org/russo/afp-code/src/HEAD/L8/?at=master)
+
+* The reading material is the same as lecture 6 (see above).
+
 ## 14. Looking forward! (March 3rd)
 
 * **Topics**: Second instance of the excercise session with exam questions.
