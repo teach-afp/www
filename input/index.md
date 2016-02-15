@@ -20,6 +20,20 @@
 
 # News!
 
+* Feb 15
+
+  <div class="alert alert-info">
+  Lecture is up!
+  </div>
+
+
+* Feb 10
+
+  <div class="alert alert-info">
+  Tomorrow's lecture is going to be in ES51 and ES52. Recall that tomorrow you
+  will solve old exams!
+  </div>
+
 * Feb 7th
 
   <div class="alert alert-info">
