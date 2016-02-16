@@ -772,7 +772,12 @@
         src="./assets/img/run_stackM.png">
    </div>
 
-* We focus on the auxiliary function `lookupVar`
+## Lifting operations I
+
+* When introducing the new definition for `Eval` in the code for [Interpreter
+  4](https://bitbucket.org/russo/afp-code/src/HEAD/L8/Interpreter4.hs?at=master&fileviewer=file-view-default), there are some auxiliary functions which do not type check.
+
+* We start by focusing on the auxiliary function `lookupVar`
 
   ```haskell
   lookupVar :: Name -> Eval Value
@@ -827,6 +832,10 @@
        Nothing -> lift (lift (throwError (UnboundVariable x))) -- new
        Just v  -> return v ```
 
-   Now, the code above type-checks.
+   The definition for `lookupVar` above type-checks.
 
-* To be completed
+* Similar as `lookupVar`, auxiliary function `localScope` does not type checks
+  and needs to be changed. However, the reason why it does not work cannot be
+   simply fixed by calling function `lift` (explained below).
+
+## Lifting operations II
