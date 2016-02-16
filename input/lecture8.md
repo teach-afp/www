@@ -735,3 +735,98 @@
    **Exercise**: Show that `MyReaderT r m` is a monad transformer, i.e., implement
    the `lift` function.
    </div>
+
+## Interpreter 6: an interpreter with `MyStateT`, `MyExceptT`, and `MyReaderT`
+[code](https://bitbucket.org/russo/afp-code/src/HEAD/L8/Interpreter6.hs?at=master&fileviewer=file-view-default)
+
+* We define the monad stack using our own monad transformers
+
+  ```haskell
+  type Eval a = (MyStateT Store
+                          (MyReaderT Env
+                                  (MyExceptT Err Identity))
+                          a ) ```
+
+* We can see our *monad stack* graphically as follows
+
+   <div class="container">
+      <img class="img-responsive col-md-8 "
+        src="./assets/img/stackM.png">
+   </div>
+
+* We adapt the run function accordingly
+
+  ```haskell
+  runEval :: Eval a -> Either Err a
+  runEval st = runIdentity
+                    (runErr
+                           (runEnv
+                                 (runST st emptyStore)
+                            emptyEnv)) ```
+
+
+  To run a computation of type `Eval a`, we need to run the whole monad stack
+
+   <div class="container">
+      <img class="img-responsive col-md-10 "
+        src="./assets/img/run_stackM.png">
+   </div>
+
+* We focus on the auxiliary function `lookupVar`
+
+  ```haskell
+  lookupVar :: Name -> Eval Value
+  lookupVar x = do
+  env <- ask
+  case Map.lookup x env of
+    Nothing -> throwError (UnboundVariable x)
+    Just v  -> return v ```
+
+  This code now does not type checks for two reasons.
+
+  Firstly, the `ask` function has type `MyReaderT Env (MyExceptT Err Identity)
+  a`, while the `lookupVar` is defined for the whole stack, i.e, a monad of type
+  `MyStateT Store (MyReaderT Env (MyExceptT Err Identity))`.
+
+  Graphically, we have an operation in one for the layers of the monad stack and
+  we want to make it work for the whole stack.
+
+   <div class="container">
+      <img class="img-responsive col-md-8 "
+        src="./assets/img/lift1_stackM.png">
+   </div>
+
+   We then *lift* `ask` to work with the top-level layer (`MyStateT`).
+
+    ```haskell
+    lookupVar x = do
+      env <- lift ask -- new
+      case Map.lookup x env of
+        Nothing -> throwError (UnboundVariable x)
+        Just v  -> return v ```
+
+   Secondly, `throwError` has type `MyExceptT Err Identity a`, while `lookupVar`
+   is defined for whole monad stack.
+
+   As before, we have an operation in one of the layers of the monad stack and
+   we want to make it work for the whole stack. In this case, however, we need
+   to *lift* it two layers up.
+
+   <div class="container">
+      <img class="img-responsive col-md-10 "
+        src="./assets/img/lift2_stackM.png">
+   </div>
+
+   In the code, function `lift` is applied twice.
+
+   ```haskell
+   lookupVar :: Name -> Eval Value
+   lookupVar x = do
+     env <- lift ask
+     case Map.lookup x env of
+       Nothing -> lift (lift (throwError (UnboundVariable x))) -- new
+       Just v  -> return v ```
+
+   Now, the code above type-checks.
+
+* To be completed
