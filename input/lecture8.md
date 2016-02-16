@@ -407,4 +407,331 @@
 * In case you designed your own monad to handle certain special effects, you
   might want to make a monad transformer for adding such effects to any monad!
 
-* To be completed
+* We will develop the state, error, and reader monad transformers
+
+## `MyStateT`: an state monad transformer
+
+* We start by defining a data type to host the *transformed monad*, i.e., the
+  monad which the transformer consider.
+
+  ```haskell
+  data MyStateT s m a ```
+
+  The transformer takes the monad `m` and synthesis a *new* monad with state (of type
+  `s`) which contains `m` underneath.
+
+* To write a monad transformer, it is usually a good principle to see the
+  underlying monad as a black-box, i.e., you should assume nothing about its
+  structure.
+
+* If monad `m` is black-box, you can only use its `return`, `(>>=)`, and the
+  non-proper morphisms
+
+* Importanty, recall that monad `m` is polymorphic on the produced result, e.g.,
+  you could have monadic computations of type `m Int`, `m Char`, `m [Int]`,
+  etc.
+
+* Inside the implementation of `MyStateT`, we will exploit the polymorphism of
+  `m` to choose a *convenient type for the result* which helps to implement the
+  new monad
+
+* Let us see now a possible implementation of `MyStateT`
+
+  ```haskell
+  data MyStateT s m a = MyStateT { st :: s -> m (a,s) } ```
+
+  The state monad transformer model computations as a function which takes an
+  state (of type) `s` and returns a computation `m` (the underlying monad).
+
+  Importantly, the computation `m` produces a result (of type) `a` and the
+  resulting state (of type) `s`
+
+  Observe how the state monad transformers uses `m` to keep track of the
+  resulting state by simply instantiating the type `m`'s result to be `(a, s)`.
+
+   <div class="container">
+      <img class="img-responsive col-md-10 "
+        src="./assets/img/stT.png">
+   </div>
+
+* Given the implementation of `MyStateT`, we now show that `MyStateT s m a` is a
+  monad for every underlying monad `m`
+
+  When defining `return` and `(>>=)` for `MyStateT`, we are going to use
+  `return` and `(>>=)` given for `m` -- recall that we should see `m` as
+  black-box!
+
+  ```haskell
+  return x = MyStateT $ \s -> return (x, s) ```
+
+  Observe that `return` for `MyStateT` uses `return (x,s) :: m (a,s)`.
+
+  For the bind, we start by indicating that the result of the bind is a monadic
+  value from our monad transformer. Therefore, we know that
+
+  ```haskell
+   MyStateT f >>= k = MyStateT $ \s1 -> ... ```
+
+   We are going to use the types to guide us how to complete the definitions.
+
+   We know that `k :: a -> MyStateT s m b` is waiting for a value of type `a`,
+   and we have the statefull computation `f :: s -> m (a,s)` which produces an
+   `a` when given an state of type `s`. We have state `s1 :: s` in scope, let
+   us use it!
+
+   ```haskell
+   MyStateT f >>= k = MyStateT $ \s1 -> do (a, s2) <- f s1
+                                           ... (k a) ... ```
+
+   Observe that `(k a) :: MyStateT s m b`, but the type for the whole missing
+   code must be `... (k a) ... :: m (b, s)`. As a first step, we can destruct
+   `MyStateT` and obtain its underlying computation of type `s -> m (b, s)`.
+
+   ```haskell
+   MyStateT f >>= k = MyStateT $ \s1 -> do (a, s2) <- f s1
+                                           st (k a) ... ```
+
+   Still, the type for `st (k a) :: s -> m (b, s)`, i.e., we need to provide it
+   an state of type `s` to obtain a term of type `m (b, s)`. At this point, we
+   have two states in scope: `s1` and `s2`. Which one should we use? Since
+   `MyStateT s m a` is an state monad, it should "pass along" the state between
+   subcomputations. Thus, we will pass the resulting state after running `f s1`,
+   i.e., `s2`.
+
+   ```haskell
+   MyStateT f >>= k = MyStateT $ \s1 -> do (a, s2) <- f s1
+                                           st (k a) s2 ```
+
+* Now that `MyStateT s m` is a monad (do not forget to prove the monadic laws),
+  we also need to provide the non-proper morphisms `get` and `put` corresponding
+  to state monads
+
+  ```haskell
+  instance Monad m => MonadState s (MyStateT s m) where
+     get     = MyStateT $ \s -> return (s,s)
+     put s   = MyStateT $ \_ -> return ((),s) ```
+
+* We leave as an exercise to define the run functions
+
+  ```haskell
+  runST    :: Monad m => MyStateT s m a -> s -> m a
+  runSTInt :: Monad m => MyStateT s m a -> s -> m (a,s) ```
+
+## Monad transformers: lifting non-proper morphisms
+
+* So far, we have shown how `MyStateT s m a` takes a monad `m` and synthesizes
+  an state monad with `m` underneath.
+
+  For that, we show how `return` and `(>>=)` for `MyStateT` can be defined based on
+  `return` and `(>>=)` for monad `m`.
+
+* What about the non-proper morphisms of `m`? Can we reuse them in `MyStateT s m`?
+
+* A monad transformer is also responsible to provide the tools to take a
+  non-proper morphisms in `m` and *lift* it to work in `MyStateT s m`
+
+* We declare a type-class for monad transformers, which contains a method for
+  *lifting* operation from the underlying monad
+
+   ```haskell
+   class Monad m => MT m mT | mT -> m where
+     lift :: m a -> mT a ```
+
+   This type class denotes that `mT` is a monad transformer which takes `m` as
+   its underlined monad.
+
+   The type for `lift` takes a monadic operation in `m` (of type `m a`) and
+   returns a computation that works in `mT` instead (of type `mT a`).
+
+* We show that `MyStateT` is a monad transformer
+
+  ```haskell
+  instance Monad m => MT m (MyStateT s m) where
+       lift m = MyStateT $ \s -> do a <- m
+                                    return (a,s) ```
+
+  Observe that `lift` only runs the computation `m` without changing the state.
+
+
+## `MyExceptT`: an error monad transformer
+
+* As before, we start by defining a data type to host the *transformed monad*,
+  i.e., the monad which the transformer consider.
+
+  ```haskell
+  data MyExceptT e m a ```
+
+  To implement `MyExceptT e m a`, we need to add a mechanism to track if a
+  computation has successfully or erroneously produced a value.
+
+  We will exploit the polymorphism of `m` to instantiate the type of the result
+  with a data type which can keep track of errors.
+
+  ```haskell
+  data MyExceptT e m a = MyExceptT { except :: m (Either e a) } ```
+
+  <div class="container">
+      <img class="img-responsive col-md-10 "
+        src="./assets/img/exT.png">
+  </div>
+
+
+* We define `MyExceptT e m` as a monad
+
+  As before, to define `return` and `(>>=)` for `MyExceptT e m`, we are to use
+    `return` and `(>>=)` for the underling monad `m`
+
+  The `return` function for `MyExceptT e m` returns a successful computation,
+  i.e., a value of the form `Right x` for some `x`.
+
+  ```haskell
+  return a = MyExceptT $ return (Right a) ```
+
+  Observe the use of `return` from the underlying monad `m`, where `return
+  (Right a) :: m (Either e a)`.
+
+  To define `m >>= k` for `MyExceptT e m`, the bind must check if the
+  computation `m` fails, then `m >>= k` must also fail -- thus, propagating the
+  error. Otherwise, the bind must give the result of `m` to `k` and run the
+  subsequent computation. With this in mind, we start defining the bind for
+  `MyExceptT e m`.
+
+  ```haskell
+  (MyExceptT m) >>= k = MyExceptT $ ... ```
+
+  The bind needs to check if the computation `m` produces a value or an error.
+  To observe the value that `m` produces, we have no other choice than run it
+  and extract the resulting value -- recall that we consider `m` as a black-box. For
+  that, we use the `(>>=)` from the underlying monad.
+
+  ```haskell
+  (MyExceptT m) >>= k = MyExceptT $ m >>= \result -> ... ```
+
+  We capture what `m` produces in the variable `result`. Then, we inspect it to
+  see if it is a legit value or an error.
+
+  ```haskell
+  (MyExceptT m) >>= k = MyExceptT $ m >>= \result -> case result of
+                                                          ... ```
+
+  If `result` is an error, i.e., a value of the form `Left e`, we propagate it.
+
+  ```haskell
+  (MyExceptT m) >>= k = MyExceptT $ m >>= \result -> case result of
+                                                          Left e -> return (Left e)
+                                                          ... ```
+
+  Observe that `return (Left e) :: m (Either e a)`. In case that `result` is of
+  the form `Right a`, i.e., a legit value, the bind needs to continue running
+  the computation as indicating by `k` -- for that, we need to give it the value
+  produced by `m`.
+
+  ```haskell
+  (MyExceptT m) >>= k = MyExceptT $ m >>= \result -> case result of
+                                                          Left e  -> return (Left e)
+                                                          Right a -> ... k a ... ```
+
+  Observer, however, that `k a :: MyExceptT e m b` while we need an expression
+  of type `m (Either e b)`, which is contained in `k a`. Thus, we extract it by
+  simply applying `except`.
+
+  ```haskell
+  (MyExceptT m) >>= k = MyExceptT $ m >>= \result -> case result of
+                                                          Left e  -> return (Left e)
+                                                          Right a -> except (k a) ```
+
+* Now that `MyExceptT e m` is a monad (again, do not forget to prove the monadic
+  laws), we need to provide the non-proper morphisms `throwError` and
+  `catchError` for error monads.
+
+  ```haskell
+  throwError e = MyExceptT $ return (Left e) ```
+
+  Observe that `return (Left e) :: m (Either e a)`. To define `catchError`, we
+  need to observe if the computation passed as first argument produces a legit
+  value or an error.
+
+  ```haskell
+  catchError (MyExceptT m) h = MyExceptT $ ... ```
+
+  Computation `m` is given in the underlying monad. Therefore, to observe the
+  value produced by `m`, we need to run it and extract its result with the
+  `(>>=)` from the underlying monad.
+
+   ```haskell
+   catchError (MyExceptT m) h = MyExceptT $ m >>= \result -> ... ```
+
+   We then need to inspect the shape of result. In case that `result` is of the
+   form `Right a` (for some value `a`), `catchError` does not need to engage
+   the exception handler, but rather return such value.
+
+   ```haskell
+   catchError (MyExceptT m) h = MyExceptT $ m >>= \result ->
+                                                     case result of
+                                                          Right a -> return (Right a)
+                                                          ... ```
+
+   If `m` instead produces an error, `catchError` needs to engage the exception
+   handler.
+
+   ```haskell
+   catchError (MyExceptT m) h = MyExceptT $ m >>= \result ->
+                                                     case result of
+                                                          Right a -> return (Right a)
+                                                          Left  e -> ... (h e) ... ```
+
+   We have the type for `(h e) :: MyExceptT e m a`, but we need an expression of
+   type `m (Either e a)` for the code `... (h e) ...`. For that, we deconstruct
+   `h e` by using `except`.
+
+   ```haskell
+   catchError (MyExceptT m) h = MyExceptT $ m >>= \result ->
+                                                     case result of
+                                                          Right a -> return (Right a)
+                                                          Left  e -> except (h e) ```
+
+* We leave as an exercise to define the run function
+
+  ```haskell
+  runErr :: MyExceptT e m a -> m (Either e a) ```
+
+* We show that `MyExceptT e` is a monad transformer by providing a *lifting*
+  operation
+
+  ```haskell
+  instance Monad m => MT m (MyExceptT e m) where
+      lift m = MyExceptT $ m >>= \a -> return (Right a) ```
+
+  The `lift` function simply runs the computation `m` from the underlying monad
+  and wraps its result with a `Right` constructor.
+
+## `MyReaderT`: a reader monad transformer
+
+* We start by defining a data type to host the transformed monad, i.e., the
+   monad which the transformer consider.
+
+   ```haskell
+   data MyReaderT r m a ```
+
+   To implement `MyReaderT r m a`, we need to add a mechanism to provide a
+   computation `m a` with some environment (read-only state).
+
+   ```haskell
+   data MyReaderT r m a = MyReaderT {env :: r -> m a} ```
+
+   For that, we make `m a` to depend on an environment of type `r`.
+
+   <div class = "alert alert-info">
+   **Exercise**: Define `MyReaderT r m` as a monad, i.e, implement `return` and
+   `(>>=)`.
+   </div>
+
+   <div class = "alert alert-info">
+   **Exercise**: Show that `MyReaderT r m` is a reader monad, i.e., implement
+   functions `ask` and `local`.
+   </div>
+
+   <div class = "alert alert-info">
+   **Exercise**: Show that `MyReaderT r m` is a monad transformer, i.e., implement
+   the `lift` function.
+   </div>
