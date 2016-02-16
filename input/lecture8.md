@@ -839,3 +839,121 @@
    simply fixed by calling function `lift` (explained below).
 
 ## Lifting operations II
+
+* It is not always as easy as applying `lift` in order to use a non-proper
+  morphism from the underlying layers
+
+* To illustrate this point, we will examine the code for the constructor `Catch`.
+
+  In the interpreter 4, the code was
+
+  ```haskell
+  eval (Catch e1 e2)  = catchError (eval e1) (\_err -> eval e2)
+  ```
+
+  However, this line of code does not type check if we use our own monad
+  transformers.
+
+  The reason for that is that
+  ```haskell
+  eval e1 :: Eval a
+  \_err -> eval e2 :: Err -> Eval a```
+
+  and function `catchError` is working at the layer introduced by
+  `MyExceptT`. Because of that, `catchError` expects two arguments, let's called
+  it `arg1` and `arg2`, with the following types
+
+  ```haskell
+  arg1 :: MyExceptT Err Identity a
+  arg2 :: e -> MyExceptT Err Identity a ```
+
+  <div class = "alert alert-info">
+  Graphic (To be done)
+  </div>
+
+  To feed `catchError` with the appropriated monadic values, we need to *run* the
+  computations of type `Eval a` to remove all the their upper layers until
+  reaching the right one, i.e., the error layer.
+
+  <div class = "alert alert-info">
+  Graphic (To be done)
+  </div>
+
+  ```haskell
+  eval (Catch e1 e2)  =
+       let st1  = runSTInt (eval e1)
+           st2  = runSTInt (eval e2)
+           ... ```
+
+  So far, we obtained functions `st1` and `st2` which produce, when given an
+  state, a monadic computation in the next layer of the stack (i.e., a reader
+  monadic computation). In other words, to run `st1` and `st2`, and therefore
+  going deeper into the monad stack, it is necessary to provide an state. Since
+  we have none in scope, we need to *break* the abstraction of the `MyStateT`
+  monad transformer in order to introduce a binding for the state.
+
+  ```haskell
+  eval (Catch e1 e2)  =
+       MyStateT $ \s -> let
+                           st1  = runSTInt (eval e1)
+                           st2  = runSTInt (eval e2)
+                           env1 = runEnv (st1 s)
+                           env2 = runEnv (st2 s)
+                           ... ```
+
+  At this point, we are at the level of the reader monad in our stack.
+
+  Function `env1` and `env2` produce, when given an environment, a computation
+  in the error layer monad. As before, since we do not have an environment in
+  scope, we need to *break* the abstraction of the `MyReaderT` monad transformer
+  to introduce a binding for the environment.
+
+  ```haskell
+  eval (Catch e1 e2)  =
+       MyStateT $ \s -> let
+                           st1  = runSTInt (eval e1)
+                           st2  = runSTInt (eval e2)
+                           env1 = runEnv (st1 s)
+                           env2 = runEnv (st2 s)
+                       in MyReaderT $ \r -> ... ```
+
+  With the environment `r` in scope, `env1 r :: MyExceptT Err Identity a` and
+  `env2 r :: MyExceptT Err Identity a` and we can feed function `catchError` with them.
+
+  ```haskell
+   eval (Catch e1 e2)  =
+        MyStateT $ \s -> let
+                            st1  = runSTInt (eval e1)
+                            st2  = runSTInt (eval e2)
+                            env1 = runEnv (st1 s)
+                            env2 = runEnv (st2 s)
+                        in MyReaderT $ \r -> catchError (env1 r) (\_err -> env2 r) ```
+
+* We have not describe how to adapt the function `localScope` and we leave it as
+  an exercise since it exhibits a similar problem as `eval (Catch e1 e2)`.
+
+* In [Interpreter
+  4](https://bitbucket.org/russo/afp-code/src/HEAD/L8/Interpreter4.hs?at=master&fileviewer=file-view-default),
+  GHC's "deriving magic" saves you from all the complications of lifting
+  non-proper morphisms.
+
+  If you design your own monad transformer, however, it is highly probably that
+  GHC does not know how to derive it.
+
+## Summary
+
+* The combination of effects does not always compose
+
+  - The order in which monad transformers are applied matters
+
+  - It is not semantically the same to first apply the state and then the error
+    monad transformer than in the other way around
+
+* We show implementations for state, error, and reader monad transformers
+
+* Lifting non-proper morphism is not always trivial
+
+  - Sometimes, we need to break the abstraction of upper layers until we get to
+    the layer where the non-proper morphism resides, apply it, and then lift the
+    result back to the top layer by either applying the monad transformers'
+    constructors or the right amount of `lift` functions.
