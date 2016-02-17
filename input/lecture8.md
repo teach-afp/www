@@ -867,17 +867,20 @@
   arg1 :: MyExceptT Err Identity a
   arg2 :: e -> MyExceptT Err Identity a ```
 
-  <div class = "alert alert-info">
-  Graphic (To be done)
-  </div>
+   <div class="container">
+      <img class="img-responsive col-md-12 "
+        src="./assets/img/breakingMT.png">
+   </div>
 
   To feed `catchError` with the appropriated monadic values, we need to *run* the
   computations of type `Eval a` to remove all the their upper layers until
   reaching the right one, i.e., the error layer.
 
-  <div class = "alert alert-info">
-  Graphic (To be done)
+  <div class="container">
+      <img class="img-responsive col-md-11"
+        src="./assets/img/breakingMT2.png">
   </div>
+
 
   ```haskell
   eval (Catch e1 e2)  =
