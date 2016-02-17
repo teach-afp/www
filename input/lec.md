@@ -148,6 +148,22 @@ update!
 
 * The reading material is the same as lecture 6 (see above).
 
+## 9. [Information-flow Control in Haskell](./lecture9.md)
+
+* **Topics**: In this lecture, we will see a use of monads for controlling
+    effects in order to provide security for Haskell programs. We will focus on
+    how to preserve sensitive data when executed by untrusted code, i.e., code
+    written by someone else.
+
+* [Source
+  code for MAC library](https://bitbucket.org/russo/mac-lib), [Source code for
+  the demo](https://bitbucket.org/russo/mac-demo)
+
+
+* **Reading**: Functional Pearl: [Two can keep a secret, If one of them uses
+    Haskell by A. Russo](http://www.cse.chalmers.se/~russo/publications_files/pearl-russo.pdf)
+
+
 ## 14. Looking forward! (March 3rd)
 
 * **Topics**: Second instance of the excercise session with exam questions.
