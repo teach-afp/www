@@ -105,11 +105,11 @@
   (:>>=) :: Parser s a -> (a -> Parser s b) -> Parser s b ```
 
   Function `symbol` returns the next symbol. Function `fail` aborts
-  parsing. Function `return` and `(:>>=)` are the monadic primitives.
+  parsing. Functions `return` and `(:>>=)` are the monadic primitives.
   Function `(+++)` is the choice operator.
 
 * Before we get into the implementation details, let us describe some laws that
-  we expect from the API -- in that manner, we can detect early on if we are doing
+  we expect from the API — in that manner, we can detect early on if we are doing
   things right!
 
   <div class="alert alert-info">
@@ -237,8 +237,8 @@
 * Any semantics we associate to elements of type `Parser s a` must obey the laws
   shown above
 
-* We take a reference semantics, i.e., a semantics that we will all our
-  implementation against in order to see if our implementation is correct
+* We take a reference semantics, i.e., a semantics that we will compare our
+  implementation against in order to see if our implementation is correct.
 
 * The semantic function `[| _ |]`, also called `run`, is defined as follows
   (we use `{| |}` to denote multisets and `\/` for multiset union).
@@ -294,7 +294,7 @@
      </tr>
 
      <tr class="alert alert-warning">
-     <td> Definition of (`>>=`) </td>
+     <td> Definition of `(>>=)` </td>
 
      <td> Creation of many intermediate results (e.g., `[| p |] s` and `[| f a |]` ```
      </td>
@@ -358,7 +358,7 @@
                                       (y,s2) <- run0 (f x) s1] ```
 
   <div class = "alert alert-info">
-  We have the same sources of inefficiencies as the reference semantics!
+  We have the same sources of inefficiency as the reference semantics!
   (i.e., definition of `Choice` and `(:>>=)`)
   </div>
 
@@ -368,10 +368,10 @@
 * The use of list comprehension in `run0 (p :>>= f)` builds a lot of
    intermediate lists which might be costly
 
-* How do we simplified?
+* How do we simplify it?
 
   We move towards an *intermediate* representation, where the bind takes place
-  when constructing the program -- not when running it!
+  when constructing the program — not when running it!
 
 * Methodology:
 
@@ -421,7 +421,7 @@
 
   ```haskell SymbolBind :: (s -> Parser0 s a) -> Parser0 s a ```
 
-* We call `Parser1` to the definition of `Parser0` where `SymbolBind` gets
+* We obtain `Parser1` from the definition of `Parser0`, where `SymbolBind` gets
   introduced and `(:>>=)` gets removed
 
   ```haskell
@@ -452,7 +452,7 @@
 
    We are going to derive it by using the reference semantics.
 
-   We know, by definition of `SymbolBind`, that
+   We know, by the definition of `SymbolBind`, that
 
    ```haskell
    [| SymbolBind k |] = [| symbol >>= k |] ```
@@ -507,7 +507,7 @@
    ```haskell
    [| symbol >>= k |] (s:ss) = [| k s |] ss ```
 
-   To summarize, we obtain that
+   To summarize, we obtain
 
    ```haskell
    [| symbol >>= k |] []     = {| |}
@@ -661,10 +661,10 @@
    nested applications `(+++)` get a quadratic behaviour, e.g., consider
    expressions of the form `((s1 ++ s2) ++ s3)`.
 
-* How can we optimize `Choice`, i.e., `(+++)`?
+* How can we optimize `Choice`, i.e. `(+++)`?
 
   Similar as we did with bind, we remove it from our data type.  The choice
-  operator `(+++)` then takes place when building the program -- not when
+  operator `(+++)` then takes place when building the program — not when
   running it!
 
 * The new data type for parsers
@@ -704,7 +704,7 @@
    ```haskell
    Return x +++ Return y = ? ```
 
-* For these cases, therefore introduce a new constructor.
+* For these cases, we therefore introduce a new constructor.
 
   ```haskell
   ReturnChoice x p ≡ Return x +++ p ```
@@ -716,7 +716,7 @@
 
   `ReturnChoice` can encode `Return`!
 
-* Therefore, let us take the definition of `Parser2` and change `Return` by
+* Therefore, let us take the definition of `Parser2` and replace `Return` with
   `ReturnChoice`
 
   ```haskell
@@ -752,7 +752,7 @@
   ```haskell
   (Return x +++ p) +++ q ≡ Return x +++ (p +++ q) ```
 
-  By definition of `ReturnChoice`, we obtain
+  By the definition of `ReturnChoice`, we obtain
 
   ```haskell
   Return x +++ (p +++ q) ≡ ReturnChoice x (p +++ q) ```
@@ -776,10 +776,10 @@
 
 
 * So, we obtain `(+++)` defined, but we should fix `(>>=)` since
-  we change `Return` by `ReturnChoice`
+  we replaced `Return` with `ReturnChoice`
 
   ```haskell
-  {- | Monadic instance for Parser1 -}
+  {- | Monadic instance for Parser2 -}
   instance Monad (Parser2 s) where
      return x = ReturnChoice x Fail
      Fail             >>= k = Fail
@@ -805,7 +805,7 @@
   ```haskell  ReturnChoice x p >>= k = k x +++ (p >>= k) ```
 
   ```haskell
-  {- | Monadic instance for Parser1 -}
+  {- | Monadic instance for Parser2 -}
   instance Monad (Parser2 s) where
      return x = ReturnChoice x Fail
      Fail             >>= k = Fail
@@ -813,9 +813,9 @@
      ReturnChoice x p >>= k = k x +++ (p >>= k) ```
 
 * We have completed the implementation of `(+++)` and `(>>=)` which gets
-  computed when constructed parsers -- not when running them!
+  computed when constructing parsers — not when running them!
 
-* Let us see the run function
+* Let us see the run function.
 
   We take `run1` for parsers of type `Parser1`, remove the case for `Choice`,
   and see what happens when placing `ReturnChoice` in the place of `Return`.
@@ -863,7 +863,7 @@
 * Is `Parser2` as expressive as `Parser1`? In other words, can any parser you
   wrote of type `Parser1` be reformulated as a parser of type `Parser2`?
 
-  Yes! We can write a function which transform a `Parser1` into a `Parser2`
+  Yes! We can write a function which transforms a `Parser1` into a `Parser2`
 
   ```haskell cast2 :: Parser1 s a -> Parser2 s a ```
 
@@ -875,7 +875,7 @@
 
 * There is still one remaining source of inefficiency.
 
-* If you look at the definition of `(>>=)`, you'll see that it's linear in the
+* If you look at the definition of `(>>=)`, you'll see that it is linear in the
   size of its first argument.
 
   This means that we get a similar problem to the use of `(++)`, namely a
