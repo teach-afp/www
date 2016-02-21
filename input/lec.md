@@ -1,7 +1,7 @@
 We will try to have the lecture notes available on-line before the lecture so
 you can bring them to the lecture to do notes and (in case of errors)
 corrections. However, *it might not happen* since there are some changes for
-this year. For impatient students, you could check last [year's web
+this year. For impatient students, you could check [last year's web
 page](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/).
 
 ## 1. [Introduction to the course](./lecture1.html).
@@ -126,7 +126,7 @@ update!
     Interpreters](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/Papers/modular-interpreters-liang.ps)
     by Sheng Liang, Paul Hudak, and Mark Jones.
 
-## 7. Looking forward! (February 11st)
+## 7. Looking forward! (February 11th)
 
 * **Topics**: In this lecture / excercise session we will work through old AFP
     exam questions in groups to identify important topics and practice
