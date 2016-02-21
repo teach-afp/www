@@ -20,6 +20,13 @@
 
 # News!
 
+* Feb 21
+
+  <div class = "alert alert-info">
+  Tomorrow's lecture is up (half of it).
+  Lab 3 is announced!
+  </div>
+
 * Feb 17
 
   <div class="alert alert-info">
