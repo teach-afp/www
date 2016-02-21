@@ -450,3 +450,51 @@
        (x:xs) ```
 
 * The proof now goes through!
+
+## Equational reasoning summary
+
+* Equational reasoning can be an elegant way to prove properties of a program
+
+* Equational reasoning can be used to establish a relation between an *obviously
+  correct* Haskell program (a specification) and an efficient Haskell program
+
+* Equational reasoning is usually quite lengthy
+
+* Careful with special cases (laziness):
+  - `undefined` values;
+  - infinite values
+
+* It is infeasible to prove properties about every Haskell program using
+  equational reasoning
+
+* Other proof methods
+
+  - Proof assistants: [Agda](http://wiki.portal.chalmers.se/agda/pmwiki.php),
+    [Coq](https://coq.inria.fr/), [Isabelle](https://isabelle.in.tum.de/), etc.
+
+  - It provides mechanized proofs and opens the door for proof-scalability (next
+    lecture!)
+
+## Property-based testing
+
+* Rather than formally proving that a program is correct, we are going to test
+  it against its specification
+
+* Importantly, the test cases are generated automatically
+
+* We will use QuickCheck, a Haskell library developed at Chalmers by Koen
+  Claessen and John Hughes
+
+* QuickCheck is essentially an embedded domain-specific language (EDSL) for
+  defining properties and test implementations against them
+
+  - Automatic datatype-driven generation of random test data, i.e., QuickCheck
+    uses the type information of your data to generate test cases!
+
+  - Users can extend the generation of random test data to fit their needs
+
+  - Shrinks failing test cases
+
+<div class = "alert alert-info">
+TBD
+</div>

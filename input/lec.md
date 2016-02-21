@@ -148,7 +148,7 @@ update!
 
 * The reading material is the same as lecture 6 (see above).
 
-## 9. [Information-flow Control in Haskell](./lecture9.md)
+## 9. [Information-flow Control in Haskell](./lecture9.html)
 
 * **Topics**: In this lecture, we will see a use of monads for controlling
     effects in order to provide security for Haskell programs. We will focus on
@@ -162,6 +162,22 @@ update!
 
 * **Reading**: Functional Pearl: [Two can keep a secret, If one of them uses
     Haskell by A. Russo](http://www.cse.chalmers.se/~russo/publications_files/pearl-russo.pdf)
+
+
+## 10. [Program verification](./lecture10.html)
+
+* **Topics**: In this lecture, we look at program verification by proving
+    properties by induction. We also explore property-based testing as
+    increasing the confidence on program correctness.
+
+* [Source code](https://bitbucket.org/russo/afp-code/src/HEAD/L10/?at=master)
+
+* **Reading**: Chapter 11. Chapter 2 in the book *The Fun of Programming*.
+
+* **Optional reading**: [QuickCheck: A Lightweight Tool for Random Testing of
+    Haskell Programs by K. Claessen and
+    J. Hughes](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/Papers/QuickCheck-claessen.ps)
+
 
 
 ## 14. Looking forward! (March 3rd)
