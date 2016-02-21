@@ -190,3 +190,37 @@ AFP course.
 
 
 </div>
+
+
+## Aim and context
+
+Learning outcomes:
+
+* DSL: design embedded domain specific languages
+  - DSL.Concepts: (abstract) syntax, semantics, ...
+  - DSL.Implement: implement EDSLs in Haskell (as combinator libraries)
+
+* Types: read, understand and extend Haskell programs which use advanced type system features
+  - Types.Class: type classes, newtypes, deriving, ...
+  - Types.GADT: (generalised) algebraic datatypes & type families
+  - Types.HOT: functors, monads and monad transformers
+
+* Spec: use specification based development techniques
+  - Spec.Test: formulate and test properties about the program
+  - Spec.Prove: reason about correctness of functional programs
+  - Spec.Trans: transform programs on the basis of reasoning
+
+## Context
+
+The AFP course requires a BSc in Computer Science or equivalent, mathematical
+maturity, a basic course on Functional Programming (like [our
+version](https://www.student.chalmers.se/sp/course?course_id=20841)) and a
+course on Programming Languages (like [Programming Language
+Technology](https://www.student.chalmers.se/sp/course?course_id=20880) or
+[Programming
+Paradigms](https://www.student.chalmers.se/sp/course?course_id=20742)). Other
+recommended courses are [Logic in
+CS](https://www.student.chalmers.se/sp/course?course_id=19994),
+[Algorithms](https://www.student.chalmers.se/sp/course?course_id=21111) and
+[Finite automata theory and formal
+languages](https://www.student.chalmers.se/sp/course?course_id=20875).
