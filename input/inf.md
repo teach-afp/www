@@ -69,7 +69,7 @@ Lectures (note different lecture rooms on different week days)
 		<img class="img-no-resize" src="http://johnjcamilleri.com/images/john-j-camilleri.jpg" alt="John's picture">
 		<div class="caption">
 			[John J. Camilleri](http://www.cse.chalmers.se/~cajohn/)
-                        <p> **Office hours**: Friday 13-15 (except study week 1 and 2) Office: 5446</p>
+                        <p> **Office hours**: Friday 13-15 (except study weeks 1, 2, 8); Friday 10-12 (study week 8) <br> Office: 5446</p>
 		  </div>
 	</div>
 </div>
