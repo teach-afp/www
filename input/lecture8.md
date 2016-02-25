@@ -40,10 +40,10 @@
    </div>
 
   `ExceptT` takes a monad `m` and returns a monad which support
-  two operations: `throwError` and `catchError` -- such monads are called `MonadError`.
+  two operations: `throwError` and `catchError` — such monads are called `MonadError`.
 
   <div class="alert alert-info">
-   A monad obtained by the transformer `ExceptT` is a`MonadError`!
+   A monad obtained by the transformer `ExceptT` is a `MonadError`!
   </div>
 
    ```haskell
@@ -61,7 +61,7 @@
   `Eval`.
 
 * We can understand the interaction between the state monad and the error monad
-  by looking at their implementations (i.e., types).
+  by looking at their implementations (i.e. types).
 
 * It matters whether we stick the error monad on the outside or the inside of
   the state monad.
@@ -79,7 +79,7 @@
   ```haskell
   m_st (Either err a) ```
 
-  where `m_st` is an state monad.
+  where `m_st` is a state monad.
 
   Roughly speaking, this type is like having
 
@@ -89,25 +89,23 @@
   Since the state is hidden inside `m_st`, it is not affected by whether we return
   `Right a` or `Left err`.
 
-  <div class = "alert alert-info">
+  <div class="alert alert-info">
    State changes will not be rolled back when there's an
    exception.
   </div>
 
-  <div class = "alert alert-info">
+  <div class="alert alert-info">
    When there is an exception, the state information is there!
   </div>
 
 
-* Instead, if we place it on the inside, we have that
+* Instead, if we place `ExceptT` on the **inside**, i.e., adding a state monad on top of an
+  error monad, computations will be represented as
 
    <div class="container">
       <img class="img-responsive col-md-10 "
         src="./assets/img/m_st_err.png">
    </div>
-
-* With `ExceptT` on the **inside**, i.e., adding a state monad on top of an
-  error monad, computations will be represented as
 
   Using types, we will have computations of the form
 
@@ -131,7 +129,7 @@
 ## Interpreter 3: `ExceptT` on the inside
 [code](https://bitbucket.org/russo/afp-code/src/HEAD/L8/Interpreter3.hs?at=master&fileviewer=file-view-default)
 
-* We apply the monad transformer *on the inside* and wrapped it with a reader
+* We apply the monad transformer *on the inside* and wrap it with a reader
   and state monad.
 
   ```haskell
@@ -150,7 +148,7 @@
   function
 
    ```haskell
-   runEval :: Eval a -> Either Err a      -- new type!
+   runEval :: Eval a -> Either Err a     -- new type!
    runEval (MkEval st) = runIdentity
                          (runExceptT     -- new
                            (runReaderT
@@ -158,9 +156,9 @@
                            emptyEnv)
                          ) ```
 
-* We adapt the interpreter's auxiliaries functions where they can raise errors
+* We adapt the interpreter's auxiliary functions such that they can raise errors
 
-  *Looking a variable in the environment*
+  *Looking up a variable in the environment*
 
   ```haskell
   lookupVar :: Name -> Eval Value
@@ -170,7 +168,7 @@
       Nothing -> throwError (UnboundVariable x) -- new
       ... ```
 
-  *Deferencing a location which does not exists*
+  *Deferencing a location which does not exist*
 
   ```haskell
    deref :: Ptr -> Eval Value
@@ -184,19 +182,19 @@
 
     ```haskell
     eval :: Expr -> Eval Value
-    eval (Lit n)        = return n
-    eval (a :+: b)       = (+) <$> eval a <*> eval b
-    eval (Var x)        = lookupVar x
+    eval (Lit n)       = return n
+    eval (a :+: b)     = (+) <$> eval a <*> eval b
+    eval (Var x)       = lookupVar x
     eval (Let n e1 e2) = do v <- eval e1
                             localScope n v (eval e2)
-    eval (NewRef e)     = do v <- eval e
-                             newRef v
-    eval (Deref e)      = do r <- eval e
-                             deref r
-    eval (pe := ve)     = do p <- eval pe
-                             v <- eval ve
-                             p =: v
-    eval (Catch e1 e2)  = catchError (eval e1) (\_err -> eval e2) ```
+    eval (NewRef e)    = do v <- eval e
+                            newRef v
+    eval (Deref e)     = do r <- eval e
+                            deref r
+    eval (pe := ve)    = do p <- eval pe
+                            v <- eval ve
+                            p =: v
+    eval (Catch e1 e2) = catchError (eval e1) (\_err -> eval e2) ```
 
 * We can recover from errors
 
@@ -207,7 +205,7 @@
   > runEval $ eval $ testExpr2
   1738 ```
 
-* What does it happen with the side-effects when an error occurs?
+* What happens with the side-effects when an error occurs?
 
   ```haskell
   testExpr3 = parse "let one = new 1; \
@@ -232,7 +230,7 @@
    </div>
 
   The expression `((one := 2) + !7)` can be thought as a function which
-  takes an store and returns always an error, i.e., a function semantically
+  takes a store and always returns an error, i.e. a function semantically
   equivalent to `\s -> Left SegmentationFault`.
 
   Then, due to the try-catch statement, the expression
@@ -269,9 +267,9 @@
                                           emptyStore)
                           emptyEnv) ```
 
-* The interpreter, and the auxiliaries' functions remain the same
+* The interpreter, and the auxiliary functions remain the same
 
-* What does it happen with the side-effects when an error occurs?
+* What happens with the side-effects when an error occurs?
 
   ```haskell
   testExpr3 = parse "let one = new 1; \
@@ -295,18 +293,18 @@
    </div>
 
    The expression `((one := 2) + !7)` can be thought as a function which takes
-   an store and returns an error but keeping the state at the point of the
-   failure. You can think the computation as a function semantically similar to
+   a store and returns an error but keeping the state at the point of the
+   failure. You can think of the computation as a function semantically similar to
    `\s -> (Left SegmentationFault, s')` where `s'` is the same store as `s`
    except that reference `one` is set to `2`.
 
    When the exception handler is executed, it takes the state from where `((one
-   := 2 + !7))` left it, i.e., `s'`. So, the result of `!one` in the last line
+   := 2 + !7))` left it, i.e. `s'`. So, the result of `!one` in the last line
    of the program is `2`.
 
 ## Which one is better? ExceptT *outside* or *inside*?
 
-* That is application specific
+* That is application-specific
 
 * In our interpreter, the expected semantics for programs is obtained with
   `ExceptT` *on the inside*
@@ -341,7 +339,7 @@
 
     We replaced `Identity` by `IO`
 
-* The evaluation monad `Eval` is, roughly speaking` of type
+* The evaluation monad `Eval` is, roughly speaking, of type
 
   ```haskell
   s -> r -> Either Err (IO (a,s)) ```
@@ -356,7 +354,7 @@
   ```haskell
   liftIO :: MonadIO m => IO a -> m a ```
 
-* We define the function to show an string
+* We define the function to show a string
 
   ```haskell
   msg :: String -> Eval ()
@@ -366,21 +364,21 @@
 
    ```haskell
    eval :: Expr -> Eval Value
-   eval (Lit n)        = return n
-   eval (a :+: b)       = (+) <$> eval a <*> eval b
-   eval (Var x)        = lookupVar x
+   eval (Lit n)       = return n
+   eval (a :+: b)     = (+) <$> eval a <*> eval b
+   eval (Var x)       = lookupVar x
    eval (Let n e1 e2) = do v <- eval e1
                            localScope n v (eval e2)
-   eval (NewRef e)     = do v <- eval e
-                            newRef v
-   eval (Deref e)      = do r <- eval e
-                            deref r
-   eval (pe := ve)     = do p <- eval pe
-                            v <- eval ve
-                            p =: v
-   eval (Catch e1 e2)  = catchError (eval e1) (\_err -> eval e2)
-   eval (Print m)      = do msg m  -- new
-                            return 0 ```
+   eval (NewRef e)    = do v <- eval e
+                           newRef v
+   eval (Deref e)     = do r <- eval e
+                           deref r
+   eval (pe := ve)    = do p <- eval pe
+                           v <- eval ve
+                           p =: v
+   eval (Catch e1 e2) = catchError (eval e1) (\_err -> eval e2)
+   eval (Print m)     = do msg m  -- new
+                           return 0 ```
 
 * The following program produces an I/O effect before an exception is thrown
 
@@ -409,15 +407,15 @@
 
 * We will develop the state, error, and reader monad transformers
 
-## `MyStateT`: an state monad transformer
+## `MyStateT`: a state monad transformer
 
 * We start by defining a data type to host the *transformed monad*, i.e., the
-  monad which the transformer consider.
+  monad which the transformer considers.
 
   ```haskell
   data MyStateT s m a ```
 
-  The transformer takes the monad `m` and synthesis a *new* monad with state (of type
+  The transformer takes the monad `m` and synthesises a *new* monad with state (of type
   `s`) which contains `m` underneath.
 
 * To write a monad transformer, it is usually a good principle to see the
@@ -440,13 +438,13 @@
   ```haskell
   data MyStateT s m a = MyStateT { st :: s -> m (a,s) } ```
 
-  The state monad transformer model computations as a function which takes an
-  state (of type) `s` and returns a computation `m` (the underlying monad).
+  The state monad transformer models computations as a function which takes a
+  state (of type `s`) and returns a computation `m` (the underlying monad).
 
-  Importantly, the computation `m` produces a result (of type) `a` and the
-  resulting state (of type) `s`
+  Importantly, the computation `m` produces a result (of type `a`) and the
+  resulting state (of type `s`).
 
-  Observe how the state monad transformers uses `m` to keep track of the
+  Observe how the state monad transformer uses `m` to keep track of the
   resulting state by simply instantiating the type `m`'s result to be `(a, s)`.
 
    <div class="container">
@@ -458,7 +456,7 @@
   monad for every underlying monad `m`
 
   When defining `return` and `(>>=)` for `MyStateT`, we are going to use
-  `return` and `(>>=)` given for `m` -- recall that we should see `m` as
+  `return` and `(>>=)` given for `m` — recall that we should see `m` as
   black-box!
 
   ```haskell
@@ -472,12 +470,12 @@
   ```haskell
    MyStateT f >>= k = MyStateT $ \s1 -> ... ```
 
-   We are going to use the types to guide us how to complete the definitions.
+   We are going to use the types to guide us in completing the definitions.
 
    We know that `k :: a -> MyStateT s m b` is waiting for a value of type `a`,
    and we have the statefull computation `f :: s -> m (a,s)` which produces an
-   `a` when given an state of type `s`. We have state `s1 :: s` in scope, let
-   us use it!
+   `a` when given a state of type `s`. We have state `s1 :: s` in scope, let's
+   use it!
 
    ```haskell
    MyStateT f >>= k = MyStateT $ \s1 -> do (a, s2) <- f s1
@@ -491,10 +489,10 @@
    MyStateT f >>= k = MyStateT $ \s1 -> do (a, s2) <- f s1
                                            st (k a) ... ```
 
-   Still, the type for `st (k a) :: s -> m (b, s)`, i.e., we need to provide it
-   an state of type `s` to obtain a term of type `m (b, s)`. At this point, we
+   Still, the type for `st (k a) :: s -> m (b, s)`, i.e., we need to provide
+   a state of type `s` to obtain a term of type `m (b, s)`. At this point, we
    have two states in scope: `s1` and `s2`. Which one should we use? Since
-   `MyStateT s m a` is an state monad, it should "pass along" the state between
+   `MyStateT s m a` is a state monad, it should "pass along" the state between
    subcomputations. Thus, we will pass the resulting state after running `f s1`,
    i.e., `s2`.
 
@@ -511,7 +509,7 @@
      get     = MyStateT $ \s -> return (s,s)
      put s   = MyStateT $ \_ -> return ((),s) ```
 
-* We leave as an exercise to define the run functions
+* We leave it as an exercise to define the run functions
 
   ```haskell
   runST    :: Monad m => MyStateT s m a -> s -> m a
@@ -520,7 +518,7 @@
 ## Monad transformers: lifting non-proper morphisms
 
 * So far, we have shown how `MyStateT s m a` takes a monad `m` and synthesizes
-  an state monad with `m` underneath.
+  a state monad with `m` underneath.
 
   For that, we show how `return` and `(>>=)` for `MyStateT` can be defined based on
   `return` and `(>>=)` for monad `m`.
@@ -528,10 +526,10 @@
 * What about the non-proper morphisms of `m`? Can we reuse them in `MyStateT s m`?
 
 * A monad transformer is also responsible to provide the tools to take a
-  non-proper morphisms in `m` and *lift* it to work in `MyStateT s m`
+  non-proper morphism in `m` and *lift* it to work in `MyStateT s m`
 
 * We declare a type-class for monad transformers, which contains a method for
-  *lifting* operation from the underlying monad
+  *lifting* operations from the underlying monad
 
    ```haskell
    class Monad m => MT m mT | mT -> m where
@@ -556,7 +554,7 @@
 ## `MyExceptT`: an error monad transformer
 
 * As before, we start by defining a data type to host the *transformed monad*,
-  i.e., the monad which the transformer consider.
+  i.e., the monad which the transformer considers.
 
   ```haskell
   data MyExceptT e m a ```
@@ -590,8 +588,8 @@
   Observe the use of `return` from the underlying monad `m`, where `return
   (Right a) :: m (Either e a)`.
 
-  To define `m >>= k` for `MyExceptT e m`, the bind must check if the
-  computation `m` fails, then `m >>= k` must also fail -- thus, propagating the
+  To define `m >>= k` for `MyExceptT e m`, the bind must check that if the
+  computation `m` fails, then `m >>= k` must also fail — thus, propagating the
   error. Otherwise, the bind must give the result of `m` to `k` and run the
   subsequent computation. With this in mind, we start defining the bind for
   `MyExceptT e m`.
@@ -600,8 +598,8 @@
   (MyExceptT m) >>= k = MyExceptT $ ... ```
 
   The bind needs to check if the computation `m` produces a value or an error.
-  To observe the value that `m` produces, we have no other choice than run it
-  and extract the resulting value -- recall that we consider `m` as a black-box. For
+  To observe the value that `m` produces, we have no other choice than to run it
+  and extract the resulting value — recall that we consider `m` as a black-box. For
   that, we use the `(>>=)` from the underlying monad.
 
   ```haskell
@@ -623,7 +621,7 @@
 
   Observe that `return (Left e) :: m (Either e a)`. In case that `result` is of
   the form `Right a`, i.e., a legit value, the bind needs to continue running
-  the computation as indicating by `k` -- for that, we need to give it the value
+  the computation as indicating by `k` — for that, we need to give it the value
   produced by `m`.
 
   ```haskell
@@ -631,7 +629,7 @@
                                                           Left e  -> return (Left e)
                                                           Right a -> ... k a ... ```
 
-  Observer, however, that `k a :: MyExceptT e m b` while we need an expression
+  Observe, however, that `k a :: MyExceptT e m b` while we need an expression
   of type `m (Either e b)`, which is contained in `k a`. Thus, we extract it by
   simply applying `except`.
 
@@ -663,7 +661,7 @@
 
    We then need to inspect the shape of result. In case that `result` is of the
    form `Right a` (for some value `a`), `catchError` does not need to engage
-   the exception handler, but rather return such value.
+   the exception handler, but rather return this value.
 
    ```haskell
    catchError (MyExceptT m) h = MyExceptT $ m >>= \result ->
@@ -690,7 +688,7 @@
                                                           Right a -> return (Right a)
                                                           Left  e -> except (h e) ```
 
-* We leave as an exercise to define the run function
+* We leave it as an exercise to define the run function
 
   ```haskell
   runErr :: MyExceptT e m a -> m (Either e a) ```
@@ -708,7 +706,7 @@
 ## `MyReaderT`: a reader monad transformer
 
 * We start by defining a data type to host the transformed monad, i.e., the
-   monad which the transformer consider.
+   monad which the transformer considers.
 
    ```haskell
    data MyReaderT r m a ```
@@ -719,7 +717,7 @@
    ```haskell
    data MyReaderT r m a = MyReaderT {env :: r -> m a} ```
 
-   For that, we make `m a` to depend on an environment of type `r`.
+   For that, we make `m a` depend on an environment of type `r`.
 
    <div class = "alert alert-info">
    **Exercise**: Define `MyReaderT r m` as a monad, i.e, implement `return` and
@@ -787,7 +785,7 @@
     Nothing -> throwError (UnboundVariable x)
     Just v  -> return v ```
 
-  This code now does not type checks for two reasons.
+  This code now does not type check for two reasons.
 
   Firstly, the `ask` function has type `MyReaderT Env (MyExceptT Err Identity)
   a`, while the `lookupVar` is defined for the whole stack, i.e, a monad of type
@@ -834,7 +832,7 @@
 
    The definition for `lookupVar` above type-checks.
 
-* Similar as `lookupVar`, auxiliary function `localScope` does not type checks
+* Similar to `lookupVar`, auxiliary function `localScope` does not type check
   and needs to be changed. However, the reason why it does not work cannot be
    simply fixed by calling function `lift` (explained below).
 
@@ -872,8 +870,8 @@
         src="./assets/img/breakingMT.png">
    </div>
 
-  To feed `catchError` with the appropriated monadic values, we need to *run* the
-  computations of type `Eval a` to remove all the their upper layers until
+  To feed `catchError` with the appropriate monadic values, we need to *run* the
+  computations of type `Eval a` to remove all the upper layers until
   reaching the right one, i.e., the error layer.
 
   <div class="container">
@@ -891,7 +889,7 @@
   So far, we obtained functions `st1` and `st2` which produce, when given an
   state, a monadic computation in the next layer of the stack (i.e., a reader
   monadic computation). In other words, to run `st1` and `st2`, and therefore
-  going deeper into the monad stack, it is necessary to provide an state. Since
+  going deeper into the monad stack, it is necessary to provide a state. Since
   we have none in scope, we need to *break* the abstraction of the `MyStateT`
   monad transformer in order to introduce a binding for the state.
 
@@ -932,7 +930,7 @@
                             env2 = runEnv (st2 s)
                         in MyReaderT $ \r -> catchError (env1 r) (\_err -> env2 r) ```
 
-* We have not describe how to adapt the function `localScope` and we leave it as
+* We have not described how to adapt the function `localScope` and we leave it as
   an exercise since it exhibits a similar problem as `eval (Catch e1 e2)`.
 
 * In [Interpreter
@@ -950,7 +948,7 @@
   - The order in which monad transformers are applied matters
 
   - It is not semantically the same to first apply the state and then the error
-    monad transformer than in the other way around
+    monad transformer, than the other way around
 
 * We show implementations for state, error, and reader monad transformers
 
