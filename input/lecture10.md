@@ -1,4 +1,4 @@
-# Program verification and testing
+#Pr ogram verification and testing
 
 ## Correctness
 
@@ -70,7 +70,7 @@
 
 * We can capture the "right" behavior of `isort` with many properties
 
-* We consider that the length of a sorted lists is the same as the list before
+* We consider that the length of a sorted list is the same as the list before
   being sorted.
 
   ```haskell
@@ -166,7 +166,7 @@
 * If we see the expression where we got stuck
 
   ```haskell
-  length(insert x (isort xs)) ```
+  length (insert x (isort xs)) ```
 
   What can we know about it? Can it be generalized?
 
@@ -177,26 +177,26 @@
 * We can *generalize* the expression
 
   ```haskell
-  length(insert x (isort xs)) ```
+  length (insert x (isort xs)) ```
 
   to be
 
   ```haskell
-  length(insert x ys) ```
+  length (insert x ys) ```
 
 * What can we say about that?
 
   We would like to show that
 
   ```haskell
-     length(insert x ys) == 1 + length ys ```
+  length (insert x ys) == 1 + length ys ```
 
   How can we prove it? By induction!
 
   * *Base case*:
 
     ```haskell
-        length (insert x []
+        length (insert x [])
     == {definition insert.0}
         length [x]
     == {definition length.1}
@@ -283,7 +283,7 @@
   When doing a proof, it is often the case that, in order to make some progress,
   it is necessary to destruct a variable which is part of the inductive
   hypothesis (IH). This situation might be a hint that we need to either
-  *generalize the theorem statement* or to prove *auxiliary lemmas*. Bare in
+  *generalize the theorem statement* or to prove *auxiliary lemmas*. Bear in
   mind that auxiliary lemmas' statements might be a *generalization* of what the
   proof needs (see next example below). To finish the proof, we then proceed to
   apply the auxiliary lemmas first and then the IH or vice versa.
@@ -464,7 +464,7 @@
   - `undefined` values;
   - infinite values
 
-* It is infeasible to prove properties about every Haskell program using
+* It is not feasible to prove properties about every Haskell program using
   equational reasoning
 
 * Other proof methods
