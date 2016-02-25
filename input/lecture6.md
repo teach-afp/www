@@ -51,7 +51,7 @@
   combinations of effects can be modularly combined!
   </div>
 
-  Monad transformers is not the perfect solution, but it certainly helps (we
+  Monad transformers are not the perfect solution, but they certainly helps (we
   will discuss more of the consequences of combining  effects in the next lecture).
 
 ## Running example: a simple interpreter
@@ -169,7 +169,7 @@
 * We would like to implement a monad with a read-only environment since bindings
   are immutable
 
-* One alternative is to hard-wired it into the interpreter
+* One alternative is to hard-wire it into the interpreter
 
   ```haskell
   eval :: Env -> Expr -> Eval Value ```
@@ -186,11 +186,11 @@
   </div>
 
   In other words, `ReaderT` takes a monad `m` and returns a monad which support
-  two operations: `local` and `ask` -- such monads are called `MonadReader`.
+  two operations: `local` and `ask` — such monads are called `MonadReader`.
 
   <div class="alert alert-info">
-   A monad obtained by the transformer `ReaderT` is a`MonadReader`, but not all
-   `MonadReader` are obtained by using the monad transformer `ReaderT`!
+   A monad obtained by the transformer `ReaderT` is a `MonadReader`, but not all
+   `MonadReader`s are obtained by using the monad transformer `ReaderT`!
   </div>
 
    ```haskell
@@ -238,9 +238,9 @@
     computation.  Since we are using a reader monad, we can be sure
     that this binding does not escape outside its intended scope.
 
-    ```haskell
-     localScope :: Name -> Value -> Eval a -> Eval a
-     localScope n v = local (Map.insert n v) ```
+  ```haskell
+   localScope :: Name -> Value -> Eval a -> Eval a
+   localScope n v = local (Map.insert n v) ```
 
 * The interpreter is extended by simply adding cases for the
   two new constructs. (None of the old cases has to be changed.)
@@ -253,14 +253,13 @@
    eval (Let n e1 e2) = do v <- eval e1
                            localScope n v (eval e2) -- here, we use local ```
 
-* The `run` function is simply run the interpreter with the initial environment
-  empty.
+* The `run` function simply runs the interpreter with the initial empty environment.
 
    ```haskell
    runEval :: Eval a -> a
    runEval (MkEval reader) = runIdentity (runReaderT reader emptyEnv) ```
 
-   Observe how we run the reader monad first, and then the identify monad.
+   Observe how we run the reader monad first, and then the identity monad.
 
    When using monad transformers, you start running the outermost monad and
    finish with the innermost one of your *monad stack*.
@@ -279,7 +278,7 @@
 ## Interpreter 2:  the state monad transformer
 [code](https://bitbucket.org/russo/afp-code/src/HEAD/L6/Interpreter2.hs?at=master&fileviewer=file-view-default)
 
-* We want to extend our language of expression with *mutuable references*, e.g., we
+* We want to extend our language of expression with *mutable references*, e.g., we
   would like to run a program like `let r = new 7; !r+!r`
 
 * We add new constructors in our expressions language for creation, reading, and
@@ -301,22 +300,22 @@
    reference denoted by `e`.
 
    Expression `e1 := e2` changes the value stored in
-   the reference denoted by `e1` by the value denoted by `e2`.
+   the reference denoted by `e1` with the value denoted by `e2`.
 
 * The interpreter needs a notion of *memory* or *store* to keep the values
   stored in references
 
-* This store is mutuable, since references are mutuable too!
+* This store is mutable, since references are mutable too!
 
 * We represent it as a mapping from *memory locations* to *values*
 
   ```haskell
-   type Ptr    = Value
+   type Ptr   = Value
    data Store = Store { nextPtr :: Ptr
                       , heap    :: Map Ptr Value
                       } ```
 
-   A Store is then a mapping from a value denoting a memory location to the
+   A `Store` is then a mapping from a value denoting a memory location to the
    value stored at that location.
 
    For instance, the following mapping
@@ -334,7 +333,7 @@
    emptyStore :: Store
    emptyStore = Store 0 Map.empty ```
 
-* One alternative is to hard-wired it into the interpreter
+* As before, one alternative is to hard-wire it into the interpreter
 
   ```haskell
   eval :: Store -> Expr -> Eval Value ```
@@ -342,7 +341,7 @@
   This means that there would be some *plumbing* to pass the store (memory)
   between recursive calls (recall lecture 3).
 
-* Instead, we use the monad transformer `StateT` to add a *mutuable state* into
+* Instead, we use the monad transformer `StateT` to add a *mutable state* into
   the `Eval` monad!
 
   <div class="container">
@@ -351,7 +350,7 @@
   </div>
 
   In other words, `StateT` takes a monad `m` and returns a monad which contains
-  a mutuable state of certain type `s` and two operations: `get` and `put` --
+  a mutable state of certain type `s` and two operations: `get` and `put` —
   such monads are called `MonadState s`. (Actually, they have one more operation
   ([`state`](https://hackage.haskell.org/package/mtl-2.2.1/docs/Control-Monad-State-Lazy.html#g:1))
   but we will not describe it here)
@@ -400,7 +399,7 @@
 
 * Let us define some operations for the interpreter based on `get` and `put`
 
-  *Creation of a new reference*: it implies to modify both the next available
+  *Creation of a new reference*: modify both the next available
   memory location and the heap.
 
   ```haskell
@@ -412,9 +411,9 @@
                  put (Store new_ptr newHeap)
                  return ptr ```
 
-   *Getting the value of a reference*: it implies to look up a memory location
+   *Getting the value of a reference*: look up a memory location
     in the store. We crash with our own "segfault" if given a non-existing
-    pointer. (Observe that the state has not been changed.)
+    pointer (observe that the state has not been changed.)
 
    ```haskell
    deref :: Ptr -> Eval Value
@@ -424,7 +423,7 @@
                      Nothing -> fail ("Segmentation fault: "++show p++" is not bound")
                      Just v  -> return v ```
 
-   *Updating a reference*: it implies to change a value in the store.
+   *Updating a reference*: change a value in the store.
 
     ```haskell
     (=:) :: MonadState Store m => Ptr -> Value -> m Value
@@ -445,18 +444,18 @@
 
    ```haskell
    eval :: Expr -> Eval Value
-   eval (Lit n)        = return n
-   eval (a :+: b)       = (+) <$> eval a <*> eval b
-   eval (Var x)        = lookupVar x
+   eval (Lit n)       = return n
+   eval (a :+: b)     = (+) <$> eval a <*> eval b
+   eval (Var x)       = lookupVar x
    eval (Let n e1 e2) = do v <- eval e1
                            localScope n v (eval e2)
-   eval (NewRef e)     = do v <- eval e
-                            newRef v
-   eval (Deref e)      = do r <- eval e
-                            deref r
-   eval (pe := ve)     = do p <- eval pe
-                            v <- eval ve
-                            p =: v ```
+   eval (NewRef e)    = do v <- eval e
+                           newRef v
+   eval (Deref e)     = do r <- eval e
+                           deref r
+   eval (pe := ve)    = do p <- eval pe
+                           v <- eval ve
+                           p =: v ```
 
     As before, we do not need to change the definition for the old
     constructors.
@@ -467,8 +466,8 @@
   > runEval $ eval $ parse "let p=new 7; !p"
   7 ```
 
-* Unfortunately, our expression language supports pointers arithmetic (like C),
-  so a pointer might dereference another one! -- a recipe for disaster!
+* Unfortunately, our expression language supports pointer arithmetic (like C),
+  so a pointer might dereference another one — a recipe for disaster!
 
   ```haskell
   > runEval $ eval $ parse "let p=new 1; let q=new 1738; !(p+1)"
@@ -478,9 +477,9 @@
 
   - Restricting the grammar, i.e., `!` only accepts variables names (not
     expressions)
-  - Small type-system (over killing here)
+  - Small type-system (overkill here)
 
-* What other thing can go wrong with our interpreter?
+* What else can go wrong with our interpreter?
 
   Expressions might refer to unbound variables / references.
 
@@ -498,10 +497,10 @@
 
 - Programs often handle more than one effect
 
-- Monad transformer are type-level functions which allow to extend existing
+- Monad transformer are type-level functions which allow one to extend existing
   monads with additional side-effects
 
-  * The deriving mechanisms in Haskell is quite powerful and promotes
+  * The deriving mechanisms in Haskell is quite powerful and promote
     re-utilization of code
 
   * Monad transformers are not essential and you can create your own monad with
