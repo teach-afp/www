@@ -496,5 +496,5 @@
   - Shrinks failing test cases
 
 <div class = "alert alert-info">
-TBD
+For the rest of the lecture, we play with QuickCheck code (see repository)
 </div>

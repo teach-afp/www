@@ -40,7 +40,7 @@ First choose a package on
 [Hackage](http://hackage.haskell.org/packages/hackage.html) which:
 
 * You think is interesting.
-* Covers several of the [learning outcomes](./inf.html) of the course.
+* Covers some of the categories DSL, Types, and Spec from the [learning outcomes](./inf.html#aim-and-context) of the course.
 
 Then your task is to write a short report (1-2 pages) explaining why you chose
 this package, which learning outcomes you think it relates to, and how it
