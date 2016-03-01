@@ -41,35 +41,40 @@ Lectures (note different lecture rooms on different week days)
 
 
 <div class="row">
-<div class="col-sm-2 col-xs-6 text-center">
+<div class="col-sm-3 col-xs-6 text-center">
 	<div class="thumbnail">
 		<img class="img-no-resize" src="" alt="Dan's picture">
 		<div class="caption">
 			[Dan Rosén](https://www.chalmers.se/en/staff/Pages/danr.aspx)
-                        <p> **Office hours**: Monday 10-12 Office: 5469</p>
+                        <p> **Office hours**: <br> Monday 10-12 <br> Office: 5469</p>
 		  </div>
 	</div>
 </div>
 
 
 <div class="row">
-<div class="col-sm-2 col-xs-6 text-center">
+<div class="col-sm-3 col-xs-6 text-center">
 	<div class="thumbnail">
 		<img class="img-no-resize" src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAALaAAAAJDIwZDc5MjRlLTE3ZGItNDhmMy04MjVmLTczYjY4YjNkYmJlYw.jpg" alt="Anton's picture">
 		<div class="caption">
 			[Anton Ekblad](http://ekblad.cc/)
-                        <p> **Office hours**: Wednesday 13-15 (except Feb. 3rd), Friday 13-15 (only
-                        22/1, study week 1) Office: 5463</p>
+                        <p> **Office hours**: <br>
+												Wednesday 13-15 (except Feb. 3rd) <br>
+												Friday 13-15 (only 22/1, study week 1) <br> Office: 5463</p>
 		  </div>
 	</div>
 </div>
 
-<div class="col-sm-2 col-xs-6 text-center">
+<div class="col-sm-3 col-xs-6 text-center">
 	<div class="thumbnail">
 		<img class="img-no-resize" src="http://johnjcamilleri.com/images/john-j-camilleri.jpg" alt="John's picture">
 		<div class="caption">
 			[John J. Camilleri](http://www.cse.chalmers.se/~cajohn/)
-                        <p> **Office hours**: Friday 13-15 (except study weeks 1, 2, 8); Friday 10-12 (study week 8) <br> Office: 5446</p>
+                        <p> **Office hours**: <br>
+												Friday 13-15 (s.w. 3, 4, 5, 6) <br>
+	                      Friday 14-16 (s.w. 7) <br>
+	                      Friday 10-12 (s.w. 8) <br>
+												Office: 5446</p>
 		  </div>
 	</div>
 </div>
