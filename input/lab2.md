@@ -421,11 +421,11 @@ programming, based on your `Replay` monad.
 This library should have the following interface:
 
 ```haskell
-type Web a = Replay Question Answer a
+type Web a = Replay Form Answers a
 
-type Question = ?
+type Form = ?
 
-type Answer = ?
+type Answers = ?
 
 runWeb :: Web ? -> ActionM ()
 ```
@@ -440,15 +440,14 @@ that was gotten from the user.
 
 In order for this to work, you need to do the following:
 
-* Decide how to represent the type `Question`. This somehow needs to be
+* Decide how to represent the type `Form`. This somehow needs to be
   a representation of a web form, that later on will be sent to the user.
   You must support forms with an arbitrary number of fields: it is not enough
   to give a web interface like the simple string-based example from the
   introduction.
 
-* Decide how to represent the type `Answer`. This needs represent the answer
-  you get from the user. It needs to be able to hold all the values
-  filled in by the user.
+* Decide how to represent the type `Answers`. This needs to represent the answers
+  you get from the user. It needs to be able to hold all the values filled in by the user.
 
 * Decide how to implement the function `runWeb`.
   The implementation will be very similar to that of the function `running`,
