@@ -20,6 +20,18 @@
 
 # News!
 
+* March 1st
+
+  <div class = "alert alert-info">
+  Material for Atze's lecture is up! (see code)
+  </div>
+
+* Feb 25
+
+  <div class = "alert alert-info">
+  Material for today's guest lecture is up!
+  </div>
+
 * Feb 21
 
   <div class = "alert alert-info">

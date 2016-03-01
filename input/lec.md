@@ -178,17 +178,24 @@ update!
     Haskell Programs by K. Claessen and
     J. Hughes](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/Papers/QuickCheck-claessen.ps)
 
+## 11. Guest lecture on Agda (Andreas Abel)
 
+* [Source code](https://bitbucket.org/russo/afp-code/src/HEAD/L11/?at=master)
 
-## 14. Looking forward! (March 3rd)
+## 12. Guest lecture on reactive programming (Atze van Ploeg)
+
+* [Source code](https://github.com/atzeus/IncTopoNodes/blob/master/FRPDemo.hs)
+
+## 13. Type-level programming (March 3rd)
+
+## 14. Looking forward! (March 7th)
 
 * **Topics**: Second instance of the excercise session with exam questions.
+* **Assistants on charge**: John J. Camilleri and Anton Ekblad
 
-## 16. Looking back! (March 10th)
+## 15. Looking back! (March 10th)
 
 * **Topics**: In this lecture we briefly look back at the learning outcomes and
     how they relate to the different parts of the course and what parts of the
     Real world Haskell book are covered. Then we go through a few examples
     chosen by popular vote by the participants.
-
-* **Assistants on charge**: John J. Camilleri and Anton Ekblad
