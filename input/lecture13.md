@@ -246,3 +246,45 @@
   eval :: TypedExpr -> E.Value
   eval (TInt  ei) = E.VInt  $ evalI ei
   eval (TBool eb) = E.VBool $ evalB eb ```
+
+* Problems with this approach:
+
+  - Duplication of constructors to denote "the same operation" but on different
+    type of expressions
+
+  - It does not scale up for *type constructors* (e.g., lists, tuples, monads, etc.)
+
+    For instance, if we want to introduce lists, we need to define a type for
+    list expressions
+
+    List of integers.
+    ```haskell
+    data ExprLI where
+         EmptyLI  :: ExprLI
+         ConsLI   :: ExprI  -> ExprLI -> ExprLI
+         ConcatLI :: ExprLI -> ExprLI -> ExprLI ```
+
+    List of booleans.
+    ```haskell
+    data ExprLB where
+         EmptyLB  :: ExprLB
+         ConsLB   :: ExprB  -> ExprLB -> ExprLB
+         ConcatLB :: ExprLB -> ExprLB -> ExprLB ```
+
+    What about having lists of lists?
+
+    List of lists of integers.
+    ```haskell
+    data ExprLLI where
+         EmptyLLI  :: ExprLLI
+         ConsLLI   :: ExprLI  -> ExprLLI -> ExprLLI
+         ConcatLLI :: ExprLLI -> ExprLLI -> ExprLLI ```
+
+    List of lists of booleans.
+    ```haskell
+    data ExprLLB where
+         EmptyLLB :: ExprLLB
+         ConsLLB  :: ExprLB  -> ExprLLB -> ExprLLB
+         Concat   :: ExprLLB -> ExprLLB -> ExprLLB ```
+
+    What about lists of lists of lists of integers/booleans?
