@@ -8,8 +8,9 @@
 * Sometimes, the DSL type-signature for combinators might allow to construct
   objects such that have *no semantics*
 
-  <div class = "alert alert-info">
-  Graphic of DSL 1
+  <div class="container">
+      <img class="img-responsive col-md-8 "
+        src="./assets/img/badelem.png">
   </div>
 
 * As a result, run functions need to *dynamically* check that objects "make
@@ -170,7 +171,7 @@
   evalB (EqB e1 e2) = evalB e1  ==  evalB e2
   evalB (IfB b t e) = if evalB b then evalB t else evalB e ```
 
-  Observe that `evalA` and `evalB` do not raise type-errors.
+  Observe that `evalI` and `evalB` do not raise type-errors.
 
 * We can use this EDSL to validate a value of type `Expr`
 
@@ -180,10 +181,9 @@
   If successful, we can run a value of type `Expr` using `evalA` or `evalB`, so
   no type errors!
 
-  <div class = "alert alert-info">
-  Graphic!
-  Expr -> ExprI  --> evalA --> Value
-          ExprB  --> evalB --> Value
+  <div class="container">
+      <img class="img-responsive col-md-10 "
+        src="./assets/img/dsl_filter.png">
   </div>
 
 * We need to write a function which *infers* the type for a value of type
@@ -455,9 +455,11 @@
 
 * There is a one-to-one correspondence between terms and types
 
-  <div class = "alert alert-info">
-  Graphic
+  <div class="container">
+      <img class="img-responsive col-md-10 "
+        src="./assets/img/singleton.png">
   </div>
+
 
 * This correspondence is useful to *guide Haskell's type-system* by coding using
   the singleton's types inhabitants.
