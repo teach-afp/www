@@ -20,6 +20,12 @@
 
 # News!
 
+* March 2nd
+
+  <div class = "alert alert-info">
+  Tomorrow's lecture is up!
+  </div>
+
 * March 1st
 
   <div class = "alert alert-info">
