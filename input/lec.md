@@ -186,7 +186,18 @@ update!
 
 * [Source code](https://github.com/atzeus/IncTopoNodes/blob/master/FRPDemo.hs)
 
-## 13. Type-level programming (March 3rd)
+## 13. [Type-based modeling](./lecture13.html) (March 3rd)
+
+* **Topics**: We look how to do type-inference (type-checking) in DSL using
+    GADTs. We describe existential and singleton types.
+
+* [Source code](https://bitbucket.org/russo/afp-code/src/HEAD/L13/?at=master)
+
+* **Reading**: [Existentially qualified
+    types](https://en.wikibooks.org/wiki/Haskell/Existentially_quantified_types)
+    and [GADTs](https://wiki.haskell.org/GADT).
+
+
 
 ## 14. Looking forward! (March 7th)
 

@@ -1,4 +1,4 @@
-# Type-level programming
+# Type-based modeling
 
 ## Design of DSLs
 
@@ -63,6 +63,7 @@
   Therefore, the run function needs to trigger errors when expressions are bad.
 
 ## An EDSL implementation
+[code](https://bitbucket.org/russo/afp-code/src/HEAD/L13/Expr.hs?at=master&fileviewer=file-view-default)
 
 * We implement `Expr` as follows
 
@@ -122,6 +123,7 @@
 * Can we avoid constructing bad expressions at all?
 
 ## A EDSL with type-aware combinators
+[code](https://bitbucket.org/russo/afp-code/src/HEAD/L13/Middle.hs?at=master&fileviewer=file-view-default)
 
 * Now, for every type, we have a new *kind of expressions*
 
@@ -315,6 +317,7 @@
     What about lists of lists of lists of integers/booleans?
 
 ## Enter GADTs
+[code](https://bitbucket.org/russo/afp-code/src/HEAD/L13/Typed.hs?at=master&fileviewer=file-view-default)
 
 * We use GADTs of the form `Expr t`, where `t` is a Haksell type which indicates
   the value that the expression denotes
