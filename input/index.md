@@ -20,6 +20,13 @@
 
 # News!
 
+* March 6th
+
+  <div class = "alert alert-info">
+  Tomorrow's exercise session is on rooms EL41 and EL42!
+  </div>
+
+
 * March 2nd
 
   <div class = "alert alert-info">
