@@ -57,7 +57,7 @@ lab4.html: ../input/lab4.md $(LAYOUT)
 
 
 # Lectures
-lectures: lec.html lecture1.html lecture2.html lecture3.html lecture4.html lecture5.html lecture6.html lecture7.html lecture8.html lecture9.html lecture10.html lecture13.html
+lectures: lec.html lecture1.html lecture2.html lecture3.html lecture4.html lecture5.html lecture6.html lecture7.html lecture8.html lecture9.html lecture10.html lecture13.html lecture15.html
 
 lec.html: ../input/lec.md $(LAYOUT)
 	 generate-md --input ../input/lec.md --output ./ --layout ../lout/
@@ -128,6 +128,12 @@ lecture13.html: ../input/lecture13.md ./make_menu.sh ./pretty.sh $(LAYOUT)
 	 generate-md --input ../input/lecture13P.md --output ./ --layout ../lout/
 	 mv lecture13P.html lecture13.html
 	 rm ../input/lecture13P.md
+
+lecture15.html: ../input/lecture15.md ./make_menu.sh ./pretty.sh $(LAYOUT)
+	 ./pretty.sh ../input/lecture15.md ../input/lecture15P.md
+	 generate-md --input ../input/lecture15P.md --output ./ --layout ../lout/
+	 mv lecture15P.html lecture15.html
+	 rm ../input/lecture15P.md
 
 
 clean:
