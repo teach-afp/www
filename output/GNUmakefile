@@ -4,8 +4,6 @@ URL_COURSE = $(USERR)@remote11.chalmers.se:/chalmers/groups/edu2009/www/www.cse.
 
 all: index.html information labs lectures exams.html
 
-
-
 upload:
 	 #rsync -rv -f"+ */" -f"- *" ./assets $(URL_COURSE)
 	 rsync -rv ./ $(URL_COURSE)
