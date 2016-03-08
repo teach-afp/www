@@ -7,8 +7,9 @@
   - Typing *more* well-behaved programs
   - Typing *less* bad-behaved programs
 
-  <div class = "alert alert-info">
-  GRAPHICS
+  <div class="container">
+      <img class="img-responsive col-md-10 "
+        src="./assets/img/ts.png">
   </div>
 
 ## Typing *more* well-behaved programs
@@ -196,8 +197,9 @@
 
 * Kinds take us one level up in the organization of Haskell's abstractions
 
-  <div class = "alert alert-info">
-  Diagram level up
+  <div class="container">
+      <img class="img-responsive col-md-12 "
+        src="./assets/img/kinds.png">
   </div>
 
 ## Data kinds
@@ -225,9 +227,12 @@
   With DataKinds, we have the following kinds and types/type constructors (with
   no inhabitants but `undefined`).
 
-  <div class = "alert alert-info">
-  Graphics
+  <div class="container">
+      <img class="img-responsive col-md-10 "
+        src="./assets/img/ts2.png">
   </div>
+
+
 
 * Once we have kinds, we can use them to restrict the types used in a GADT. In
   our example, we are going to denote the length of a vector with a type-level
@@ -399,9 +404,86 @@ and *closed*)
   index :: Less n m => ...n... -> Vector a (Suc m :: Nat) -> a
   index tn vec = (toList vec) !! ... ```
 
-
-
-
-
-
 ## Singleton types
+
+* In the implementation of `index`, the second argument for `(!!)` depends on
+  the type of `tn`.
+
+  For instance, if `n` has type `Zero`, the argument needs to be `0`. Instead,
+  if `n` has type `Suc (Zero)`, then the argument needs to be `1`.
+
+  In other words, for any type-level `n`, there should be a term-level representation
+  for it. This correspondence can be established using *singleton types*.
+
+* By definition of data promotion, any type `n` such that `n :: Nat` has no
+  inhabitants except `undefined`. Therefore, it is impossible to establish a
+  one-to-one correspondence between types and term-level representations.
+
+* Instead, we declare a new *inhabited* data type which takes types of kind
+  `Nat`
+
+  ```haskell
+  data SNat (n :: Nat) where
+       SZero :: SNat Zero
+       SSuc  :: SNat n -> SNat (Suc n) ```
+
+  Observe that for any type `SNat (n :: Nat)`, there exists one term which
+  inhabits such type (besides `undefined`). For instance, if a term `t` has type
+  `SNat Zero`, then `t` has the form `SZero`. Similarly, if a term `t` has type
+  `SNat (Suc (Suc Zero))`, then `t` is of the form `SSuc (SSuc SZero)`.
+
+* Having the type `SNat (n :: Nat)`, we can write a function which synthesizes a
+  term-level integer based on the type-level `n :: Nat`
+
+  ```haskell
+  toNat :: SNat n -> Int
+  toNat SZero    = 0
+  toNat (SSuc n) = 1 + toNat n ```
+
+* Using function `toNat`, we can complete the implementation of `index`
+
+  ```haskell
+  index :: Less n m => SNat n -> Vector a (Suc m :: Nat) -> a
+  index tn vec = (toList vec) !! (toNat tn) ```
+
+* Examples
+
+  Let us define some indexes of type `SNat (n :: Nat)` for some type-level index
+  `n`.
+
+  ```haskell
+  zero = SZero
+  one  = SSuc SZero
+  two  = SSuc (SSuc SZero) ```
+
+  Accessing valid indexes in arrays type-checks!
+
+  ```haskell
+  > index zero array
+  2
+  > index one array
+  1
+  > index two array
+       No instance for (Less ('Suc 'Zero) 'Zero)
+       ... ```
+
+## Summary
+
+* Typing more well-behaved programs
+
+  - Associated types
+
+    * Typing more well-behaved programs
+    * Used with type-classes
+    * It is a type level functions (i.e., type family)
+
+* Typing less bad-behaved programs
+
+  - Kinds
+    * The "type" of types
+    * Data kinds (lifting data types and their elements "one level up")
+
+  - Type families
+    * Type-level functions
+
+  - Singleton types
