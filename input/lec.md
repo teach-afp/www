@@ -204,9 +204,20 @@ update!
 * **Topics**: Second instance of the excercise session with exam questions.
 * **Assistants on charge**: John J. Camilleri and Anton Ekblad
 
-## 15. Looking back! (March 10th)
+## 15. [Type-based modeling II & looking back!](./lecture15.html) (March 10th)
 
-* **Topics**: In this lecture we briefly look back at the learning outcomes and
-    how they relate to the different parts of the course and what parts of the
-    Real world Haskell book are covered. Then we go through a few examples
-    chosen by popular vote by the participants.
+* **Topics**: In the first part of the lecture, we will discuss associated
+    types, kinds, data kinds, type families, and singleton types. In the second
+    part, the lecture briefly look back at the learning outcomes and how they
+    relate to the different parts of the course and what parts of the Real world
+    Haskell book are covered. Then we go through a few examples chosen by
+    popular vote by the participants.
+
+* **Reading**: [Type
+    families](http://www.haskell.org/haskellwiki/GHC/Type_families) on the
+    Haskell Wiki, and [Associated types] in [S. Peyton-Jones'
+    slides](http://research.microsoft.com/en-us/um/people/simonpj/papers/assoc-types/fun-with-type-funs/FunWithTypeFuns-Apr09.pdf)
+
+* **Optional reading**: [Fun with Type Functions by O. Kiselyov,
+    S. Peyton-Jones, and
+    C. Shan](http://www.haskell.org/haskellwiki/Simonpj/Talk:FunWithTypeFuns)
