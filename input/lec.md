@@ -213,6 +213,8 @@ update!
     Haskell book are covered. Then we go through a few examples chosen by
     popular vote by the participants.
 
+* [Source code](https://bitbucket.org/russo/afp-code/src/HEAD/L15/?at=master)
+
 * **Reading**: [Type
     families](http://www.haskell.org/haskellwiki/GHC/Type_families) on the
     Haskell Wiki, and [Associated types] in [S. Peyton-Jones'
