@@ -20,6 +20,23 @@
 
 # News!
 
+* March 10th
+
+  <div class = "alert alert-info">
+    As previous years, you may bring up to two pages (on one A4 sheet of paper) of
+    pre-written notes - a “summary sheet”. These notes may be typed or
+    handwritten. They may be from any source. If this summary sheet is brought to
+    the exam it must also be handed in with the exam (so make a copy if you want to
+    keep it).
+
+    You will also get an appendix with some standard definitions in the exam. So,
+    you don't need to use your notes for that. Please, see how the appendix looks in
+    a previous exam.
+
+    [Previous exam](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/exam-2014-08/AFP_exam_2014-08.pdf)
+  </div>
+
+
 * March 8th
 
   <div class = "alert alert-info">
