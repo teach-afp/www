@@ -244,3 +244,8 @@ total_grade = 0.6 * grade_labs + 0.4 * grade_exam
 ```
 
 Where the `total_grade` then gets rounded generously, meaning, 4.5 -> 5.
+
+If you are a Chalmers student, then you get the score `total_grade` as the grade
+for the whole course.
+
+GU students get G if `total_grade` is 3 or 4 and VG if it is 5.
