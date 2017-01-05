@@ -1,11 +1,13 @@
 ## Past exams
 
+### Exams by Alejandro Russo
+
+* [March 15, 2016 (with solutions)](./assets/exams/2016-03.pdf)
 
 ### Exams by Patrik Jansson
 
-Coming soon!
-
-In the meantime, you get access to them in the [last's year course page](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/exam.html)
+You get access to them in the [last's year course
+page](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/exam.html)
 
 ## More exams?
 

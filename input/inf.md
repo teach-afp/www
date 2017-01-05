@@ -23,13 +23,14 @@
 
 Lectures (note different lecture rooms on different week days)
 
-* Mondays, 13:15 - 15:00, **ED** (Except for week 10)
-* Monday 13:15 - 15:00 **EL41**,**ES51** (Only week 10)
-* Thursdays, 10:00-11:45, **EF**
+* Mondays, 13:15 - 15:00, **EF** (except for week 10)
+* Monday 13:15 - 15:00 **EL41**, **EL42** (week 10)
+* Thursdays, 10:00-11:45, **EF** (except for week 6)
+* Thursdays, 10:00-11:45, **ES51**,**ES52** (week 6)
 
 <div class="embed-responsive embed-responsive-16by9">
   <iframe class="embed-responsive-item"
-  src="https://se.timeedit.net/web/chalmers/db1/s1/ri.html?h=f&sid=1002&p=20160118.x%2C20160630.x&objects=201965.182&ox=0&types=0&fe=0&g=f&h2=f"
+  src="https://se.timeedit.net/web/chalmers/db1/public/ri1X50gQ2560YvQQ05Z6978Y0Zy6007311Y54Q085.html"
          style="border: 0" width="800" height="600" frameborder="0"
          scrolling="yes">
 </iframe>
@@ -43,10 +44,10 @@ Lectures (note different lecture rooms on different week days)
 <div class="row">
 <div class="col-sm-3 col-xs-6 text-center">
 	<div class="thumbnail">
-		<img class="img-no-resize" src="" alt="Dan's picture">
+		<img class="img-no-resize" src="" alt="Fabian's picture">
 		<div class="caption">
-			[Dan Rosén](https://www.chalmers.se/en/staff/Pages/danr.aspx)
-                        <p> **Office hours**: <br> Monday 10-12 <br> Office: 5469</p>
+			[Fabian Ruch](http://www.chalmers.se/en/staff/Pages/fabian-ruch.aspx)
+                        <p> **Office hours**: <br> TBA <br> Office: TBA </p>
 		  </div>
 	</div>
 </div>
@@ -58,23 +59,7 @@ Lectures (note different lecture rooms on different week days)
 		<img class="img-no-resize" src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAALaAAAAJDIwZDc5MjRlLTE3ZGItNDhmMy04MjVmLTczYjY4YjNkYmJlYw.jpg" alt="Anton's picture">
 		<div class="caption">
 			[Anton Ekblad](http://ekblad.cc/)
-                        <p> **Office hours**: <br>
-												Wednesday 13-15 (except Feb. 3rd) <br>
-												Friday 13-15 (only 22/1, study week 1) <br> Office: 5463</p>
-		  </div>
-	</div>
-</div>
-
-<div class="col-sm-3 col-xs-6 text-center">
-	<div class="thumbnail">
-		<img class="img-no-resize" src="http://johnjcamilleri.com/images/john-j-camilleri.jpg" alt="John's picture">
-		<div class="caption">
-			[John J. Camilleri](http://www.cse.chalmers.se/~cajohn/)
-                        <p> **Office hours**: <br>
-												Friday 13-15 (s.w. 3, 4, 5, 6) <br>
-	                      Friday 14-16 (s.w. 7) <br>
-	                      Friday 10-12 (s.w. 8) <br>
-												Office: 5446</p>
+                        <p> **Office hours**: <br> TBA <br> Office: TBA</p>
 		  </div>
 	</div>
 </div>
@@ -85,19 +70,14 @@ Lectures (note different lecture rooms on different week days)
 
 ## Course Representatives
 
-* ~~David Berg Marklund, davmarkl@student.chalmers.se~~
-* Konstantinos Matthaios Brilakis, brilakis@student.chalmers.se
-* Anton Lindgren, antlind@chalmers.se
-* ~~Henning Phan, phanh@student.chalmers.se~~
-* Mengcheng Zhang, mezhang@student.chalmers.se
-
+* TBA
 
 ---
 
 ## Discussion Group
 
 You can register
-[here](https://groups.google.com/d/forum/afp2016)
+[here](https://groups.google.com/d/forum/afp2017)
 to the Google Group of the course. The google group is meant to be used to post
 questions and have discussions related to the course. *Sharing (total or
 partial) solutions in the google group is forbidden*.

@@ -1,9 +1,3 @@
-We will try to have the lecture notes available on-line before the lecture so
-you can bring them to the lecture to do notes and (in case of errors)
-corrections. However, *it might not happen* since there are some changes for
-this year. For impatient students, you could check [last year's web
-page](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/).
-
 ## 1. [Introduction to the course](./lecture1.html).
 
 * **Topics**: The goal of the course. Course Materials. Organization. Evaluation
@@ -126,7 +120,7 @@ update!
     Interpreters](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/Papers/modular-interpreters-liang.ps)
     by Sheng Liang, Paul Hudak, and Mark Jones.
 
-## 7. Looking forward! (February 11th)
+## 7. Looking forward! (Tentatively February 6th)
 
 * **Topics**: In this lecture / excercise session we will work through old AFP
     exam questions in groups to identify important topics and practice
@@ -134,7 +128,7 @@ update!
     comments wanting more practice of the kind of problems typically included in
     the written exams.
 
-* **Assistants on charge**: Dan Rosén and Anton Ekblad
+* **Assistants on charge**: TBA
 
 ## 8. [Monad transformers II](./lecture8.html)
 
@@ -178,15 +172,15 @@ update!
     Haskell Programs by K. Claessen and
     J. Hughes](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/Papers/QuickCheck-claessen.ps)
 
-## 11. Guest lecture on Agda (Andreas Abel)
+## 11. Guest lecture I (February 20th)
 
-* [Source code](https://bitbucket.org/russo/afp-code/src/HEAD/L11/?at=master)
+* [Source code]()
 
-## 12. Guest lecture on reactive programming (Atze van Ploeg)
+## 12. Guest lecture II (February 23th)
 
 * [Source code](https://github.com/atzeus/IncTopoNodes/blob/master/FRPDemo.hs)
 
-## 13. [Type-based modeling](./lecture13.html) (March 3rd)
+## 13. [Type-based modeling](./lecture13.html)
 
 * **Topics**: We look how to do type-inference (type-checking) in DSL using
     GADTs. We describe existential and singleton types.
@@ -199,12 +193,12 @@ update!
 
 
 
-## 14. Looking forward! (March 7th)
+## 14. Looking forward! (Tentatively March 3rd)
 
 * **Topics**: Second instance of the excercise session with exam questions.
 * **Assistants on charge**: John J. Camilleri and Anton Ekblad
 
-## 15. [Type-based modeling II & looking back!](./lecture15.html) (March 10th)
+## 15. [Type-based modeling II & looking back!](./lecture15.html)
 
 * **Topics**: In the first part of the lecture, we will discuss associated
     types, kinds, data kinds, type families, and singleton types. In the second
