@@ -11,12 +11,12 @@ Deadlines
 
 <tr>
     <td class="success" > [Part I](#part1) </td>
-    <td class="alert-info" >  February 11th (Thursday, course week 4) </td>
+    <td class="alert-info" >  February 12th (course week 4) </td>
 </tr>
 
 <tr>
     <td class="success" > [Part II](#part2) </td>
-    <td class="alert-info" >  February 25th (Thursday, course week 6) </td>
+    <td class="alert-info" >  February 26th (course week 6) </td>
 </tr>
 </table>
 

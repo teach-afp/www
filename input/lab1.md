@@ -10,12 +10,12 @@
 
 <tr>
     <td class="success" > Part I </td>
-    <td class="alert-info" >  January 28th (Thursday, course week 2) </td>
+    <td class="alert-info" >  January 29th (course week 2) </td>
 </tr>
 
 <tr>
     <td class="success" > Part II </td>
-    <td class="alert-info" >  February 4th (Thursday, course week 3) </td>
+    <td class="alert-info" >  February 5th (course week 3) </td>
 </tr>
 </table>
 
