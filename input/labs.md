@@ -32,12 +32,12 @@ personal deadline for you. You may then get an extension of the deadline.
 
 <tr>
     <td class="success" > Part I </td>
-    <td class="alert-info" >  January 28th (Thursday, course week 2) </td>
+    <td class="alert-info" >  January 29th (course week 2) </td>
 </tr>
 
 <tr>
     <td class="success" > Part II </td>
-    <td class="alert-info" >  February 4th (Thursday, course week 3) </td>
+    <td class="alert-info" >  February 5th (course week 3) </td>
 </tr>
 </table>
 
@@ -51,12 +51,12 @@ personal deadline for you. You may then get an extension of the deadline.
 
 <tr>
     <td class="success" > Part I </td>
-    <td class="alert-info" >  February 11st (Thursday, course week 4) </td>
+    <td class="alert-info" >  February 12st (course week 4) </td>
 </tr>
 
 <tr>
     <td class="success" > Part II </td>
-    <td class="alert-info" >  February 25th (Thursday, course week 6) </td>
+    <td class="alert-info" >  February 26th (course week 6) </td>
 </tr>
 </table>
 
@@ -71,19 +71,19 @@ personal deadline for you. You may then get an extension of the deadline.
 
 <tr>
     <td class="success" > Part I </td>
-    <td class="alert-info" >  February 29th (Monday, course week 7) </td>
+    <td class="alert-info" >  March 5th (course week 7) </td>
 </tr>
 
 <tr>
     <td class="success" > Part II </td>
-    <td class="alert-info" >  March 13rd (Sunday, course week 8) </td>
+    <td class="alert-info" >  March 12rd (course week 8) </td>
 </tr>
 </table>
 
 Your last attempt has to be submitted before the final deadline. If you fail to
 do this, your submission will be rejected.
 
-<div class="alert alert-info"> **Final Deadline**: March 20th (Sunday, exam
+<div class="alert alert-info"> **Final Deadline**: March 19th (Sunday, exam
 week) </div>
 
 
@@ -97,7 +97,6 @@ final deadline. If you fail to do this, your submission will be rejected.
 Assistants will send you feedback between
 three to four *working days* after submission.
 </div>
-
 
 ## On cheating
 
