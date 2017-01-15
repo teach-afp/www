@@ -7,7 +7,7 @@ lecturer.
 
 * You need to pass all three assignments in order to pass the course.
 * Each of the assignments is divided into two parts with separate deadlines.
-* The assignments have to be handed in using [the Fire system](https://xdat09.ce.chalmers.se/2016/lp3/afp/).
+* The assignments have to be handed in using [the Fire system](https://afp-lp3-17.frs.cse.chalmers.se/).
 
 ## Deadlines
 

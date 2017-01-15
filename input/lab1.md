@@ -361,7 +361,7 @@ etc. We will reject your solution if it is not clean. Clean code:
 
 ## Where?
 
-[Go to the Fire System!](https://xdat09.ce.chalmers.se/2016/lp3/afp/)
+[Go to the Fire System!](https://afp-lp3-17.frs.cse.chalmers.se/)
 
 # Grading
 
