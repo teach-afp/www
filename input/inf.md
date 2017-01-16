@@ -253,4 +253,5 @@ GU students get G if `total_grade` is 3 or 4 and VG if it is 5.
 ## Course Syllabus
 
 [For GU students](http://kursplaner.gu.se/english/dit260.pdf)
+
 [For Chalmers students](https://www.student.chalmers.se/sp/course?course_id=25054)
