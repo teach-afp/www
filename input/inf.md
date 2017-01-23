@@ -44,11 +44,12 @@ Lectures (note different lecture rooms on different week days)
 <div class="row">
 <div class="col-sm-3 col-xs-6 text-center">
 	<div class="thumbnail">
-		<img class="img-no-resize" src="" alt="Fabian's picture">
+		<img class="img-no-resize" src="" alt="No Picture">
 		<div class="caption">
 			[Fabian Ruch](http://www.chalmers.se/en/staff/Pages/fabian-ruch.aspx)
-                        <p> **Office hours**: <br> TBA <br> Office: TBA </p>
-		  </div>
+                        <p> **Office hours**: <br> Tuesdays 14hs-16hs <br>
+                        Office: 6103A </p>
+   	        </div>
 	</div>
 </div>
 
@@ -59,7 +60,8 @@ Lectures (note different lecture rooms on different week days)
 		<img class="img-no-resize" src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAALaAAAAJDIwZDc5MjRlLTE3ZGItNDhmMy04MjVmLTczYjY4YjNkYmJlYw.jpg" alt="Anton's picture">
 		<div class="caption">
 			[Anton Ekblad](http://ekblad.cc/)
-                        <p> **Office hours**: <br> TBA <br> Office: TBA</p>
+                        <p> **Office hours**: <br> Fridays 13hs-15hs <br>
+                        Office: 5463, 5th floor, EDIT building </p>
 		  </div>
 	</div>
 </div>
@@ -70,7 +72,11 @@ Lectures (note different lecture rooms on different week days)
 
 ## Course Representatives
 
-* TBA
+* TKDAT, algehed@chalmers.se,  MAXIMILIAN ALGEHED
+* MPALG, hamedani@student.chalmers.se, SIAVASH HAMEDANI
+* TKDAT, marclund@student.chalmers.se, MARCUS LUNDBERG
+* TDATA, d99bekim@student.chalmers.se, BEKIM RABUSHAJ
+* MPALG, nacval@student.chalmers.se, NACHIAPPAN VALLIAPPAN
 
 ---
 
