@@ -120,8 +120,6 @@ update!
     Interpreters](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/Papers/modular-interpreters-liang.ps)
     by Sheng Liang, Paul Hudak, and Mark Jones.
 
-## 7. Looking forward! (Tentatively February 9th)
-
 * **Topics**: In this lecture / excercise session we will work through old AFP
     exam questions in groups to identify important topics and practice
     collaborative problem solving and discussion. This is in response to student
@@ -130,7 +128,7 @@ update!
 
 * **Assistants on charge**: TBA
 
-## 8. [Monad transformers II](./lecture8.html)
+## 7. [Monad transformers II](./lecture8.html)
 
 * **Topics**: This lecture looks into the consequences of the application order
     of `StateT` and `ExceptT` monad transformers in the interpreter. The lecture
@@ -142,7 +140,7 @@ update!
 
 * The reading material is the same as lecture 6 (see above).
 
-## 9. [Information-flow Control in Haskell](./lecture9.html)
+## 8. [Information-flow Control in Haskell](./lecture9.html)
 
 * **Topics**: In this lecture, we will see a use of monads for controlling
     effects in order to provide security for Haskell programs. We will focus on
@@ -157,8 +155,7 @@ update!
 * **Reading**: Functional Pearl: [Two can keep a secret, If one of them uses
     Haskell by A. Russo](http://www.cse.chalmers.se/~russo/publications_files/pearl-russo.pdf)
 
-
-## 10. [Program verification](./lecture10.html)
+## 9. [Program verification](./lecture10.html)
 
 * **Topics**: In this lecture, we look at program verification by proving
     properties by induction. We also explore property-based testing as
@@ -172,15 +169,7 @@ update!
     Haskell Programs by K. Claessen and
     J. Hughes](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/Papers/QuickCheck-claessen.ps)
 
-## 11. Guest lecture I (February 20th)
-
-* [Source code]()
-
-## 12. Guest lecture II (February 23th)
-
-* [Source code](https://github.com/atzeus/IncTopoNodes/blob/master/FRPDemo.hs)
-
-## 13. [Type-based modeling](./lecture13.html)
+## 10. [Type-based modeling](./lecture13.html)
 
 * **Topics**: We look how to do type-inference (type-checking) in DSL using
     GADTs. We describe existential and singleton types.
@@ -192,13 +181,7 @@ update!
     and [GADTs](https://wiki.haskell.org/GADT).
 
 
-
-## 14. Looking forward! (Tentatively March 6rd)
-
-* **Topics**: Second instance of the excercise session with exam questions.
-* **Assistants on charge**: John J. Camilleri and Anton Ekblad
-
-## 15. [Type-based modeling II & looking back!](./lecture15.html)
+## 11. [Type-based modeling II & looking back!](./lecture15.html)
 
 * **Topics**: In the first part of the lecture, we will discuss associated
     types, kinds, data kinds, type families, and singleton types. In the second
@@ -217,3 +200,16 @@ update!
 * **Optional reading**: [Fun with Type Functions by O. Kiselyov,
     S. Peyton-Jones, and
     C. Shan](http://www.haskell.org/haskellwiki/Simonpj/Talk:FunWithTypeFuns)
+
+
+# Special lectures
+
+## Looking forward! (February 9th)
+* **Topics**: First instance of the excercise session with exam questions.
+
+## Guest lecture: Agda (Andreas Abel)  (February 23th)
+
+## Guest lecture: Simon Marlow (March 9th)
+
+## Looking forward! (March 6rd)
+* **Topics**: Second instance of the excercise session with exam questions.

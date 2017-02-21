@@ -20,6 +20,29 @@
 
 # News!
 
+
+* Tuesday 21 Feb.
+
+  <div class = "alert alert-info">
+     Guest lectures announced (check for Special Lectures in the lectures tab)!
+  </div>
+
+  <div class = "alert alert-info">
+     Ideas for Lab3 announced! (some of them)
+  </div>
+
+  <div class = "alert alert-info">
+     Anton and Fabian will have extra office hours where you can chat with them
+     about ideas for Lab 3!
+
+     <br> **Fabian**: Monday 27th of February, 10:00 - 11:00.
+
+     <br> **Anton**: Tuesday 28th of February, 14:00 - 15:00.
+
+  </div>
+
+
+
 * March 22nd
 
   <div class = "alert alert-info">
