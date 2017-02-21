@@ -20,7 +20,6 @@
 
 # News!
 
-
 * Tuesday 21 Feb.
 
   <div class = "alert alert-info">
@@ -41,9 +40,22 @@
 
   </div>
 
+* January 23rd
+
+  <div class = "alert alert-info">
+     Course representatives announced! Check the "About" tab!
+  </div>
 
 
-* March 22nd
+* January 21st
+
+  <div class = "alert alert-info">
+     Office hours announced for Anton and Fabian. Office hours with Alejandro by
+     appointment only (send an email).
+  </div>
+
+
+* January 16th
 
   <div class = "alert alert-info">
      Welcome to the course!
