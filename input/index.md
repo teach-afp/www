@@ -20,6 +20,19 @@
 
 # News!
 
+* Wednesday 8 March.
+
+  <div class = "alert alert-info">
+     You need to read up on the lecture 11 (Type-based modeling II & looking
+     back!). I have covered it partially, but you need to read the
+     rest. Specially, type families.
+  </div>
+
+  <div class = "alert alert-info">
+     Koen's guest lecture slides are up!
+  </div>
+
+
 * Tuesday 21 Feb.
 
   <div class = "alert alert-info">
