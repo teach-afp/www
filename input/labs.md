@@ -7,7 +7,7 @@ lecturer.
 
 * You need to pass all three assignments in order to pass the course.
 * Each of the assignments is divided into two parts with separate deadlines.
-* The assignments have to be handed in using [the Fire system](https://afp-lp3-17.frs.cse.chalmers.se/).
+* The assignments have to be handed in using [the Fire system](https://afp-lp3-18.frs.cse.chalmers.se/login).
 
 ## Deadlines
 
@@ -32,12 +32,12 @@ personal deadline for you. You may then get an extension of the deadline.
 
 <tr>
     <td class="success" > Part I </td>
-    <td class="alert-info" >  January 29th (course week 2) </td>
+    <td class="alert-info" >  January 28th (course week 2) </td>
 </tr>
 
 <tr>
     <td class="success" > Part II </td>
-    <td class="alert-info" >  February 5th (course week 3) </td>
+    <td class="alert-info" >  February 4th (course week 3) </td>
 </tr>
 </table>
 
@@ -51,12 +51,12 @@ personal deadline for you. You may then get an extension of the deadline.
 
 <tr>
     <td class="success" > Part I </td>
-    <td class="alert-info" >  February 12st (course week 4) </td>
+    <td class="alert-info" >  February 11st (course week 4) </td>
 </tr>
 
 <tr>
     <td class="success" > Part II </td>
-    <td class="alert-info" >  February 26th (course week 6) </td>
+    <td class="alert-info" >  February 25th (course week 6) </td>
 </tr>
 </table>
 
@@ -71,12 +71,12 @@ personal deadline for you. You may then get an extension of the deadline.
 
 <tr>
     <td class="success" > Part I </td>
-    <td class="alert-info" >  March 5th (course week 7) </td>
+    <td class="alert-info" >  March 4th (course week 7) </td>
 </tr>
 
 <tr>
     <td class="success" > Part II </td>
-    <td class="alert-info" >  March 12rd (course week 8) </td>
+    <td class="alert-info" >  March 11rd (course week 8) </td>
 </tr>
 </table>
 
