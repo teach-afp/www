@@ -30,7 +30,7 @@ Lectures (note different lecture rooms on different week days)
 
 <div class="embed-responsive embed-responsive-16by9">
   <iframe class="embed-responsive-item"
-  src="https://se.timeedit.net/web/chalmers/db1/public/ri1X50gQ2560YvQQ05Z6978Y0Zy6007311Y54Q085.html"
+  src="https://se.timeedit.net/web/chalmers/db1/public/riqvZQY75ZXZ07Qy6Y7Q16706QZ336Q5q090551Q0Yo4og6.html"
          style="border: 0" width="800" height="600" frameborder="0"
          scrolling="yes">
 </iframe>
@@ -57,11 +57,13 @@ Lectures (note different lecture rooms on different week days)
 <div class="row">
 <div class="col-sm-3 col-xs-6 text-center">
 	<div class="thumbnail">
-		<img class="img-no-resize" src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAALaAAAAJDIwZDc5MjRlLTE3ZGItNDhmMy04MjVmLTczYjY4YjNkYmJlYw.jpg" alt="Anton's picture">
+		<img class="img-no-resize"
+                src=""
+                alt="Alejandro Gómez Londoño">
 		<div class="caption">
-			[Anton Ekblad](http://ekblad.cc/)
+			[Alejandro Gómez Londoño](https://www.chalmers.se/sv/personal/Sidor/alejandro-gomez.aspx)
                         <p> **Office hours**: <br> Fridays 13hs-15hs <br>
-                        Office: 5463, 5th floor, EDIT building </p>
+                        Office: 5461, 5th floor, EDIT building </p>
 		  </div>
 	</div>
 </div>
@@ -72,21 +74,21 @@ Lectures (note different lecture rooms on different week days)
 
 ## Course Representatives
 
-* TKDAT, algehed@chalmers.se,  MAXIMILIAN ALGEHED
-* MPALG, hamedani@student.chalmers.se, SIAVASH HAMEDANI
-* TKDAT, marclund@student.chalmers.se, MARCUS LUNDBERG
-* TDATA, d99bekim@student.chalmers.se, BEKIM RABUSHAJ
-* MPALG, nacval@student.chalmers.se, NACHIAPPAN VALLIAPPAN
+* MPALG, donatod@student.chalmers.se, DAVIDE DONATO
+* MPALG, lajakob@student.chalmers.se, JAKOB LARSSON
+* TKDAT, gustnil@student.chalmers.se, GUSTAV NILSSON
+* Utbyte, jaakko.rinta-filppula@student.tut.fi, JAAKKO RINTA-FILPPULA
+* TKDAT, ariv@student.chalmers.se, ARI VON NORDENSKJÖLD
 
 ---
 
 ## Discussion Group
 
-You can register
-[here](https://groups.google.com/d/forum/afp2017)
-to the Google Group of the course. The google group is meant to be used to post
-questions and have discussions related to the course. *Sharing (total or
-partial) solutions in the google group is forbidden*.
+We will use Slack! So, join it now before the [invitation link](https://join.slack.com/t/afp-chalmers/shared_invite/enQtMjk4NTk5Mzk2MzI1LWRjYjAxMDlhNzU1M2ViZmQ2NzQ2ZDQ5ZjgxODA4NmQ1ZTk3ZjRjYWQyZGIyZmZjOTg1NWM3OWYwMmVjMjhjODA) expires.
+
+Slack as a communication channel is meant to be used to post questions and have
+discussions related to the course. *Sharing (total or partial) solutions in it
+is forbidden*.
 
 ---
 
