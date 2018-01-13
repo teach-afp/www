@@ -204,18 +204,14 @@ update!
 
 # Special lectures
 
-## Looking forward! (February 9th)
+## Looking forward! (February 8th)
 * **Topics**: First instance of the excercise session with exam questions.
 
-## Guest lecture: Agda (Andreas Abel)  (February 23th)
+## Guest lecture 1 (To be announced)
 
-* [For the Agda source code, check Andreas' web page](http://www.cse.chalmers.se/~abela/AFP-2017/AFP-2017-Agda-live.zip)
+## Guest lecture 2 (To be announced)
 
-## Guest lecture: Koen Claessen ,Functional Reactive Programming, (March 2nd)
+## Guest lecture 3 (To be announced)
 
-* [Slides here](https://docs.google.com/presentation/d/1-T8hgQaUbhMuVazpJcuMmKzVNfZXWp3xbvuOq-PGzV4/edit?ts=58bd6729)
-
-## Guest lecture: Simon Marlow (March 9th)
-
-## Looking forward! (March 6rd)
+## Looking forward! (March 5rd)
 * **Topics**: Second instance of the excercise session with exam questions.
