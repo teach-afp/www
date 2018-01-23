@@ -58,9 +58,9 @@
 ## Functions vs. Actions ##
 * Consider
 
-    ```haskell
-    f :: String -> Int
-    ```
+  ```haskell
+  f :: String -> Int
+  ```
 
 * Only the knowledge about the string is needed to *produce* the result. We say
   that `f` is a pure function.
@@ -171,8 +171,9 @@
      <div class="row"> </div>
   - A classic property for function `reverse`:
 
-      ```haskell
-      reverse (reverse xs) = xs ```
+    ```haskell
+    reverse (reverse xs) = xs
+    ```
 
 * What about programs with I/O?
   - In Haskell, expressions of type `IO a` (for some type `a`) are pure
@@ -279,11 +280,12 @@
 
 * Use `error "message"` or `undefined` to see whether something gets evaluated
 
-   ```haskell
-   testLazy2 = head [3, undefined, 17]
-   testLazy3 = head (3:4:error "no tail")
-   testLazy4 = head [error "no first elem", 17, 13]
-   testLazy5 = head (error "no list at all")```
+  ```haskell
+  testLazy2 = head [3, undefined, 17]
+  testLazy3 = head (3:4:error "no tail")
+  testLazy4 = head [error "no first elem", 17, 13]
+  testLazy5 = head (error "no list at all")
+  ```
 
 ## Lazy evaluation: skipping unnecessary computations ##
 
@@ -293,7 +295,7 @@
   -- | Fibonacci
   expn :: Integer -> Integer
   expn n | n <= 1    = 1
-  | otherwise = expn (n-1) + expn (n-2)
+         | otherwise = expn (n-1) + expn (n-2)
 
   choice :: Bool -> a -> a -> a
   choice False  f  _t  =  f
@@ -347,7 +349,7 @@ foo x = ff x + ff x
 bar :: Integer -> Integer -> Integer
 bar x y = ff 17 + x + y
 
-testBar =  bar 1 2 + bar 3 4
+testBar = bar 1 2 + bar 3 4
 ```
 
 * `ff x` gets evaluated twice in `foo x`
@@ -357,21 +359,22 @@ testBar =  bar 1 2 + bar 3 4
   - We can adapt `foo` above to evaluate `ff x` at most once by introducing a
     local binding
 
-     ```haskell
-     foo :: Integer -> Integer
-     foo x = ffx + ffx
+    ```haskell
+    foo :: Integer -> Integer
+    foo x = ffx + ffx
      where ffx = ff x
-     ```
+    ```
 
   - The evaluation happens *at most once* in the corresponding scope!
   - What about `f 17`? How can we change `bar` to evaluate it at most once?
 
-     ```haskell
-     bar :: Integer -> Integer -> Integer
-     bar x y = ff17 + x + y
+    ```haskell
+    bar :: Integer -> Integer -> Integer
+    bar x y = ff17 + x + y
 
-     ff17 :: Integer
-     ff17 = ff 17 ```
+    ff17 :: Integer
+    ff17 = ff 17
+    ```
 
      We introduce a top-level binding, which are really evaluated at most once.
 
@@ -405,15 +408,15 @@ testBar =  bar 1 2 + bar 3 4
 * Other examples
   -  Raising functions to a positive power
 
-     ```haskell
-     iterate :: (a -> a) -> a -> [a]
-     iterate f x = x : iterate f (f x)
-     ```
+    ```haskell
+    iterate :: (a -> a) -> a -> [a]
+    iterate f x = x : iterate f (f x)
+    ```
 
-     ```bash
-     > iterate (2*) 1
-     [1,2,4,8,16,32,64,128,256,512,1024,...]
-     ```
+    ```bash
+    > iterate (2*) 1
+    [1,2,4,8,16,32,64,128,256,512,1024,...]
+    ```
 
   - Repeating a number infinitely
 
@@ -430,13 +433,14 @@ testBar =  bar 1 2 + bar 3 4
     ```
 
   - Alternative definitions
-   ```haskell
-   repeat :: a -> [a]
-   repeat = iterate id
 
-   cycle :: [a] -> [a]
-   cycle xs = concat (repeat xs)
-   ```
+    ```haskell
+    repeat :: a -> [a]
+    repeat = iterate id
+
+    cycle :: [a] -> [a]
+    cycle xs = concat (repeat xs)
+    ```
 
 ## Lazy evaluation: infinite lists exercises ##
 
@@ -509,23 +513,25 @@ testBar =  bar 1 2 + bar 3 4
 
 * Consider the following data structure:
 
-    ```haskell
-    data Labyrinth  = Crossroad {
-                          what  :: String
-                        , left  :: Labyrinth
-                        , right :: Labyrinth
-                      } ```
+  ```haskell
+  data Labyrinth  = Crossroad {
+                        what  :: String
+                      , left  :: Labyrinth
+                      , right :: Labyrinth
+                    }
+  ```
 
 * Let us define a labyrinth.
 
-    ```haskell
-    labyrinth :: Labyrinth
-    labyrinth = start
-     where
-      start  = Crossroad "start"  forest town
-      town   = Crossroad "town"   start  forest
-      forest = Crossroad "forest" town   exit
-      exit   = Crossroad "exit"   exit   exit ```
+  ```haskell
+  labyrinth :: Labyrinth
+  labyrinth = start
+   where
+    start  = Crossroad "start"  forest town
+    town   = Crossroad "town"   start  forest
+    forest = Crossroad "forest" town   exit
+    exit   = Crossroad "exit"   exit   exit
+  ```
 
     What does it happen when we print out `labyrinth`?
 
@@ -574,25 +580,27 @@ testBar =  bar 1 2 + bar 3 4
   - It even enables to do some type-level programming
 * Examples
 
-    ```haskellln
-    class Eq a where            -- simplified version
-      (==) :: a -> a -> Bool
+  ```haskellln
+  class Eq a where            -- simplified version
+    (==) :: a -> a -> Bool
 
-    class Eq a => Ord a where   -- simplified version
-      (<=) :: a -> a -> Bool
-      (>=) :: a -> a -> Bool
+  class Eq a => Ord a where   -- simplified version
+    (<=) :: a -> a -> Bool
+    (>=) :: a -> a -> Bool
 
-    instance Eq Int where
-      (==) = somePrimitiveEqualityTest
+  instance Eq Int where
+    (==) = somePrimitiveEqualityTest
 
-    somePrimitiveEqualityTest :: Int -> Int -> Bool
-    somePrimitiveEqualityTest = ...  ```
+  somePrimitiveEqualityTest :: Int -> Int -> Bool
+  somePrimitiveEqualityTest = ...
+  ```
 
 * Let us consider the following type class.
 
-    ```haskell
-    class Finite a where
-          domain :: [a]  ```
+  ```haskell
+  class Finite a where
+    domain :: [a]
+  ```
 
     What types could be an instance of this class?
     Can you make functions instances of `Eq` now?
