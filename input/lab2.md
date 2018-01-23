@@ -91,7 +91,6 @@ serialise. For our purposes this means being able to convert from and to a
 `String`, which we can then for instance write to a file.
 
 
-<a name="example"></a>
 An example
 ----------
 
@@ -250,9 +249,8 @@ run :: Replay q r a -> Trace r -> IO (Either (q, Trace r) a)
 You can decide yourself how to implement the type `Trace r`,
 but it needs to be a type that can be written to and read from a file.
 (Ergo, it needs to be an instance of `Show` and `Read`.)
-Make sure that the [example](#example) above can actually be run correctly!
+Make sure that the [example](#an-example) above can actually be run correctly!
 
-<a name="task2"></a>
 Task 2: generalise the interface
 --------------------------------
 **For grades 4 and 5**
@@ -314,7 +312,7 @@ implementation is correct. Try to think about possible corner cases.
 
 **For grades 4 and 5**
 
-Use the generalised interface from [task 2](#task2), and replace
+Use the generalised interface from [task 2](#task-2:-optimising-the-`replay`-monad), and replace
 the `IO` monad with a `State` monad.
 
 **For grade 5**
