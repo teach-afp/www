@@ -10,12 +10,12 @@ Deadlines
 </thead>
 
 <tr>
-    <td class="success" > [Part I](#part1) </td>
+    <td class="success">[Part I](#part-i)</td>
     <td class="alert-info">Sunday, February 11th (course week 4)</td>
 </tr>
 
 <tr>
-    <td class="success" > [Part II](#part2) </td>
+    <td class="success">[Part II](#part-ii)</td>
     <td class="alert-info">Sunday, February 25th (course week 6)</td>
 </tr>
 </table>
@@ -209,7 +209,6 @@ Total time: 5 seconds
 Note that, in the above, the same program is re-run with a new trace,
 each time the answer to the question is provided by the user.
 
-<a name="part1"></a>
 Part I
 ======
 

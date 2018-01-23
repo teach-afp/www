@@ -10,12 +10,12 @@ Deadlines
 </thead>
 
 <tr>
-    <td class="success" > [Part I](#part1) </td>
+    <td class="success">[Part I](#part-i)</td>
     <td class="alert-info">Sunday, March 4th (course week 7)</td>
 </tr>
 
 <tr>
-    <td class="success" > [Part II](#part2) </td>
+    <td class="success">[Part II](#part-ii)</td>
     <td class="alert-info">Sunday, March 11th (course week 8)</td>
 </tr>
 </table>

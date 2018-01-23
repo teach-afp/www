@@ -9,12 +9,12 @@
 </thead>
 
 <tr>
-    <td class="success" > Part I </td>
+    <td class="success">[Part I](#part-i)</td>
     <td class="alert-info">Sunday, January 28th (course week 2)</td>
 </tr>
 
 <tr>
-    <td class="success" > Part II </td>
+    <td class="success">[Part II](#part-ii)</td>
     <td class="alert-info">Sunday, February 4th (course week 3)</td>
 </tr>
 </table>

@@ -31,12 +31,12 @@ personal deadline for you. You may then get an extension of the deadline.
 </thead>
 
 <tr>
-    <td class="success" > Part I </td>
+    <td class="success">[Part I](lab1.html#part-i)</td>
     <td class="alert-info">Sunday, January 28th (course week 2)</td>
 </tr>
 
 <tr>
-    <td class="success" > Part II </td>
+    <td class="success">[Part II](lab1.html#part-ii)</td>
     <td class="alert-info">Sunday, February 4th (course week 3)</td>
 </tr>
 </table>
@@ -50,12 +50,12 @@ personal deadline for you. You may then get an extension of the deadline.
 </thead>
 
 <tr>
-    <td class="success" > Part I </td>
+    <td class="success">[Part I](lab2.html#part-i)</td>
     <td class="alert-info">Sunday, February 11th (course week 4)</td>
 </tr>
 
 <tr>
-    <td class="success" > Part II </td>
+    <td class="success">[Part II](lab2.html#part-ii)</td>
     <td class="alert-info">Sunday, February 25th (course week 6)</td>
 </tr>
 </table>
@@ -70,12 +70,12 @@ personal deadline for you. You may then get an extension of the deadline.
 </thead>
 
 <tr>
-    <td class="success" > Part I </td>
+    <td class="success">[Part I](lab3.html#part-i)</td>
     <td class="alert-info">Sunday, March 4th (course week 7)</td>
 </tr>
 
 <tr>
-    <td class="success" > Part II </td>
+    <td class="success">[Part II](lab3.html#part-ii)</td>
     <td class="alert-info">Sunday, March 11th (course week 8)</td>
 </tr>
 </table>
