@@ -18,7 +18,7 @@
   - All information is on the web page for the course
 * [Discussion board](https://afp-chalmers.slack.com/messages/lectures/)
 * Office hours
-  - A few times a week. [Check the hours here](./inf.html).
+  - A few times a week. [Check the hours here](./inf.html#assistants).
 
 ## Organization ##
 * **2** Lectures per week
