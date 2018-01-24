@@ -208,12 +208,13 @@ Total time: 5 seconds
 Note that, in the above, the same program is re-run with a new trace,
 each time the answer to the question is provided by the user.
 
+
 Part I
 ======
 
 The first part of this assignment is to implement the `Replay` monad.
 
-Task 1: the `Replay` monad
+Task 1: The `Replay` monad
 --------------------------
 
 First create a Haskell module called Replay in an empty directory,
@@ -251,8 +252,9 @@ but it needs to be a type that can be written to and read from a file.
 (Ergo, it needs to be an instance of `Show` and `Read`.)
 Make sure that the [example](#an-example) above can actually be run correctly!
 
-Task 2: generalise the interface
+Task 2: Generalise the interface
 --------------------------------
+
 **For grades 4 and 5**
 
 Turn your Replay monad into a monad transformer `ReplayT m`, so that any
@@ -277,7 +279,7 @@ Consider which functions are primitive and which are derived.
 **Note:** If you do this task, you should *not* submit the non-generalised
 version from task 1.
 
-Task 3: testing the `Replay` monad
+Task 3: Testing the `Replay` monad
 ----------------------------------
 
 Once you have implemented your Replay monad transformer you should make sure
@@ -410,7 +412,7 @@ You should see the inputted value in the
 before you continue!*
 
 
-Task 1: a library for web forms
+Task 1: A library for web forms
 -------------------------------
 
 The idea is now that you will now extend your replay library with web form
@@ -483,8 +485,9 @@ You may provide any extra functionality, or change the type `Web`
 if you feel the need for it.
 
 
-Task 2: optimising the `Replay` monad
+Task 2: Optimising the `Replay` monad
 -------------------------------------
+
 **For grades 4 and 5**
 
 The `Replay` monad remembers all results ever computed,
@@ -548,7 +551,7 @@ Don't forget to add test cases for `cut`.
 Again, think about corner cases such as `cut (return 0)`.
 
 
-Task 3: an interesting web program
+Task 3: An interesting web program
 ----------------------------------
 
 Implement a more realistic example that uses your web library.
@@ -659,19 +662,19 @@ Submission
 Clean code
 ----------
 
-Before you submit your code, clean It Up! Submitting clean code is
-*Really Important*, and simply the polite thing to do.
+Before you submit your code, *clean it up!* Submitting clean code is
+*really important*, and simply the polite thing to do.
 After you feel you are done, spend some time on cleaning your code;
 make it simpler, remove unnecessary things, etc.
 We will reject your solution if it is not clean. Clean code:
 
-* does not have long (> 80 characters) lines;
-* has a consistent layout;
-* has type signatures for all top level functions;
-* has good comments;
-* has no junk (unused code, unnecessary comments, code which is commented out);
-* has no overly complicated function definitions; and
-* does not contain any repetitive code (copy-paste programming).
+* Does not have long (> 80 characters) lines
+* Has a consistent layout
+* Has type signatures for all top-level functions
+* Has good comments for all modules, functions, data types and instances. The comments should look good when compiled to HTML with Haddock.
+* Has no junk (junk is unused code, code which is commented out, unnecessary comments)
+* Has no overly complicated function definitions
+* Does not contain any repetitive code (copy-and-paste programming)
 
 
 What to submit
@@ -700,7 +703,7 @@ Make sure the tarball is working by extracting it in another directory and
 running `cabal configure --enable-tests`, `cabal build`, `cabal test` and
 `cabal haddock` and checking that everything looks right.
 
-Where?
-------
+Where to submit
+---------------
 
 Go to [the Fire system](https://afp-lp3-18.frs.cse.chalmers.se/)!

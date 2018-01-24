@@ -30,6 +30,7 @@ package (preferably from
 [Hackage](http://hackage.haskell.org/packages/hackage.html)) and use it for a
 small project.
 
+
 Part I
 ======
 
@@ -57,8 +58,8 @@ Part II
 
 You will now work with the library you have chosen.
 
-Task 1 - Writing code
----------------------
+Task 1: Writing code
+--------------------
 
 In this part you will write Haskell code that uses or extends your chosen
 library. The code could be in any one of these categories (or possibly a mix of
@@ -90,8 +91,8 @@ hours. Try to demonstrate that you master (some of) the learning outcomes of the
 AFP course.  If you have questions, talk to the teaching assistants (Dan and
 Anton).
 
-Task 2 - Documentation
-----------------------
+Task 2: Documentation
+---------------------
 
 Write a report about you have been doing in the lab. The report should include:
 
@@ -111,29 +112,36 @@ solved them.
 
 Use concepts you have learned in the course to express yourselves.
 
+
+Submission
+==========
+
 Clean code
 ----------
 
-Before you submit your code, Clean It Up! Submitting clean code is Really
-Important, and simply the polite thing to do. After you feel you are done, spend
+Before you submit your code, *clean it up!* Submitting clean code is *really
+important*, and simply the polite thing to do. After you feel you are done, spend
 some time on cleaning your code; make it simpler, remove unnecessary things,
 etc. We will reject your solution if it is not clean. Clean code:
 
-- Does not have long lines (< 80 characters)
+- Does not have long (> 80 characters) lines
 - Has a consistent layout
 - Has type signatures for all top-level functions
-- Has good comments
-- Has no junk (junk is unused code, commented code, unnecessary comments)
+- Has good comments for all modules, functions, data types and instances. The comments should look good when compiled to HTML with Haddock.
+- Has no junk (junk is unused code, code which is commented out, unnecessary comments)
 - Has no overly complicated function definitions
 - Does not contain any repetitive code (copy-and-paste programming)
 
-Submission
-----------
+What to submit
+--------------
 
 Your submission needs to include the following information:
 
 * Your Haskell files, containing your code. Typically this should be a cabal
   package.
 * **report.txt** or **report.pdf**, a file containing your report.
+
+Where to submit
+---------------
 
 Go to [the Fire system](https://afp-lp3-18.frs.cse.chalmers.se/)!
