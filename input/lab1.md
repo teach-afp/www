@@ -172,14 +172,14 @@ interface. In their syntax it looks like:
           >
         </div>
         <div class="col-md-6">
-         ```bash
-         to spiral :size :angle
-                 if :size > 100 [stop]
-                 forward :size
-                 right :angle
-                 spiral :size + 2 :angle
-               end
-         ```
+```bash
+to spiral :size :angle
+        if :size > 100 [stop]
+        forward :size
+        right :angle
+        spiral :size + 2 :angle
+end
+```
         </div>
 </div>
 
