@@ -4,7 +4,7 @@ Deadlines
 <table class="table table-bordered">
 <thead>
 <tr>
-    <th>Assignment 1</th>
+    <th>Assignment 2</th>
     <th>Date</th>
 </tr>
 </thead>
