@@ -49,6 +49,11 @@ two basic commands it understood were:
 
 ```haskell
 forward n
+```
+
+and
+
+```haskell
 right d
 ```
 
@@ -120,9 +125,9 @@ For instance, your library might define and export the following things
 functionality):
 
 ```haskell
-type Program  -- the abstract type of a turtle program
-forward :: Double -> Program
-right   :: Double -> Program
+Program                      -- the *abstract* type of a turtle program
+forward :: Double -> Program -- move forward the given number of steps
+right   :: Double -> Program -- turn right the given number of degrees
 ```
 
 Other turtle commands you should provide are:
@@ -138,7 +143,7 @@ Other turtle commands you should provide are:
 - `times`: repeats a turtle program a certain number of times, and
 - `forever`: that repeats a program forever.
 
-You will also need a sequencing operator `(>*>)` to perform commands one after
+You should also provide a sequencing operator `(>*>)` to perform commands one after
 another.
 
 
