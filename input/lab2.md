@@ -679,12 +679,12 @@ What to submit
 
 Your submission needs to include the following information:
 
-* **For [part I](#part1):**
+* **For [part I](#part-i):**
   your cabal package, containing:
   - a library containing your `Replay` monad and
   - a test suite for your library.
 
-* **For [part II](#part2):**
+* **For [part II](#part-ii):**
   your cabal package from part I, extended with:
   - your web library, contained in one or more separate modules (that is,
     do not implement your web library in the same module as `Replay`);
