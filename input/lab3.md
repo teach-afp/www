@@ -136,4 +136,4 @@ Your submission needs to include the following information:
   package.
 * **report.txt** or **report.pdf**, a file containing your report.
 
-Go to [the Fire system](https://afp-lp3-17.frs.cse.chalmers.se/)!
+Go to [the Fire system](https://afp-lp3-18.frs.cse.chalmers.se/)!

@@ -703,4 +703,4 @@ running `cabal configure --enable-tests`, `cabal build`, `cabal test` and
 Where?
 ------
 
-Go to [the Fire system](https://afp-lp3-17.frs.cse.chalmers.se/)!
+Go to [the Fire system](https://afp-lp3-18.frs.cse.chalmers.se/)!
