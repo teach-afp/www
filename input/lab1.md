@@ -265,7 +265,7 @@ language. Try to add higher level components like squares and other geometrical
 shapes as well as operators that capture common patterns.
 
 Operators that demonstrate the flexibility of your turtle language are
-encouraged. See the [grading section]() for more hints.
+encouraged. See the [grading section](#grading) for more hints.
 
 Task 4: Examples
 ----------------
