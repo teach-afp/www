@@ -1,6 +1,6 @@
 USERR = russo
 LAYOUT = $(shell find ../lout -type f -name '*')
-URL_COURSE = $(USERR)@remote11.chalmers.se:/chalmers/groups/edu2009/www/www.cse.chalmers.se/year/2017/course/TDA342_Advanced_Functional_Programming
+URL_COURSE = $(USERR)@remote11.chalmers.se:/chalmers/groups/edu2009/www/www.cse.chalmers.se/year/2018/course/TDA342_Advanced_Functional_Programming
 
 all: index.html information labs lectures exams.html
 
