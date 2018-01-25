@@ -61,7 +61,7 @@ Here, `n` is the number of steps the robot should move forward, and `d` the
 number of degrees the robot should turn. More information can be found on the
 [Turtle graphics wikipedia page](http://en.wikipedia.org/wiki/Turtle_graphics)
 (or in a local copy of the [Logo
-primer](http://www.cse.chalmers.se/edu/year/2015/course/afp/logo_primer_2007.pdf)). The
+primer](./assets/files/logo_primer_2007.pdf)). The
 idea is that you will implement a part of this turtle graphics language. Your
 program will be able to produce something like the following output:
 
