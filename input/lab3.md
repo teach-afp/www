@@ -10,13 +10,13 @@ Deadlines
 </thead>
 
 <tr>
-    <td class="success" > [Part I](#part1) </td>
-    <td class="alert-info" >  March 5th (course week 7) </td>
+    <td class="success">[Part I](#part-i)</td>
+    <td class="alert-info">Sunday, March 4th (course week 7)</td>
 </tr>
 
 <tr>
-    <td class="success" > [Part II](#part2) </td>
-    <td class="alert-info" >  March 12rd (course week 8) </td>
+    <td class="success">[Part II](#part-ii)</td>
+    <td class="alert-info">Sunday, March 11th (course week 8)</td>
 </tr>
 </table>
 
@@ -29,6 +29,7 @@ advanced Haskell code base.  You will choose an existing Open Source library
 package (preferably from
 [Hackage](http://hackage.haskell.org/packages/hackage.html)) and use it for a
 small project.
+
 
 Part I
 ======
@@ -52,93 +53,13 @@ deciding on a package? Visit the [package suggestion
 page](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/packages.html).
 
 
-
-# Ideas 2017
-
-We briefly describe some ideas of project that you might consider
-interesting. It is not mandatory to choose one of them.
-
-## Security
-
-* [LIO](https://hackage.haskell.org/package/lio) is a known library to
-  dynamically protect confidentiality and integrity of data in the presence of
-  untrusted code. We recommend [this article in the Journal of Functional
-  Programming](http://www.cse.chalmers.se/~russo/publications_files/jfp15.pdf)
-  to understand the internals.
-
-  **Task** (possible for a 4 or 5): Change the implementation of LIO to work as
-    Continuation-Passing-Style (CPS). For this, you need to learn about the
-    continuation monad.
-
-* The [Information-Flow Challenge](http://ifc-challenge.appspot.com/) is a
-  web-based tutorial which helps to understand how different features in
-  programming languages could be used to leak information. This challenge is
-  designed to work on an imperative language.
-
-  **Task** (possible for a 3/4): Implement a information-flow challenge but for
-    the security library [MAC](https://hackage.haskell.org/package/mac).  The
-    challenge should proceed following the lines of the paper [Two can keep a
-    secret if one of them uses
-    Haskell](http://www.cse.chalmers.se/~russo/publications_files/pearl-russo.pdf).
-
-* Fuzzing is a testing technique used to discover vulnerabilities in
-  software. It consists on giving ill-formed input to programs in order to make
-  them crash---once a crash is detected, it could lead to an exploit!  There are
-  two types of fuzzers: mutational and generational. Mutational fuzzers
-  essentially randomly flips bits in inputs, which means that the entry level to
-  start using them is very low---check [American Fuzzy
-  Lop](http://lcamtuf.coredump.cx/afl/). Mutational fuzzers do not work well if
-  the software you want to test expects highly structured inputs (e.g., a
-  program or a package in a protocol), where randomly flipping bits will
-  probably cause parsing to fail right away, thus not testing the "deeper"
-  layers of software. Instead, generational fuzzers requires to specify upfront
-  grammars describing the valid inputs of a program. Based on that, the fuzzer
-  then carefully flips certain bits but retaining the structure described by the
-  grammar. The problem with generational fuzzers is that it is necessary to
-  specify a grammar---can you imagine specifying a grammar for BMP, JPEG files?
-
-  To close this gap, [QuickFuzz](http://quickfuzz.org/) is a fuzzer that uses
-  QuickCheck and Template Haskell to extract grammars of file formats (e.g.,
-  BMP, JPEG, etc.) from type declaration. So, it is not needed to specify a
-  grammar upfront while generating input with certain structure.
-
-  **Task** (probably for a 4/5): QuickFuzz deals with many file formats, but it
-    misses many of them. Your task is then to incorporate more file formats into
-    QuickFuzz!
-
-* Haste and Information-Flow Control:
-
-## Functional Reactive Programming
-
-* Functional reactive programming (FRP) is a prominent approach to write
-  event-driven code without callbacks! Callbacks makes hard to reason about code
-  and it makes almost impossible to follow the control flow of a program. There
-  are many approaches for FRP, where most of them have the problem of memory
-  leakage.
-
-  **Task** (possible for a 3):
-    [FRPNow!](https://hackage.haskell.org/package/frpnow) is a promising library
-    which implements FRP without the problems of memory leaks ([there is an
-    accompanying paper too](http://dl.acm.org/citation.cfm?id=2784752)). Your
-    task is to write a tutorial of this library which also explains the main
-    concept of FRP behind it.
-
-## Digital Signal Processing
-
-TBD
-
-## Testing
-
-TBD
-
-
 Part II
 =======
 
 You will now work with the library you have chosen.
 
-Task 1 - Writing code
----------------------
+Task 1: Writing code
+--------------------
 
 In this part you will write Haskell code that uses or extends your chosen
 library. The code could be in any one of these categories (or possibly a mix of
@@ -170,8 +91,8 @@ hours. Try to demonstrate that you master (some of) the learning outcomes of the
 AFP course.  If you have questions, talk to the teaching assistants (Dan and
 Anton).
 
-Task 2 - Documentation
-----------------------
+Task 2: Documentation
+---------------------
 
 Write a report about you have been doing in the lab. The report should include:
 
@@ -191,24 +112,28 @@ solved them.
 
 Use concepts you have learned in the course to express yourselves.
 
+
+Submission
+==========
+
 Clean code
 ----------
 
-Before you submit your code, Clean It Up! Submitting clean code is Really
-Important, and simply the polite thing to do. After you feel you are done, spend
+Before you submit your code, *clean it up!* Submitting clean code is *really
+important*, and simply the polite thing to do. After you feel you are done, spend
 some time on cleaning your code; make it simpler, remove unnecessary things,
 etc. We will reject your solution if it is not clean. Clean code:
 
-- Does not have long lines (< 80 characters)
+- Does not have long (> 80 characters) lines
 - Has a consistent layout
 - Has type signatures for all top-level functions
-- Has good comments
-- Has no junk (junk is unused code, commented code, unnecessary comments)
+- Has good comments for all modules, functions, data types and instances. The comments should look good when compiled to HTML with Haddock.
+- Has no junk (junk is unused code, code which is commented out, unnecessary comments)
 - Has no overly complicated function definitions
 - Does not contain any repetitive code (copy-and-paste programming)
 
-Submission
-----------
+What to submit
+--------------
 
 Your submission needs to include the following information:
 
@@ -216,4 +141,7 @@ Your submission needs to include the following information:
   package.
 * **report.txt** or **report.pdf**, a file containing your report.
 
-Go to [the Fire system](https://afp-lp3-17.frs.cse.chalmers.se/)!
+Where to submit
+---------------
+
+Go to [the Fire system](https://afp-lp3-18.frs.cse.chalmers.se/)!

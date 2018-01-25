@@ -28,7 +28,7 @@ update!
 
 * **Reading**: [DSL for the Uninitiated by Debasish
     Ghosh](http://cacm.acm.org/magazines/2011/7/109910-dsl-for-the-uninitiated/fulltext),
-    Chapters 5 has a EDSL for pretty printing, Chapter 9 for file searching and
+    Chapter 5 has a EDSL for pretty printing, Chapter 9 for file searching and
     Chapter 13 one for arithmetic expressions.
 
 * **Exercises**:
@@ -41,7 +41,7 @@ update!
 * **Topics**: Side-effects in pure functional programming. Monads. Monads for
     error handling, logging, and state. Monads and EDSL.
 
-* **Reading**: Chapters 14
+* **Reading**: Chapter 14
 
 * [Source
   code](https://bitbucket.org/russo/afp-code/src/HEAD/L3/Interpr.hs?at=master&fileviewer=file-view-default)
@@ -57,7 +57,7 @@ update!
 * **Topics**: Functors. Applicative functors. Relation among functors,
     applicative functors, and monads. More example of monads (modeling IO).
 
-* **Reading**: Chapters 10 (Section Introducing Functors), [FUNCTIONAL PEARL
+* **Reading**: Chapter 10 (Section Introducing Functors), [FUNCTIONAL PEARL
     Applicative programming with effects (Page 1 -
     6)](http://strictlypositive.org/IdiomLite.pdf)
 
@@ -87,7 +87,7 @@ update!
 * [Source
   code](https://bitbucket.org/russo/afp-code/src/HEAD/L5/?at=master)
 
-* **Reading**: Chapters 16, until p. 390 or so; to get a feel for what parser
+* **Reading**: Chapter 16, until p. 390 or so; to get a feel for what parser
     combinators are, [Parallel Parser
     Combinators](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/Papers/parser-claessen.pdf),
     [Koen's slides](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/lectures/lecture4/lecture4.pdf)
@@ -112,7 +112,7 @@ update!
 * [Source
   code](https://bitbucket.org/russo/afp-code/src/HEAD/L6/?at=master)
 
-* **Reading**: Chapters 18 on Monad Transformers.
+* **Reading**: Chapter 18 on Monad Transformers.
 
 * **Optional reading**:
 

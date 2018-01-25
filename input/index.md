@@ -20,6 +20,13 @@
 
 # News!
 
+* January 25th
+
+  <div class = "alert alert-info">
+     Check that you haven't registered in the old Fire (2017) but 
+     the one of 2018 (look for 2018 on the URL) 
+  </div>
+
 * January 15th
 
   <div class = "alert alert-info">

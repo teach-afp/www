@@ -31,13 +31,13 @@ personal deadline for you. You may then get an extension of the deadline.
 </thead>
 
 <tr>
-    <td class="success" > Part I </td>
-    <td class="alert-info" >  January 28th (course week 2) </td>
+    <td class="success">[Part I](lab1.html#part-i)</td>
+    <td class="alert-info">Sunday, January 28th (course week 2)</td>
 </tr>
 
 <tr>
-    <td class="success" > Part II </td>
-    <td class="alert-info" >  February 4th (course week 3) </td>
+    <td class="success">[Part II](lab1.html#part-ii)</td>
+    <td class="alert-info">Sunday, February 4th (course week 3)</td>
 </tr>
 </table>
 
@@ -50,13 +50,13 @@ personal deadline for you. You may then get an extension of the deadline.
 </thead>
 
 <tr>
-    <td class="success" > Part I </td>
-    <td class="alert-info" >  February 11st (course week 4) </td>
+    <td class="success">[Part I](lab2.html#part-i)</td>
+    <td class="alert-info">Sunday, February 11th (course week 4)</td>
 </tr>
 
 <tr>
-    <td class="success" > Part II </td>
-    <td class="alert-info" >  February 25th (course week 6) </td>
+    <td class="success">[Part II](lab2.html#part-ii)</td>
+    <td class="alert-info">Sunday, February 25th (course week 6)</td>
 </tr>
 </table>
 
@@ -70,21 +70,21 @@ personal deadline for you. You may then get an extension of the deadline.
 </thead>
 
 <tr>
-    <td class="success" > Part I </td>
-    <td class="alert-info" >  March 4th (course week 7) </td>
+    <td class="success">[Part I](lab3.html#part-i)</td>
+    <td class="alert-info">Sunday, March 4th (course week 7)</td>
 </tr>
 
 <tr>
-    <td class="success" > Part II </td>
-    <td class="alert-info" >  March 11rd (course week 8) </td>
+    <td class="success">[Part II](lab3.html#part-ii)</td>
+    <td class="alert-info">Sunday, March 11th (course week 8)</td>
 </tr>
 </table>
 
 Your last attempt has to be submitted before the final deadline. If you fail to
 do this, your submission will be rejected.
 
-<div class="alert alert-info"> **Final Deadline**: March 19th (Sunday, exam
-week) </div>
+<div class="alert alert-info">**Final Deadline**: Sunday, March 19th (exam
+week)</div>
 
 
 ## Grading
