@@ -29,9 +29,9 @@ graphics. The library will be interfaced to as an embedded language. Several
 extensions are then made to the original turtle language.
 
 We recommend that you implement the graphics part of the lab using
-[HGL](http://hackage.haskell.org/package/HGL), a simple graphics library with
+[HGL](https://hackage.haskell.org/package/HGL), a simple graphics library with
 just enough features for this assignment. If you prefer (or if you plan on using
-3D) you may use one of the [OpenGL](https://wiki.haskell.org/Opengl) libraries
+3D) you may use one of the [OpenGL](https://wiki.haskell.org/OpenGL) libraries
 or you may use [gtk2hs](https://wiki.haskell.org/Gtk2Hs). If you would like to
 use a different graphics library please ask before starting the assignment.
 
@@ -40,7 +40,7 @@ Turtle graphics
 ===============
 
 The idea of turtle graphics was originally part of the [Logo programming
-language](https://en.wikipedia.org/wiki/Logo_(programming_language). It
+language](https://en.wikipedia.org/wiki/Logo_%28programming_language%29). It
 originated from an environment where a real robot (the "turtle") could move
 around and act on simple commands. It was successfully used at MIT to teach
 children to learn programming ([check this blog post to see
@@ -59,7 +59,7 @@ right d
 
 Here, `n` is the number of steps the robot should move forward, and `d` the
 number of degrees the robot should turn. More information can be found on the
-[Turtle graphics wikipedia page](http://en.wikipedia.org/wiki/Turtle_graphics)
+[Turtle graphics wikipedia page](https://en.wikipedia.org/wiki/Turtle_graphics)
 (or in a local copy of the [Logo
 primer](./assets/files/logo_primer_2007.pdf)). The
 idea is that you will implement a part of this turtle graphics language. Your
@@ -308,11 +308,11 @@ higher-order functions, laziness, polymorphism?
 **Required only for grade 5** (but helpful for grade 4): Characterize the
   relationships between your operators as a set of algebraic laws. For
   inspiration look at the laws of [algebraic
-  semirings](http://en.wikipedia.org/wiki/Semiring), also look at the laws for
+  semirings](https://en.wikipedia.org/wiki/Semiring), also look at the laws for
   the [monoid
-  typeclass](http://hackage.haskell.org/package/base-4.6.0.1/docs/Data-Monoid.html)and
+  typeclass](https://hackage.haskell.org/package/base/docs/Data-Monoid.html#t:Monoid)and
   possibly other type classes like
-  [Applicative/Alternative](http://hackage.haskell.org/package/base-4.3.1.0/docs/Control-Applicative.html). Also,
+  [Applicative](https://hackage.haskell.org/package/base/docs/Control-Applicative.html#t:Applicative)/[Alternative](https://hackage.haskell.org/package/base/docs/Control-Applicative.html#t:Alternative). Also,
   consider the following:
 
 * How do `<|>` and `>*>` interact?
@@ -337,9 +337,9 @@ Hints about coding and writing
   refer to exactly where it is.
 * Using a consistent style for code is nice. Easily readable code is not the
   most important aspect of this lab but it does make a difference. Consider using
-  [HLint](http://hackage.haskell.org/package/hlint) for suggestions on better
+  [HLint](https://hackage.haskell.org/package/hlint) for suggestions on better
   readability of your code.
-* Use [Hoogle](http://hackage.haskell.org/package/hlint) or similar to search
+* Use [Hoogle](https://www.haskell.org/hoogle/) or similar to search
   for the type signature of a function you need before implementing it, chances
   are you just need to import another module.
 * Short and understandable code is best. Long and understandable code is better
