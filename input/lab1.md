@@ -152,7 +152,7 @@ provide a simple textual interface that prints what happens in sequential order,
 i.e., prints a description of the actions that the turtles perform at each
 "step" in time (which lines are drawn, what action turtles perform or any other
 representation of what is going on will suffice). The textual interface needs to
-be productive for infinite turtle programs like those created with forever (it
+be productive for infinite turtle programs like those created with `forever` (it
 should go on printing the actions indefinitely). The graphical interface only
 needs to handle infinite programs for grades 4 or 5.
 
@@ -167,7 +167,7 @@ do in their comments).
 Task 3: Example
 ---------------
 
-Write down the **spiral** example from the Logo programming language using your
+Write down the `spiral` example from the Logo programming language using your
 interface. In their syntax it looks like:
 
 <div class="row">
@@ -215,7 +215,7 @@ possible.
 
 At this point you might realise that the interface you have designed is missing
 some operations, or that parts of it are difficult to implement. Do not hesitate
-to change the interface in these cases--just be clear about what you changed and
+to change the interface in these cases &mdash; just be clear about what you changed and
 motivate why the change was needed (in your report or in the documentation for
 the relevant functions).
 
@@ -247,19 +247,19 @@ parallel composition commutative, is it associative? (To answer this question
 you must first define what it means for programs to be equal.) What happens if a
 turtle runs forever only turning left in parallel with another turtle running
 the spiral example? Does your textual interface handle this situation correctly,
-if not - how would you fix it?
+if not &mdash; how would you fix it?
 </div>
 
 <div class="alert alert-info">
-**Question**: How does parallel composition interact with lifespan and limited?
-(lifespan does not need to correspond realistically to actual life spans, just
+**Question**: How does parallel composition interact with `lifespan` and `limited`?
+(`lifespan` does not need to correspond realistically to actual life spans, just
 specify how it works.)
 </div>
 
 Task 3: Additional operators (only required for grade 4 or 5)
 -------------------------------------------------------------
 
-Add a new module TurtleExtras to your cabal package. This module should contain
+Add a new module `TurtleExtras` to your cabal package. This module should contain
 some derived operators that you think may be a useful addition to the
 language. Try to add higher level components like squares and other geometrical
 shapes as well as operators that capture common patterns.
@@ -276,7 +276,7 @@ embedded language.) Make sure that you have at least one program that does not
 terminate, and show that the textual interface can handle this.
 
 Please, choose your "favorite" turtle program, resulting in a cool picture or
-animation. This program should be the main function of your executable module,
+animation. This program should be the `main` function of your executable module,
 so building your cabal package yields an executable that runs the program in
 graphical mode.
 
@@ -309,20 +309,20 @@ higher-order functions, laziness, polymorphism?
   relationships between your operators as a set of algebraic laws. For
   inspiration look at the laws of [algebraic
   semirings](https://en.wikipedia.org/wiki/Semiring), also look at the laws for
-  the [monoid
-  typeclass](https://hackage.haskell.org/package/base/docs/Data-Monoid.html#t:Monoid)and
+  the [`Monoid`](https://hackage.haskell.org/package/base/docs/Data-Monoid.html#t:Monoid)
+  typeclass and
   possibly other type classes like
-  [Applicative](https://hackage.haskell.org/package/base/docs/Control-Applicative.html#t:Applicative)/[Alternative](https://hackage.haskell.org/package/base/docs/Control-Applicative.html#t:Alternative). Also,
+  [`Applicative`](https://hackage.haskell.org/package/base/docs/Control-Applicative.html#t:Applicative)/[`Alternative`](https://hackage.haskell.org/package/base/docs/Control-Applicative.html#t:Alternative). Also,
   consider the following:
 
-* How do `<|>` and `>*>` interact?
-* How do idle and die interact with your combinators?
-* How do forever and times interact with your combinators?
+* How do `(<|>)` and `(>*>)` interact?
+* How do `idle` and `die` interact with your combinators?
+* How do `forever` and `times` interact with your combinators?
 * Can you find any law that is unexpected, unintuitive or undesired, but follows from your operators?
 
 <div class="alert alert-info">
-**Question**:Is your program data type a Monoid? Under which operations? There may
-be several possible Monoid instances. Would it be a Monoid if some small change
+**Question**:Is your program data type a monoid? Under which operations? There may
+be several possible monoid instances. Would it be a monoid if some small change
 was made to your operators?
 </div>
 
@@ -369,7 +369,7 @@ What to submit
 --------------
 
 * For **Part I** the submission format is not so important, use the stub cabal
-  package or just submit one or two .hs files if you prefer -- as long as they
+  package or just submit one or two .hs files if you prefer &mdash; as long as they
   contain appropriate commenting (you do not need to write any functions except
   the example for the first part, just type signatures). Make sure to answer the
   question asked in part one about defining the finite spiral using the infinite
@@ -409,7 +409,7 @@ Here are some qualities that count towards higher grades:
   extreme). If an operator can easily be defined using other primitive
   operators, it should be.
 * Separation of concerns is good. For instance if you need to consider the
-  existence of the lifespan operation when you code some other feature you may be
+  existence of the `lifespan` operation when you code some other feature you may be
   doing something wrong.
 * The examples should be interesting. Programs that use the advantages of EDSLs
   are encouraged, i.e. you should use your knowledge of Haskell to make more
@@ -427,7 +427,7 @@ If you do not undestand what is meant by any of these we encourage you to ask us
 during office hours.
 
 **Requirement for grade 4**
-* You need to implement the TurtleExtras module.
+* You need to implement the `TurtleExtras` module.
 * The graphical interface must handle infinite programs.
 
 **Requirement for grade 5**
