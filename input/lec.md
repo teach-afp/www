@@ -89,17 +89,17 @@ update!
 
 * **Reading**: Chapter 16, until p. 390 or so; to get a feel for what parser
     combinators are, [Parallel Parser
-    Combinators](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/Papers/parser-claessen.pdf),
-    [Koen's slides](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/lectures/lecture4/lecture4.pdf)
+    Combinators](./assets/files/parser-claessen.pdf),
+    [Koen's slides](./assets/files/afp-2015-lecture4.pdf)
 
 * **Optional reading**:
 
   - [Monadic Parser
-    Combinators](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/Papers/parser-hutton.ps)
+    Combinators](./assets/files/parser-hutton.ps)
     by Graham Hutton and Erik Meijer.
 
   - [The Design of a Pretty-printing
-     Library](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/Papers/pretty-hughes.ps)
+     Library](./assets/files/pretty-hughes.ps)
      by John Hughes.
 
 
@@ -117,7 +117,7 @@ update!
 * **Optional reading**:
 
   - [Monad Transformers and Modular
-    Interpreters](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/Papers/modular-interpreters-liang.ps)
+    Interpreters](./assets/files/modular-interpreters-liang.ps)
     by Sheng Liang, Paul Hudak, and Mark Jones.
 
 * **Topics**: In this lecture / excercise session we will work through old AFP
@@ -167,7 +167,7 @@ update!
 
 * **Optional reading**: [QuickCheck: A Lightweight Tool for Random Testing of
     Haskell Programs by K. Claessen and
-    J. Hughes](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/Papers/QuickCheck-claessen.ps)
+    J. Hughes](./assets/files/QuickCheck-claessen.ps)
 
 ## 10. [Type-based modeling](./lecture13.html)
 

@@ -72,7 +72,7 @@
 ## This lecture
 
 * It is based on the article [FUNCTIONAL PEARL Parallel Parsing
-  Processes by K. Claessen](http://www.cse.chalmers.se/edu/year/2015/course/TDA342_Advanced_Functional_Programming/Papers/parser-claessen.pdf)
+  Processes by K. Claessen](./assets/files/parser-claessen.pdf)
 
 * Programming monadic parsing library
   - Efficient choice combinator (breadth-first rather than deep-first search)
