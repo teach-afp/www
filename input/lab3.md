@@ -48,9 +48,7 @@ this package, which learning outcomes you think it relates to, and how it
 relates to them. This report will be extended in Part II - Task 2. Also, write a
 preliminary description of what you intend to do for Part II - Task 1.  Note
 that for larger libraries, it may be intractable to consider the whole
-library. If so, you may select some well defined part of the library.  Troubles
-deciding on a package? Visit the [package suggestion
-page](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/packages.html).
+library. If so, you may select some well defined part of the library.
 
 
 Part II
