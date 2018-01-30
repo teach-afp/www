@@ -5,16 +5,16 @@
 ## Lecturer
 
 <div class="row">
-<div class="col-md-12">
-<div class="col-sm-2 col-xs-6 text-center">
-	<div class="thumbnail">
-		<img class="img-no-resize" src="http://www.cse.chalmers.se/~russo/_files/ale2.jpg" alt="Alejandro's picture">
-		<div class="caption">
-			[Alejandro Russo](http://www.cse.chalmers.se/~russo/)
-		  </div>
-	</div>
-</div>
-</div>
+  <div class="col-sm-2 col-xs-6 text-center">
+    <div class="thumbnail">
+      <img class="img-no-resize"
+           src="http://www.cse.chalmers.se/~russo/_files/ale2.jpg"
+           alt="Alejandro's picture">
+      <div class="caption">
+        [Alejandro Russo](http://www.cse.chalmers.se/~russo/)
+      </div>
+    </div>
+  </div>
 </div>
 
 ---
@@ -40,34 +40,33 @@ Lectures (note different lecture rooms on different week days)
 
 ## Assistants
 
-
 <div class="row">
-<div class="col-sm-3 col-xs-6 text-center">
-	<div class="thumbnail">
-		<img class="img-no-resize" src="" alt="No Picture">
-		<div class="caption">
-			[Fabian Ruch](http://www.chalmers.se/en/staff/Pages/fabian-ruch.aspx)
-                        <p> **Office hours**: <br> Tuesdays 14hs-16hs <br>
-                        Office: 6103A </p>
-   	        </div>
-	</div>
-</div>
-
-
-<div class="row">
-<div class="col-sm-3 col-xs-6 text-center">
-	<div class="thumbnail">
-		<img class="img-no-resize"
-                src=""
-                alt="Alejandro Gómez Londoño">
-		<div class="caption">
-			[Alejandro Gómez Londoño](https://www.chalmers.se/sv/personal/Sidor/alejandro-gomez.aspx)
-                        <p> **Office hours**: <br> Fridays 13hs-15hs <br>
-                        Office: 5461, 5th floor, EDIT building </p>
-		  </div>
-	</div>
-</div>
-
+  <div class="col-sm-3 col-xs-6 text-center">
+    <div class="thumbnail">
+      <img class="img-no-resize"
+           src=""
+           alt="No Picture">
+      <div class="caption">
+        [Fabian Ruch](http://www.chalmers.se/sv/personal/Sidor/fabian-ruch.aspx)
+        <p>**Office hours**:<br>
+          Tuesdays 14hs-16hs<br>
+          Office: 6103A, EDIT building</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3 col-xs-6 text-center">
+    <div class="thumbnail">
+      <img class="img-no-resize"
+            src=""
+            alt="Alejandro Gómez Londoño">
+      <div class="caption">
+        [Alejandro Gómez Londoño](https://www.chalmers.se/sv/personal/Sidor/alejandro-gomez.aspx)
+        <p>**Office hours**:<br>
+          Fridays 13hs-15hs<br>
+          Office: 5461, EDIT building</p>
+      </div>
+    </div>
+  </div>
 </div>
 
 ---
