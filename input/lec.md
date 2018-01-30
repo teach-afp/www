@@ -178,7 +178,7 @@ update!
 
 * **Reading**: [Existentially qualified
     types](https://en.wikibooks.org/wiki/Haskell/Existentially_quantified_types)
-    and [GADTs](https://wiki.haskell.org/GADT).
+    and [GADTs](https://wiki.haskell.org/Generalised_algebraic_datatype).
 
 
 ## 11. [Type-based modeling II & looking back!](./lecture15.html)
@@ -193,13 +193,13 @@ update!
 * [Source code](https://bitbucket.org/russo/afp-code/src/HEAD/L15/?at=master)
 
 * **Reading**: [Type
-    families](http://www.haskell.org/haskellwiki/GHC/Type_families) on the
-    Haskell Wiki, and [Associated types] in [S. Peyton-Jones'
+    families](https://wiki.haskell.org/GHC/Type_families) on the
+    Haskell Wiki, and Associated types in [S. Peyton-Jones'
     slides](http://research.microsoft.com/en-us/um/people/simonpj/papers/assoc-types/fun-with-type-funs/FunWithTypeFuns-Apr09.pdf)
 
-* **Optional reading**: [Fun with Type Functions by O. Kiselyov,
-    S. Peyton-Jones, and
-    C. Shan](http://www.haskell.org/haskellwiki/Simonpj/Talk:FunWithTypeFuns)
+* **Optional reading**: [Fun with Type
+    Functions](https://wiki.haskell.org/Simonpj/Talk:FunWithTypeFuns)
+    by O. Kiselyov, S. Peyton-Jones, and C. Shan
 
 
 # Special lectures
