@@ -3,7 +3,7 @@
 * **Topics**: The goal of the course. Course Materials. Organization. Evaluation
   orders. Lazyness. Type classes.
 
-* **Reading**: Chapters 1-6, Chapters 8-10 (mostly
+* **Reading**: Chapters 1&ndash;6, Chapters 8&ndash;10 (mostly
 repetition of what you have seen in Introduction to Functional Programming at
 Chalmers). Note that it is ~200 pages, so start reading now if you need an
 update!
@@ -13,7 +13,7 @@ update!
 * **Optional reading**:
   - Applicative Functors are introduced in Real World Haskell Chapter 10, used
     more later in the same book Chapter 16.
-  - Haskell -- The Craft of Functional Programming: Chapter 12 on overloading, Chapter 16 on
+  - Haskell &mdash; The Craft of Functional Programming: Chapter 12 on overloading, Chapter 16 on
     abstract types, and Chapter 17 on laziness.
   - The Haskell School of Expression: Chapter 12 on type classes, Chapter 14 on
     streams, Section 18.1 on higher-order types.
@@ -58,7 +58,7 @@ update!
     applicative functors, and monads. More example of monads (modeling IO).
 
 * **Reading**: Chapter 10 (Section Introducing Functors), [FUNCTIONAL PEARL
-    Applicative programming with effects (Page 1 -
+    Applicative programming with effects (Page 1 &ndash;
     6)](http://strictlypositive.org/IdiomLite.pdf)
 
 * [Source
@@ -132,7 +132,7 @@ update!
 
 * **Topics**: This lecture looks into the consequences of the application order
     of `StateT` and `ExceptT` monad transformers in the interpreter. The lecture
-    also shows how to create your own monad transformers -- for that, we show an
+    also shows how to create your own monad transformers &mdash; for that, we show an
     implementation for `StateT`, `ExceptT`, and `ReaderT`.
 
 * [Source

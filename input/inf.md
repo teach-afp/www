@@ -19,16 +19,14 @@
 
 ---
 
-## Time schedule
+## Lecture schedule
 
-Lectures (note different lecture rooms on different week days)
-
-* Mondays, 13:15 - 15:00, **EF** (except for week 10)
-* Monday, March 5th, 13:15 - 15:00,
+* Mondays, 13:15&ndash;15:00, **EF** (except for week 10)
+* Monday, March 5th, 13:15&ndash;15:00,
   **[EL41](http://maps.chalmers.se/#72992330-dc2b-4923-a832-84d3cd97746d)**,
   **[EL42](http://maps.chalmers.se/#a3231f8a-0581-435e-9461-567ff1cafaf5)**
-* Thursdays, 10:00-11:45, **EF** (except for week 7)
-* Thursday, February 15th, 10:00-11:45,
+* Thursdays, 10:00&ndash;11:45, **EF** (except for week 7)
+* Thursday, February 15th, 10:00&ndash;11:45,
   **[SB-L208](http://maps.chalmers.se/#31ac4c6e-d44e-47ed-a5cf-1c81d0870912)**,
   **[SB-L216](http://maps.chalmers.se/#c0ae3c8a-e32c-4d2f-9f43-7f589a28c980)**
 
@@ -53,7 +51,7 @@ Lectures (note different lecture rooms on different week days)
       <div class="caption">
         [Fabian Ruch](http://www.chalmers.se/sv/personal/Sidor/fabian-ruch.aspx)
         <p>**Office hours**:<br>
-          Tuesdays 14hs-16hs<br>
+          Tuesdays 14:00&ndash;16:00<br>
           Office: 6103A, EDIT building</p>
       </div>
     </div>
@@ -66,7 +64,7 @@ Lectures (note different lecture rooms on different week days)
       <div class="caption">
         [Alejandro Gómez Londoño](https://www.chalmers.se/sv/personal/Sidor/alejandro-gomez.aspx)
         <p>**Office hours**:<br>
-          Fridays 13hs-15hs<br>
+          Fridays 13:00&ndash;15:00<br>
           Office: 5461, EDIT building</p>
       </div>
     </div>
