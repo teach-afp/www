@@ -204,8 +204,14 @@ update!
 
 # Special lectures
 
-## Looking forward! (February 8th)
+## Looking forward! (Thursday, February 15th)
+
 * **Topics**: First instance of the excercise session with exam questions.
+
+* **Rooms**:
+  [SB-L208](http://maps.chalmers.se/#31ac4c6e-d44e-47ed-a5cf-1c81d0870912)
+  and
+  [SB-L216](http://maps.chalmers.se/#c0ae3c8a-e32c-4d2f-9f43-7f589a28c980)
 
 ## Guest lecture 1 (To be announced)
 
@@ -213,5 +219,11 @@ update!
 
 ## Guest lecture 3 (To be announced)
 
-## Looking forward! (March 5rd)
+## Looking forward! (Monday, March 5th)
+
 * **Topics**: Second instance of the excercise session with exam questions.
+
+* **Rooms**:
+  [EL41](http://maps.chalmers.se/#72992330-dc2b-4923-a832-84d3cd97746d)
+  and
+  [EL42](http://maps.chalmers.se/#a3231f8a-0581-435e-9461-567ff1cafaf5)

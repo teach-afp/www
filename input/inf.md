@@ -24,9 +24,13 @@
 Lectures (note different lecture rooms on different week days)
 
 * Mondays, 13:15 - 15:00, **EF** (except for week 10)
-* Monday 13:15 - 15:00 **EL41**, **EL42** (week 10)
-* Thursdays, 10:00-11:45, **EF** (except for week 6)
-* Thursdays, 10:00-11:45, **ES51**,**ES52** (week 6)
+* Monday, March 5th, 13:15 - 15:00,
+  **[EL41](http://maps.chalmers.se/#72992330-dc2b-4923-a832-84d3cd97746d)**,
+  **[EL42](http://maps.chalmers.se/#a3231f8a-0581-435e-9461-567ff1cafaf5)**
+* Thursdays, 10:00-11:45, **EF** (except for week 7)
+* Thursday, February 15th, 10:00-11:45,
+  **[SB-L208](http://maps.chalmers.se/#31ac4c6e-d44e-47ed-a5cf-1c81d0870912)**,
+  **[SB-L216](http://maps.chalmers.se/#c0ae3c8a-e32c-4d2f-9f43-7f589a28c980)**
 
 <div class="embed-responsive embed-responsive-16by9">
   <iframe class="embed-responsive-item"
