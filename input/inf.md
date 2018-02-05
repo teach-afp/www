@@ -5,28 +5,30 @@
 ## Lecturer
 
 <div class="row">
-<div class="col-md-12">
-<div class="col-sm-2 col-xs-6 text-center">
-	<div class="thumbnail">
-		<img class="img-no-resize" src="http://www.cse.chalmers.se/~russo/_files/ale2.jpg" alt="Alejandro's picture">
-		<div class="caption">
-			[Alejandro Russo](http://www.cse.chalmers.se/~russo/)
-		  </div>
-	</div>
-</div>
-</div>
+  <div class="col-sm-2 col-xs-6 text-center">
+    <div class="thumbnail">
+      <img class="img-no-resize"
+           src="http://www.cse.chalmers.se/~russo/_files/ale2.jpg"
+           alt="Alejandro's picture">
+      <div class="caption">
+        [Alejandro Russo](http://www.cse.chalmers.se/~russo/)
+      </div>
+    </div>
+  </div>
 </div>
 
 ---
 
-## Time schedule
+## Lecture schedule
 
-Lectures (note different lecture rooms on different week days)
-
-* Mondays, 13:15 - 15:00, **EF** (except for week 10)
-* Monday 13:15 - 15:00 **EL41**, **EL42** (week 10)
-* Thursdays, 10:00-11:45, **EF** (except for week 6)
-* Thursdays, 10:00-11:45, **ES51**,**ES52** (week 6)
+* Mondays, 13:15&ndash;15:00, **EF** (except for week 10)
+* Monday, March 5th, 13:15&ndash;15:00,
+  **[EL41](http://maps.chalmers.se/#72992330-dc2b-4923-a832-84d3cd97746d)**,
+  **[EL42](http://maps.chalmers.se/#a3231f8a-0581-435e-9461-567ff1cafaf5)**
+* Thursdays, 10:00&ndash;11:45, **EF** (except for week 7)
+* Thursday, February 15th, 10:00&ndash;11:45,
+  **[SB-L208](http://maps.chalmers.se/#31ac4c6e-d44e-47ed-a5cf-1c81d0870912)**,
+  **[SB-L216](http://maps.chalmers.se/#c0ae3c8a-e32c-4d2f-9f43-7f589a28c980)**
 
 <div class="embed-responsive embed-responsive-16by9">
   <iframe class="embed-responsive-item"
@@ -40,34 +42,33 @@ Lectures (note different lecture rooms on different week days)
 
 ## Assistants
 
-
 <div class="row">
-<div class="col-sm-3 col-xs-6 text-center">
-	<div class="thumbnail">
-		<img class="img-no-resize" src="" alt="No Picture">
-		<div class="caption">
-			[Fabian Ruch](http://www.chalmers.se/en/staff/Pages/fabian-ruch.aspx)
-                        <p> **Office hours**: <br> Tuesdays 14hs-16hs <br>
-                        Office: 6103A </p>
-   	        </div>
-	</div>
-</div>
-
-
-<div class="row">
-<div class="col-sm-3 col-xs-6 text-center">
-	<div class="thumbnail">
-		<img class="img-no-resize"
-                src=""
-                alt="Alejandro Gómez Londoño">
-		<div class="caption">
-			[Alejandro Gómez Londoño](https://www.chalmers.se/sv/personal/Sidor/alejandro-gomez.aspx)
-                        <p> **Office hours**: <br> Fridays 13hs-15hs <br>
-                        Office: 5461, 5th floor, EDIT building </p>
-		  </div>
-	</div>
-</div>
-
+  <div class="col-sm-3 col-xs-6 text-center">
+    <div class="thumbnail">
+      <img class="img-no-resize"
+           src=""
+           alt="No Picture">
+      <div class="caption">
+        [Fabian Ruch](http://www.chalmers.se/sv/personal/Sidor/fabian-ruch.aspx)
+        <p>**Office hours**:<br>
+          Tuesdays 14:00&ndash;16:00<br>
+          Office: 6103A, EDIT building</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3 col-xs-6 text-center">
+    <div class="thumbnail">
+      <img class="img-no-resize"
+            src=""
+            alt="Alejandro Gómez Londoño">
+      <div class="caption">
+        [Alejandro Gómez Londoño](https://www.chalmers.se/sv/personal/Sidor/alejandro-gomez.aspx)
+        <p>**Office hours**:<br>
+          Fridays 13:00&ndash;15:00<br>
+          Office: 5461, EDIT building</p>
+      </div>
+    </div>
+  </div>
 </div>
 
 ---

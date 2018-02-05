@@ -43,14 +43,12 @@ First choose a package on
 * You think is interesting.
 * Covers some of the categories DSL, Types, and Spec from the [learning outcomes](./inf.html#aim-and-context) of the course.
 
-Then your task is to write a short report (1-2 pages) explaining why you chose
+Then your task is to write a short report (1&ndash;2 pages) explaining why you chose
 this package, which learning outcomes you think it relates to, and how it
-relates to them. This report will be extended in Part II - Task 2. Also, write a
-preliminary description of what you intend to do for Part II - Task 1.  Note
+relates to them. This report will be extended in Part II &mdash; Task 2. Also, write a
+preliminary description of what you intend to do for Part II &mdash; Task 1.  Note
 that for larger libraries, it may be intractable to consider the whole
-library. If so, you may select some well defined part of the library.  Troubles
-deciding on a package? Visit the [package suggestion
-page](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/packages.html).
+library. If so, you may select some well defined part of the library.
 
 
 Part II
@@ -69,7 +67,7 @@ them):
   properties and generators for the library (or a part of it). Your test suite
   must demonstrate that you have in-depth understanding of both QuickCheck and
   (part of) the library under test. Can you find any bugs? If so, report them to
-  the maintainer of the package - or even better: fix them! If you would like to
+  the maintainer of the package &mdash; or even better: fix them! If you would like to
   use another testing library than QuickCheck for property based testing or
   specification, please contact us.
 

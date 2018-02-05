@@ -3,7 +3,7 @@
 * **Topics**: The goal of the course. Course Materials. Organization. Evaluation
   orders. Lazyness. Type classes.
 
-* **Reading**: Chapters 1-6, Chapters 8-10 (mostly
+* **Reading**: Chapters 1&ndash;6, Chapters 8&ndash;10 (mostly
 repetition of what you have seen in Introduction to Functional Programming at
 Chalmers). Note that it is ~200 pages, so start reading now if you need an
 update!
@@ -13,7 +13,7 @@ update!
 * **Optional reading**:
   - Applicative Functors are introduced in Real World Haskell Chapter 10, used
     more later in the same book Chapter 16.
-  - Haskell -- The Craft of Functional Programming: Chapter 12 on overloading, Chapter 16 on
+  - Haskell &mdash; The Craft of Functional Programming: Chapter 12 on overloading, Chapter 16 on
     abstract types, and Chapter 17 on laziness.
   - The Haskell School of Expression: Chapter 12 on type classes, Chapter 14 on
     streams, Section 18.1 on higher-order types.
@@ -58,7 +58,7 @@ update!
     applicative functors, and monads. More example of monads (modeling IO).
 
 * **Reading**: Chapter 10 (Section Introducing Functors), [FUNCTIONAL PEARL
-    Applicative programming with effects (Page 1 -
+    Applicative programming with effects (Page 1 &ndash;
     6)](http://strictlypositive.org/IdiomLite.pdf)
 
 * [Source
@@ -89,17 +89,17 @@ update!
 
 * **Reading**: Chapter 16, until p. 390 or so; to get a feel for what parser
     combinators are, [Parallel Parser
-    Combinators](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/Papers/parser-claessen.pdf),
-    [Koen's slides](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/lectures/lecture4/lecture4.pdf)
+    Combinators](./assets/files/parser-claessen.pdf),
+    [Koen's slides](./assets/files/afp-2015-lecture4.pdf)
 
 * **Optional reading**:
 
   - [Monadic Parser
-    Combinators](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/Papers/parser-hutton.ps)
+    Combinators](./assets/files/parser-hutton.ps)
     by Graham Hutton and Erik Meijer.
 
   - [The Design of a Pretty-printing
-     Library](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/Papers/pretty-hughes.ps)
+     Library](./assets/files/pretty-hughes.ps)
      by John Hughes.
 
 
@@ -117,7 +117,7 @@ update!
 * **Optional reading**:
 
   - [Monad Transformers and Modular
-    Interpreters](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/Papers/modular-interpreters-liang.ps)
+    Interpreters](./assets/files/modular-interpreters-liang.ps)
     by Sheng Liang, Paul Hudak, and Mark Jones.
 
 * **Topics**: In this lecture / excercise session we will work through old AFP
@@ -132,7 +132,7 @@ update!
 
 * **Topics**: This lecture looks into the consequences of the application order
     of `StateT` and `ExceptT` monad transformers in the interpreter. The lecture
-    also shows how to create your own monad transformers -- for that, we show an
+    also shows how to create your own monad transformers &mdash; for that, we show an
     implementation for `StateT`, `ExceptT`, and `ReaderT`.
 
 * [Source
@@ -167,7 +167,7 @@ update!
 
 * **Optional reading**: [QuickCheck: A Lightweight Tool for Random Testing of
     Haskell Programs by K. Claessen and
-    J. Hughes](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/Papers/QuickCheck-claessen.ps)
+    J. Hughes](./assets/files/QuickCheck-claessen.ps)
 
 ## 10. [Type-based modeling](./lecture13.html)
 
@@ -178,7 +178,7 @@ update!
 
 * **Reading**: [Existentially qualified
     types](https://en.wikibooks.org/wiki/Haskell/Existentially_quantified_types)
-    and [GADTs](https://wiki.haskell.org/GADT).
+    and [GADTs](https://wiki.haskell.org/Generalised_algebraic_datatype).
 
 
 ## 11. [Type-based modeling II & looking back!](./lecture15.html)
@@ -193,19 +193,25 @@ update!
 * [Source code](https://bitbucket.org/russo/afp-code/src/HEAD/L15/?at=master)
 
 * **Reading**: [Type
-    families](http://www.haskell.org/haskellwiki/GHC/Type_families) on the
-    Haskell Wiki, and [Associated types] in [S. Peyton-Jones'
+    families](https://wiki.haskell.org/GHC/Type_families) on the
+    Haskell Wiki, and Associated types in [S. Peyton-Jones'
     slides](http://research.microsoft.com/en-us/um/people/simonpj/papers/assoc-types/fun-with-type-funs/FunWithTypeFuns-Apr09.pdf)
 
-* **Optional reading**: [Fun with Type Functions by O. Kiselyov,
-    S. Peyton-Jones, and
-    C. Shan](http://www.haskell.org/haskellwiki/Simonpj/Talk:FunWithTypeFuns)
+* **Optional reading**: [Fun with Type
+    Functions](https://wiki.haskell.org/Simonpj/Talk:FunWithTypeFuns)
+    by O. Kiselyov, S. Peyton-Jones, and C. Shan
 
 
 # Special lectures
 
-## Looking forward! (February 8th)
+## Looking forward! (Thursday, February 15th)
+
 * **Topics**: First instance of the excercise session with exam questions.
+
+* **Rooms**:
+  [SB-L208](http://maps.chalmers.se/#31ac4c6e-d44e-47ed-a5cf-1c81d0870912)
+  and
+  [SB-L216](http://maps.chalmers.se/#c0ae3c8a-e32c-4d2f-9f43-7f589a28c980)
 
 ## Guest lecture 1 (To be announced)
 
@@ -213,5 +219,11 @@ update!
 
 ## Guest lecture 3 (To be announced)
 
-## Looking forward! (March 5rd)
+## Looking forward! (Monday, March 5th)
+
 * **Topics**: Second instance of the excercise session with exam questions.
+
+* **Rooms**:
+  [EL41](http://maps.chalmers.se/#72992330-dc2b-4923-a832-84d3cd97746d)
+  and
+  [EL42](http://maps.chalmers.se/#a3231f8a-0581-435e-9461-567ff1cafaf5)
