@@ -20,6 +20,15 @@
 
 # News!
 
+* Feb 5th
+
+  <div class = "alert alert-info">
+     The exam practice class is scheduled for Thursday 15th (don't miss it!). 
+     Check the details in the Lectures tab!
+  </div>
+
+
+
 * January 25th
 
   <div class = "alert alert-info">
