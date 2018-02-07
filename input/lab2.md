@@ -133,7 +133,9 @@ emptyTrace = []
 addAnswer t r = t ++ [Answer r]
 ```
 
-When we run the above example, providing it with the empty trace, we get
+When we run the above
+[example](https://bitbucket.org/russo/afp-code/src/master/assignment2/replay-0.1.0.0/executable/Example.hs),
+providing it with the empty trace, we get
 the following result:
 
 ```haskell
@@ -218,7 +220,9 @@ Task 1: The `Replay` monad
 --------------------------
 
 First create a Haskell module called Replay in an empty directory,
-then create a cabal library package called `replay` by running `cabal init`
+then create a cabal library package called
+[`replay`](https://bitbucket.org/russo/afp-code/src/master/assignment2/replay-0.1.0.0/replay.cabal)
+by running `cabal init`
 and answering all questions.
 
 Look through the resulting cabal file and make sure you understand
@@ -284,7 +288,7 @@ Task 3: Testing the `Replay` monad
 
 Once you have implemented your Replay monad transformer you should make sure
 that it works properly. Here is a small testing framework to help you get
-started: [Test.hs](https://bitbucket.org/russo/afp-code/src/HEAD/assignment2/?at=master).
+started: [Test.hs](https://bitbucket.org/russo/afp-code/src/master/assignment2/replay-0.1.0.0/test/Test.hs).
 Put the framework in a subdirectory called test, then add this to your
 .cabal file to create a test suite:
 
@@ -334,7 +338,7 @@ Web programming
 
 In this section we will explore programming web forms using the Replay monad.
 We suggest to use the light weight Haskell web server
-[scotty](http://hackage.haskell.org/package/scotty).
+[scotty](https://hackage.haskell.org/package/scotty).
 
 A simple but dated way to implement web-based systems is as follows.
 A web form is sent to the user. The user fills in some information and sends
@@ -395,7 +399,8 @@ main = scotty 3000 $ do
         ]
 ```
 
-This program can either be compiled and then run, or you can just issue
+[This program](https://bitbucket.org/russo/afp-code/src/master/assignment2/replay-0.1.0.0/executable/TestScotty.hs)
+can either be compiled and then run, or you can just issue
 `runghc TestScotty.hs`. It will run a web server locally on port 3000,
 so you should be able to access it with your web browser on address
 http://localhost:3000/.
@@ -403,10 +408,10 @@ http://localhost:3000/.
 Whatever is filled in in the form is given as input to the scotty program
 when the user presses OK. Try experimenting with adding more `<input>` tags to
 the form and see how this affects the program.
-Both [GET and POST](http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods) requests are supported. Try changing the method in
+Both [GET and POST](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods) requests are supported. Try changing the method in
 the form tag to get.
 You should see the inputted value in the
-[query string](http://en.wikipedia.org/wiki/Query_string) of the address.
+[query string](https://en.wikipedia.org/wiki/Query_string) of the address.
 
 *Make sure that you can run the above program and understand what is going on
 before you continue!*
@@ -469,7 +474,7 @@ In order for this to work, you need to do the following:
     Note that the encoding function in this implementation inserts line breaks
     every 76 characters!
 
-  - The scotty library uses [Data.Text.Lazy](http://hackage.haskell.org/package/text-1.1.0.0/docs/Data-Text-Lazy.html).
+  - The scotty library uses [Data.Text.Lazy](https://hackage.haskell.org/package/text/docs/Data-Text-Lazy.html).
     You can convert to and from `String`s using `pack` and `unpack`.
 
   - After the web page is generated, it is sent to the user from scotty.
@@ -601,15 +606,15 @@ More information
 
 * For more information on HTML, there are lots of tutorials to be found on
   the web. Here is a reasonable one:
-  [HtmlCodeTutorial](http://www.htmlcodetutorial.com/).
+  [HtmlCodeTutorial](https://www.html.com/).
 
-* Query strings can not be arbitrarily long ([RFC2616](http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.2.1)).
+* Query strings can not be arbitrarily long ([RFC2616](https://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.2.1)).
   It is therefore suggested to use `POST` instead of `GET`.
   However, browsers by default do make a `GET` request when entering a
   web page from elsewhere than from a form, so your library needs to
   support `GET` at least when loading the page initially.
 
-* Don Stewart's guide on [How to write a Haskell Program](http://www.haskell.org/haskellwiki/How_to_write_a_Haskell_program)
+* Don Stewart's guide on [How to write a Haskell Program](https://wiki.haskell.org/How_to_write_a_Haskell_program)
   covers cabal in detail, but is a few years old.
 
 
@@ -627,7 +632,7 @@ without doing any of these.
 
 * Is it possible for your DSL to support both the web front end and some other,
   like [gtk2hs](https://hackage.haskell.org/package/gtk) or
-  [Haste](http://haste-lang.org)?
+  [Haste](https://haste-lang.org)?
 
 * To protect your program from being fooled, add some form of encryption and/or
   verification of your traces.
@@ -647,13 +652,13 @@ without doing any of these.
   serialisation than using `Read` and `Show`.
   What libraries can you choose from here?
 
-* These days, [Ajax](http://en.wikipedia.org/wiki/Ajax_%28programming%29) is
+* These days, [Ajax](https://en.wikipedia.org/wiki/Ajax_%28programming%29) is
   much more common than page-reloading forms.
   What would need to be passed from the scotty back end in such a setting?
   Would you change the serialisation format?
   Implement a small prototype.
   Spend minimal time on the JavaScript programming, or use
-  [Haste](http://haste-lang.org) for the browser part.
+  [Haste](https://haste-lang.org) for the browser part.
 
 
 Submission
