@@ -461,7 +461,7 @@ In order for this to work, you need to do the following:
 
   - Run the program in the scotty monad `ActionM` with the right trace,
     and grabbing the result, which will be a question (web form) and a trace.
-    You can run `IO` computations in this monad using [`liftIO`](http://hackage.haskell.org/package/transformers-0.3.0.0/docs/Control-Monad-IO-Class.html#v:liftIO).
+    You can run `IO` computations in this monad using [`liftIO`](https://hackage.haskell.org/package/base/docs/Control-Monad-IO-Class.html#v:liftIO).
     This can also be used to make your server print debug information.
 
   - Store the trace as *hidden* information on the generated web form.
@@ -470,9 +470,9 @@ In order for this to work, you need to do the following:
 
     The value of the hidden input fields may not support certain characters,
     such as `"` and `<`. You might need to encode it.
-    One idea is to use [base64 encoding](http://en.wikipedia.org/wiki/Base64),
+    One idea is to use [base64 encoding](https://en.wikipedia.org/wiki/Base64),
     for which there exists Haskell implementations:
-    [base64-string](http://hackage.haskell.org/package/base64-string).
+    [base64-string](https://hackage.haskell.org/package/base64-string).
     Note that the encoding function in this implementation inserts line breaks
     every 76 characters!
 
