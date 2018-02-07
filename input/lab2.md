@@ -25,9 +25,9 @@ Description
 ===========
 
 This assignment consists of 2 parts. In the first part, you will design,
-implement and test a Monad for programs that can be replayed.
+implement and test a monad for programs that can be replayed.
 In the second part use this monad to implement a simple library for writing
-programs with web forms, implement an optimisation to your Replay monad that
+programs with web forms, implement an optimisation to your replay monad that
 makes it much more useful, and use your web library to implement
 a simple application.
 
@@ -63,7 +63,7 @@ run :: Replay q r a -> Trace r -> IO (Either (q, Trace r) a)
 
 The monad is parameterised on the types of questions (`q`) and answers
 (`r`, for result). There are two primitive operations in the monad besides
-`return` and `>>=`:
+`return` and `(>>=)`:
 
 * `io` allows us to perform `IO` actions in our computation.
   If there is already a result for an `io` computation in the input trace,
@@ -86,7 +86,7 @@ If the program stops with a question `q`, the result of the run function is
 `Left (q, t)`, where `t` is the new trace. If there are no more questions,
 `run` results in `Right x` where `x` is the result of the whole computation.
 
-It is important to note that `Trace` is going to be something that we can
+It is important to note that a `Trace` is going to be something that we can
 serialise. For our purposes this means being able to convert from and to a
 `String`, which we can then for instance write to a file.
 
@@ -99,6 +99,8 @@ question and answer types to both be `String`s:
 
 ```haskell
 import Data.Time
+
+import Replay
 
 example :: Replay String String Int
 example = do
@@ -139,7 +141,7 @@ providing it with the empty trace, we get
 the following result:
 
 ```haskell
-GHCi> do x <- run example []; print x
+*Main> do x <- run example emptyTrace; print x
 Hello!
 Left ("What is your age?",[Result "1164117157",Result "()"])
 ```
@@ -151,7 +153,7 @@ the question, (for example 27), we can re-run the computation,
 augmenting the trace with an extra element:
 
 ```haskell
-GHCi> do x <- run example [Result "1164117157", Result "()", Answer "27"]; print x
+*Main> do x <- run example (addAnswer [Result "1164117157", Result "()"] "27"); print x
 You are 27.
 Left ("What is your name?",[Result "1164117157",Result "()",Answer "27",Result "()"])
 ```
@@ -163,8 +165,7 @@ Again, we augment that trace with the answer we want to give,
 running the program again:
 
 ```haskell
-GHCi> do x <- run example [Result "1164117157", Result "()", Answer "27", Result "()",
-Answer "Starbuck"]; print x
+*Main> do x <- run example (addAnswer [Result "1164117157", Result "()", Answer "27", Result "()"] "Starbuck"); print x
 Starbuck is 27 years old
 Total time: 19 seconds
 Right 27
@@ -194,17 +195,18 @@ running prog = play emptyTrace
 ```
 
 There is very little reason for why we would like to use this particular
-run function, because it does not use the full generality of the Replay monad.
+run function, because it does not use the full generality of the replay monad.
 Here is how it works on the example:
 
 ```haskell
-GHCi> running example
+*Main> running example
 Hello!
 Question: What is your age? 59
 You are 59
 Question: What is your name? Adama
 Adama is 59 years old
 Total time: 5 seconds
+59
 ```
 
 Note that, in the above, the same program is re-run with a new trace,
@@ -219,7 +221,7 @@ The first part of this assignment is to implement the `Replay` monad.
 Task 1: The `Replay` monad
 --------------------------
 
-First create a Haskell module called Replay in an empty directory,
+First create a Haskell module called "Replay" in an empty directory,
 then create a cabal library package called
 [`replay`](https://bitbucket.org/russo/afp-code/src/master/assignment2/replay-0.1.0.0/replay.cabal)
 by running `cabal init`
@@ -261,7 +263,7 @@ Task 2: Generalise the interface
 
 **For grades 4 and 5**
 
-Turn your Replay monad into a monad transformer `ReplayT m`, so that any
+Turn your replay monad into a monad transformer `ReplayT m`, so that any
 underlying monad can be used, instead of only the IO monad.
 Add a function `liftR` for lifting computations from the underlying monad.
 Define `Replay` in terms of `ReplayT`:
@@ -286,7 +288,7 @@ version from task 1.
 Task 3: Testing the `Replay` monad
 ----------------------------------
 
-Once you have implemented your Replay monad transformer you should make sure
+Once you have implemented your replay monad transformer you should make sure
 that it works properly. Here is a small testing framework to help you get
 started: [Test.hs](https://bitbucket.org/russo/afp-code/src/master/assignment2/replay-0.1.0.0/test/Test.hs).
 Put the framework in a subdirectory called test, then add this to your
@@ -330,13 +332,13 @@ Part II
 =======
 
 In the second part of the assignment you will extend your library with a
-web programming DSL on top of the Replay monad and write an example
+web programming DSL on top of the replay monad and write an example
 application.
 
 Web programming
 ---------------
 
-In this section we will explore programming web forms using the Replay monad.
+In this section we will explore programming web forms using the replay monad.
 We suggest to use the light weight Haskell web server
 [scotty](https://hackage.haskell.org/package/scotty).
 
