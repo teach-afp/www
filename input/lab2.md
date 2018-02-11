@@ -282,7 +282,7 @@ Remember to generalise all functions to the new interface where possible.
 Consider which functions are primitive and which are derived.
 
 <div class="alert alert-info">
-**Question**: why is it not possible to make your transformer an instance of
+**Question**: Why is it not possible to make your transformer an instance of
 `MonadTrans`?
 </div>
 
