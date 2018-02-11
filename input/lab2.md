@@ -141,8 +141,9 @@ providing it with the empty trace, we get
 the following result:
 
 ```haskell
-*Main> do x <- run example emptyTrace; print x
+*Main> x <- run example emptyTrace
 Hello!
+*Main> x
 Left ("What is your age?",[Result "1164117157",Result "()"])
 ```
 
@@ -153,8 +154,10 @@ the question, (for example 27), we can re-run the computation,
 augmenting the trace with an extra element:
 
 ```haskell
-*Main> do x <- run example (addAnswer [Result "1164117157", Result "()"] "27"); print x
+*Main> let getTrace (Left (_,t)) = t    -- non-exhaustive
+*Main> x <- run example (addAnswer (getTrace x) "27")
 You are 27
+*Main> x
 Left ("What is your name?",[Result "1164117157",Result "()",Answer "27",Result "()"])
 ```
 
@@ -165,9 +168,10 @@ Again, we augment that trace with the answer we want to give,
 running the program again:
 
 ```haskell
-*Main> do x <- run example (addAnswer [Result "1164117157", Result "()", Answer "27", Result "()"] "Starbuck"); print x
+*Main> x <- run example (addAnswer (getTrace x) "Starbuck")
 Starbuck is 27 years old
 Total time: 19 seconds
+*Main> x
 Right 27
 ```
 
