@@ -321,7 +321,8 @@ implementation is correct. Try to think about possible corner cases.
 **For grades 4 and 5**
 
 Use the generalised interface from [task 2](#task-2:-generalise-the-interface), and replace
-the `IO` monad with a `State` monad.
+the `IO` monad with a `State` monad so that `runProgram` can be given
+the non-monadic type `Program -> Input -> Result`.
 
 **For grade 5**
 
