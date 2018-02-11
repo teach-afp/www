@@ -283,7 +283,7 @@ Consider which functions are primitive and which are derived.
 
 <div class="alert alert-info">
 **Question**: Why is it not possible to make your transformer an instance of
-`MonadTrans`?
+[`MonadTrans`](https://hackage.haskell.org/package/transformers/docs/Control-Monad-Trans-Class.html#t:MonadTrans)?
 </div>
 
 **Note:** If you do this task, you should *not* submit the non-generalised
