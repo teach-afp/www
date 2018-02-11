@@ -223,7 +223,7 @@ Task 1: The `Replay` monad
 
 First create a Haskell module called "Replay" in an empty directory,
 then create a cabal library package called
-[`replay`](https://bitbucket.org/russo/afp-code/src/master/assignment2/replay-0.1.0.0/replay.cabal)
+["replay"](https://bitbucket.org/russo/afp-code/src/master/assignment2/replay-0.1.0.0/replay.cabal)
 by running `cabal init`
 and answering all questions.
 
@@ -291,7 +291,7 @@ Task 3: Testing the `Replay` monad
 Once you have implemented your replay monad transformer you should make sure
 that it works properly. Here is a small testing framework to help you get
 started: [Test.hs](https://bitbucket.org/russo/afp-code/src/master/assignment2/replay-0.1.0.0/test/Test.hs).
-Put the framework in a subdirectory called test, then add this to your
+Put the framework in a subdirectory called "test", then add this to your
 .cabal file to create a test suite:
 
 ```bash
@@ -562,7 +562,7 @@ Task 3: An interesting web program
 ----------------------------------
 
 Implement a more realistic example that uses your web library.
-Add it as an executable called `web` in your cabal package,
+Add it as an executable called "web" in your cabal package,
 similarly to how the example in lab 1 was implemented.
 The following elements should occur in your program:
 
