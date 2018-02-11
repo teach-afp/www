@@ -154,7 +154,7 @@ augmenting the trace with an extra element:
 
 ```haskell
 *Main> do x <- run example (addAnswer [Result "1164117157", Result "()"] "27"); print x
-You are 27.
+You are 27
 Left ("What is your name?",[Result "1164117157",Result "()",Answer "27",Result "()"])
 ```
 
