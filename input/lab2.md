@@ -98,7 +98,7 @@ Here is an example of a program in the `Replay` monad. We have chosen the
 question and answer types to both be `String`s:
 
 ```haskell
-import Data.Time
+import Data.Time (getCurrentTime, diffUTCTime)
 
 import Replay
 
@@ -376,9 +376,8 @@ The client browser then reloads with this new web page.
 {-# LANGUAGE OverloadedStrings #-}
 module Main where
 
-import Web.Scotty
-import Data.Monoid
-import Data.Text.Lazy
+import Web.Scotty     (ActionM, scotty, get, post, rescue, html, param)
+import Data.Text.Lazy (Text)
 
 main :: IO ()
 main = scotty 3000 $ do
