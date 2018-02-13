@@ -2,7 +2,7 @@ LAYOUT = $(shell find ../lout -type f -name '*')
 URL_COURSE = remote11.chalmers.se:/chalmers/groups/edu2009/www/www.cse.chalmers.se/year/2018/course/TDA342_Advanced_Functional_Programming
 INFORMATION = inf.html
 LABS = labs.html lab1.html lab2.html lab3.html lab4.html
-LECTURES = lec.html lecture1.html lecture2.html lecture3.html lecture4.html lecture5.html lecture6.html lecture7.html lecture8.html lecture9.html lecture10.html lecture13.html lecture15.html
+LECTURES = lec.html lecture1.html lecture2.html lecture3.html lecture4.html lecture5.html lecture6.html lecture8.html lecture9.html lecture10.html lecture13.html lecture15.html
 HTML = index.html $(INFORMATION) $(LABS) $(LECTURES) exams.html
 
 .PHONY: html all upload upload_html information labs lectures clean
@@ -100,12 +100,6 @@ lecture6.html: ../input/lecture6.md ./make_menu.sh ./pretty.sh $(LAYOUT)
 	 generate-md --input ../input/lecture6P.md --output ./ --layout ../lout/
 	 mv lecture6P.html lecture6.html
 	 rm ../input/lecture6P.md
-
-lecture7.html: ../input/lecture7.md ./make_menu.sh ./pretty.sh $(LAYOUT)
-	 ./pretty.sh ../input/lecture7.md ../input/lecture7P.md
-	 generate-md --input ../input/lecture7P.md --output ./ --layout ../lout/
-	 mv lecture7P.html lecture7.html
-	 rm ../input/lecture7P.md
 
 lecture8.html: ../input/lecture8.md ./make_menu.sh ./pretty.sh $(LAYOUT)
 	 ./pretty.sh ../input/lecture8.md ../input/lecture8P.md
