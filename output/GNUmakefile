@@ -1,21 +1,27 @@
 LAYOUT = $(shell find ../lout -type f -name '*')
 URL_COURSE = remote11.chalmers.se:/chalmers/groups/edu2009/www/www.cse.chalmers.se/year/2018/course/TDA342_Advanced_Functional_Programming
+INFORMATION = inf.html
+LABS = labs.html lab1.html lab2.html lab3.html lab4.html
+LECTURES = lec.html lecture1.html lecture2.html lecture3.html lecture4.html lecture5.html lecture6.html lecture7.html lecture8.html lecture9.html lecture10.html lecture13.html lecture15.html
+HTML = index.html $(INFORMATION) $(LABS) $(LECTURES) exams.html
 
-all: index.html information labs lectures exams.html
+.PHONY: html all upload upload_html information labs lectures clean
 
-upload:
+html all: $(HTML)
+
+upload: html
 	 #rsync -rv -f"+ */" -f"- *" ./assets $(URL_COURSE)
 	 rsync -rv ./ $(URL_COURSE)
 
-upload_lectures:
-	 rsync -rv ./*.html $(URL_COURSE)
+upload_html upload_lectures: html
+	 rsync -rv $(HTML) $(URL_COURSE)
 
 index.html: ../input/index.md $(LAYOUT)
 	 generate-md --input ../input/index.md --output ./ --layout ../lout/
 
 # Information of the course
 
-information: inf.html
+information: $(INFORMATION)
 
 inf.html: ../input/inf.md $(LAYOUT)
 	 generate-md --input ../input/inf.md --output ./ --layout ../lout/
@@ -28,7 +34,7 @@ exams.html: ../input/exams.md $(LAYOUT)
 	 generate-md --input ../input/exams.md --output ./ --layout ../lout/
 
 # Labs
-labs: labs.html lab1.html lab2.html lab3.html lab4.html
+labs: $(LABS)
 
 labs.html: ../input/labs.md $(LAYOUT)
 	 generate-md --input ../input/labs.md --output ./ --layout ../lout/
@@ -54,7 +60,7 @@ lab4.html: ../input/lab4.md $(LAYOUT)
 
 
 # Lectures
-lectures: lec.html lecture1.html lecture2.html lecture3.html lecture4.html lecture5.html lecture6.html lecture7.html lecture8.html lecture9.html lecture10.html lecture13.html lecture15.html
+lectures: $(LECTURES)
 
 lec.html: ../input/lec.md $(LAYOUT)
 	 generate-md --input ../input/lec.md --output ./ --layout ../lout/
@@ -134,5 +140,5 @@ lecture15.html: ../input/lecture15.md ./make_menu.sh ./pretty.sh $(LAYOUT)
 
 
 clean:
-	rm -f *.html
-	rm -f -r ./assets/
+	rm -f $(HTML)
+	rm -f -r assets/
