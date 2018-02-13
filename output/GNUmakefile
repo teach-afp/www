@@ -10,8 +10,7 @@ HTML = index.html $(INFORMATION) $(LABS) $(LECTURES) exams.html
 html all: $(HTML)
 
 upload: html
-	 #rsync -rv -f"+ */" -f"- *" ./assets $(URL_COURSE)
-	 rsync -rv ./ $(URL_COURSE)
+	 rsync -rv assets $(HTML) $(URL_COURSE)
 
 upload_html upload_lectures: html
 	 rsync -rv $(HTML) $(URL_COURSE)
