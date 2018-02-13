@@ -25,9 +25,6 @@ information: $(INFORMATION)
 inf.html: ../input/inf.md $(LAYOUT)
 	 generate-md --input ../input/inf.md --output ./ --layout ../lout/
 
-ex1.html: ../input/ex1.md $(LAYOUT)
-	 generate-md --input ../input/ex1.md --output ./ --layout ../lout/
-
 # Exams
 exams.html: ../input/exams.md $(LAYOUT)
 	 generate-md --input ../input/exams.md --output ./ --layout ../lout/
