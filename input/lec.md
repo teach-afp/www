@@ -120,14 +120,6 @@ update!
     Interpreters](./assets/files/modular-interpreters-liang.ps)
     by Sheng Liang, Paul Hudak, and Mark Jones.
 
-* **Topics**: In this lecture / excercise session we will work through old AFP
-    exam questions in groups to identify important topics and practice
-    collaborative problem solving and discussion. This is in response to student
-    comments wanting more practice of the kind of problems typically included in
-    the written exams.
-
-* **Assistants on charge**: TBA
-
 ## 7. [Monad transformers II](./lecture8.html)
 
 * **Topics**: This lecture looks into the consequences of the application order
