@@ -260,7 +260,10 @@ run :: Replay q r a -> Trace r -> IO (Either (q, Trace r) a)
 You can decide yourself how to implement the type `Trace r`,
 but it needs to be a type that can be written to and read from a file.
 (Ergo, it needs to be an instance of `Show` and `Read`.)
-Make sure that the [example](#an-example) above can actually be run correctly!
+Make sure that the [example](#an-example) above can actually be run correctly
+and that the [monad
+laws](https://hackage.haskell.org/package/base/docs/Control-Monad.html#t:Monad)
+are satisfied.
 
 Task 2: Generalise the interface
 --------------------------------
@@ -320,7 +323,8 @@ We check that when running the program on a list of input integers
 we get the correct result and that the counter has the right value.
 
 You should write down enough test cases that you are confident that your
-implementation is correct. Try to think about possible corner cases.
+implementation is correct. Try to think about possible corner cases
+and concrete instances of the monad laws.
 
 **For grades 4 and 5**
 
