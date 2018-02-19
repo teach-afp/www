@@ -512,11 +512,22 @@ This is not very space-efficient.
 For example, if we would ask for the user's age like this:
 
 ```haskell
-askAge :: ReplayT IO String String Int
+askAge :: Replay String String Integer
 askAge = do
-     birth <- ask "What is your birth year?"
-     now   <- io getCurrentYear
-     return (read now - read birth)
+  birth <- askRetry "What is your birth year?" readMaybe
+  now   <- io getCurrentYear
+  return (now - birth)
+  where
+    getCurrentYear = getYear <$> getCurrentTime
+    getYear        = let fst (x,_,_) = x in fst . toGregorian . utctDay
+
+askRetry :: q -> (r -> Maybe a) -> Replay q r a
+askRetry q p = go
+  where
+    go = do
+      r <- ask q
+      -- ask again if answer 'r' does not satisfy condition 'p'
+      maybe go return (p r)
 ```
 
 Then every time we use this function both results would be remembered
@@ -542,7 +553,7 @@ more space-efficient. For example, `askAge` above could be implemented as
 follows:
 
 ```haskell
-askAgeCut :: ReplayT IO String String Int
+askAgeCut :: Replay String String Integer
 askAgeCut = cut askAge
 ```
 
