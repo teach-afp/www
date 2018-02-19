@@ -419,7 +419,7 @@ Whatever is filled in in the form is given as input to the scotty program
 when the user presses OK. Try experimenting with adding more `<input>` tags to
 the form and see how this affects the program.
 Both [GET and POST](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods) requests are supported. Try changing the method in
-the form tag to get.
+the form tag to `get`.
 You should see the inputted value in the
 [query string](https://en.wikipedia.org/wiki/Query_string) of the address.
 
