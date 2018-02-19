@@ -86,8 +86,7 @@ difficulties you faced when trying to implement it.
 
 The expected work load for assignment 3 (all parts together) is around 40
 hours. Try to demonstrate that you master (some of) the learning outcomes of the
-AFP course.  If you have questions, talk to the teaching assistants (Dan and
-Anton).
+AFP course.
 
 Task 2: Documentation
 ---------------------
