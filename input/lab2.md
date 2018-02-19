@@ -570,7 +570,9 @@ Task 3: An interesting web program
 ----------------------------------
 
 Implement a more realistic example that uses your web library.
-Add it as an executable called "web" in your cabal package,
+Add it as an executable called
+["web"](https://bitbucket.org/russo/afp-code/src/master/assignment2/replay-0.1.0.0/replay.cabal#replay.cabal-38)
+in your cabal package,
 similarly to how the example in lab 1 was implemented.
 The following elements should occur in your program:
 
