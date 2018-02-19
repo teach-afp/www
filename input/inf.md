@@ -85,7 +85,7 @@
 
 ## Discussion Group
 
-We will use Slack! So, join it now before the [invitation link](https://join.slack.com/t/afp-chalmers/shared_invite/enQtMjk4NTk5Mzk2MzI1LWRjYjAxMDlhNzU1M2ViZmQ2NzQ2ZDQ5ZjgxODA4NmQ1ZTk3ZjRjYWQyZGIyZmZjOTg1NWM3OWYwMmVjMjhjODA) expires.
+We use [Slack](https://afp-chalmers.slack.com).
 
 Slack as a communication channel is meant to be used to post questions and have
 discussions related to the course. *Sharing (total or partial) solutions in it
