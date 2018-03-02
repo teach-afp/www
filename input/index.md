@@ -42,8 +42,6 @@
      Check the details in the Lectures tab!
   </div>
 
-
-
 * January 25th
 
   <div class = "alert alert-info">

@@ -1,15 +1,17 @@
-This directory contains files related to the August exam of the course
+This directory contains files related to the March exam of the course
   Advanced Functional Programming (7.5 hec), Spring 2014
   TDA342 / DIT260
   Patrik Jansson
 
 The exam questions are in 
-  AFP_exam_2014-08.pdf     
+  2014-03.pdf
 And the three solutions are in 
-  DSL/API.hs, DSP/Common.hs, DSL/Derived.hs, DSL/Prop.hs, DSP/Shallow.hs, DSL/Deep.hs
-  Spec.hs
+  DSL.hs                    
   Types.hs
-
+  Spec.hs
+with testing code in 
+  TestDSL.hs
+  TestSpec.hs
 
 Learning outcomes of the course:
 

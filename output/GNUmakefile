@@ -1,34 +1,36 @@
 LAYOUT = $(shell find ../lout -type f -name '*')
 URL_COURSE = remote11.chalmers.se:/chalmers/groups/edu2009/www/www.cse.chalmers.se/year/2018/course/TDA342_Advanced_Functional_Programming
+INFORMATION = inf.html
+LABS = labs.html lab1.html lab2.html lab3.html
+LECTURES = lec.html lecture1.html lecture2.html lecture3.html lecture4.html lecture5.html lecture6.html lecture8.html lecture9.html lecture10.html lecture13.html lecture15.html
+HTML = index.html $(INFORMATION) $(LABS) $(LECTURES) exams.html
 
-all: index.html information labs lectures exams.html
+.PHONY: html all upload upload_html information labs lectures clean
 
-upload:
-	 #rsync -rv -f"+ */" -f"- *" ./assets $(URL_COURSE)
-	 rsync -rv ./ $(URL_COURSE)
+html all: $(HTML)
 
-upload_lectures:
-	 rsync -rv ./*.html $(URL_COURSE)
+upload: html
+	 rsync -rv assets $(HTML) $(URL_COURSE)
+
+upload_html upload_lectures: html
+	 rsync -rv $(HTML) $(URL_COURSE)
 
 index.html: ../input/index.md $(LAYOUT)
 	 generate-md --input ../input/index.md --output ./ --layout ../lout/
 
 # Information of the course
 
-information: inf.html
+information: $(INFORMATION)
 
 inf.html: ../input/inf.md $(LAYOUT)
 	 generate-md --input ../input/inf.md --output ./ --layout ../lout/
-
-ex1.html: ../input/ex1.md $(LAYOUT)
-	 generate-md --input ../input/ex1.md --output ./ --layout ../lout/
 
 # Exams
 exams.html: ../input/exams.md $(LAYOUT)
 	 generate-md --input ../input/exams.md --output ./ --layout ../lout/
 
 # Labs
-labs: labs.html lab1.html lab2.html lab3.html lab4.html
+labs: $(LABS)
 
 labs.html: ../input/labs.md $(LAYOUT)
 	 generate-md --input ../input/labs.md --output ./ --layout ../lout/
@@ -49,12 +51,9 @@ lab2.html: ../input/lab2.md $(LAYOUT)
 lab3.html: ../input/lab3.md $(LAYOUT)
 	 generate-md --input ../input/lab3.md --output ./ --layout ../lout/
 
-lab4.html: ../input/lab4.md $(LAYOUT)
-	 generate-md --input ../input/lab4.md --output ./ --layout ../lout/
-
 
 # Lectures
-lectures: lec.html lecture1.html lecture2.html lecture3.html lecture4.html lecture5.html lecture6.html lecture7.html lecture8.html lecture9.html lecture10.html lecture13.html lecture15.html
+lectures: $(LECTURES)
 
 lec.html: ../input/lec.md $(LAYOUT)
 	 generate-md --input ../input/lec.md --output ./ --layout ../lout/
@@ -96,12 +95,6 @@ lecture6.html: ../input/lecture6.md ./make_menu.sh ./pretty.sh $(LAYOUT)
 	 mv lecture6P.html lecture6.html
 	 rm ../input/lecture6P.md
 
-lecture7.html: ../input/lecture7.md ./make_menu.sh ./pretty.sh $(LAYOUT)
-	 ./pretty.sh ../input/lecture7.md ../input/lecture7P.md
-	 generate-md --input ../input/lecture7P.md --output ./ --layout ../lout/
-	 mv lecture7P.html lecture7.html
-	 rm ../input/lecture7P.md
-
 lecture8.html: ../input/lecture8.md ./make_menu.sh ./pretty.sh $(LAYOUT)
 	 ./pretty.sh ../input/lecture8.md ../input/lecture8P.md
 	 generate-md --input ../input/lecture8P.md --output ./ --layout ../lout/
@@ -134,5 +127,5 @@ lecture15.html: ../input/lecture15.md ./make_menu.sh ./pretty.sh $(LAYOUT)
 
 
 clean:
-	rm -f *.html
-	rm -f -r ./assets/
+	rm -f $(HTML)
+	rm -f -r assets/
