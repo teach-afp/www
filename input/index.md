@@ -20,10 +20,25 @@
 
 # News!
 
+* Feb 12th
+
+  <div class = "alert alert-info"> I got some (valid) concerns that to get a 4
+     or 5 in Part I of the second lab, you need some of the content that I
+     finished today. However, that does not mean you won't get it. You are
+     encouraged to resubmit to increase your grade! Sometimes, lectures take
+     more than I planned. In short, don't worry, re-submit later to get your 4
+     or 5.  </div>
+
+* Feb 7th
+
+  <div class = "alert alert-info">
+     Guest lectures announced! (go to the lectures tab!)
+  </div>
+
 * Feb 5th
 
   <div class = "alert alert-info">
-     The exam practice class is scheduled for Thursday 15th (don't miss it!). 
+     The exam practice class is scheduled for Thursday 15th (don't miss it!).
      Check the details in the Lectures tab!
   </div>
 
@@ -32,8 +47,8 @@
 * January 25th
 
   <div class = "alert alert-info">
-     Check that you haven't registered in the old Fire (2017) but 
-     the one of 2018 (look for 2018 on the URL) 
+     Check that you haven't registered in the old Fire (2017) but
+     the one of 2018 (look for 2018 on the URL)
   </div>
 
 * January 15th
