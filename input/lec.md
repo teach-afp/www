@@ -213,13 +213,7 @@ update!
   and
   [SB-L216](http://maps.chalmers.se/#c0ae3c8a-e32c-4d2f-9f43-7f589a28c980)
 
-## Guest lecture 1 (To be announced)
-
-## Guest lecture 2 (To be announced)
-
-## Guest lecture 3 (To be announced)
-
-## Looking forward! (Monday, March 5th)
+## Looking forward! (Monday, Feb 26th)
 
 * **Topics**: Second instance of the excercise session with exam questions.
 
@@ -227,3 +221,9 @@ update!
   [EL41](http://maps.chalmers.se/#72992330-dc2b-4923-a832-84d3cd97746d)
   and
   [EL42](http://maps.chalmers.se/#a3231f8a-0581-435e-9461-567ff1cafaf5)
+
+## Guest lecture 1, March 1: [Dominic Orchard (Kent University)](https://www.cs.kent.ac.uk/people/staff/dao7/)
+
+* **Material**: [Slides and code](./assets/files/chalmers-afp-march2018.zip)
+
+## Guest lecture 2, March 5 (tentative): [Andreas Abel](http://www.cse.chalmers.se/~abela/)
