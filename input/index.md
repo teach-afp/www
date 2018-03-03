@@ -20,6 +20,16 @@
 
 # News!
 
+* Mar 2nd
+
+  <div class = "alert alert-info">
+    <a href="./assets/files/chalmers-afp-march2018.zip">Dominic's
+    material</a> on yesterday's guest lecture is up! On Monday, we
+    will have Andreas Abel talking about <a
+    href="https://github.com/agda/agda">Agda</a> (and dependent
+    types). Don't miss it!
+  </div>
+
 * Feb 13th
 
   <div class = "alert alert-info">
@@ -29,6 +39,13 @@
     it. You are encouraged to resubmit to increase your grade!
     Sometimes, lectures take more than I planned (sorry). In short,
     don't worry, re-submit later to get your 4 or 5.
+  </div>
+
+* Feb 7th
+
+  <div class = "alert alert-info">
+    <a href="./lec.html#special-lectures">Guest lectures</a>
+    announced!
   </div>
 
 * Feb 5th
