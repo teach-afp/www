@@ -213,9 +213,7 @@ update!
 
 * **Material**: [Slides and code](./assets/files/chalmers-afp-march2018.zip)
 
-## Guest lecture 2 by [Andreas Abel](http://www.cse.chalmers.se/~abela/) (Monday, March 5th)
+## ~~Guest lecture 2 by [Andreas Abel](http://www.cse.chalmers.se/~abela/) (Monday, March 5th)~~
 
-* **Rooms**:
-  [EL41](http://maps.chalmers.se/#72992330-dc2b-4923-a832-84d3cd97746d)
-  and
-  [EL42](http://maps.chalmers.se/#a3231f8a-0581-435e-9461-567ff1cafaf5)
+* This guest lecture has been canceled due to sickness. We will have
+  a regular lecture instead, room EF.

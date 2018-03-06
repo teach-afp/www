@@ -20,6 +20,13 @@
 
 # News!
 
+* Mar 5th
+
+  <div class = "alert alert-info">
+    Today's guest lecture has been canceled due to sickness. We will
+    have a regular lecture instead, room EF.
+  </div>
+
 * Mar 2nd
 
   <div class = "alert alert-info">
