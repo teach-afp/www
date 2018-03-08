@@ -218,4 +218,6 @@ update!
 
 * **Material**: [Slides and code](./assets/files/chalmers-afp-march2018.zip)
 
-## Guest lecture 2, March 5 (tentative): [Andreas Abel](http://www.cse.chalmers.se/~abela/)
+## <strike> Guest lecture 2, March 5: [Andreas
+   Abel](http://www.cse.chalmers.se/~abela/) </strike>
+  * This guest lecture has been canceled. We will have a regular lecture instead.

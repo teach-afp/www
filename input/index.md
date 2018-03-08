@@ -20,6 +20,23 @@
 
 # News!
 
+* March 5th
+
+  <div class = "alert alert-info"> Today's guest lecture has been canceled due
+  to sickness. We will have a regular lecture instead, room EF.
+  </div>
+
+
+* March 2nd
+
+  <div class = "alert alert-info"> Dominic's material on yesterday's guest lecture is
+  up! (check the Lectures slides).
+
+  On Monday, we will have Andreas Abel talking about Agda (and dependent types).
+  Don't miss it!
+  </div>
+
+
 * Feb 12th
 
   <div class = "alert alert-info"> I got some (valid) concerns that to get a 4
