@@ -20,7 +20,6 @@
 
 # News!
 
-<<<<<<< HEAD
 * March 5th
 
   <div class = "alert alert-info"> Today's guest lecture has been canceled due
@@ -46,32 +45,6 @@
      encouraged to resubmit to increase your grade! Sometimes, lectures take
      more than I planned. In short, don't worry, re-submit later to get your 4
      or 5.  </div>
-
-* Feb 7th
-=======
-* Mar 5th
-
-  <div class = "alert alert-info">
-    Today's guest lecture has been canceled due to sickness. We will
-    have a regular lecture instead, room EF.
-  </div>
-
-* Mar 2nd
-
-  <div class = "alert alert-info">
-    <a href="./assets/files/chalmers-afp-march2018.zip">Dominic's
-    material</a> on yesterday's guest lecture is up! On Monday, we
-    will have Andreas Abel talking about <a
-    href="https://github.com/agda/agda">Agda</a> (and dependent
-    types). Don't miss it!
-  </div>
-
-* Feb 13th
->>>>>>> 723ee6aaa338834c72fdda6c9d00983e1b23eb75
-
-  <div class = "alert alert-info">
-     Guest lectures announced! (go to the lectures tab!)
-  </div>
 
 * Feb 7th
 
