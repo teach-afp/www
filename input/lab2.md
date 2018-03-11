@@ -25,9 +25,9 @@ Description
 ===========
 
 This assignment consists of 2 parts. In the first part, you will design,
-implement and test a Monad for programs that can be replayed.
+implement and test a monad for programs that can be replayed.
 In the second part use this monad to implement a simple library for writing
-programs with web forms, implement an optimisation to your Replay monad that
+programs with web forms, implement an optimisation to your replay monad that
 makes it much more useful, and use your web library to implement
 a simple application.
 
@@ -63,7 +63,7 @@ run :: Replay q r a -> Trace r -> IO (Either (q, Trace r) a)
 
 The monad is parameterised on the types of questions (`q`) and answers
 (`r`, for result). There are two primitive operations in the monad besides
-`return` and `>>=`:
+`return` and `(>>=)`:
 
 * `io` allows us to perform `IO` actions in our computation.
   If there is already a result for an `io` computation in the input trace,
@@ -86,7 +86,7 @@ If the program stops with a question `q`, the result of the run function is
 `Left (q, t)`, where `t` is the new trace. If there are no more questions,
 `run` results in `Right x` where `x` is the result of the whole computation.
 
-It is important to note that `Trace` is going to be something that we can
+It is important to note that a `Trace` is going to be something that we can
 serialise. For our purposes this means being able to convert from and to a
 `String`, which we can then for instance write to a file.
 
@@ -98,7 +98,9 @@ Here is an example of a program in the `Replay` monad. We have chosen the
 question and answer types to both be `String`s:
 
 ```haskell
-import Data.Time
+import Data.Time (getCurrentTime, diffUTCTime)
+
+import Replay
 
 example :: Replay String String Int
 example = do
@@ -133,12 +135,15 @@ emptyTrace = []
 addAnswer t r = t ++ [Answer r]
 ```
 
-When we run the above example, providing it with the empty trace, we get
+When we run the above
+[example](https://bitbucket.org/russo/afp-code/src/master/assignment2/replay-0.1.0.0/executable/Example.hs),
+providing it with the empty trace, we get
 the following result:
 
 ```haskell
-GHCi> do x <- run example []; print x
+*Main> x <- run example emptyTrace
 Hello!
+*Main> x
 Left ("What is your age?",[Result "1164117157",Result "()"])
 ```
 
@@ -149,8 +154,10 @@ the question, (for example 27), we can re-run the computation,
 augmenting the trace with an extra element:
 
 ```haskell
-GHCi> do x <- run example [Result "1164117157", Result "()", Answer "27"]; print x
-You are 27.
+*Main> let getTrace (Left (_,t)) = t    -- non-exhaustive
+*Main> x <- run example (addAnswer (getTrace x) "27")
+You are 27
+*Main> x
 Left ("What is your name?",[Result "1164117157",Result "()",Answer "27",Result "()"])
 ```
 
@@ -161,10 +168,10 @@ Again, we augment that trace with the answer we want to give,
 running the program again:
 
 ```haskell
-GHCi> do x <- run example [Result "1164117157", Result "()", Answer "27", Result "()",
-Answer "Starbuck"]; print x
+*Main> x <- run example (addAnswer (getTrace x) "Starbuck")
 Starbuck is 27 years old
 Total time: 19 seconds
+*Main> x
 Right 27
 ```
 
@@ -192,17 +199,18 @@ running prog = play emptyTrace
 ```
 
 There is very little reason for why we would like to use this particular
-run function, because it does not use the full generality of the Replay monad.
+run function, because it does not use the full generality of the replay monad.
 Here is how it works on the example:
 
 ```haskell
-GHCi> running example
+*Main> running example
 Hello!
 Question: What is your age? 59
 You are 59
 Question: What is your name? Adama
 Adama is 59 years old
 Total time: 5 seconds
+59
 ```
 
 Note that, in the above, the same program is re-run with a new trace,
@@ -217,8 +225,10 @@ The first part of this assignment is to implement the `Replay` monad.
 Task 1: The `Replay` monad
 --------------------------
 
-First create a Haskell module called Replay in an empty directory,
-then create a cabal library package called `replay` by running `cabal init`
+First create a Haskell module called "Replay" in an empty directory,
+then create a cabal library package called
+["replay"](https://bitbucket.org/russo/afp-code/src/master/assignment2/replay-0.1.0.0/replay.cabal)
+by running `cabal init`
 and answering all questions.
 
 Look through the resulting cabal file and make sure you understand
@@ -250,14 +260,17 @@ run :: Replay q r a -> Trace r -> IO (Either (q, Trace r) a)
 You can decide yourself how to implement the type `Trace r`,
 but it needs to be a type that can be written to and read from a file.
 (Ergo, it needs to be an instance of `Show` and `Read`.)
-Make sure that the [example](#an-example) above can actually be run correctly!
+Make sure that the [example](#an-example) above can actually be run correctly
+and that the [monad
+laws](https://hackage.haskell.org/package/base/docs/Control-Monad.html#t:Monad)
+are satisfied.
 
 Task 2: Generalise the interface
 --------------------------------
 
 **For grades 4 and 5**
 
-Turn your Replay monad into a monad transformer `ReplayT m`, so that any
+Turn your replay monad into a monad transformer `ReplayT m`, so that any
 underlying monad can be used, instead of only the IO monad.
 Add a function `liftR` for lifting computations from the underlying monad.
 Define `Replay` in terms of `ReplayT`:
@@ -272,8 +285,8 @@ Remember to generalise all functions to the new interface where possible.
 Consider which functions are primitive and which are derived.
 
 <div class="alert alert-info">
-**Question**: why is it not possible to make your transformer an instance of
-`MonadTrans`?
+**Question**: Why is it not possible to make your transformer an instance of
+[`MonadTrans`](https://hackage.haskell.org/package/transformers/docs/Control-Monad-Trans-Class.html#t:MonadTrans)?
 </div>
 
 **Note:** If you do this task, you should *not* submit the non-generalised
@@ -282,10 +295,10 @@ version from task 1.
 Task 3: Testing the `Replay` monad
 ----------------------------------
 
-Once you have implemented your Replay monad transformer you should make sure
+Once you have implemented your replay monad transformer you should make sure
 that it works properly. Here is a small testing framework to help you get
-started: [Test.hs](https://bitbucket.org/russo/afp-code/src/HEAD/assignment2/?at=master).
-Put the framework in a subdirectory called test, then add this to your
+started: [Test.hs](https://bitbucket.org/russo/afp-code/src/master/assignment2/replay-0.1.0.0/test/Test.hs).
+Put the framework in a subdirectory called "test", then add this to your
 .cabal file to create a test suite:
 
 ```bash
@@ -310,12 +323,14 @@ We check that when running the program on a list of input integers
 we get the correct result and that the counter has the right value.
 
 You should write down enough test cases that you are confident that your
-implementation is correct. Try to think about possible corner cases.
+implementation is correct. Try to think about possible corner cases
+and concrete instances of the monad laws.
 
 **For grades 4 and 5**
 
-Use the generalised interface from [task 2](#task-2:-optimising-the-`replay`-monad), and replace
-the `IO` monad with a `State` monad.
+Use the generalised interface from [task 2](#task-2:-generalise-the-interface), and replace
+the `IO` monad with a `State` monad so that `runProgram` can be given
+the non-monadic type `Program -> Input -> Result`.
 
 **For grade 5**
 
@@ -326,15 +341,15 @@ Part II
 =======
 
 In the second part of the assignment you will extend your library with a
-web programming DSL on top of the Replay monad and write an example
+web programming DSL on top of the replay monad and write an example
 application.
 
 Web programming
 ---------------
 
-In this section we will explore programming web forms using the Replay monad.
+In this section we will explore programming web forms using the replay monad.
 We suggest to use the light weight Haskell web server
-[scotty](http://hackage.haskell.org/package/scotty).
+[scotty](https://hackage.haskell.org/package/scotty).
 
 A simple but dated way to implement web-based systems is as follows.
 A web form is sent to the user. The user fills in some information and sends
@@ -365,9 +380,8 @@ The client browser then reloads with this new web page.
 {-# LANGUAGE OverloadedStrings #-}
 module Main where
 
-import Web.Scotty
-import Data.Monoid
-import Data.Text.Lazy
+import Web.Scotty     (ActionM, scotty, get, post, rescue, html, param)
+import Data.Text.Lazy (Text)
 
 main :: IO ()
 main = scotty 3000 $ do
@@ -395,7 +409,8 @@ main = scotty 3000 $ do
         ]
 ```
 
-This program can either be compiled and then run, or you can just issue
+[This program](https://bitbucket.org/russo/afp-code/src/master/assignment2/replay-0.1.0.0/executable/TestScotty.hs)
+can either be compiled and then run, or you can just issue
 `runghc TestScotty.hs`. It will run a web server locally on port 3000,
 so you should be able to access it with your web browser on address
 http://localhost:3000/.
@@ -403,10 +418,10 @@ http://localhost:3000/.
 Whatever is filled in in the form is given as input to the scotty program
 when the user presses OK. Try experimenting with adding more `<input>` tags to
 the form and see how this affects the program.
-Both [GET and POST](http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods) requests are supported. Try changing the method in
-the form tag to get.
+Both [GET and POST](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods) requests are supported. Try changing the method in
+the form tag to `get`.
 You should see the inputted value in the
-[query string](http://en.wikipedia.org/wiki/Query_string) of the address.
+[query string](https://en.wikipedia.org/wiki/Query_string) of the address.
 
 *Make sure that you can run the above program and understand what is going on
 before you continue!*
@@ -454,7 +469,7 @@ In order for this to work, you need to do the following:
 
   - Run the program in the scotty monad `ActionM` with the right trace,
     and grabbing the result, which will be a question (web form) and a trace.
-    You can run `IO` computations in this monad using [`liftIO`](http://hackage.haskell.org/package/transformers-0.3.0.0/docs/Control-Monad-IO-Class.html#v:liftIO).
+    You can run `IO` computations in this monad using [`liftIO`](https://hackage.haskell.org/package/base/docs/Control-Monad-IO-Class.html#v:liftIO).
     This can also be used to make your server print debug information.
 
   - Store the trace as *hidden* information on the generated web form.
@@ -463,13 +478,13 @@ In order for this to work, you need to do the following:
 
     The value of the hidden input fields may not support certain characters,
     such as `"` and `<`. You might need to encode it.
-    One idea is to use [base64 encoding](http://en.wikipedia.org/wiki/Base64),
+    One idea is to use [base64 encoding](https://en.wikipedia.org/wiki/Base64),
     for which there exists Haskell implementations:
-    [base64-string](http://hackage.haskell.org/package/base64-string).
+    [base64-string](https://hackage.haskell.org/package/base64-string).
     Note that the encoding function in this implementation inserts line breaks
     every 76 characters!
 
-  - The scotty library uses [Data.Text.Lazy](http://hackage.haskell.org/package/text-1.1.0.0/docs/Data-Text-Lazy.html).
+  - The scotty library uses [Data.Text.Lazy](https://hackage.haskell.org/package/text/docs/Data-Text-Lazy.html).
     You can convert to and from `String`s using `pack` and `unpack`.
 
   - After the web page is generated, it is sent to the user from scotty.
@@ -497,11 +512,22 @@ This is not very space-efficient.
 For example, if we would ask for the user's age like this:
 
 ```haskell
-askAge :: ReplayT IO String String Int
+askAge :: Replay String String Integer
 askAge = do
-     birth <- ask "What is your birth year?"
-     now   <- io getCurrentYear
-     return (read now - read birth)
+  birth <- askRetry "What is your birth year?" readMaybe
+  now   <- io getCurrentYear
+  return (now - birth)
+  where
+    getCurrentYear = getYear <$> getCurrentTime
+    getYear        = let fst (x,_,_) = x in fst . toGregorian . utctDay
+
+askRetry :: q -> (r -> Maybe a) -> Replay q r a
+askRetry q p = go
+  where
+    go = do
+      r <- ask q
+      -- ask again if answer 'r' does not satisfy condition 'p'
+      maybe go return (p r)
 ```
 
 Then every time we use this function both results would be remembered
@@ -527,7 +553,7 @@ more space-efficient. For example, `askAge` above could be implemented as
 follows:
 
 ```haskell
-askAgeCut :: ReplayT IO String String Int
+askAgeCut :: Replay String String Integer
 askAgeCut = cut askAge
 ```
 
@@ -555,7 +581,9 @@ Task 3: An interesting web program
 ----------------------------------
 
 Implement a more realistic example that uses your web library.
-Add it as an executable called `web` in your cabal package,
+Add it as an executable called
+["web"](https://bitbucket.org/russo/afp-code/src/master/assignment2/replay-0.1.0.0/replay.cabal#replay.cabal-38)
+in your cabal package,
 similarly to how the example in lab 1 was implemented.
 The following elements should occur in your program:
 
@@ -601,15 +629,15 @@ More information
 
 * For more information on HTML, there are lots of tutorials to be found on
   the web. Here is a reasonable one:
-  [HtmlCodeTutorial](http://www.htmlcodetutorial.com/).
+  [HtmlCodeTutorial](https://www.html.com/).
 
-* Query strings can not be arbitrarily long ([RFC2616](http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.2.1)).
+* Query strings can not be arbitrarily long ([RFC2616](https://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.2.1)).
   It is therefore suggested to use `POST` instead of `GET`.
   However, browsers by default do make a `GET` request when entering a
   web page from elsewhere than from a form, so your library needs to
   support `GET` at least when loading the page initially.
 
-* Don Stewart's guide on [How to write a Haskell Program](http://www.haskell.org/haskellwiki/How_to_write_a_Haskell_program)
+* Don Stewart's guide on [How to write a Haskell Program](https://wiki.haskell.org/How_to_write_a_Haskell_program)
   covers cabal in detail, but is a few years old.
 
 
@@ -627,7 +655,7 @@ without doing any of these.
 
 * Is it possible for your DSL to support both the web front end and some other,
   like [gtk2hs](https://hackage.haskell.org/package/gtk) or
-  [Haste](http://haste-lang.org)?
+  [Haste](https://haste-lang.org)?
 
 * To protect your program from being fooled, add some form of encryption and/or
   verification of your traces.
@@ -647,13 +675,13 @@ without doing any of these.
   serialisation than using `Read` and `Show`.
   What libraries can you choose from here?
 
-* These days, [Ajax](http://en.wikipedia.org/wiki/Ajax_%28programming%29) is
+* These days, [Ajax](https://en.wikipedia.org/wiki/Ajax_%28programming%29) is
   much more common than page-reloading forms.
   What would need to be passed from the scotty back end in such a setting?
   Would you change the serialisation format?
   Implement a small prototype.
   Spend minimal time on the JavaScript programming, or use
-  [Haste](http://haste-lang.org) for the browser part.
+  [Haste](https://haste-lang.org) for the browser part.
 
 
 Submission
