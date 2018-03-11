@@ -2,11 +2,13 @@
 
 ### Exams by Alejandro Russo
 
-* [March 15, 2016 (with solutions)](./assets/exams/2016-03.pdf)
+* [August, 2017 (with solutions)](./assets/exams/2017-08.pdf)
+* [March, 2017 (with solutions)](./assets/exams/2017-03.pdf)
+* [March, 2016 (with solutions)](./assets/exams/2016-03.pdf)
 
 ### Exams by Patrik Jansson
 
-You get access to them in the [last's year course
+You get access to them in the [last editions' course
 page](http://www.cse.chalmers.se/edu/year/2015/course/TDA342/exam.html)
 
 ## More exams?
