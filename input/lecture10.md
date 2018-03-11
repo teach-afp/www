@@ -1,4 +1,4 @@
-#Pr ogram verification and testing
+# Program verification and testing
 
 ## Correctness
 
