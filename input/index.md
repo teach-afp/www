@@ -20,6 +20,22 @@
 
 # News!
 
+* March 11th
+
+  <div class = "alert alert-info">
+  The exam is on *Tuesday, March 13th 2018*, starting at 8:30 in [SB
+  Multisal](http://maps.chalmers.se/#97dc2ff0-bd34-425f-bfd9-10dbc49b1946).
+  <br>
+  As in previous years, you may bring up to two pages (on one A4
+  sheet of paper) of pre-written notes &mdash; a "summary sheet".
+  These notes may be typed or handwritten. They may be from any
+  source.
+  <br>
+  As usual, you will be able to review your exam at the [student
+  office](http://cse.gu.se/english/student/student-office) (Campus
+  Johanneberg).
+  </div>
+
 * March 5th
 
   <div class = "alert alert-info"> Today's guest lecture has been canceled due
