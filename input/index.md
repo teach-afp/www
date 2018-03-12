@@ -34,6 +34,9 @@
   As usual, you will be able to review your exam at the [student
   office](http://cse.gu.se/english/student/student-office) (Campus
   Johanneberg).
+  <br>
+  Sample solutions will be available after the exam from
+  [here](./assets/exams/2018-03.pdf).
   </div>
 
 * March 5th

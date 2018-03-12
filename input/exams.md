@@ -2,6 +2,7 @@
 
 ### Exams by Alejandro Russo
 
+* [March 2018 (with solutions)](./assets/exams/2018-03.pdf)
 * [August 2017](./assets/exams/2017-08/2017-08.pdf)
   ([solutions](./assets/exams/2017-08/))
 * [March 2017 (with solutions)](./assets/exams/2017-03.pdf)
