@@ -83,7 +83,7 @@ personal deadline for you. You may then get an extension of the deadline.
 Your last attempt has to be submitted before the final deadline. If you fail to
 do this, your submission will be rejected.
 
-<div class="alert alert-info">**Final Deadline**: Sunday, March 19th (exam
+<div class="alert alert-info">**Final Deadline**: Monday, March 19th (exam
 week)</div>
 
 
