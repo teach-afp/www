@@ -11,16 +11,9 @@ lecturer.
 
 ## Deadlines
 
-Please read these early and carefully!
-
 <div class="alert alert-danger">
-Deadlines are hard!
+Deadlines are hard! Please read these early and carefully!
 </div>
-
-If you for some reason cannot make the deadline, contact us before the deadline,
-and tell us what your reason is, together with a realistic proposal of a new
-personal deadline for you. You may then get an extension of the deadline.
-
 
 <table class="table table-bordered">
 <thead>
@@ -80,18 +73,22 @@ personal deadline for you. You may then get an extension of the deadline.
 </tr>
 </table>
 
-Your last attempt has to be submitted before the final deadline. If you fail to
-do this, your submission will be rejected.
-
 <div class="alert alert-info">**Final Deadline**: Monday, March 19th (exam
 week)</div>
+
+Your first serious attempt has to be submitted before the first
+deadline. Your last attempt has to be submitted before the final
+deadline. If you fail to do this, your submission will be rejected.
+
+If you for some reason cannot make the deadline, contact us before the deadline,
+and tell us what your reason is, together with a realistic proposal of a new
+personal deadline for you. You may then get an extension of the deadline.
 
 
 ## Grading
 
-Assignments will be graded on a scale of 3 to 5 and will count towards your
-final grade on the course.  Your last attempt has to be submitted before the
-final deadline. If you fail to do this, your submission will be rejected.
+Assignments will be graded on a scale of 3 to 5 and will count
+towards your final grade on the course.
 
 <div class="alert alert-info">
 Assistants will send you feedback between
