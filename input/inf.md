@@ -109,7 +109,7 @@ O'Sullivan, Don Stewart, and John Goerzen](http://book.realworldhaskell.org)
 	</div>
 </div>
 
-[There is a online version of it](http://book.realworldhaskell.org/read/).
+[There is an online version of it](http://book.realworldhaskell.org/read/).
 Some related papers to read and other
 material will be provided with the lectures.
 
