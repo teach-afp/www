@@ -175,9 +175,9 @@ AFP course.
 	<div class="thumbnail">
 		<img class="img-no-resize"
                 src="http://www.haskellcraft.com/craft3e/Home_files/shapeimage_2.png"
-                alt="Haskell -- The Craft of Functional Programming">
+                alt="Haskell &mdash; The Craft of Functional Programming">
 		<div class="caption">
-			[Haskell -- The Craft of Functional Programming](http://www.haskellcraft.com/craft3e/Home.html)
+			[Haskell &mdash; The Craft of Functional Programming](http://www.haskellcraft.com/craft3e/Home.html)
 		  </div>
 	</div>
 </div>
