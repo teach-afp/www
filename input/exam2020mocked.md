@@ -9,6 +9,11 @@ Canvas. Please, raise your questions and comments in the "Discussions" section
 of the course.
 </div>
 
+<div class="alert alert-info">
+The whole exam is in a `.pdf` file in case you have connection problems. Search
+for the file `mocked_exam.pdf` in the Files tab.
+</div>
+
 <table class="table table-bordered">
 <tr>
     <td class="success">Date</td>
@@ -50,8 +55,6 @@ Preliminaries
   - PhD student: 36 points to pass.
 
 * Results will be available within 21 days from the exam date.
-
-* Permitted materials
 
 * Notes:
 
