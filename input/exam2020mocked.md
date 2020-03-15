@@ -1,20 +1,28 @@
-Advanced Functional Programming TDA342/DIT260 (Online Exam)
+Advanced Functional Programming TDA342/DIT260 (**Mocked** Online Exam)
 =========
+
+
+<div class="alert alert-danger">
+Dear students, here you can see a **mocked (fake) exam** so that you get familiar
+with the way to submit, how to write your answers, and the submission system of
+Canvas. Please, raise your questions and comments in the "Discussions" section
+of the course.
+</div>
 
 <table class="table table-bordered">
 <tr>
     <td class="success">Date</td>
-    <td class="alert-info">Saturday, 21 March 2020</td>
+    <td class="alert-info">Sunday, 15 March 2020</td>
 </tr>
 
 <tr>
     <td class="success">Time</td>
-    <td class="alert-info">8:30 - 12:30</td>
+    <td class="alert-info">Sunday, 15 March 2020, 15:00 - Wednesday, March 18 2020, 18:00 </td>
 </tr>
 
 <tr>
     <td class="success">Submission window</td>
-    <td class="alert-info">12:30 - 12:40</td>
+    <td class="alert-info">Wednesday 18 2020, 18:00 - 18:10</td>
 </tr>
 </table>
 
@@ -116,48 +124,70 @@ What and how to submit
 Exercise 1 (20 points)
 ===========
 
-This lab assignment asks you to implement a library for so-called turtle
-graphics. The library will be interfaced to as an embedded language. Several
-extensions are then made to the original turtle language.
+File `src/Exam/Ex1.hs`
 
-We recommend that you implement the graphics part of the lab using
-[HGL](https://hackage.haskell.org/package/HGL), a simple graphics library with
-just enough features for this assignment. If you prefer (or if you plan on using
-3D) you may use one of the [OpenGL](https://wiki.haskell.org/OpenGL) libraries
-or you may use [gtk2hs](https://wiki.haskell.org/Gtk2Hs). If you would like to
-use a different graphics library please ask before starting the assignment.
+You have seen before the Haskell function
 
 ```haskell
-forward n
+reverse :: [a] -> [a]
 ```
+
+In this exercise, we will explore a bit more.
+
+Task 1 (10 pts)
+------
+
+1. Implement the function
+
+   ```haskell
+   freverse :: [a] -> [a]
+   ```
+
+   which simply implements `reverse` using `foldr`.
+
+   ```haskell
+   foldr :: Foldable t => (a -> b -> b) -> b -> t a -> b
+   ```
+
+2. Question: Is `freverse` faster than Haskell `reverse`? Justify your answer.
+
+
+Task 2 (10 pts)
+------
+
+Write a Quick Check property that test that your function, `freverse` behaves
+the same as Haskell's `reverse`.
 
 
 Exercise 2 (20 points)
 ===============
 
-The idea of turtle graphics was originally part of the [Logo programming
-language](https://en.wikipedia.org/wiki/Logo_%28programming_language%29). It
-originated from an environment where a real robot (the "turtle") could move
-around and act on simple commands. It was successfully used at MIT to teach
-children to learn programming ([check this blog post to see
-why](https://originzx.wordpress.com/2015/09/23/logo-a-programming-language-for-children-with-visionary-ideas/)). The
-two basic commands it understood were:
+It is often very useful to take the last element of a list.
+
+Task 1 (20 pts)
+------
+
+Using function `freverse` from the previous exercise, write a function which
+takes the last element of a list:
 
 ```haskell
-forward n
-```
-
-and
-
-```haskell
-right d
+myLastElem :: [a] -> a
 ```
 
 Exercise 3 (20 points)
 ======
 
-Task 1: Free code!
-------------------
+Monad are very cool abstractions.
 
-Task 2: Library interface
---------------------------
+Given the following data type definition:
+```haskell
+data X a = X a
+```
+
+Task 1
+------
+
+1. Give the instance `Monad` for `X` as the identify monad.
+
+2. Can you give instances for `Applicative` and `Functor` using the methods from
+`Monad`? Justify your answer.

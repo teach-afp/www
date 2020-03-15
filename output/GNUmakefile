@@ -1,7 +1,7 @@
 LAYOUT = $(shell find ../lout -type f -name '*')
 URL_COURSE = remote11.chalmers.se:/chalmers/groups/edu2009/www/www.cse.chalmers.se/year/2018/course/TDA342_Advanced_Functional_Programming
 INFORMATION = inf.html
-LABS = labs.html lab1.html lab2.html lab3.html exam2020.html
+LABS = labs.html lab1.html lab2.html lab3.html exam2020.html exam2020mocked.html
 LECTURES = lec.html lecture1.html lecture2.html lecture3.html lecture4.html lecture5.html lecture6.html lecture8.html lecture9.html lecture10.html lecture13.html lecture15.html
 HTML = index.html $(INFORMATION) $(LABS) $(LECTURES) exams.html
 
@@ -56,6 +56,12 @@ exam2020.html: ../input/exam2020.md $(LAYOUT)
 	 generate-md --input ../input/exam2020P.md --output ./ --layout ../lout/
 	 mv exam2020P.html exam2020.html
 	 rm ../input/exam2020P.md
+
+exam2020mocked.html: ../input/exam2020mocked.md $(LAYOUT)
+	 ./pretty.sh ../input/exam2020mocked.md ../input/exam2020mockedP.md
+	 generate-md --input ../input/exam2020mockedP.md --output ./ --layout ../lout/
+	 mv exam2020mockedP.html exam2020mocked.html
+	 rm ../input/exam2020mockedP.md
 
 
 # Lectures
