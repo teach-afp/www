@@ -96,8 +96,8 @@ What and how to submit
 
   <table class="table table-bordered">
   <tr>
-    <td class="success">Code skeleton</td>
-    <td class="alert-info">Download here</td>
+    <td class="success">Code skeleton (Check Files tab)</td>
+    <td class="alert-info">mocked-exam-0.1.0.0.tar.gz</td>
   </tr>
   </table>
 
@@ -162,6 +162,9 @@ the same as Haskell's `reverse`.
 Exercise 2 (20 points)
 ===============
 
+File `src/Exam/Ex2.hs`
+
+
 It is often very useful to take the last element of a list.
 
 Task 1 (20 pts)
@@ -176,6 +179,9 @@ myLastElem :: [a] -> a
 
 Exercise 3 (20 points)
 ======
+
+File `src/Exam/Ex3.hs`
+
 
 Monad are very cool abstractions.
 
