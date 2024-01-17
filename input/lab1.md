@@ -74,7 +74,7 @@ make sure you do not miss parts of an assignment!
 
 Most assignments require coding and descriptions with motivations of what you
 have done. Most of the descriptions should be in the form of [Haddock
-comments](https://www.haskell.org/haddock/) for modules and fuctions. There are
+comments](https://www.haskell.org/haddock/) for modules and functions. There are
 also several questions in this description, make sure you answer all of them in
 your report.
 
