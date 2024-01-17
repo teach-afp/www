@@ -136,7 +136,7 @@ addAnswer t r = t ++ [Answer r]
 ```
 
 When we run the above
-[example](https://bitbucket.org/russo/afp-code/src/master/assignment2/replay-0.1.0.0/executable/Example.hs),
+[example](https://github.com/teach-afp/afp-code/blob/master/assignment2/replay/executable/Example.hs),
 providing it with the empty trace, we get
 the following result:
 
@@ -227,7 +227,7 @@ Task 1: The `Replay` monad
 
 First create a Haskell module called "Replay" in an empty directory,
 then create a cabal library package called
-["replay"](https://bitbucket.org/russo/afp-code/src/master/assignment2/replay-0.1.0.0/replay.cabal)
+["replay"](https://github.com/teach-afp/afp-code/blob/master/assignment2/replay/replay.cabal)
 by running `cabal init`
 and answering all questions.
 
@@ -297,7 +297,7 @@ Task 3: Testing the `Replay` monad
 
 Once you have implemented your replay monad transformer you should make sure
 that it works properly. Here is a small testing framework to help you get
-started: [Test.hs](https://bitbucket.org/russo/afp-code/src/master/assignment2/replay-0.1.0.0/test/Test.hs).
+started: [Test.hs](https://github.com/teach-afp/afp-code/blob/master/assignment2/replay/test/Test.hs).
 Put the framework in a subdirectory called "test", then add this to your
 .cabal file to create a test suite:
 
@@ -409,7 +409,7 @@ main = scotty 3000 $ do
         ]
 ```
 
-[This program](https://bitbucket.org/russo/afp-code/src/master/assignment2/replay-0.1.0.0/executable/TestScotty.hs)
+[This program](https://github.com/teach-afp/afp-code/blob/master/assignment2/replay/executable/TestScotty.hs)
 can either be compiled and then run, or you can just issue
 `runghc TestScotty.hs`. It will run a web server locally on port 3000,
 so you should be able to access it with your web browser on address
@@ -582,7 +582,7 @@ Task 3: An interesting web program
 
 Implement a more realistic example that uses your web library.
 Add it as an executable called
-["web"](https://bitbucket.org/russo/afp-code/src/master/assignment2/replay-0.1.0.0/replay.cabal#replay.cabal-38)
+["web"](https://github.com/teach-afp/afp-code/blob/master/assignment2/replay/replay.cabal#replay.cabal-38)
 in your cabal package,
 similarly to how the example in lab 1 was implemented.
 The following elements should occur in your program:

@@ -304,7 +304,7 @@
 
 
 ## Parser0: our first implementation
-[code](https://bitbucket.org/russo/afp-code/src/HEAD/L5/Parser0.hs?at=master&fileviewer=file-view-default)
+[code](https://github.com/teach-afp/afp-code/blob/master/L5/Parser0.hs)
 
 * Every constructor and combinator is a constructor in the `Parser` data type.
 
@@ -363,7 +363,7 @@
   </div>
 
 ## Parser1: removing bind
-[code](https://bitbucket.org/russo/afp-code/src/HEAD/L5/Parser1.hs?at=master)
+[code](https://github.com/teach-afp/afp-code/blob/master/L5/Parser1.hs)
 
 * The use of list comprehension in `run0 (p :>>= f)` builds a lot of
    intermediate lists which might be costly
@@ -643,7 +643,7 @@
    </div>
 
 ## Parser2: improving choice
-[code](https://bitbucket.org/russo/afp-code/src/HEAD/L5/Parser2.hs?at=master&fileviewer=file-view-default)
+[code](https://github.com/teach-afp/afp-code/blob/master/L5/Parser2.hs)
 
 * If we observe the `run1` function again
 

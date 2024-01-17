@@ -89,9 +89,9 @@ Task 1: Free code!
 ------------------
 
 Download and unpack this [stub cabal
-package](https://bitbucket.org/russo/afp-code/src/HEAD/assignment1/turtle-graphics-0.1.0.0/?at=master)
+package](https://github.com/teach-afp/afp-code/blob/master/assignment1/turtle-graphics/)
 or the [OpenGL/GLUT
-version](https://bitbucket.org/russo/afp-code/src/HEAD/assignment1/turtle-graphics-glut-0.1.0.0/?at=master). The
+version](https://github.com/teach-afp/afp-code/blob/master/assignment1/turtle-graphics-glut/). The
 archive contains a file structure and some useful code snippets for you to build
 your implementation on. You are free to modify the package however you wish or
 build a new package from scratch, but if you deviate significantly from the

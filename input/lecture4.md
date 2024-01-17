@@ -1,7 +1,7 @@
 # Functors, Applicative, and Monads
 
 ## A simple monadic EDSL for input/output (deep embedding)
-[code](https://bitbucket.org/russo/afp-code/src/HEAD/L4/EDSL_Deep1.hs?at=master&fileviewer=file-view-default)
+[code](https://github.com/teach-afp/afp-code/blob/master/L4/EDSL_Deep1.hs)
 
 * We will develop a simple I/O EDSL in Haskell
 
@@ -95,7 +95,7 @@
   </div>
 
 ## A simple monadic EDSL for input/output (intermediate embedding)
-[code](https://bitbucket.org/russo/afp-code/src/HEAD/L4/EDSL_Deep2.hs?at=master&fileviewer=file-view-default)
+[code](https://github.com/teach-afp/afp-code/blob/master/L4/EDSL_Deep2.hs)
 
 * It is often good to move away a bit from the pure deep embedding towards some
   kind of "normal form" ("optimized", "elemental" embedding).
@@ -297,7 +297,7 @@
   This is an exercise for you to do!
   </div>
 
-  [Please, check the code skeleton for that](https://bitbucket.org/russo/afp-code/src/HEAD/L4/EDSL_Shallow.hs?at=master&fileviewer=file-view-default)
+  [Please, check the code skeleton for that](https://github.com/teach-afp/afp-code/blob/master/L4/EDSL_Shallow.hs)
 
 
 ## Monads

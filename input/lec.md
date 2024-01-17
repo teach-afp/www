@@ -8,7 +8,7 @@ repetition of what you have seen in Introduction to Functional Programming at
 Chalmers). Note that it is ~200 pages, so start reading now if you need an
 update!
 
-* [Source code](https://bitbucket.org/russo/afp-code/src/HEAD/L1/?at=master)
+* [Source code](https://github.com/teach-afp/afp-code/blob/master/L1/)
 
 * **Optional reading**:
   - Applicative Functors are introduced in Real World Haskell Chapter 10, used
@@ -24,7 +24,7 @@ update!
     and signals (to represent change of values over time). Shape animation. Deep
     vs. shallow embedding. Compositionality and abstraction.
 
-* [Source code](https://bitbucket.org/russo/afp-code/src/HEAD/L2/?at=master)
+* [Source code](https://github.com/teach-afp/afp-code/blob/master/L2/)
 
 * **Reading**: [DSL for the Uninitiated by Debasish
     Ghosh](http://cacm.acm.org/magazines/2011/7/109910-dsl-for-the-uninitiated/fulltext),
@@ -44,7 +44,7 @@ update!
 * **Reading**: Chapter 14
 
 * [Source
-  code](https://bitbucket.org/russo/afp-code/src/HEAD/L3/Interpr.hs?at=master&fileviewer=file-view-default)
+  code](https://github.com/teach-afp/afp-code/blob/master/L3/Interpr.hs)
 
 * **Optional reading**:
   - Chapter 15
@@ -62,7 +62,7 @@ update!
     6)](http://strictlypositive.org/IdiomLite.pdf)
 
 * [Source
-  code](https://bitbucket.org/russo/afp-code/src/HEAD/L4/?at=master)
+  code](https://github.com/teach-afp/afp-code/blob/master/L4/)
 
 * **Optional reading**:
   - Functors: [Page 1 and 2 from "Functional Pearl: F for Functor" by R. Hinze,
@@ -85,7 +85,7 @@ update!
     "Spec: use specifictaion based development techniques".
 
 * [Source
-  code](https://bitbucket.org/russo/afp-code/src/HEAD/L5/?at=master)
+  code](https://github.com/teach-afp/afp-code/blob/master/L5/)
 
 * **Reading**: Chapter 16, until p. 390 or so; to get a feel for what parser
     combinators are, [Parallel Parser
@@ -110,7 +110,7 @@ update!
     write a interpreter for simple expressions.
 
 * [Source
-  code](https://bitbucket.org/russo/afp-code/src/HEAD/L6/?at=master)
+  code](https://github.com/teach-afp/afp-code/blob/master/L6/)
 
 * **Reading**: Chapter 18 on Monad Transformers.
 
@@ -128,7 +128,7 @@ update!
     implementation for `StateT`, `ExceptT`, and `ReaderT`.
 
 * [Source
-  code](https://bitbucket.org/russo/afp-code/src/HEAD/L8/?at=master)
+  code](https://github.com/teach-afp/afp-code/blob/master/L8/)
 
 * The reading material is the same as lecture 6 (see above).
 
@@ -153,7 +153,7 @@ update!
     properties by induction. We also explore property-based testing as
     increasing the confidence on program correctness.
 
-* [Source code](https://bitbucket.org/russo/afp-code/src/HEAD/L10/?at=master)
+* [Source code](https://github.com/teach-afp/afp-code/blob/master/L10/)
 
 * **Reading**: Chapter 11. Chapter 2 in the book *The Fun of Programming*.
 
@@ -166,7 +166,7 @@ update!
 * **Topics**: We look how to do type-inference (type-checking) in DSL using
     GADTs. We describe existential and singleton types.
 
-* [Source code](https://bitbucket.org/russo/afp-code/src/HEAD/L13/?at=master)
+* [Source code](https://github.com/teach-afp/afp-code/blob/master/L13/)
 
 * **Reading**: [Existentially qualified
     types](https://en.wikibooks.org/wiki/Haskell/Existentially_quantified_types)
@@ -182,7 +182,7 @@ update!
     Haskell book are covered. Then we go through a few examples chosen by
     popular vote by the participants.
 
-* [Source code](https://bitbucket.org/russo/afp-code/src/HEAD/L15/?at=master)
+* [Source code](https://github.com/teach-afp/afp-code/blob/master/L15/)
 
 * **Reading**: [Type
     families](https://wiki.haskell.org/GHC/Type_families) on the

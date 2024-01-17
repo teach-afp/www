@@ -74,7 +74,7 @@
   This code is not monadic, but we can change that.
 
 ## Interpreter0: no side-effects
-[code](https://bitbucket.org/russo/afp-code/src/HEAD/L6/Interpreter0.hs?at=master&fileviewer=file-view-default)
+[code](https://github.com/teach-afp/afp-code/blob/master/L6/Interpreter0.hs)
 
 * Any code can be "lifted" into the *identity monad*, i.e., a monad with no
   side-effects.
@@ -133,7 +133,7 @@
 
 
 ## Interpreter1: the reader monad transformer
-[code](https://bitbucket.org/russo/afp-code/src/HEAD/L6/Interpreter1.hs?at=master&fileviewer=file-view-default)
+[code](https://github.com/teach-afp/afp-code/blob/master/L6/Interpreter1.hs)
 
 * We want to extend our language of expression with *local bindings*, e.g., we
   would like to run a program like `let x = 5; x+x`
@@ -276,7 +276,7 @@
   > 6 ```
 
 ## Interpreter 2:  the state monad transformer
-[code](https://bitbucket.org/russo/afp-code/src/HEAD/L6/Interpreter2.hs?at=master&fileviewer=file-view-default)
+[code](https://github.com/teach-afp/afp-code/blob/master/L6/Interpreter2.hs)
 
 * We want to extend our language of expression with *mutable references*, e.g., we
   would like to run a program like `let r = new 7; !r+!r`
