@@ -1,38 +1,56 @@
-<!-- Added weird extra section, because otherwise Alejandro's does not appear -->
-<!-- ## Empty -->
-<!-- --- -->
 
 ## Lecturer
 
 <div class="row">
-  <div class="col-sm-2 col-xs-6 text-center">
-    <div class="thumbnail">
-      <img class="img-no-resize"
-           src="http://www.cse.chalmers.se/~russo/_files/ale2.jpg"
-           alt="Alejandro's picture">
-      <div class="caption">
-        [Alejandro Russo](http://www.cse.chalmers.se/~russo/)
+  <div class="col-md-12">
+    <div class="col-sm-2 col-xs-6 text-center">
+      <div class="thumbnail">
+        <img class="img-no-resize" src="https://www.cse.chalmers.se/~abela/passphotoKrammer01-medium-transparent.png" alt="Andreas's picture">
+        <div class="caption">
+           <a href="https://www.cse.chalmers.se/~abela">Andreas Abel</a>
+        </div>
       </div>
     </div>
   </div>
+  <div class="col-md-12">
+    <div class="col-sm-2 col-xs-6 text-center">
+      <div class="thumbnail">
+        <img class="img-no-resize"
+           src="https://www.cse.chalmers.se/~russo/_files/ale2.jpg"
+           alt="Alejandro's picture">
+        <div class="caption">
+          <a href="https://www.cse.chalmers.se/~russo/">Alejandro Russo</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+## Tutors and lab supervisors
+
+For exercises, lab supervision and grading:
+
+<div class="row">
+<div class="col-sm-2 col-xs-6 text-center">
+	<div class="thumbnail">
+		<img class="img-no-resize" src="" alt="Evan's picture">
+		<div class="caption">
+			Evan Cavallo
+		  </div>
+	</div>
+</div>
 </div>
 
 ---
 
 ## Lecture schedule
 
-* Mondays, 13:15&ndash;15:00, **EF** (except for week 10)
-* Monday, March 5th, 13:15&ndash;15:00,
-  **[EL41](http://maps.chalmers.se/#72992330-dc2b-4923-a832-84d3cd97746d)**,
-  **[EL42](http://maps.chalmers.se/#a3231f8a-0581-435e-9461-567ff1cafaf5)**
-* Thursdays, 10:00&ndash;11:45, **EF** (except for week 7)
-* Thursday, February 15th, 10:00&ndash;11:45,
-  **[SB-L208](http://maps.chalmers.se/#31ac4c6e-d44e-47ed-a5cf-1c81d0870912)**,
-  **[SB-L216](http://maps.chalmers.se/#c0ae3c8a-e32c-4d2f-9f43-7f589a28c980)**
+* Mondays, 13:15&ndash;15:00, **EF**
+* Thursdays, 10:00&ndash;11:45, **EF**
 
 <div class="embed-responsive embed-responsive-16by9">
   <iframe class="embed-responsive-item"
-  src="https://se.timeedit.net/web/chalmers/db1/public/riqvZQY75ZXZ07Qy6Y7Q16706QZ336Q5q090551Q0Yo4og6.html"
+         src="https://cloud.timeedit.net/chalmers/web/public/riq50QggY04Zx6Q5Q57y8Y0660Z951X563Z90Z6Q60o67Q8ZY3q0g6Qo.html"
          style="border: 0" width="800" height="600" frameborder="0"
          scrolling="yes">
 </iframe>
@@ -49,23 +67,10 @@
            src=""
            alt="No Picture">
       <div class="caption">
-        [Fabian Ruch](http://www.chalmers.se/sv/personal/Sidor/fabian-ruch.aspx)
+        [Evan Cavallo](https://www.cse.chalmers.se/~evanc/)
         <p>**Office hours**:<br>
-          Tuesdays 14:00&ndash;16:00<br>
-          Office: 6103A, EDIT building</p>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-3 col-xs-6 text-center">
-    <div class="thumbnail">
-      <img class="img-no-resize"
-            src=""
-            alt="Alejandro Gómez Londoño">
-      <div class="caption">
-        [Alejandro Gómez Londoño](https://www.chalmers.se/sv/personal/Sidor/alejandro-gomez.aspx)
-        <p>**Office hours**:<br>
-          Fridays 13:00&ndash;15:00<br>
-          Office: 5461, EDIT building</p>
+          TBA<br>
+          Office: TBA, EDIT building</p>
       </div>
     </div>
   </div>
@@ -75,21 +80,13 @@
 
 ## Course Representatives
 
-* MPALG, donatod@student.chalmers.se, DAVIDE DONATO
-* MPALG, lajakob@student.chalmers.se, JAKOB LARSSON
-* TKDAT, gustnil@student.chalmers.se, GUSTAV NILSSON
-* Utbyte, jaakko.rinta-filppula@student.tut.fi, JAAKKO RINTA-FILPPULA
-* TKDAT, ariv@student.chalmers.se, ARI VON NORDENSKJÖLD
+* TBA
 
 ---
 
 ## Discussion Group
 
-We use [Slack](https://afp-chalmers.slack.com).
-
-Slack as a communication channel is meant to be used to post questions and have
-discussions related to the course. *Sharing (total or partial) solutions in it
-is forbidden*.
+We use Canvas Discussions.
 
 ---
 
@@ -100,16 +97,16 @@ is forbidden*.
 <div class="col-sm-2 col-xs-6 text-center">
 	<div class="thumbnail">
 		<img class="img-no-resize"
-                src="http://book.realworldhaskell.org/support/rwh-200.jpg"
+                src="https://book.realworldhaskell.org/support/rwh-200.jpg"
                 alt="Real world Haskell">
 		<div class="caption">
 			[Real World Haskell by Bryan
-O'Sullivan, Don Stewart, and John Goerzen](http://book.realworldhaskell.org)
+O'Sullivan, Don Stewart, and John Goerzen](https://book.realworldhaskell.org)
 		  </div>
 	</div>
 </div>
 
-[There is an online version of it](http://book.realworldhaskell.org/read/).
+[There is an online version of it](https://book.realworldhaskell.org/read/).
 Some related papers to read and other
 material will be provided with the lectures.
 
@@ -129,10 +126,10 @@ AFP course.
 <div class="col-sm-2 col-xs-6 text-center">
 	<div class="thumbnail">
 		<img class="img-no-resize"
-                src="http://www.cs.yale.edu/homes/hudak/SOE/SOECover.gif"
+                src="https://www.cs.yale.edu/homes/hudak/SOE/SOECover.gif"
                 alt="The Haskell School of Expression">
 		<div class="caption">
-			[The Haskell School of Expression by Paul Hudak](http://www.cs.yale.edu/homes/hudak/SOE/)
+			[The Haskell School of Expression by Paul Hudak](https://www.cs.yale.edu/homes/hudak/SOE/)
 		  </div>
 	</div>
 </div>
@@ -140,10 +137,10 @@ AFP course.
 <div class="col-sm-2 col-xs-6 text-center">
 	<div class="thumbnail">
 		<img class="img-no-resize"
-                src="http://www.cs.ox.ac.uk/publications/books/fop/fop.gif"
+                src="https://www.cs.ox.ac.uk/publications/books/fop/fop.gif"
                 alt="The Fun of Programming">
 		<div class="caption">
-			[The Fun of Programming edited by Jeremy Gibbons and Oege de Moor](http://www.cs.ox.ac.uk/publications/books/fop/)
+			[The Fun of Programming edited by Jeremy Gibbons and Oege de Moor](https://www.cs.ox.ac.uk/publications/books/fop/)
 		  </div>
 	</div>
 </div>
@@ -151,10 +148,10 @@ AFP course.
 <div class="col-sm-2 col-xs-6 text-center">
 	<div class="thumbnail">
 		<img class="img-no-resize"
-                src="http://assets.cambridge.org/97811074/52640/cover/9781107452640.jpg"
+                src="https://assets.cambridge.org/97811074/52640/cover/9781107452640.jpg"
                 alt="Thinking Functionally with Haskell">
 		<div class="caption">
-		[Thinking Functionally with Haskell by Richard Bird](http://www.cambridge.org/us/academic/subjects/computer-science/programming-languages-and-applied-logic/thinking-functionally-haskell)
+		[Thinking Functionally with Haskell by Richard Bird](https://www.cambridge.org/us/academic/subjects/computer-science/programming-languages-and-applied-logic/thinking-functionally-haskell)
 		  </div>
 	</div>
 </div>
@@ -163,10 +160,10 @@ AFP course.
 <div class="col-sm-2 col-xs-6 text-center">
 	<div class="thumbnail">
 		<img class="img-no-resize"
-                src="http://www.cs.nott.ac.uk/~pszgmh/cover-med.jpg"
+                src="https://www.cs.nott.ac.uk/~pszgmh/cover-med.jpg"
                 alt="Programming in Haskell">
 		<div class="caption">
-			[Programming in Haskell by Graham Hutton](http://www.cs.nott.ac.uk/~pszgmh/book.html)
+			[Programming in Haskell by Graham Hutton](https://www.cs.nott.ac.uk/~pszgmh/book.html)
 		  </div>
 	</div>
 </div>
@@ -174,10 +171,10 @@ AFP course.
 <div class="col-sm-2 col-xs-6 text-center">
 	<div class="thumbnail">
 		<img class="img-no-resize"
-                src="http://www.haskellcraft.com/craft3e/Home_files/shapeimage_2.png"
+                src="https://www.haskellcraft.com/craft3e/Home_files/shapeimage_2.png"
                 alt="Haskell &mdash; The Craft of Functional Programming">
 		<div class="caption">
-			[Haskell &mdash; The Craft of Functional Programming](http://www.haskellcraft.com/craft3e/Home.html)
+			[Haskell &mdash; The Craft of Functional Programming](https://www.haskellcraft.com/craft3e/Home.html)
 		  </div>
 	</div>
 </div>
@@ -261,6 +258,6 @@ GU students get G if `total_grade` is 3 or 4 and VG if it is 5.
 
 ## Course Syllabus
 
-[For GU students](http://kursplaner.gu.se/english/dit260.pdf)
+[For GU students](https://kursplaner.gu.se/english/dit260.pdf)
 
 [For Chalmers students](https://www.student.chalmers.se/sp/course?course_id=25054)
