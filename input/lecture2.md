@@ -18,7 +18,7 @@
      src="./assets/img/semgap.png"
      height="70%"
      width="70%"
-     style="float:left" >
+     style="float:left">
 
    <!-- Trick to avoid wrapping around more text than it should -->
    <div class="row">
@@ -39,7 +39,7 @@
      src="./assets/img/nosemgap.png"
      height="70%"
      width="70%"
-     style="float:left" >
+     style="float:left">
 
    <!-- Trick to avoid wrapping around more text than it should -->
    <div class="row">
@@ -51,12 +51,12 @@
 * What is the different between DSL and embedded DSL (or EDSL)?
 * A domain specific language can be provided as stand alone.
   - You write a compiler/interpreter for the DSL and provide all the tools to
-    program with it
+    program with it.
 * In contrast, an embedded DSL is written in a host language.
   - It inherits the infrastructure (and programming language abstractions) of
     the host language.
-  - In this course, we use Haskell as the host language
-  - We will leverage Haskell
+  - In this course, we use Haskell as the host language.
+  - We will leverage Haskell's
     * powerful type system,
     * generic programming features,
     * and tools
@@ -78,23 +78,23 @@
 </thead>
 
 <tr>
-    <td class="success" > Types </td>
-    <td class="alert-info" >  **Model** a concept </td>
+    <td class="success"> Types </td>
+    <td class="alert-info">  <b>Model</b> a concept </td>
 </tr>
 
 <tr>
-    <td class="success" > Constructors </td>
-    <td class="alert-info" >  **Construct** the simplest elements of such types </td>
+    <td class="success"> Constructors </td>
+    <td class="alert-info">  <b>Construct</b> the simplest elements of such types </td>
 </tr>
 
 <tr>
-    <td class="success" > Combinators </td>
-    <td class="alert-info" >  **Build** complex elements from simpler ones </td>
+    <td class="success"> Combinators </td>
+    <td class="alert-info">  <b>Build</b> complex elements from simpler ones </td>
 </tr>
 
 <tr>
-    <td class="success" > Run functions </td>
-    <td class="alert-info" >  **Observe** the EDSL elements, possibly producing
+    <td class="success"> Run functions </td>
+    <td class="alert-info">  <b>Observe</b> the EDSL elements, possibly producing
     side-effects when doing so </td>
 </tr>
 </table>
@@ -108,11 +108,11 @@ Let us get into a specific first in order to create a EDSL in Haskell.
   - Made of some basic shapes.
   - They scale without loosing definition.
   - Ideal for logos.
-  - Take less space as pixel-based formats (e.g., BMP, JPEG, etc.)
+  - Take less space as pixel-based formats (e.g., BMP, JPEG, etc.).
 
 ## Types and constructors
 
-* We want to model simple graphics
+* We want to model simple graphics.
 
   <div class="container">
      <img class="img-responsive col-md-6"
@@ -127,7 +127,7 @@ Let us get into a specific first in order to create a EDSL in Haskell.
 
 ## Some basic combinators
 
-* Let us visualize some useful combinators
+* Let us visualize some useful combinators:
 
   <div class="container">
      <img class="img-responsive col-md-6"
@@ -149,7 +149,7 @@ Let us get into a specific first in order to create a EDSL in Haskell.
   translate :: Vec   -> Shape -> Shape
   ```
   <div class="alert alert-info">
-  A new type (`Vec`) has appeared in the interface!
+  A new type (<code>Vec</code>) has appeared in the interface!
   </div>
 
 
@@ -167,13 +167,13 @@ Let us get into a specific first in order to create a EDSL in Haskell.
 * The raster is the one "observing" shapes and activating the corresponding
   pixels.
 
-* We assume the rater is composed of points (pixels if you wish)
+* We assume the raster is composed of points (pixels if you wish).
 
   ```haskell
   inside :: Point -> Shape -> Bool
   ```
   <div class="alert alert-info">
-  A new type (`Point`) has appeared in the interface!
+  A new type (<code>Point</code>) has appeared in the interface!
   </div>
 
 ## Shapes: the interface
@@ -188,12 +188,13 @@ Let us get into a specific first in order to create a EDSL in Haskell.
   invert    :: Shape -> Shape
   intersect :: Shape -> Shape -> Shape
   translate :: Vec   -> Shape -> Shape
-  inside    :: Point -> Shape -> Bool ```
+  inside    :: Point -> Shape -> Bool
+  ```
 
 * Aspects to think when designing an API
   - **Compositionality**: combining elements into more complex ones should be
     easy and natural.
-  - ** Abstraction**: the user should not have to know (or be allowed to
+  - **Abstraction**: the user should not have to know (or be allowed to
     exploit) the underlying implementation of your types.
 
 * Classification of operations
@@ -271,7 +272,7 @@ Let us get into a specific first in order to create a EDSL in Haskell.
        src="./assets/img/transform.png">
   </div>
 
-* Let us see a concrete example: x-axis reflection
+* Let us see a concrete example: x-axis reflection:
 
   <div class="container">
      <img class="img-responsive col-md-6"
@@ -293,7 +294,7 @@ Let us get into a specific first in order to create a EDSL in Haskell.
    where k = a * d - b * c
   ```
 
-* Now the `transform` operation
+* Now the `transform` operation:
   ```haskell
   transform :: Matrix -> Shape -> Shape
   transform m sh = Shape $ \p -> (inv_m `mul` p) `inside` sh
@@ -314,7 +315,7 @@ Let us get into a specific first in order to create a EDSL in Haskell.
 
 ## Shape rotation
 
-* Axes rotation (math revisited)
+* Axes rotation (math revisited):
 
   <div class="container">
      <img class="img-responsive col-md-8"
@@ -332,9 +333,9 @@ Let us get into a specific first in order to create a EDSL in Haskell.
 
 ## Points, Vectors, and Matrices in a separate module
 
-* The interface for shapes uses auxiliary mathematical abstractions
+* The interface for shapes uses auxiliary mathematical abstractions.
 
-* We define them in a different module (`Matrix.hs`)
+* We define them in a different module (`Matrix.hs`).
 
 ## Alternative implementation : deep embedding
 
@@ -414,7 +415,7 @@ Let us get into a specific first in order to create a EDSL in Haskell.
   - Adding new run functions.
   - Adding optimizations (e.g., by data type manipulation).
 
-* Most of the time you get a *mixed* between shallow and deep embedding.
+* Most of the time you get a *mix* between shallow and deep embedding.
 
 * In any case, **abstraction** is important!
 
@@ -438,8 +439,8 @@ Let us get into a specific first in order to create a EDSL in Haskell.
 
 ## Rendering a shape to ASCII-art
 
-* A very interesting *run function*
-* It introduces the concept of windows
+* A very interesting *run function*!
+* It introduces the concept of windows.
   ```haskell
   defaultWindow :: Window
   defaultWindow = Window
@@ -448,13 +449,13 @@ Let us get into a specific first in order to create a EDSL in Haskell.
     , resolution  = (40, 40)
     }
   ```
-  - It has a dimension in terms of characters
-  - It has a dimension in terms of points
+  - It has a dimension in terms of characters.
+  - It has a dimension in terms of points.
 
 * The render function essentially maps points to characters in a window.
 
   ```haskell
-  -- | Generate a list of evenly spaces (n :: Int) points in an interval.
+  -- | Generate a list of evenly spaced (n :: Int) points in an interval.
   samples :: Double -> Double -> Int -> [Double]
 
   -- | Generate the matrix of points corresponding to the pixels of a window.
@@ -472,14 +473,14 @@ Let us get into a specific first in order to create a EDSL in Haskell.
 
 ## Discussion
 
-* Adding colored shapes
-  - Discuss what you need to do
-* Bad shallow implementations
-  - Looking at the render run function, we might decide to go for
+* Adding colored shapes:
+  - Discuss what you need to do!
+* Bad shallow implementations:
+  - Looking at the render run function, we might decide to go for:
     ```haskell
     newtype Shape = Shape (Window -> String)
     ```
-  - Discuss the problem with this implementation
+  - Discuss the problem with this implementation.
 * Other questions/comments?
 
 ## Signal: Another EDSL
@@ -502,12 +503,12 @@ Let us get into a specific first in order to create a EDSL in Haskell.
   ```
 
   - Function `constS` produces a constant value, i.e., it does not change with
-    time
+    time.
   - Function `timeS` reveals the current time, i.e., it is a signal which
-    arrives at time T and produces the value T
-  - Combinator `(SS)` takes a functional signal and converts it into a function
-    which changes `Signal a` into `Signal b`
-  - Run function `sample` just extracts the meaning of a signal
+    arrives at time _t_ and produces the value _t_.
+  - Combinator `($$)` takes a functional signal and converts it into a function
+    which changes `Signal a` into `Signal b`.
+  - Run function `sample` just extracts the meaning of a signal.
 
 ## How do we program with it?
 [code](https://github.com/teach-afp/afp-code/blob/master/L2/src/ExampleSignal.hs)
@@ -519,9 +520,9 @@ Let us get into a specific first in order to create a EDSL in Haskell.
        src="./assets/img/shapeanimation.png">
   </div>
 
-* We write time-dependent functions which generate shapes
+* We write time-dependent functions which generate shapes.
 
-  - A function for intermittently displaying two shapes
+  - A function for intermittently displaying two shapes:
     ```haskell
     -- | It displays a shape on "odd times" and another one in "even times".
     change :: Shape -> Shape -> Time -> Shape
@@ -530,7 +531,7 @@ Let us get into a specific first in order to create a EDSL in Haskell.
            | otherwise     = sh2
     ```
 
-* Convert them into signals
+* Convert them into signals:
     ```haskell
     constS (change disc square) :: Signal (Time -> Shape)
     ```
@@ -564,7 +565,7 @@ Let us get into a specific first in order to create a EDSL in Haskell.
   mapS   :: (a -> b) -> Signal a -> Signal b
   ```
 
-* Combinator `mapT` allows to alter the mapping among `Time` and `Shape`
+* Combinator `mapT` allows to alter the mapping among `Time` and `Shape`.
 
   ```haskell
   to_zero :: Time -> Time
@@ -572,11 +573,11 @@ Let us get into a specific first in order to create a EDSL in Haskell.
 
   always_disc = mapT to_zero square_disc
   ```
-* Exercise: write `mapS` as a derived operation
+* Exercise: write `mapS` as a derived operation!
 
 ## Implementation: shallow embedding
 
-We will model signals as Haskell functions of time `Time -> a`
+We will model signals as Haskell functions of time `Time -> a`.
 ```haskell
 type Time = Double
 newtype Signal a = Sig {unSig :: Time -> a}
@@ -613,7 +614,7 @@ timeS  = TimeS
 ```
 
 The run function generates the functions of type `Time -> a` (most of the work
-is here!)
+is here!).
 
 ```haskell
 -- | Sampling a signal at a given time point.
