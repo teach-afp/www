@@ -27,8 +27,9 @@
      interp :: Expr -> Int
      interp (Con i)     = i
      interp (Div e1 e2) = i1 `div` i2
-         where i1 = interp e1
-               i2 = interp e2
+       where
+         i1 = interp e1
+         i2 = interp e2
 
      -- | Succesful division
      ex_ok    = Div (Con 10) (Con 5)
@@ -56,36 +57,37 @@
 
    interpE :: Expr -> E Int
    interpE (Con i)     = Value i
-   interpE (Div e1 e2) = case maybe_i1 of
-                           Wrong -> Wrong
-                           Value i1 -> case maybe_i2 of
-                                       Wrong -> Wrong
-                                       Value i2 -> if i2 == 0 then Wrong
-                                                              else Value $ i1 `div` i2
-       where maybe_i1 = interpE e1
-             maybe_i2 = interpE e2
+   interpE (Div e1 e2) =
+     case interpE e1 of
+       Wrong -> Wrong
+       Value i1 ->
+         case interpE e2 of
+           Wrong -> Wrong
+           Value i2 ->
+             if i2 == 0 then Wrong
+             else Value $ i1 `div` i2
    ```
 
 * Basically, **every recursive call needs to be checked for errors**! If one of
   them fails, then the program should abort.
-* Consider what would happen if `Expr` had many other recursive constructors
-* One possible `run` function
+* Consider what would happen if `Expr` had many other recursive constructors.
+* One possible `run` function:
 
   ```haskell
   runE :: Expr -> IO ()
   runE e = case interpE e of
-                Wrong -> putStrLn "Something went wrong!"
-                Value i -> putStrLn $ show i
+    Wrong   -> putStrLn "Something went wrong!"
+    Value i -> putStrLn $ show i
   ```
 
 ## Logging
 
-* We want to create a trace of the program
-  - Send messages to a log
+* We want to create a trace of the program:
+  - Send messages to a log.
   - This information could be used to improve future interpreter optimizations
-    or detection of bugs
+    or detection of bugs.
     <div class="alert alert-info">
-        We want to send messages to a log at every instruction
+        We want to send messages to a log at every instruction.
     </div>
 
 - Let us modify the interpreter to log the number of divisions.
@@ -94,14 +96,17 @@
 
    interpL :: Expr -> L Int
    interpL (Con i)      = L (i, ["-- Hit Con --\n"])
-   interpL (Div e1 e2)  = L (i1 `div` i2,
-                             "-- Hit a Div --\n" :
-                             "** Left recursive call**\n" :
-                             msgs1 ++
-                             "** Right recursive call**\n" :
-                             msgs2 )
-      where L (i1, msgs1) = interpL e1
-            L (i2, msgs2) = interpL e2 ```
+   interpL (Div e1 e2)  = L (i1 `div` i2, concat
+                             [ [ "-- Hit a Div --\n" ]
+                             , [ "** Left recursive call**\n" ]
+                             , msgs1
+                             , [ "** Right recursive call**\n" ]
+                             , msgs2
+                             ])
+   where
+     L (i1, msgs1) = interpL e1
+     L (i2, msgs2) = interpL e2
+  ```
 
 * Basically, the results of **every recursive call*** needs to be inspected to
   obtain the corresponding logs.
@@ -109,11 +114,14 @@
 * One possible *run* function
   ```haskell
    runL :: Expr -> IO ()
-   runL e = do putStr "The result is:"
-               putStrLn $ show i
-               putStrLn "Log:"
-               putStrLn $ show msgs
-      where L (i,msgs) = interpL e ```
+   runL e = do
+       putStr "The result is:"
+       putStrLn $ show i
+       putStrLn "Log:"
+       putStrLn $ show msgs
+     where
+       L (i,msgs) = interpL e
+  ```
 
 ## Side-effects & pure functional programming
 
@@ -146,22 +154,22 @@
 
 * What is so special about such data types?
     <div class="alert alert-danger">
-     It is general! (supports many different side-effects)
+     It is general (supports many different side-effects).
     </div>
     <div class="alert alert-danger">
-     Monads hide the plumbing! (simplifies code)
+     Monads hide the plumbing (simplifies code).
     </div>
 
 * How is so general?
    <div class="alert alert-danger">
-    Monads control the order of evaluation
+    Monads control the order of evaluation.
    </div>
-   Roughly speaking, the trick is how the `;` is defined! Different definitions
-   for `;` allows to handle different side-effects.
+   Roughly speaking, the trick is how sequencing `;` is defined!
+   Different definitions for `;` allow to handle different side-effects.
 
 ## Construction of programs
 
-* Programs can be conceived as a *sequence* of instructions put together
+* Programs can be conceived as a *sequence* of instructions put together.
 
   <div class="container">
      <img class="img-responsive col-md-8"
@@ -203,21 +211,21 @@
 ## Error handling
 
 * The connector is placed in the "right place" to abort any computation as soon as
-  an instruction fails
+  an instruction fails.
 
     <div class="container">
      <img class="img-responsive col-md-10"
       src="./assets/img/monad_error.png">
     </div>
 
-* A data type for handling errors
+* A data type for handling errors:
 
   ```haskell
   data E a = Value a | Wrong
   ```
 
 * Is `E a` a monad? Is `E a` such special data type?
-  - Not yet, we need to define the connector `(>>=)`
+  - Not yet, we need to define the connector `(>>=)`.
   - Furthermore, monads have another primitive: `return`.  This primitive takes
     a value and *constructs an instruction that does nothing but producing that
     value*!
@@ -226,7 +234,8 @@
     ```haskell
     class Monad m where
        return :: a -> m a
-       (>>=)  :: m a -> (a -> m b) -> m b  ```
+       (>>=)  :: m a -> (a -> m b) -> m b
+    ```
 
 * What is the implementation of `return` and `(>>=)` for `E a`?
 
@@ -234,11 +243,12 @@
     instance Monad E where
       return = Value
       Wrong   >>= f = Wrong
-      Value a >>= f = f a  ```
+      Value a >>= f = f a
+    ```
 
     Monad `E` is known as the `Maybe` monad!
 
-* We need to add a primitive to make everything fail
+* We need to add a primitive to make everything fail:
 
   ```haskell
   abort :: E a
@@ -265,26 +275,18 @@
    ```haskell
    m_interpE :: Expr -> E Int
    m_interpE (Con i)     = return i
-   m_interpE (Div e1 e2) = m_interpE e1 >>= (\i1 ->
-                             m_interpE e2 >>= (\i2 ->
-                               if i2 == 0 then abort
-                                          else return (i1 `div` i2))) ```
+   m_interpE (Div e1 e2) =
+       m_interpE e1 >>= \i1 ->
+       m_interpE e2 >>= \i2 ->
+       if i2 == 0 then abort
+       else return (i1 `div` i2)
+   ```
 
 * Observe that the code has **minimum traces of error handling**, i.e., it does not inspect
   every recursive call for an error.
 
   - It is handled by the monad!
   - All the plumbing is hidden!
-
-* Let us remove some parenthesis due to the connector `(>>=)` precedence
-
-   ```haskell
-   m_interpE :: Expr -> E Int
-   m_interpE (Con i)     = return i
-   m_interpE (Div e1 e2) = m_interpE e1 >>= \i1 ->
-                             m_interpE e2 >>= \i2 ->
-                               if i2 == 0 then abort
-                                          else return (i1 `div` i2)   ```
 
 
 ## Logging
@@ -306,7 +308,8 @@
    instance Monad L where
      return x   = L (x, [])  -- recall the identity laws!
      L (x,msgs) >>= f = case f x of
-                        L (x,msgss) -> L (x, msgs ++ msgss) ```
+                        L (x,msgss) -> L (x, msgs ++ msgss)
+   ```
 
    - Function `return` produces the empty lists (recall the monadic laws)
    - Function `(>>=)` concatenates the *logs*
@@ -314,9 +317,10 @@
 * We need to implement a *non-proper morphism* which writes into the log -- we
   call it `msg`
 
-  ```haskell
-  msg :: String -> L ()
-  msg m = L ((), [m]) ```
+   ```haskell
+   msg :: String -> L ()
+   msg m = L ((), [m])
+   ```
 
 * Let us rewrite the interpreter using the monad `L`
 
@@ -326,12 +330,13 @@
        return i
 
    m_interpL (Div e1 e2) =
-      msg "-- Hit a Div --\n" >>= \_ ->
-          msg "** Left recursive call**\n" >>= \_ ->
-             m_interpL e1 >>= \i1 ->
-                msg "** Right recursive call**\n" >>= \_ ->
-                    m_interpL' e2 >>= \i2 ->
-                          return (i1 `div` i2) ```
+       msg "-- Hit a Div --\n"           >>= \ _  ->
+       msg "** Left recursive call**\n"  >>= \ _  ->
+       m_interpL e1                      >>= \ i1 ->
+       msg "** Right recursive call**\n" >>= \ _  ->
+       m_interpL' e2                     >>= \ i2 ->
+       return (i1 `div` i2)
+   ```
 
 * Observe that the code has **minimum traces about how the log is constructed**
 
@@ -348,7 +353,8 @@
 
     ```haskell
     (>>) :: m a -> m b -> m b
-    m1 >> m2 = m1 >>= \_ -> m2 ```
+    m1 >> m2 = m1 >>= \_ -> m2
+    ```
 
    Observe that function `(>>)` is a derived operation.
 
@@ -361,16 +367,19 @@
              m_interpL e1 >>= \i1 ->
                 msg "** Right recursive call**\n" >>
                     m_interpL e2 >>= \i2 ->
-                          return (i1 `div` i2) ```
+                          return (i1 `div` i2)
+   ```
 
 * One possible *run* function
   ```haskell
   m_runL :: Expr -> IO ()
-  m_runL e = do  putStr "Result: "
-                 putStrLn $ show result
-                 putStrLn "Messages:"
-                 putStrLn $ concat log
-     where L (result,log) = m_interpL e
+  m_runL e = do
+      putStr "Result: "
+      putStrLn $ show result
+      putStrLn "Messages:"
+      putStrLn $ concat log
+    where
+      L (result,log) = m_interpL e
   ```
 
 
@@ -380,9 +389,10 @@
 
   A data type `m` is a monad if it supports the following two operations:
 
-  ```haskell
-  (>>=)  :: m a -> (a -> m b) -> m b
-  return :: a -> m a ```
+   ```haskell
+   (>>=)  :: m a -> (a -> m b) -> m b
+   return :: a -> m a
+   ```
 
   Functions `return` and `(>>=)` are known as *return* and the *bind*
   operations, respectively.
@@ -399,20 +409,29 @@
 
   <tr>
   <td> Left identity: </td>
-  <td>  ```haskell return a >>= f ≡ f a ```
+  <td>
+   ```haskell
+   return a >>= f ≡ f a
+   ```
   </td>
   </tr>
 
   <tr>
   <td> Right identity: </td>
 
-  <td> ```haskell m >>= return ≡ m ```
+  <td>
+   ```haskell
+   m >>= return ≡ m
+   ```
   </td>
   </tr>
 
   <tr>
   <td> Associativity: </td>
-  <td> ```haskell (m >>= f) >>= g ≡ m >>= (\x -> f x >>= g) ```
+  <td>
+   ```haskell
+   (m >>= f) >>= g ≡ m >>= (\x -> f x >>= g)
+   ```
   </td>
   </tr>
 
@@ -557,7 +576,8 @@
       return = Return
       (>>=) = Bind
 
-   abort_deep = Abort   ```
+   abort_deep = Abort
+   ```
 
 * The *run* function is the interesting one.
 
@@ -573,7 +593,8 @@
            to_semantics  Abort     = Wrong
            to_semantics (Bind m f) = case to_semantics m of
                                           Wrong   -> Wrong
-                                          Value i -> to_semantics (f i)  ```
+                                          Value i -> to_semantics (f i)
+   ```
 
 
 ## Stateful computations
@@ -596,7 +617,8 @@
       dvs <- get
       -- Increment it by one
       put (dvs+1)
-      return (i1 `div`i2)  ```
+      return (i1 `div`i2)
+   ```
 
 * We start by describing the type for stateful computations
   ```haskell
@@ -671,7 +693,8 @@
    put s = MkSt $ \_ -> ((),s)
 
    instance Monad (St s) where
-     return x       = MkSt $ \s -> (x,s) ```
+     return x       = MkSt $ \s -> (x,s)
+   ```
 
    Function `get` just places the state (receiving as an argument) as the result
    of the computation. Function `put` ignores the state given as an
@@ -690,23 +713,26 @@
        src="./assets/img/monad_bind_st.png">
   </div>
 
-  ```haskell
-  (MkSt m) >>= k = MkSt $ \s_1 -> let (a, s_2) = m s_1
-                                      MkSt k_m = k a
-                                  in k_m s_2 ```
+   ```haskell
+   (MkSt m) >>= k = MkSt $ \ s_1 -> let
+       (a, s_2) = m s_1
+       MkSt k_m = k a
+     in k_m s_2
+   ```
 
 * A possible `run` function
 
    ```haskell
    m_runS :: Expr -> IO ()
    m_runS e = do
-      putStr "Result: "
-      putStrLn $ show result
-      putStrLn "Number divisions:"
-      putStrLn $ show final_st
-
-      where MkSt f = interpS e
-            (result,final_st) = f 0 ```
+       putStr "Result: "
+       putStrLn $ show result
+       putStrLn "Number divisions:"
+       putStrLn $ show final_st
+     where
+       MkSt f = interpS e
+       (result, final_st) = f 0
+   ```
 
 
 ## Monads so far
