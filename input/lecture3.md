@@ -19,26 +19,26 @@
   - Data flow is explicit!
   - Let us take a concrete example
 
-     ```haskell
-     -- | Abstract syntax
-     data Expr = Con Int | Div Expr Expr
+    ```haskell
+    -- | Abstract syntax
+    data Expr = Con Int | Div Expr Expr
 
-     -- | Simple interpreter for simple arithmetic expressions
-     interp :: Expr -> Int
-     interp (Con i)     = i
-     interp (Div e1 e2) = i1 `div` i2
-       where
-         i1 = interp e1
-         i2 = interp e2
+    -- | Simple interpreter for simple arithmetic expressions
+    interp :: Expr -> Int
+    interp (Con i)     = i
+    interp (Div e1 e2) = i1 `div` i2
+      where
+        i1 = interp e1
+        i2 = interp e2
 
-     -- | Succesful division
-     ex_ok    = Div (Con 10) (Con 5)
-     ```
+    -- | Succesful division
+    ex_ok = interp $ Div (Con 10) (Con 5)
+    ```
 
   - What if we accidentally divide a number by `0`?
     ```haskell
     -- | Crashing!
-    ex_crash = Div (Con 1) (Con 0)
+    ex_crash = interp $ Div (Con 1) (Con 0)
     ```
     Everything crashes!
 
@@ -52,21 +52,21 @@
 
   (We do not consider recovery options)
 - Let us modify the interpreter to implement our error handling mechanism
-   ```haskell
-   data E a = Value a | Wrong
+  ```haskell
+  data E a = Value a | Wrong
 
-   interpE :: Expr -> E Int
-   interpE (Con i)     = Value i
-   interpE (Div e1 e2) =
-     case interpE e1 of
-       Wrong -> Wrong
-       Value i1 ->
-         case interpE e2 of
-           Wrong -> Wrong
-           Value i2 ->
-             if i2 == 0 then Wrong
-             else Value $ i1 `div` i2
-   ```
+  interpE :: Expr -> E Int
+  interpE (Con i)     = Value i
+  interpE (Div e1 e2) =
+    case interpE e1 of
+      Wrong -> Wrong
+      Value i1 ->
+        case interpE e2 of
+          Wrong -> Wrong
+          Value i2 ->
+            if i2 == 0 then Wrong
+            else Value $ i1 `div` i2
+  ```
 
 * Basically, **every recursive call needs to be checked for errors**! If one of
   them fails, then the program should abort.
@@ -92,20 +92,20 @@
 
 - Let us modify the interpreter to log the number of divisions.
   ```haskell
-   data L a = L (a, [String])
+  data L a = L (a, [String])
 
-   interpL :: Expr -> L Int
-   interpL (Con i)      = L (i, ["-- Hit Con --\n"])
-   interpL (Div e1 e2)  = L (i1 `div` i2, concat
-                             [ [ "-- Hit a Div --\n" ]
-                             , [ "** Left recursive call**\n" ]
-                             , msgs1
-                             , [ "** Right recursive call**\n" ]
-                             , msgs2
-                             ])
-   where
-     L (i1, msgs1) = interpL e1
-     L (i2, msgs2) = interpL e2
+  interpL :: Expr -> L Int
+  interpL (Con i)      = L (i, ["-- Hit Con --\n"])
+  interpL (Div e1 e2)  = L (i1 `div` i2, concat
+                            [ [ "-- Hit a Div --\n" ]
+                            , [ "** Left recursive call**\n" ]
+                            , msgs1
+                            , [ "** Right recursive call**\n" ]
+                            , msgs2
+                            ])
+  where
+    L (i1, msgs1) = interpL e1
+    L (i2, msgs2) = interpL e2
   ```
 
 * Basically, the results of **every recursive call*** needs to be inspected to
@@ -113,14 +113,14 @@
 * Consider what would happen if `Expr` had many other recursive constructors
 * One possible *run* function
   ```haskell
-   runL :: Expr -> IO ()
-   runL e = do
-       putStr "The result is:"
-       putStrLn $ show i
-       putStrLn "Log:"
-       putStrLn $ show msgs
-     where
-       L (i,msgs) = interpL e
+  runL :: Expr -> IO ()
+  runL e = do
+      putStr "The result is:"
+      putStrLn $ show i
+      putStrLn "Log:"
+      putStrLn $ show msgs
+    where
+      L (i,msgs) = interpL e
   ```
 
 ## Side-effects & pure functional programming
@@ -231,22 +231,21 @@
     value*!
 * In Haskell, a data type is a monad if `return` and `(>>=)` are provided
 
-    ```haskell
-    class Monad m where
-       return :: a -> m a
-       (>>=)  :: m a -> (a -> m b) -> m b
-    ```
+  ```haskell
+  class Monad m where
+     return :: a -> m a
+     (>>=)  :: m a -> (a -> m b) -> m b
+  ```
 
 * What is the implementation of `return` and `(>>=)` for `E a`?
 
-    ```haskell
-    instance Monad E where
-      return = Value
-      Wrong   >>= f = Wrong
-      Value a >>= f = f a
-    ```
+  ```haskell
+  instance Monad E where
+    return = Value
+    Wrong   >>= f = Wrong
+    Value a >>= f = f a
 
-    Monad `E` is known as the `Maybe` monad!
+  Monad `E` is known as the `Maybe` monad!
 
 * We need to add a primitive to make everything fail:
 
@@ -259,28 +258,26 @@
   handle or affect the side-effectful part of the computation (in the case
   above, the failure!)
 
-* One possible `run` function
+* One possible `run` function (same as `runE`):
   ```haskell
-   m_runE :: Expr -> IO ()
-   m_runE e = case m_interpE e of
-                   Wrong -> putStrLn "Something went wrong!"
-                   Value i -> putStrLn $ show i
+  m_runE :: Expr -> IO ()
+  m_runE e = case m_interpE e of
+      Wrong   -> putStrLn "Something went wrong!"
+      Value i -> putStrLn $ show i
   ```
-
-  It did not change much as the non-monadic version
 
 ## Error handling in the interpreter
 * Let us rewrite the interpreter using the monad `E`
 
-   ```haskell
-   m_interpE :: Expr -> E Int
-   m_interpE (Con i)     = return i
-   m_interpE (Div e1 e2) =
-       m_interpE e1 >>= \i1 ->
-       m_interpE e2 >>= \i2 ->
-       if i2 == 0 then abort
-       else return (i1 `div` i2)
-   ```
+  ```haskell
+  m_interpE :: Expr -> E Int
+  m_interpE (Con i)     = return i
+  m_interpE (Div e1 e2) =
+      m_interpE e1 >>= \i1 ->
+      m_interpE e2 >>= \i2 ->
+      if i2 == 0 then abort
+      else return (i1 `div` i2)
+  ```
 
 * Observe that the code has **minimum traces of error handling**, i.e., it does not inspect
   every recursive call for an error.
@@ -304,39 +301,39 @@
 
 * Let us define `return` and `(>>=)` for `L`
 
-   ```haskell
-   instance Monad L where
-     return x   = L (x, [])  -- recall the identity laws!
-     L (x,msgs) >>= f = case f x of
-                        L (x,msgss) -> L (x, msgs ++ msgss)
-   ```
+  ```haskell
+  instance Monad L where
+    return x          = L (x, [])  -- recall the identity laws!
+    L (x, msgs) >>= f = case f x of
+        L (x, msgs') -> L (x, msgs ++ msgs')
+  ```
 
-   - Function `return` produces the empty lists (recall the monadic laws)
-   - Function `(>>=)` concatenates the *logs*
+  - Function `return` produces the empty lists (recall the monadic laws)
+  - Function `(>>=)` concatenates the *logs*
 
 * We need to implement a *non-proper morphism* which writes into the log -- we
   call it `msg`
 
-   ```haskell
-   msg :: String -> L ()
-   msg m = L ((), [m])
-   ```
+  ```haskell
+  msg :: String -> L ()
+  msg m = L ((), [m])
+  ```
 
 * Let us rewrite the interpreter using the monad `L`
 
-   ```haskell
-   m_interpL (Con i) = do
-       msg "-- Hit Con --\n"
-       return i
+  ```haskell
+  m_interpL (Con i) = do
+      msg "-- Hit Con --\n"
+      return i
 
-   m_interpL (Div e1 e2) =
-       msg "-- Hit a Div --\n"           >>= \ _  ->
-       msg "** Left recursive call**\n"  >>= \ _  ->
-       m_interpL e1                      >>= \ i1 ->
-       msg "** Right recursive call**\n" >>= \ _  ->
-       m_interpL' e2                     >>= \ i2 ->
-       return (i1 `div` i2)
-   ```
+  m_interpL (Div e1 e2) =
+      msg "-- Hit a Div --\n"           >>= \ _  ->
+      msg "** Left recursive call**\n"  >>= \ _  ->
+      m_interpL e1                      >>= \ i1 ->
+      msg "** Right recursive call**\n" >>= \ _  ->
+      m_interpL' e2                     >>= \ i2 ->
+      return (i1 `div` i2)
+  ```
 
 * Observe that the code has **minimum traces about how the log is constructed**
 
@@ -348,27 +345,27 @@
   useful value for the computation but a useful side-effect! (in this case,
   logging)
 
-  - Monads use the operation `(>>)`, called *blind*, to capture such situation
+  - Monads use the operation `(>>)` to capture such situation
     and save us from writing functions which ignore arguments.
 
     ```haskell
     (>>) :: m a -> m b -> m b
-    m1 >> m2 = m1 >>= \_ -> m2
+    m1 >> m2 = m1 >>= \ _ -> m2
     ```
 
    Observe that function `(>>)` is a derived operation.
 
 * Let us rewrite the interpreter once more
 
-   ```haskell
-   m_interpL (Div e1 e2) =
-      msg "-- Hit a Div --\n" >>
-          msg "** Left recursive call**\n" >>
-             m_interpL e1 >>= \i1 ->
-                msg "** Right recursive call**\n" >>
-                    m_interpL e2 >>= \i2 ->
-                          return (i1 `div` i2)
-   ```
+  ```haskell
+  m_interpL (Div e1 e2) =
+      msg "-- Hit a Div --\n"           >>
+      msg "** Left recursive call**\n"  >>
+      m_interpL e1                      >>= \ i1 ->
+      msg "** Right recursive call**\n" >>
+      m_interpL e2                      >>= \ i2 ->
+      return (i1 `div` i2)
+  ```
 
 * One possible *run* function
   ```haskell
@@ -389,10 +386,10 @@
 
   A data type `m` is a monad if it supports the following two operations:
 
-   ```haskell
-   (>>=)  :: m a -> (a -> m b) -> m b
-   return :: a -> m a
-   ```
+  ```haskell
+  (>>=)  :: m a -> (a -> m b) -> m b
+  return :: a -> m a
+  ```
 
   Functions `return` and `(>>=)` are known as *return* and the *bind*
   operations, respectively.
@@ -410,9 +407,9 @@
   <tr>
   <td> Left identity: </td>
   <td>
-   ```haskell
-   return a >>= f ≡ f a
-   ```
+  ```haskell
+  return a >>= f ≡ f a
+  ```
   </td>
   </tr>
 
@@ -420,18 +417,18 @@
   <td> Right identity: </td>
 
   <td>
-   ```haskell
-   m >>= return ≡ m
-   ```
+  ```haskell
+  m >>= return ≡ m
+  ```
   </td>
   </tr>
 
   <tr>
   <td> Associativity: </td>
   <td>
-   ```haskell
-   (m >>= f) >>= g ≡ m >>= (\x -> f x >>= g)
-   ```
+  ```haskell
+  (m >>= f) >>= g ≡ m >>= (\x -> f x >>= g)
+  ```
   </td>
   </tr>
 
@@ -485,11 +482,11 @@
   ```haskell
   m_interpE :: Expr -> E Int
   m_interpE (Con i)     = return i
-  m_interpE (Div e1 e2) =
-     do i1 <- m_interpE e1
-        i2 <- m_interpE e2
-        if i2 == 0 then abort
-                  else return (i1 `div` i2)
+  m_interpE (Div e1 e2) = do
+      i1 <- m_interpE e1
+      i2 <- m_interpE e2
+      if i2 == 0 then abort
+      else return (i1 `div` i2)
   ```
 
 * Logging
@@ -543,7 +540,7 @@
 * Are monads `E` and `L` shallow or deep embeddings?
   - Shallow!
     ```haskell
-     data E a = Value a | Wrong
+    data E a = Value a | Wrong
     ```
     An expression of type `E a` is either a value or indicates that something
     went wrong! It denotes its semantics! The same phenomenon occurs with `L a`.
@@ -553,11 +550,11 @@
 
   ```haskell
   data E_deep a where
-     -- Constructors
-     Return :: a -> E_deep a
-     Abort  :: E_deep a
-     -- Combinators
-     Bind   :: E_deep a -> (a -> E_deep b) -> E_deep b
+      -- Constructors
+      Return :: a -> E_deep a
+      Abort  :: E_deep a
+      -- Combinators
+      Bind   :: E_deep a -> (a -> E_deep b) -> E_deep b
   ```
   To implement this data type, we need to tell GHC to use the GADTs extension by
   adding
@@ -571,30 +568,31 @@
 
 * The definition for `return`, `(>>=)`, and non-proper morphisms are trivial
 
-   ```haskell
-   instance Monad E_deep where
+  ```haskell
+  instance Monad E_deep where
       return = Return
-      (>>=) = Bind
+      (>>=)  = Bind
 
-   abort_deep = Abort
-   ```
+  abort_deep = Abort
+  ```
 
 * The *run* function is the interesting one.
 
-   ```haskell
-   run_deep :: Expr -> IO ()
-   run_deep e = case (to_semantics (interp_deep e)) of
-                   Wrong -> putStrLn "Something went wrong!"
-                   Value i -> putStrLn $ show i
-     where
-           -- It will not accept E_deep Int -> E Int due to Bind
-           to_semantics :: E_deep a -> E a
-           to_semantics (Return i) = Value i
-           to_semantics  Abort     = Wrong
-           to_semantics (Bind m f) = case to_semantics m of
-                                          Wrong   -> Wrong
-                                          Value i -> to_semantics (f i)
-   ```
+  ```haskell
+  run_deep :: Expr -> IO ()
+  run_deep e =
+    case to_semantics (interp_deep e) of
+      Wrong   -> putStrLn "Something went wrong!"
+      Value i -> putStrLn $ show i
+    where
+      -- It will not accept E_deep :: Int -> E Int due to Bind
+      to_semantics :: E_deep a -> E a
+      to_semantics (Return i) = Value i
+      to_semantics  Abort     = Wrong
+      to_semantics (Bind m f) = case to_semantics m of
+          Wrong   -> Wrong
+          Value i -> to_semantics (f i)
+  ```
 
 
 ## Stateful computations
@@ -608,9 +606,9 @@
 * Assuming that we have a *unique global counter*, we would like to have a code
   like the following:
 
-   ```haskell
-   interpS (Con i)     = return i
-   interpS (Div e1 e2) = do
+  ```haskell
+  interpS (Con i)     = return i
+  interpS (Div e1 e2) = do
       i1 <- interpS e1
       i2 <- interpS e2
       -- Read the global counter
@@ -618,7 +616,7 @@
       -- Increment it by one
       put (dvs+1)
       return (i1 `div`i2)
-   ```
+  ```
 
 * We start by describing the type for stateful computations
   ```haskell
@@ -683,23 +681,23 @@
   is also a function of type `s -> (a, s)`.
 
 * More concretely,
-   ```haskell
-   data St s a = MkSt (s -> (a,s))
+  ```haskell
+  data St s a = MkSt (s -> (a,s))
 
-   get :: St s s
-   get = MkSt $ \s -> (s,s)
+  get :: St s s
+  get = MkSt $ \s -> (s,s)
 
-   put :: s -> St s ()
-   put s = MkSt $ \_ -> ((),s)
+  put :: s -> St s ()
+  put s = MkSt $ \_ -> ((),s)
 
-   instance Monad (St s) where
-     return x       = MkSt $ \s -> (x,s)
-   ```
+  instance Monad (St s) where
+    return x       = MkSt $ \s -> (x,s)
+  ```
 
-   Function `get` just places the state (receiving as an argument) as the result
-   of the computation. Function `put` ignores the state given as an
-   argument and sets the one given as an argument. Operation `return` does not
-   change the state and produces as a result its argument.
+  Function `get` just places the state (receiving as an argument) as the result
+  of the computation. Function `put` ignores the state given as an
+  argument and sets the one given as an argument. Operation `return` does not
+  change the state and produces as a result its argument.
 
 * What about `(>>=)`?
 
@@ -713,26 +711,26 @@
        src="./assets/img/monad_bind_st.png">
   </div>
 
-   ```haskell
-   (MkSt m) >>= k = MkSt $ \ s_1 -> let
-       (a, s_2) = m s_1
-       MkSt k_m = k a
-     in k_m s_2
-   ```
+  ```haskell
+  (MkSt m) >>= k = MkSt $ \ s_1 -> let
+      (a, s_2) = m s_1
+      MkSt k_m = k a
+    in k_m s_2
+  ```
 
 * A possible `run` function
 
-   ```haskell
-   m_runS :: Expr -> IO ()
-   m_runS e = do
-       putStr "Result: "
-       putStrLn $ show result
-       putStrLn "Number divisions:"
-       putStrLn $ show final_st
-     where
-       MkSt f = interpS e
-       (result, final_st) = f 0
-   ```
+  ```haskell
+  m_runS :: Expr -> IO ()
+  m_runS e = do
+      putStr "Result: "
+      putStrLn $ show result
+      putStrLn "Number divisions:"
+      putStrLn $ show final_st
+    where
+      MkSt f = interpS e
+      (result, final_st) = f 0
+  ```
 
 
 ## Monads so far
