@@ -123,7 +123,8 @@ Let us get into a specific first in order to create a EDSL in Haskell.
     newtype Shape
     empty  :: Shape
     disc   :: Shape
-    square :: Shape  ```
+    square :: Shape
+    ```
 
 ## Some basic combinators
 
@@ -327,7 +328,8 @@ Let us get into a specific first in order to create a EDSL in Haskell.
   transform (m (pi/10)) square
     where m alpha = matrix
                        (cos alpha)    (sin alpha)
-                       (-(sin alpha)) (cos alpha) ```
+                       (-(sin alpha)) (cos alpha)
+  ```
 
   Clock-wise! Can you see why?
 
@@ -545,7 +547,9 @@ Let us get into a specific first in order to create a EDSL in Haskell.
     function) by applying time information. How do get time information? We use
     `timeS`!
 
-    ```haskell constS (change disc square) $$ timeS ```
+    ```haskell
+    constS (change disc square) $$ timeS
+    ```
 
     <div class="container">
      <img class="img-responsive col-md-8"
@@ -560,7 +564,7 @@ Let us get into a specific first in order to create a EDSL in Haskell.
 
   ```haskell
   -- Combinator
-  mapT   :: (Time -> Time)  -> Signal a -> Signal a
+  mapT   :: (Time -> Time) -> Signal a -> Signal a
   -- Derived operation
   mapS   :: (a -> b) -> Signal a -> Signal b
   ```
@@ -625,6 +629,7 @@ sample (MapT f s)  = sample s . f
 ```
 
 ## Go live!
+
 [code](https://github.com/teach-afp/afp-code/blob/master/L2/src/Example.hs)
 
 ## Summary
