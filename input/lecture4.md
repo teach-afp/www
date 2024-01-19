@@ -5,19 +5,19 @@
 
 * We will develop a simple I/O EDSL in Haskell
 
-   ```haskell
-   -- Types
-   data Program a
-   -- Constructors
-   return :: a -> Program a
-   putC   :: Char -> Program ()
-   getC   :: Program (Maybe Char)
-   -- Combinators
-   (>>=) :: Program a -> (a -> Program b) -> Program b
-   -- Run function
-   type IOSem a
-   run :: Program a -> IOSem a
-   ```
+  ```haskell
+  -- Types
+  data Program a
+  -- Constructors
+  return :: a -> Program a
+  putC   :: Char -> Program ()
+  getC   :: Program (Maybe Char)
+  -- Combinators
+  (>>=) :: Program a -> (a -> Program b) -> Program b
+  -- Run function
+  type IOSem a
+  run :: Program a -> IOSem a
+  ```
 
 * We will use monads to handle the I/O effects!
 
@@ -31,31 +31,31 @@
 
 * Types for inputs and outputs
 
-   ```haskell
-   type Input   =  String
-   type Output  =  String
-   ```
+  ```haskell
+  type Input   =  String
+  type Output  =  String
+  ```
 
 * Following the deep embedding guidelines, we have a constructor in `Program`
   per constructor / combinator.
 
-    ```haskell
-    data Program a where
-      Put    :: Char -> Program ()
-      Get    :: Program (Maybe Char)
-      Return :: a -> Program a
-      Bind   :: Program a -> (a -> Program b) -> Program b
-    ```
+  ```haskell
+  data Program a where
+    Put    :: Char -> Program ()
+    Get    :: Program (Maybe Char)
+    Return :: a -> Program a
+    Bind   :: Program a -> (a -> Program b) -> Program b
+  ```
 
   Observe the use of GADTs!
 
     - In the definition of `Get`, why using `Maybe Char` instead of `Char`?
     - We need to indicate the "end of input" somehow, i.e., by using `Nothing`
 
-    ```haskell
-    getC = Get
-    putC = Put
-    ```
+  ```haskell
+  getC = Get
+  putC = Put
+  ```
 
 * What's the implementation of the type `IOSem`, i.e., the semantics of a program?
 
@@ -70,31 +70,32 @@
 
    ```haskell
    run :: Program a -> IOSem a
-   run (Put c)    inp =     (()     ,inp   , c:"")
-   run (Get)      ""  =     (Nothing, ""   , ""  )
-   run (Get)      (c:cs) =  (Just c ,cs    , ""  )
-   run (Return x) inp =     (x      ,inp   , ""  )
-   run (Bind p g) inp =     (someb  ,someinpp, someoutp ++ someoutpp)
-      where   (somea, someinp, someoutp) = run p inp
-              pb = g somea
-              (someb, someinpp, someoutpp) = run pb someinp
+   run (Put c)    inp     =  (()     ,inp   , c:"")
+   run (Get)      ""      =  (Nothing, ""   , ""  )
+   run (Get)      (c:cs)  =  (Just c ,cs    , ""  )
+   run (Return x) inp     =  (x      ,inp   , ""  )
+   run (Bind p g) inp     =  (someb  ,someinpp, someoutp ++ someoutpp)
+     where
+       (somea, someinp, someoutp) = run p inp
+       pb = g somea
+       (someb, someinpp, someoutpp) = run pb someinp
    ```
 
 * Let us write an "echo" program
 
-   ```haskell
-   echo :: Program ()
-   echo = getC >>= f
-     where f Nothing  = return ()
-           f (Just c) = putC c
-   ```
+  ```haskell
+  echo :: Program ()
+  echo = getC >>= f
+    where f Nothing  = return ()
+          f (Just c) = putC c
+  ```
 
   To run it, we need to give it an input
 
-   ```haskell
-   run echo "a"
-   > ((), "", "a")
-   ```
+  ```haskell
+  run echo "a"
+  > ((), "", "a")
+  ```
 
   <div class = "alert alert-info">
   **Exercise**: write a program which does a *double echo*, i.e., it reads a character
@@ -129,32 +130,32 @@
     Return x >>= f
   ```
 
-*  ```haskell
-   Put c >>= f
-   ```
+* ```haskell
+  Put c >>= f
+  ```
 
-   From the types of `Put` and `Bind`  we note that `f` must have type
+  From the types of `Put` and `Bind`  we note that `f` must have type
 
-   ```haskell
-   () -> m a
-   ```
+  ```haskell
+  () -> m a
+  ```
 
-   which is basically just a value of type `m a`. Another way to think
-   about it is that `Put` does not really return any useful value (the
-   actual "putting" is implemented as a "side-effect"). So the function
-   after bind can ignore its argument.
+  which is basically just a value of type `m a`. Another way to think
+  about it is that `Put` does not really return any useful value (the
+  actual "putting" is implemented as a "side-effect"). So the function
+  after bind can ignore its argument.
 
-   ```haskell
-   Put c >>= \_ -> p ≡ Put c >> p
-   ```
+  ```haskell
+  Put c >>= \_ -> p ≡ Put c >> p
+  ```
 
-   We will now give a name to this new combination
+  We will now give a name to this new combination
 
-   ```haskell
-   PutThen c p ≡ Put c >> p
-   ```
+  ```haskell
+  PutThen c p ≡ Put c >> p
+  ```
 
-   This is a `Program` which starts by printing `c` and the behaves like `p`.
+  This is a `Program` which starts by printing `c` and the behaves like `p`.
 
 * ```haskell
   Get >>= f
@@ -165,7 +166,7 @@
 
   ```haskell
   GetBind f ≡ Get >>= f
-   ```
+  ```
 
 * ```haskell
   Return x >>= f
@@ -175,7 +176,7 @@
 
   ```haskell
   ReturnBind x f ≡ Return x >>= f
-   ```
+  ```
 
   but the first monad law already tells us that this is just `(f x)` so no
   new constructor is needed for this combination.
@@ -200,20 +201,20 @@
   continues behaving as `p`. Similarly, `Get f` reads maybe a character `mc`
   from the input and continues behaving as program `f mc`.
 
-   ```haskell
-   putC :: Char -> Program ()
-   putC c = PutThen c $ Return ()
-   ```
+  ```haskell
+  putC :: Char -> Program ()
+  putC c = PutThen c $ Return ()
+  ```
 
-   Function `putC` writes a character in the output and then it behaves as `Return ()`
+  Function `putC` writes a character in the output and then it behaves as `Return ()`
 
-   ```haskell
-    getC :: Program (Maybe Char)
-    getC = GetBind Return
-   ```
+  ```haskell
+  getC :: Program (Maybe Char)
+  getC = GetBind Return
+  ```
 
-    Function `getC` reads maybe a character from the input and, once that is
-    done, it behaves as `Return ()`
+  Function `getC` reads maybe a character from the input and, once that is
+  done, it behaves as `Return ()`
 
 * The bind is not going to be a part of the `Program` data structure, but rather
   part of the `instance Monad`, i.e., the `bind` is not deeply implemented as a
@@ -223,101 +224,101 @@
 
 * What is the definition for bind?
 
-   ```haskell
-   instance Monad Program where
-      return  = Return
-      (>>=)   = bindP
+  ```haskell
+  instance Monad Program where
+      return = Return
+      (>>=)  = bindP
 
-   bindP :: Program a -> (a -> Program b) -> Program b
-   bindP (PutThen c p)  k   =  ?
-   bindP (GetBind f)    k   =  ?
-   bindP (Return x)     k   =  ?
-   ```
+  bindP :: Program a -> (a -> Program b) -> Program b
+  bindP (PutThen c p)  k   =  ?
+  bindP (GetBind f)    k   =  ?
+  bindP (Return x)     k   =  ?
+  ```
 
-   <div class ="alert alert-info">
-   We can *calculate* the correct definition of bindP using
-   the definitions of `PutThen`, `GetBind`, and the monadic laws!
-   </div>
+  <div class ="alert alert-info">
+  We can *calculate* the correct definition of bindP using
+  the definitions of `PutThen`, `GetBind`, and the monadic laws!
+  </div>
 
-*  ```haskell
-   bindP (Return x) k = ?
-   ```
+* ```haskell
+  bindP (Return x) k = ?
+  ```
 
-   ```haskell
-     bindP (Return x)    k
-   = Def. >>=
-     (Return x) >>= k
-   =  Law 1.  return x >>= f ≡ f x
-     k x
-   ```
+  ```haskell
+    bindP (Return x)    k
+  = Def. >>=
+    (Return x) >>= k
+  =  Law 1.  return x >>= f ≡ f x
+    k x
+  ```
 
-   ```haskell
-   bindP (Return x) k = k x
-   ```
+  ```haskell
+  bindP (Return x) k = k x
+  ```
 
-*  ```haskell
-   bindP (GetBind f) k = ?
-   ```
+* ```haskell
+  bindP (GetBind f) k = ?
+  ```
 
-   ```haskell
-     bindP (GetBind f)   k
-   = Def. of (>>=)
-     (GetBind f) >>=  k
-   = Def. GetBind
-     (Get >>= f) >>=  k
-   = Law 3.  (m >>= f) >>= g  ==  m >>= (\x -> f x >>= g)
-     with m = Get, f = f, g = k
-     Get >>= (\x -> f x >>= k)
-   = Def. GetBind
-     GetBind (\x -> f x >>= k)
-   = Def. of (>>=)
-     GetBind (\x -> bindP (f x) k)
-   ```
+  ```haskell
+    bindP (GetBind f)   k
+  = Def. of (>>=)
+    (GetBind f) >>=  k
+  = Def. GetBind
+    (Get >>= f) >>=  k
+  = Law 3.  (m >>= f) >>= g  ==  m >>= (\x -> f x >>= g)
+    with m = Get, f = f, g = k
+    Get >>= (\x -> f x >>= k)
+  = Def. GetBind
+    GetBind (\x -> f x >>= k)
+  = Def. of (>>=)
+    GetBind (\x -> bindP (f x) k)
+  ```
 
-   ```haskell
-   bindP (GetBind f) k = GetBind (\x -> bindP (f x) k)
-   ```
+  ```haskell
+  bindP (GetBind f) k = GetBind (\x -> bindP (f x) k)
+  ```
 
-*  ```haskell
-     bindP (PutThen c p) k = ?
-   ```
+* ```haskell
+    bindP (PutThen c p) k = ?
+  ```
 
-   ```haskell
-     bindP (PutThen c p) k
-   = { Def. of (>>=) }
-     (PutThen c p) >>= k
-   = { Def. of PutThen }
-     (Put c >> p) >>= k
-   =
-     (Put c >>= \_ -> p) >>= k
-   = Law3 with m = Put c, f = \_->p, g = k
-     Put c >>= (\x -> (\_->p) x >>= k)
-   = simplify
-     Put c >>= (\_ -> p >>= k)
-   = Def. of >>
-     Put c >> (p >>= k)
-   = Def. of PutThen
-     PutThen c (p >>= k)
-   ```
+  ```haskell
+    bindP (PutThen c p) k
+  = { Def. of (>>=) }
+    (PutThen c p) >>= k
+  = { Def. of PutThen }
+    (Put c >> p) >>= k
+  =
+    (Put c >>= \_ -> p) >>= k
+  = Law3 with m = Put c, f = \_->p, g = k
+    Put c >>= (\x -> (\_->p) x >>= k)
+  = simplify
+    Put c >>= (\_ -> p >>= k)
+  = Def. of >>
+    Put c >> (p >>= k)
+  = Def. of PutThen
+    PutThen c (p >>= k)
+  ```
 
-   ```haskell
-   bindP (PutThen c p) k =  PutThen c (bindP p k)
-   ```
+  ```haskell
+  bindP (PutThen c p) k =  PutThen c (bindP p k)
+  ```
 
 * So, we can now complete defining `Program` as a monad
 
-   ```haskell
-   -- | It turns out that bind can still be defined!
-   instance Monad Program where
-     return  = Return
-     (>>=)   = bindP
+  ```haskell
+  -- | It turns out that bind can still be defined!
+  instance Monad Program where
+    return  = Return
+    (>>=)   = bindP
 
-   -- | Bind takes the first argument apart:
-   bindP :: Program a -> (a -> Program b) -> Program b
-   bindP (PutThen c p)  k   =  PutThen c (bindP p k)
-   bindP (GetBind f)    k   =  GetBind (\x -> bindP (f x) k)
-   bindP (Return x)     k   =  k x
-   ```
+  -- | Bind takes the first argument apart:
+  bindP :: Program a -> (a -> Program b) -> Program b
+  bindP (PutThen c p)  k   =  PutThen c (bindP p k)
+  bindP (GetBind f)    k   =  GetBind (\x -> bindP (f x) k)
+  bindP (Return x)     k   =  k x
+  ```
 
 ## A simple monadic EDSL for input/output (shallow embedding)
 
@@ -345,36 +346,38 @@
 
 * We are familiar with the `map` function over lists
   ```haskell
-  map (+1) [2,3,4,5,6] ```
+  map (+1) [2,3,4,5,6]
+  ```
 
   which *applies* the function `(+1)` to every element of the list*, and produces
   the list
 
-  ```haskell [3,4,5,6,7]
+  ```haskell
+  [3,4,5,6,7]
   ```
 
 * We can generalize the concept of `map` to work on trees
 
-   ```haskell
-   data Tree a = Leaf a | Node (Tree a) (Tree a)
+  ```haskell
+  data Tree a = Leaf a | Node (Tree a) (Tree a)
 
-   mapTree :: (a -> b) -> Tree a -> Tree b
-   mapTree f (Leaf a) = Leaf (f a)
-   mapTree f (Node t1 t2) = Node (mapTree f t1)
-                                 (mapTree f t2)
-   ```
+  mapTree :: (a -> b) -> Tree a -> Tree b
+  mapTree f (Leaf a)     = Leaf (f a)
+  mapTree f (Node t1 t2) = Node (mapTree f t1)
+                                (mapTree f t2)
+  ```
 
 * As we did with lists, we can apply the function `(+1)` at every element of the
   data structure.
 
   For instance,
-   ```haskell
-   mapTree (+1) (Node (Leaf 2) ((Node (Node (Leaf 3) (Leaf 4)) (Leaf 5))))
-   ```
+  ```haskell
+  mapTree (+1) (Node (Leaf 2) ((Node (Node (Leaf 3) (Leaf 4)) (Leaf 5))))
+  ```
   produces the following tree.
-   ```haskell
-   Node (Leaf 3) (Node (Node (Leaf 4) (Leaf 5)) (Leaf 6))
-   ```
+  ```haskell
+  Node (Leaf 3) (Node (Node (Leaf 4) (Leaf 5)) (Leaf 6))
+  ```
 
 * In both cases, the structure of the data type (i.e., lists and trees) is preserved
 
@@ -401,7 +404,7 @@
 
   ```haskell
   class Functor d where
-     fmap :: (a -> b) -> d a -> d b
+      fmap :: (a -> b) -> d a -> d b
   ```
 
 * A functor must obey the following laws.
@@ -417,9 +420,9 @@
   <tr>
   <td> Identity: </td>
   <td>
-   ```haskell
-   fmap id ≡ id
-   ```
+  ```haskell
+  fmap id ≡ id
+  ```
   </td>
   </tr>
 
@@ -427,9 +430,9 @@
   <td> Map fusion (or composition): </td>
 
   <td>
-   ```haskell
-   fmap (f . g) ≡ fmap f . fmap g
-   ```
+  ```haskell
+  fmap (f . g) ≡ fmap f . fmap g
+  ```
   </td>
   </tr>
   </table>
@@ -437,52 +440,53 @@
 
 * Let us consider again the `Tree` example
 
-   ```haskell
-   instance Functor Tree where
-     fmap f (Leaf a)     = Leaf (f a)
-     fmap f (Node t1 t2) = Node (fmap f t1) (fmap f t2)
-   ```
+  ```haskell
+  instance Functor Tree where
+    fmap f (Leaf a)     = Leaf (f a)
+    fmap f (Node t1 t2) = Node (fmap f t1) (fmap f t2)
+  ```
   Now, we can write
-   ```haskell
-   (+1) `fmap` (Node (Leaf 2) ((Node (Node (Leaf 3) (Leaf 4)) (Leaf 5))))
-   ```
+  ```haskell
+  (+1) `fmap` (Node (Leaf 2) ((Node (Node (Leaf 3) (Leaf 4)) (Leaf 5))))
+  ```
 
 ## Functors: more examples
 
 * `Maybe` data type
 
-   ```haskell
-   (+1) `fmap` (Just 10)
-   ```
+  ```haskell
+  (+1) `fmap` (Just 10)
+  ```
+
 * Generalized trees
 
-   ```haskell
-   data TreeG a = LeafG a | BranchG [TreeG a]
+  ```haskell
+  data TreeG a = LeafG a | BranchG [TreeG a]
 
-   instance Functor TreeG where
-     fmap f (LeafG a)    = LeafG (f a)
-   ```
+  instance Functor TreeG where
+    fmap f (LeafG a)    = LeafG (f a)
+  ```
 
   What about `BranchG`? We will use the `fmap` from lists!
 
-   ```haskell
-   fmap f (BranchG ts) = BranchG (fmap (fmap f) ts)
-   ```
+  ```haskell
+  fmap f (BranchG ts) = BranchG (fmap (fmap f) ts)
+  ```
   The outermost `fmap` is the one corresponding to lists.
 
   For instance, the expression
-   ```haskell
-   (+1)
-   `fmap` BranchG [LeafG 10,
-                   BranchG [LeafG 11, LeafG 12],
-                   BranchG [LeafG 13, LeafG 14, LeafG 15]]
-    ```
+  ```haskell
+  (+1)
+  `fmap` BranchG [LeafG 10,
+                  BranchG [LeafG 11, LeafG 12],
+                  BranchG [LeafG 13, LeafG 14, LeafG 15]]
+  ```
   produces
-   ```haskell
-   BranchG [LeafG 11,
-           BranchG [LeafG 12, LeafG 13],
-           BranchG [LeafG 14, LeafG 15, LeafG 16]]
-   ```
+  ```haskell
+  BranchG [LeafG 11,
+          BranchG [LeafG 12, LeafG 13],
+          BranchG [LeafG 14, LeafG 15, LeafG 16]]
+  ```
 
 * To summarize:
 
@@ -509,11 +513,12 @@
 * Let us take as an example to see what happens when `fmap` is used with a
   "multi-parameter" function.
 
-   ```haskell
-   mp_fmap :: (a -> b -> c) -> Maybe a -> Maybe b -> Maybe c
-   mp_fmap f ma mb = let m_b_to_c = fmap f ma
-                     in  undefined
-   ```
+  ```haskell
+  mp_fmap :: (a -> b -> c) -> Maybe a -> Maybe b -> Maybe c
+  mp_fmap f ma mb =
+    let m_b_to_c = fmap f ma
+    in  undefined
+  ```
 
   Once we apply `fmap` to the first container, we have a container (`m_b_to_c`)
   with a function of type `b -> c` in it.
@@ -522,23 +527,25 @@
   out of the container `m_b_to_c` and mapped over `mb`**, where its
   next argument is located.
 
-   ```haskell
-   mp_fmap :: (a -> b -> c) -> Maybe a -> Maybe b -> Maybe c
-   mp_fmap f ma mb = let m_b_to_c = fmap f ma
-                     in case m_b_to_c of
-                             Nothing -> Nothing
-                             Just fa -> fmap fa mb
-   ```
+  ```haskell
+  mp_fmap :: (a -> b -> c) -> Maybe a -> Maybe b -> Maybe c
+  mp_fmap f ma mb =
+    let m_b_to_c = fmap f ma
+    in  case m_b_to_c of
+          Nothing -> Nothing
+          Just fa -> fmap fa mb
+  ```
 
   What happens if function `f` had more arguments?
 
    ```haskell
    mp_fmap2 :: (a -> b -> c -> d) -> Maybe a -> Maybe b -> Maybe c -> Maybe d
-   mp_fmap2 f ma mb mc = case fmap f ma of
-                              Nothing -> Nothing
-                              Just fa -> case fmap fa mb of
-                                             Nothing  -> Nothing
-                                             Just fab -> fmap fab mc
+   mp_fmap2 f ma mb mc =
+     case fmap f ma of
+       Nothing -> Nothing
+       Just fa -> case fmap fa mb of
+          Nothing  -> Nothing
+          Just fab -> fmap fab mc
    ```
 
   We would need to implement more code to extract partial application of
@@ -554,15 +561,15 @@
 
    ```haskell
    class Functor d => Applicative d where
-        pure  :: a -> d a
-        (<*>) :: d (a -> b) -> d a -> d b
+       pure  :: a -> d a
+       (<*>) :: d (a -> b) -> d a -> d b
    ```
 
 * Observe that an applicative functor **is** a functor
 
 * The pure operation creates a container with the given argument. The interesting
-   operation is "application" `(<*>)`, which we can describe it graphically as
-   follows
+  operation is "application" `(<*>)`, which we can describe it graphically as
+  follows:
 
   <div class="container">
      <img class="img-responsive col-md-9"
@@ -585,9 +592,9 @@
   <tr>
   <td> Identity: </td>
   <td>
-   ```haskell
-   pure id <&#42;> vv ≡ vv
-   ```
+  ```haskell
+  pure id <&#42;> vv ≡ vv
+  ```
   </td>
   </tr>
 
@@ -595,9 +602,9 @@
   <td> Composition: </td>
 
   <td>
-   ```haskell
-   pure (.) <&#42;> ff <&#42;> gg <&#42;> zz ≡ ff <&#42;> (gg <&#42;> zz)
-   ```
+  ```haskell
+  pure (.) <&#42;> ff <&#42;> gg <&#42;> zz ≡ ff <&#42;> (gg <&#42;> zz)
+  ```
   </td>
   </tr>
 
@@ -605,9 +612,9 @@
   <td> Homomorphism: </td>
 
   <td>
-   ```haskell
-   pure f <&#42;> pure v ≡ pure (f v)
-   ```
+  ```haskell
+  pure f <&#42;> pure v ≡ pure (f v)
+  ```
   </td>
   </tr>
 
@@ -615,9 +622,9 @@
   <td> Interchange: </td>
 
   <td>
-   ```haskell
-   ff <&#42;> pure v ≡ pure ($ v) <&#42;> ff
-   ```
+  ```haskell
+  ff <&#42;> pure v ≡ pure ($ v) <&#42;> ff
+  ```
   </td>
   </tr>
 
@@ -630,11 +637,12 @@
   One of the most interesting rules is *interchange*. Before explaining it, let
   us see the types of the expressions involved.
 
-   ```haskell
-   ff :: d (a -> b)
-   vv :: d a
-   pure ($ v) :: d ((a -> b) -> b)
-   ```
+  ```haskell
+  ff :: d (a -> b)
+  vv :: d a
+  pure ($ v) :: d ((a -> b) -> b)
+  ```
+
   The rule says that instead of obtaining a `d b` as `ff <*> pure v`, where
   ``ff`` is a container with a function and `pure v` is its argument, it is
   possible to apply function `($ v)` to the container `ff`.
@@ -644,15 +652,15 @@
 * Let us go back to our example using `Maybe`
 
   ```haskell
-   instance Functor Maybe where
+  instance Functor Maybe where
       fmap f Nothing  = Nothing
       fmap f (Just a) = Just (f a)
 
-   instance Applicative Maybe where
-       pure           = Just
-       Nothing <*> vv = Nothing
-       Just f  <*> vv = fmap f vv
-   ```
+  instance Applicative Maybe where
+      pure           = Just
+      Nothing <*> vv = Nothing
+      Just f  <*> vv = fmap f vv
+  ```
 
 * What can we do now with that?
 
@@ -695,18 +703,18 @@
 
 * Observe what we have written using the applicative functor `Maybe`
 
-   ```haskell
-   pure (++) <*> xx <*> yy
-   ```
+  ```haskell
+  pure (++) <*> xx <*> yy
+  ```
 
 * If we consider `Maybe` as a monad instead (which we defined in the previous lecture), we can
   achieve the same things.
 
-   ```haskell
-   do x <- xx
-      y <- yy
-      return (x ++ y)
-   ```
+  ```haskell
+  do x <- xx
+     y <- yy
+     return (x ++ y)
+  ```
 
 * What is the difference between `Maybe` as an applicative functor or a monad?
 
@@ -717,7 +725,7 @@
 
   <div class = "alert alert-info">
   The difference between monad and applicative functors is the difference
-  between *sequential* vs. *parallel* execution of side-effects
+  between *sequential* vs. *parallel* execution of side-effects.
   </div>
 
 * To appreciate this difference, let us consider a dramatic side-effect:
@@ -780,10 +788,10 @@
   From GHC 7.10, if you define a monad, i.e., give an instance of the type class
   `Monad`, you also need to give an instance of `Applicative` and `Functor`
 
-   ```haskell
-   class Functor d     => Applicative d where
-   class Applicative d => Monad d       where
-   ```
+  ```haskell
+  class Functor d     => Applicative d where
+  class Applicative d => Monad d       where
+  ```
 
   In GHC 7.8, you get a warning but your program still compiles. For more
   information check the
@@ -796,13 +804,13 @@
 
 * Not every data type is a functor
 
-   ```haskell
-   type NotAFunctor = Equal
-   newtype Equal a = Equal {runEqual :: a -> a -> Bool}
+  ```haskell
+  type NotAFunctor = Equal
+  newtype Equal a = Equal {runEqual :: a -> a -> Bool}
 
-   fmapEqual :: (a -> b) -> Equal a -> Equal b
-   fmapEqual _f (Equal _op) = Equal $ \_b1 _b2 -> error "Hopeless!"
-   ```
+  fmapEqual :: (a -> b) -> Equal a -> Equal b
+  fmapEqual _f (Equal _op) = Equal $ \_b1 _b2 -> error "Hopeless!"
+  ```
 
 * What is the problem?
 
@@ -825,11 +833,11 @@
 
 * If we want to create a container, we need an `r` but `pure` only receives an `a`
 
-   ```haskell
-   instance Applicative (Pair r) where
-       pure x  = P (error "Hopeless!") x
-       f <*> v = error "Hopeless!"
-   ```
+  ```haskell
+  instance Applicative (Pair r) where
+      pure x  = P (error "Hopeless!") x
+      f <*> v = error "Hopeless!"
+  ```
 
 ## Applicative, not a monad
 
@@ -839,63 +847,63 @@
 
 * Every monoid is a *phantom applicative functor*
 
-   ```haskell
-   newtype Phantom o a =  Phantom o
-   ```
+  ```haskell
+  newtype Phantom o a =  Phantom o
+  ```
 
-   Here, the type `o` is an element from a monoid. Roughly speaking, a monoid is
-   a set of elements which contains a *neutral* element and an operation between
-   the elements of such set.
+  Here, the type `o` is an element from a monoid. Roughly speaking, a monoid is
+  a set of elements which contains a *neutral* element and an operation between
+  the elements of such set.
 
-   ```haskell
-    mempty  :: o
-    mappend :: o -> o -> o
-   ```
+  ```haskell
+  mempty  :: o
+  mappend :: o -> o -> o
+  ```
 
-    The neutral element has no effect on the result produced by `mappend`, i.e.,
-    `mappend mempty o == o` and `mappend o mempty == o`
+  The neutral element has no effect on the result produced by `mappend`, i.e.,
+  `mappend mempty o == o` and `mappend o mempty == o`
 
 * We declare `Phantom` to be a functor and an applicative functor as follows.
 
   ```haskell
-   instance Functor (Phantom o) where
-      fmap f (Phantom o) = Phantom o
+  instance Functor (Phantom o) where
+     fmap f (Phantom o) = Phantom o
 
-   instance Monoid o => Applicative (Phantom o) where
-      pure x = Phantom mempty
-      Phantom o1 <*> Phantom o2 = Phantom (mappend o1 o2)
-   ```
+  instance Monoid o => Applicative (Phantom o) where
+     pure x = Phantom mempty
+     Phantom o1 <*> Phantom o2 = Phantom (mappend o1 o2)
+  ```
 
-   Observe that every application of `<*>` applies `mappend`.
+  Observe that every application of `<*>` applies `mappend`.
 
 * To make this idea more concrete, let us define a concrete monoid: natural
   numbers.
 
-   ```haskell
-   data Nat = Zero | Suc Nat
+  ```haskell
+  data Nat = Zero | Suc Nat
 
-   instance Monoid Nat where
-      mempty            = Zero
-      mappend Zero    m = m
-      mappend (Suc n) m = Suc (mappend n m)
-   ```
+  instance Monoid Nat where
+     mempty            = Zero
+     mappend Zero    m = m
+     mappend (Suc n) m = Suc (mappend n m)
+  ```
 
-   Function `mappend` is simply addition.
+  Function `mappend` is simply addition.
 
-   Let us define the `Phantom` number one.
+  Let us define the `Phantom` number one.
 
-   ```haskell
-   onePhantom :: Phantom Nat Int
-   onePhantom = Phantom (Suc Zero)
-   ```
+  ```haskell
+  onePhantom :: Phantom Nat Int
+  onePhantom = Phantom (Suc Zero)
+  ```
 
-   In some cases, when `onePhantom` is applied to an applicative function, it
-   counts the total number of its occurrences.
+  In some cases, when `onePhantom` is applied to an applicative function, it
+  counts the total number of its occurrences.
 
-   ```haskell
-   (\x y -> x) <$> onePhantom <*> onePhantom
-   > Phantom (Suc (Suc Zero))
-   ```
+  ```haskell
+  (\x y -> x) <$> onePhantom <*> onePhantom
+  > Phantom (Suc (Suc Zero))
+  ```
 
 * Let us try to define `Phantom Nat` as a monad
 
@@ -913,10 +921,10 @@
   Observe that `n :: Nat` and `k` is waiting for an argument of type `a` and we
   have none! To make our instance type-checked, we ignore `k`.
 
-   ```haskell
-   Phanton n >>= k = Phanton m
-       where m = ...
-   ```
+  ```haskell
+  Phanton n >>= k = Phanton m
+      where m = ...
+  ```
 
   You are free to choose the `m` in the returned `Phantom`!
 
@@ -955,30 +963,30 @@
   - **Sequential** construction of programs
 
   - Useful to implement side-effects (e.g., error handling, logging, stateful
-    computations, etc.)
+    computations, etc.).
 
-      * **Simplify code**, i.e., it hides plumbing needed to handle the side-effects
+      * **Simplify code**, i.e., it hides plumbing needed to handle the side-effects.
 
 * Applicative functors
 
-   - Useful to apply "multi-parameter" functions to multiple container
-     arguments
+  - Useful to apply "multi-parameter" functions to multiple container
+    arguments.
 
-       * **Simplify code**, i.e., it hides the plumbing needed to take out functions and
-         their arguments from containers, applying the function, and place the
-         result back in a container.
+      * **Simplify code**, i.e., it hides the plumbing needed to take out functions and
+        their arguments from containers, applying the function, and place the
+        result back in a container.
 
-   - Side-effects could potentially be executed in parallel
+  - Side-effects could potentially be executed in parallel.
 
-   - They are more generic than monads
+  - They are more generic than monads.
 
 * Functors
 
-   - Useful to map functions into containers, i.e., transform data inside
-     containers without breaking them.
+  - Useful to map functions into containers, i.e., transform data inside
+    containers without breaking them.
 
-       * **Simplify code**, i.e., it hides the plumbing of destructing the
-         container to obtain the value, apply the function, and put the result
-         in a container.
+      * **Simplify code**, i.e., it hides the plumbing of destructing the
+        container to obtain the value, apply the function, and put the result
+        in a container.
 
-   - The most general structure
+  - The most general structure
