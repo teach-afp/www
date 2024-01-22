@@ -1,6 +1,8 @@
 Deadlines
 =========
 
+See calendar on Canvas course page.
+<!--
 <table class="table table-bordered">
 <thead>
 <tr>
@@ -19,6 +21,7 @@ Deadlines
     <td class="alert-info">Sunday, February 4th (course week 3)</td>
 </tr>
 </table>
+-->
 
 
 Description
@@ -29,23 +32,26 @@ graphics. The library will be interfaced to as an embedded language. Several
 extensions are then made to the original turtle language.
 
 We recommend that you implement the graphics part of the lab using
-[HGL](https://hackage.haskell.org/package/HGL), a simple graphics library with
-just enough features for this assignment. If you prefer (or if you plan on using
-3D) you may use one of the [OpenGL](https://wiki.haskell.org/OpenGL) libraries
-or you may use [gtk2hs](https://wiki.haskell.org/Gtk2Hs). If you would like to
-use a different graphics library please ask before starting the assignment.
+[gloss](https://hackage.haskell.org/package/gloss),
+a high-level interfact to the OpenGL library.
+You may prefer working more directly with OpenGL through
+[GLUT](https://hackage.haskell.org/package/GLUT).
+A third alternative is to use the simple graphics library
+[HGL](https://hackage.haskell.org/package/HGL),
+yet it only works on X11 and no longer on Windows nowadays.
+If you would like to use a different graphics library please ask before starting the assignment.
 
 
 Turtle graphics
 ===============
 
 The idea of turtle graphics was originally part of the [Logo programming
-language](https://en.wikipedia.org/wiki/Logo_%28programming_language%29). It
-originated from an environment where a real robot (the "turtle") could move
-around and act on simple commands. It was successfully used at MIT to teach
-children to learn programming ([check this blog post to see
-why](https://originzx.wordpress.com/2015/09/23/logo-a-programming-language-for-children-with-visionary-ideas/)). The
-two basic commands it understood were:
+language](https://en.wikipedia.org/wiki/Logo_%28programming_language%29).
+It originated from an environment where a real robot (the "turtle") could move
+around and act on simple commands.
+It was successfully used at MIT to teach children to learn programming
+([check this blog post to see why](https://originzx.wordpress.com/2015/09/23/logo-a-programming-language-for-children-with-visionary-ideas/)).
+The two basic commands it understood were:
 
 ```haskell
 forward n
@@ -60,53 +66,50 @@ right d
 Here, `n` is the number of steps the robot should move forward, and `d` the
 number of degrees the robot should turn. More information can be found on the
 [Turtle graphics wikipedia page](https://en.wikipedia.org/wiki/Turtle_graphics)
-(or in a local copy of the [Logo
-primer](./assets/files/logo_primer_2007.pdf)). The
-idea is that you will implement a part of this turtle graphics language. Your
-program will be able to produce something like the following output:
+(or in a local copy of the [Logo primer](./assets/files/logo_primer_2007.pdf)).
+The idea is that you will implement a part of this turtle graphics language.
+Your program will be able to produce something like the following output:
 
 <img class="img-responsive"
-     src="./assets/img/turtle-tree.gif"
->
+     src="./assets/img/turtle-tree.gif"/>
 
 Below are a number of tasks. Needless to say, please *read these carefully* and
 make sure you do not miss parts of an assignment!
 
 Most assignments require coding and descriptions with motivations of what you
-have done. Most of the descriptions should be in the form of [Haddock
-comments](https://www.haskell.org/haddock/) for modules and functions. There are
-also several questions in this description, make sure you answer all of them in
-your report.
+have done.
+Most of the descriptions should be in the form of
+[Haddock comments](https://www.haskell.org/haddock/) for modules and functions.
+There are also several questions in this description, make sure you answer
+all of them in your report.
 
 
 Part I
 ======
 
-The first part of this assignment is just to get you started. You should get
-started on Part II before the deadline for Part I.
+The first part of this assignment is just to get you started.
+You should get started on Part II before the deadline for Part I.
 
 Task 1: Free code!
 ------------------
 
-Download and unpack this [stub cabal
-package](https://github.com/teach-afp/afp-code/blob/master/assignment1/turtle-graphics/)
-or the [OpenGL/GLUT
-version](https://github.com/teach-afp/afp-code/blob/master/assignment1/turtle-graphics-glut/). The
-archive contains a file structure and some useful code snippets for you to build
+Download and unpack this
+[stub Haskell package](https://github.com/teach-afp/afp-code/blob/master/assignment1/turtle-graphics-gloss/)
+(there are also
+[GLUT](https://github.com/teach-afp/afp-code/blob/master/assignment1/turtle-graphics-glut/)
+and [HGL](https://github.com/teach-afp/afp-code/blob/master/assignment1/turtle-graphics-HGL/)
+available).
+The package contains a file structure and some useful code snippets for you to build
 your implementation on. You are free to modify the package however you wish or
 build a new package from scratch, but if you deviate significantly from the
 structure in the stub file you may want to explain why your version is an
 improvement.
 
-Make sure "cabal configure", "cabal build" and "cabal haddock" works (switch the
-contents of the files to match the graphics framework you are using if not
-HGL). Look through the contents of the package and the generated documentation,
-run the generated executable and make sure it works. Fill in or replace the
-fields in the .cabal file with the appropriate information.
+Make sure `stack build` works.
+Look through the contents of the package and the generated documentation,
+run the generated executable with `stack run coolturtle` and make sure it works.
 
-Familiarise yourself with the graphics library you are using by writing a simple
-program which opens a window and draws something in it (the provided code
-already does this for HGL, but make sure you understand how it is used).
+Familiarise yourself with the graphics library you are using by studing the example program (and maybe extend it to your liking).
 
 Task 2: Library interface
 --------------------------
@@ -125,20 +128,23 @@ For instance, your library might define and export the following things
 functionality):
 
 ```haskell
-Program                      -- the *abstract* type of a turtle program
-forward :: Double -> Program -- move forward the given number of steps
-right   :: Double -> Program -- turn right the given number of degrees
+type Program                   -- the *abstract* type of a turtle program
+forward :: Distance -> Program -- move forward the given distance
+right   :: Angle    -> Program -- turn right the given number of degrees
+
+type Distance                  -- suitable numeric type
+type Angle                     -- suitable numeric type
 ```
 
 Other turtle commands you should provide are:
 - `penup` and `pendown`: stop drawing and start drawing respectively,
 - `color`: changes the color of the turtle's pen,
-- `die`: "kills" the turtle (rendering it unable to perform any more actions),
-- `idle`: a program that does nothing,
+- `quit`: retires the turtle (rendering it unable to perform any more actions),
+- `nop`: a program that does nothing,
 - `limited`: makes the turtle stop what it is doing after a specified period of
    time (by some definition of time not directly related to minutes and
    seconds),
-- `lifespan`: kills the turtle after a specified period of time,
+- `lifespan`: retires the turtle after a specified period of time,
 - `backward` and `left`: self explanatory,
 - `times`: repeats a turtle program a certain number of times, and
 - `forever`: that repeats a program forever.
@@ -171,21 +177,21 @@ Write down the `spiral` example from the Logo programming language using your
 interface. In their syntax it looks like:
 
 <div class="row">
-        <div class="col-md-6">
-          <img class="img-responsive"
-               src="./assets/img/turtle-spiral.gif"
-          >
-        </div>
-        <div class="col-md-6">
+  <div class="col-md-6">
+    <img class="img-responsive"
+         src="./assets/img/turtle-spiral.gif"
+    >
+  </div>
+  <div class="col-md-6">
 ```bash
 to spiral :size :angle
-        if :size > 100 [stop]
-        forward :size
-        right :angle
-        spiral :size + 2 :angle
+    if :size > 100 [stop]
+    forward :size
+    right :angle
+    spiral :size + 2 :angle
 end
 ```
-        </div>
+  </div>
 </div>
 
 You will not be able to run your spiral example yet, but it should type check.
@@ -316,7 +322,7 @@ higher-order functions, laziness, polymorphism?
   consider the following:
 
 * How do `(<|>)` and `(>*>)` interact?
-* How do `idle` and `die` interact with your combinators?
+* How do `nop` and `quit` interact with your combinators?
 * How do `forever` and `times` interact with your combinators?
 * Can you find any law that is unexpected, unintuitive or undesired, but follows from your operators?
 
