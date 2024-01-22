@@ -363,13 +363,13 @@ important*, and simply the polite thing to do. After you feel you are done, spen
 some time on cleaning your code; make it simpler, remove unnecessary things,
 etc. We will reject your solution if it is not clean. Clean code:
 
-* Does not have long (> 80 characters) lines
-* Has a consistent layout
-* Has type signatures for all top-level functions
+* Does not have long (> 80 characters) lines.
+* Has a consistent layout.
+* Has type signatures for all top-level functions.
 * Has good comments for all modules, functions, data types and instances. The comments should look good when compiled to HTML with Haddock.
-* Has no junk (junk is unused code, code which is commented out, unnecessary comments)
-* Has no overly complicated function definitions
-* Does not contain any repetitive code (copy-and-paste programming)
+* Has no junk (junk is unused code, code which is commented out, unnecessary comments).
+* Has no overly complicated function definitions.
+* Does not contain any repetitive code (copy-and-paste programming).
 
 What to submit
 --------------
@@ -392,7 +392,7 @@ What to submit
 Where to submit
 ---------------
 
-Go to [the Fire System](https://afp-lp3-18.frs.cse.chalmers.se/)!
+On the Canvas course page.
 
 
 Grading
