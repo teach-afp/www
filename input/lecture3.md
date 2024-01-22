@@ -111,8 +111,8 @@
 
 * Basically, the results of **every recursive call*** needs to be inspected to
   obtain the corresponding logs.
-* Consider what would happen if `Expr` had many other recursive constructors
-* One possible *run* function
+* Consider what would happen if `Expr` had many other recursive constructors.
+* One possible *run* function:
   ```haskell
   runL :: Expr -> IO ()
   runL e = do
@@ -256,7 +256,7 @@
   handle or affect the side-effectful part of the computation (in the case
   above, the failure!)
 
-* One possible `run` function (same as `runE`):
+* The run function is mostly unchanged:
   ```haskell
   m_runE :: Expr -> IO ()
   m_runE e = case m_interpE e of
@@ -434,26 +434,24 @@
   </table>
 
   <div class="alert alert-info">
-    **Exercise**: Check that `E` and `L` respects these laws.
+    <b>Exercise</b>: Check that <code>E</code> and <code>L</code> respects these laws.
   </div>
 
 * **Terminology**
   - *Monadic* simply means pertaining to monads.
-    - A monadic type `M` means that it is an instance of the `Monad` type class;
-      a monadic value has a monadic type.
+  - A *monadic type* has the form `m a` where `m` is an instance of the `Monad` type class;
+    a *monadic value* has a monadic type.
 
 * **Notation**
 
-  Writing code with the bind might be unfamiliar and it requires indentation at
-  every application of `(>>=)` to keep the code readable.
-
+  Writing code with bind can look bloated:
   ```haskell
   m1 >>= \ r1 ->
-     m2 >>= \ r2 ->
-        m3
+  m2 >>= \ r2 ->
+  m3
   ```
 
-  Haskell supports *do-notation*, a more familiar manner to write monadic code.
+  Haskell supports *do-notation*, to write monadic code in "imperative style".
 
   ```haskell
   do r1 <- m1
@@ -464,8 +462,8 @@
   Similarly,
   ```haskell
   m1 >>
-    m2 >>= \ r2 ->
-       m3
+  m2 >>= \ r2 ->
+  m3
   ```
   can be written as
   ```haskell
@@ -474,7 +472,7 @@
      m3
   ```
 
-## Revised interpreters
+## Revising interpreters with do-notation
 
 * Error handling
 
@@ -505,23 +503,24 @@
      return (i1 `div` i2)
   ```
 
-* It looks and feel like imperative programming (**but it is not!**)
+* It looks and feels like imperative programming (**but it is not!**)
 * Monads alleviate all the *explicit data flow* required to implement error
   handling and logging.
 
 ## Monads and EDSL?
 
 * In our examples above, we talk about monadic types, constructors, combinators,
-  non-proper morphisms, and run functions
+  non-proper morphisms, and run functions:
 
   ```haskell
   -- Types
-  data E Expr
+  data E Int
+
   -- Constructors
-  return :: a -> E Expr
-  abort  :: E Expr
+  return :: Int -> E Int
+  abort  :: E Int
   -- Combinators
-  (>>=) :: E Expr -> (a -> E Expr) -> E Expr
+  (>>=) :: E Int -> (Int -> E Int) -> E Int
   -- Run function
   m_runE :: Expr -> IO()
   ```
@@ -529,7 +528,7 @@
   The type `E` and monadic operations `return` and `(>>=)` are *polymorphic*; in
   fact, monads require them to be (recall the type class `Monad`). However, when
   instantiate them to the type that we are interested in, i.e., in this case
-  `Expr`, we have a **EDSL**!
+  `Int`, we have a **EDSL**!
 
 * <div class="alert alert-info">
   Monads are also useful to define EDSL in Haskell, but not every EDSL is
@@ -588,7 +587,8 @@
       to_semantics :: E_deep a -> E a
       to_semantics (Return i) = Value i
       to_semantics  Abort     = Wrong
-      to_semantics (Bind m f) = case to_semantics m of
+      to_semantics (Bind m f) =
+        case to_semantics m of
           Wrong   -> Wrong
           Value i -> to_semantics (f i)
   ```
@@ -597,10 +597,10 @@
 ## Stateful computations
 
 * There is no more imperative feature like having a global state and transforming
-  it during a computation
+  it during a computation.
 
-* Imagine that we want to count the number of division in our interpreter
-  - This could be useful for future optimization
+* Imagine that we want to count the number of divisions in our interpreter.
+  - This could be useful for future optimizations.
 
 * Assuming that we have a *unique global counter*, we would like to have a code
   like the following:
@@ -665,7 +665,7 @@
 * An instruction produces some result, but also read or write into the state.
 
 * Separating the reading and writing actions in the state, we can draw the
-  graphic above as follows
+  graphics above as follows:
 
   <div class="container">
      <img class="img-responsive col-md-8"
@@ -690,7 +690,7 @@
   put s = MkSt $ \_ -> ((),s)
 
   instance Monad (St s) where
-    return x       = MkSt $ \ s -> (x,s)
+    return x = MkSt $ \ s -> (x,s)
   ```
 
   Function `get` just places the state (receiving as an argument) as the result
@@ -711,13 +711,13 @@
   </div>
 
   ```haskell
-  (MkSt m) >>= k = MkSt $ \ s_1 -> let
+  MkSt m >>= k = MkSt $ \ s_1 -> let
       (a, s_2) = m s_1
       MkSt k_m = k a
     in k_m s_2
   ```
 
-* A possible `run` function
+* A possible `run` function:
 
   ```haskell
   m_runS :: Expr -> IO ()
@@ -745,7 +745,7 @@
   - Security
   - Probability programming
   - Non-determinism
-  - Software transnational memory
+  - Software transactional memory
 
   We will see more of these monads later in the course.
 
