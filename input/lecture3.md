@@ -6,6 +6,11 @@
 
 # Monads
 
+Recommended reading:
+Philip Wadler,
+[Monads for functional programming](https://homepages.inf.ed.ac.uk/wadler/papers/marktoberdorf/baastad.pdf).
+In Advanced Functional Programming, First International Spring School on Advanced Functional Programming Techniques, Båstad, Sweden, May 24-30, 1995.
+
 ## Some programming features in imperative languages
 * Error handling
   - Exceptions (e.g., Java)
