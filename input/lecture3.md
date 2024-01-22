@@ -1,8 +1,7 @@
 <div class="alert alert-info">
-  The examples in this lecture run in GHC <= version 7.8. If you have GHC
-  >= version 7.10, you need some extra lines — see the source code — to make
-  it work. However, you do not need to understand them. We will cover the reason
-  for such extra lines in the next lecture.
+  Since GHC 7.10 `Monad` instances need to be accompanied by `Applicative` instances
+  which in turn need `Functor` instances.  These are missing from this presentation,
+  but are present in the full source code for this lectures.
 </div>
 
 # Monads
@@ -31,16 +30,15 @@
         i1 = interp e1
         i2 = interp e2
 
-    -- | Succesful division
-    ex_ok = interp $ Div (Con 10) (Con 5)
+    -- | Successful division.
+    ex_ok = Div (Con 10) (Con 5)
     ```
 
   - What if we accidentally divide a number by `0`?
     ```haskell
-    -- | Crashing!
-    ex_crash = interp $ Div (Con 1) (Con 0)
+    -- | Crashing 'interp'!
+    ex_crash = Div (Con 1) (Con 0)
     ```
-    Everything crashes!
 
 ## Handling errors explicitly
 
@@ -50,10 +48,12 @@
       If something goes wrong, the *whole* computation aborts!
   </div>
 
-  (We do not consider recovery options)
+  (We do not consider recovery options.)
 - Let us modify the interpreter to implement our error handling mechanism
   ```haskell
-  data E a = Value a | Wrong
+  data E a
+    = Value a   -- ^ Regular result.
+    | Wrong     -- ^ Exception.
 
   interpE :: Expr -> E Int
   interpE (Con i)     = Value i
@@ -68,8 +68,8 @@
             else Value $ i1 `div` i2
   ```
 
-* Basically, **every recursive call needs to be checked for errors**! If one of
-  them fails, then the program should abort.
+* Basically, **every recursive call needs to be checked for errors**!
+  If one of them fails, then the program should abort.
 * Consider what would happen if `Expr` had many other recursive constructors.
 * One possible `run` function:
 
@@ -92,20 +92,21 @@
 
 - Let us modify the interpreter to log the number of divisions.
   ```haskell
-  data L a = L (a, [String])
+  data L a = L a [String]
 
   interpL :: Expr -> L Int
-  interpL (Con i)      = L (i, ["-- Hit Con --\n"])
-  interpL (Div e1 e2)  = L (i1 `div` i2, concat
-                            [ [ "-- Hit a Div --\n" ]
-                            , [ "** Left recursive call**\n" ]
-                            , msgs1
-                            , [ "** Right recursive call**\n" ]
-                            , msgs2
-                            ])
+  interpL (Con i)      = L i ["-- Hit Con --"]
+  interpL (Div e1 e2)  =
+    L (i1 `div` i2) $ concat
+      [ [ "-- Hit a Div --" ]
+      , [ "** Left recursive call **" ]
+      , msgs1
+      , [ "** Right recursive call **" ]
+      , msgs2
+      ]
   where
-    L (i1, msgs1) = interpL e1
-    L (i2, msgs2) = interpL e2
+    L i1 msgs1 = interpL e1
+    L i2 msgs2 = interpL e2
   ```
 
 * Basically, the results of **every recursive call*** needs to be inspected to
@@ -115,12 +116,12 @@
   ```haskell
   runL :: Expr -> IO ()
   runL e = do
-      putStr "The result is:"
+      putStr "The result is: "
       putStrLn $ show i
       putStrLn "Log:"
-      putStrLn $ show msgs
+      mapM_ putStrLn msgs
     where
-      L (i,msgs) = interpL e
+      L i msgs = interpL e
   ```
 
 ## Side-effects & pure functional programming
@@ -146,15 +147,11 @@
 
 ## Monads
 * What are monads?
-  - Special data structures useful to write programs
-  - Any program?
-    <div class="alert alert-info">
-     Programs with side-effects!
-    </div>
+  - Structures useful to write programs with side effects.
 
-* What is so special about such data types?
+* What is so special about them?
     <div class="alert alert-danger">
-     It is general (supports many different side-effects).
+     They is general (support many different side-effects).
     </div>
     <div class="alert alert-danger">
      Monads hide the plumbing (simplifies code).
@@ -196,12 +193,12 @@
       src="./assets/img/monad_seq_type_instr.png">
     </div>
 
-* What is the type of the connector `(>>=)`?
-
     <div class="container">
      <img class="img-responsive col-md-6"
       src="./assets/img/monad_bind.png">
     </div>
+
+* What is the type of the connector `(>>=)`?
 
     <div class="container">
      <img class="img-responsive col-md-10"
@@ -224,12 +221,12 @@
   data E a = Value a | Wrong
   ```
 
-* Is `E a` a monad? Is `E a` such special data type?
+* Is `E a` a monad?
   - Not yet, we need to define the connector `(>>=)`.
   - Furthermore, monads have another primitive: `return`.  This primitive takes
     a value and *constructs an instruction that does nothing but producing that
-    value*!
-* In Haskell, a data type is a monad if `return` and `(>>=)` are provided
+    value*.
+* In Haskell, a type constructor `m` is a monad if `return` and `(>>=)` are provided:
 
   ```haskell
   class Monad m where
@@ -242,10 +239,11 @@
   ```haskell
   instance Monad E where
     return = Value
+
     Wrong   >>= f = Wrong
     Value a >>= f = f a
-
-  Monad `E` is known as the `Maybe` monad!
+  ```
+  Monad `E` is known as the `Maybe` monad.
 
 * We need to add a primitive to make everything fail:
 
@@ -273,8 +271,8 @@
   m_interpE :: Expr -> E Int
   m_interpE (Con i)     = return i
   m_interpE (Div e1 e2) =
-      m_interpE e1 >>= \i1 ->
-      m_interpE e2 >>= \i2 ->
+      m_interpE e1 >>= \ i1 ->
+      m_interpE e2 >>= \ i2 ->
       if i2 == 0 then abort
       else return (i1 `div` i2)
   ```
@@ -287,10 +285,10 @@
 
 
 ## Logging
-* We would like to be able to control what information gets logged
+* We would like to be able to control what information gets logged.
 
 * We want to implement the side-effect of logging, i.e., the program computes
-  the result of arithmetic expressions and, as a side-effects, generates a log
+  the result of arithmetic expressions and, as a side-effect, generates a log
   of messages.
 
    <div class="container">
@@ -299,39 +297,40 @@
    </div>
 
 
-* Let us define `return` and `(>>=)` for `L`
+* Let us define `return` and `(>>=)` for `L`:
 
   ```haskell
   instance Monad L where
-    return x          = L (x, [])  -- recall the identity laws!
-    L (x, msgs) >>= f = case f x of
-        L (x, msgs') -> L (x, msgs ++ msgs')
+    return x       = L x []
+    L x msgs >>= f =
+      case f x of
+        L y msgs' -> L y (msgs ++ msgs')
   ```
 
-  - Function `return` produces the empty lists (recall the monadic laws)
+  - Function `return` produces the empty lists of logs (recall the monadic laws)
   - Function `(>>=)` concatenates the *logs*
 
 * We need to implement a *non-proper morphism* which writes into the log -- we
-  call it `msg`
+  call it `msg`.
 
   ```haskell
   msg :: String -> L ()
-  msg m = L ((), [m])
+  msg m = L () [m]
   ```
 
 * Let us rewrite the interpreter using the monad `L`
 
   ```haskell
   m_interpL (Con i) = do
-      msg "-- Hit Con --\n"
+      msg "-- Hit Con --"
       return i
 
   m_interpL (Div e1 e2) =
-      msg "-- Hit a Div --\n"           >>= \ _  ->
-      msg "** Left recursive call**\n"  >>= \ _  ->
+      msg "-- Hit a Div --"             >>= \ _  ->
+      msg "** Left recursive call **"   >>= \ _  ->
       m_interpL e1                      >>= \ i1 ->
-      msg "** Right recursive call**\n" >>= \ _  ->
-      m_interpL' e2                     >>= \ i2 ->
+      msg "** Right recursive call **"  >>= \ _  ->
+      m_interpL e2                      >>= \ i2 ->
       return (i1 `div` i2)
   ```
 
@@ -359,24 +358,24 @@
 
   ```haskell
   m_interpL (Div e1 e2) =
-      msg "-- Hit a Div --\n"           >>
-      msg "** Left recursive call**\n"  >>
+      msg "-- Hit a Div --"             >>
+      msg "** Left recursive call **"   >>
       m_interpL e1                      >>= \ i1 ->
-      msg "** Right recursive call**\n" >>
+      msg "** Right recursive call **"  >>
       m_interpL e2                      >>= \ i2 ->
       return (i1 `div` i2)
   ```
 
-* One possible *run* function
+* The run function is mostly unchanged.
   ```haskell
   m_runL :: Expr -> IO ()
   m_runL e = do
       putStr "Result: "
       putStrLn $ show result
       putStrLn "Messages:"
-      putStrLn $ concat log
+      mapM_ putStrLn log
     where
-      L (result,log) = m_interpL e
+      L result log = m_interpL e
   ```
 
 
@@ -427,7 +426,7 @@
   <td> Associativity: </td>
   <td>
   ```haskell
-  (m >>= f) >>= g ≡ m >>= (\x -> f x >>= g)
+  (m >>= f) >>= g ≡ m >>= (\ x -> f x >>= g)
   ```
   </td>
   </tr>
@@ -449,8 +448,8 @@
   every application of `(>>=)` to keep the code readable.
 
   ```haskell
-  m1 >>= \r1 ->
-     m2 >>= \r2 ->
+  m1 >>= \ r1 ->
+     m2 >>= \ r2 ->
         m3
   ```
 
@@ -465,7 +464,7 @@
   Similarly,
   ```haskell
   m1 >>
-    m2 >>= \r2 ->
+    m2 >>= \ r2 ->
        m3
   ```
   can be written as
@@ -494,14 +493,14 @@
   ```haskell
   m_interpL :: Expr -> L Int
   m_interpL (Con i)     = do
-     msg "-- Hit Con --\n"
+     msg "-- Hit Con --"
      return i
 
   m_interpL (Div e1 e2) = do
-     msg "-- Hit a Div --\n"
-     msg "** Left recursive call**\n"
+     msg "-- Hit a Div --"
+     msg "** Left recursive call **"
      i1 <- m_interpL e1
-     msg "** Right recursive call**\n"
+     msg "** Right recursive call **"
      i2 <- m_interpL e2
      return (i1 `div` i2)
   ```
@@ -685,13 +684,13 @@
   data St s a = MkSt (s -> (a,s))
 
   get :: St s s
-  get = MkSt $ \s -> (s,s)
+  get = MkSt $ \ s -> (s,s)
 
   put :: s -> St s ()
   put s = MkSt $ \_ -> ((),s)
 
   instance Monad (St s) where
-    return x       = MkSt $ \s -> (x,s)
+    return x       = MkSt $ \ s -> (x,s)
   ```
 
   Function `get` just places the state (receiving as an argument) as the result
