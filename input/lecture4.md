@@ -8,12 +8,15 @@
   ```haskell
   -- Types
   data Program a
+
   -- Constructors
   return :: a -> Program a
   putC   :: Char -> Program ()
   getC   :: Program (Maybe Char)
+
   -- Combinators
   (>>=) :: Program a -> (a -> Program b) -> Program b
+
   -- Run function
   type IOSem a
   run :: Program a -> IOSem a
@@ -70,15 +73,14 @@
 
    ```haskell
    run :: Program a -> IOSem a
-   run (Put c)    inp     =  (()     ,inp   , c:"")
-   run (Get)      ""      =  (Nothing, ""   , ""  )
-   run (Get)      (c:cs)  =  (Just c ,cs    , ""  )
-   run (Return x) inp     =  (x      ,inp   , ""  )
-   run (Bind p g) inp     =  (someb  ,someinpp, someoutp ++ someoutpp)
+   run (Put c)    inp     =  (()     , inp  , c:""          )
+   run (Get)      ""      =  (Nothing, ""   , ""            )
+   run (Get)      (c:cs)  =  (Just c , cs   , ""            )
+   run (Return x) inp     =  (x      , inp  , ""            )
+   run (Bind p g) inp     =  (b      , inp_b, out_a ++ out_b)
      where
-       (somea, someinp, someoutp) = run p inp
-       pb = g somea
-       (someb, someinpp, someoutpp) = run pb someinp
+       (a, inp_a, out_a) = run p inp
+       (b, inp_b, out_b) = run (g a) inp_a
    ```
 
 * Let us write an "echo" program
