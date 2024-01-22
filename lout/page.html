@@ -8,6 +8,24 @@
     <meta name="description" content="Advanced Functional Programming (TDA342/DIT260)">
     <meta name="author" content="Alejandro Russo">
 
+    <!-- Syntax highlighting -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/default.min.css">
+    <script type="module">
+      import hljs from 'https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/es/highlight.min.js';
+      import haskell from 'https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/es/languages/haskell.min.js';
+      import bash from 'https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/es/languages/bash.min.js';
+
+      hljs.registerLanguage('haskell', haskell);
+      hljs.registerLanguage('bash', bash);
+      
+      hljs.configure({
+        cssSelector: "pre",
+        ignoreUnescapedHTML: true,
+        languageDetectRe: /\blang-([\w-]+)\b/i,
+      });
+      hljs.highlightAll();
+    </script>
+
     <!-- <meta http-equiv="refresh" content="3" > -->
     <!-- <\!-- Refreshing every 3 seconds, -->
     <!-- developing only-\-> -->
@@ -155,11 +173,6 @@
       <br>
       <br>
   </div>
-
-  <!-- Code highlighting https://www.jsdelivr.com/package/npm/google-code-prettify -->
-  <!-- Styles see https://www.jsdelivr.com/package/npm/google-code-prettify?tab=files&path=styles -->
-  <!-- Other styles seem not available e.g. https://tutsplus.github.io/syntax-highlighter-demos/prism.html -->
-  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?lang=hs&amp"></script> <!-- ;skin=sunburst -->
 
   <!-- Bootstrap core JavaScript
   ================================================== -->
