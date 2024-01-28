@@ -374,11 +374,12 @@
 
   For instance,
   ```haskell
-  mapTree (+1) (Node (Leaf 2) ((Node (Node (Leaf 3) (Leaf 4)) (Leaf 5))))
+  mapTree (+1) $
+    Node (Leaf 2) (Node (Node (Leaf 3) (Leaf 4)) (Leaf 5))
   ```
   produces the following tree.
   ```haskell
-  Node (Leaf 3) (Node (Node (Leaf 4) (Leaf 5)) (Leaf 6))
+    Node (Leaf 3) (Node (Node (Leaf 4) (Leaf 5)) (Leaf 6))
   ```
 
 * In both cases, the structure of the data type (i.e., lists and trees) is preserved
@@ -399,10 +400,10 @@
 ## Functors
 
 * A functor is composed of two elements: a *data type definition* (*container*)
-  and a generalized `map`-function called `fmap`
+  and a generalized `map`-function called `fmap`.
 
 * In Haskell, `fmap` is an overloaded function, i.e., defined for every
-  container which supports a `map`-like operation
+  container which supports a `map`-like operation.
 
   ```haskell
   class Functor d where
