@@ -103,7 +103,7 @@
   {-- Combinators --}
   (+++)  :: Parser s a -> Parser s a -> Parser s a
   (:>>=) :: Parser s a -> (a -> Parser s b) -> Parser s b
-   ```
+  ```
 
   Function `symbol` returns the next symbol. Function `fail` aborts
   parsing. Functions `return` and `(:>>=)` are the monadic primitives.
@@ -120,143 +120,143 @@
 
     * Monads
 
-        <table class="table table-bordered">
-        <thead>
-          <tr>
-          <th>Monadic primitives</th>
-          <th>Laws</th>
-          </tr>
-        </thead>
-
+      <table class="table table-bordered">
+      <thead>
         <tr>
-        <td> **L1** (Left Identity): </td>
-        <td>  ```haskell
-              return a >>= f ≡ f a
-              ```
-        </td>
+        <th>Monadic primitives</th>
+        <th>Laws</th>
         </tr>
+      </thead>
 
+      <tr>
+      <td> **L1** (Left Identity): </td>
+      <td>
+      ```haskell
+      return a >>= f ≡ f a
+      ```
+      </td>
+      </tr>
+
+      <tr>
+      <td> **L2** (Right Identity): </td>
+
+      <td>
+      ```haskell
+      p >>= return ≡ p
+      ```
+      </td>
+      </tr>
+
+      <tr>
+      <td> **L3** (Associativity): </td>
+
+      <td>
+      ```haskell
+      (p >>= f) >>= g ≡ p >>= (\x -> f x >>= g)
+      ```
+      </td>
+      </tr>
+      </table>
+
+    * Bind distributes over choice
+
+      <table class="table table-bordered">
+      <thead>
         <tr>
-        <td> **L2** (Right Identity): </td>
-
-        <td> ```haskell
-             p >>= return ≡ p
-             ```
-        </td>
+        <th>`fail`, `(+++)`, and `(>>=)`</th>
+        <th>Laws</th>
         </tr>
+      </thead>
 
+      <tr>
+      <td> **L4**: </td>
+      <td>
+      ```haskell
+      fail >>= f ≡ fail
+      ```
+      </td>
+      </tr>
+
+      <tr>
+      <td> **L5**: </td>
+
+      <td>
+      ```haskell
+      (p +++ q) >>= f ≡ (p >>= f) +++ (q >>= f)
+      ```
+      </td>
+      </tr>
+      </table>
+
+    * Choice forms a commutative monoid with unit `fail`
+
+      <table class="table table-bordered">
+      <thead>
         <tr>
-        <td> **L3** (Associativity): </td>
-
-        <td> ```haskell
-             (p >>= f) >>= g ≡ p >>= (\x -> f x >>= g)
-             ```
-        </td>
+        <th>More on `fail` and `(+++)` </th>
+        <th>Laws</th>
         </tr>
-        </table>
+      </thead>
+      <tr>
+      <td> **L6** (Left unit): </td>
+      <td>
+      ```haskell
+      fail +++ q ≡ q
+      ```
+      </td>
+      </tr>
+      <tr>
+      <td> **L7** (Right unit): </td>
+      <td>
+      ```haskell
+      p +++ fail  ≡ p
+      ```
+      </td>
+      </tr>
+      <tr>
+      <td> **L8** (Associativity): </td>
+      <td>
+      ```haskell
+      (p +++ q) +++ r ≡ p +++ (q +++ r)
+      ```
+      </td>
+      </tr>
 
-    * Miscellaneous I
+      <tr>
+      <td> **L9** (Commutativity): </td>
 
-        <table class="table table-bordered">
-        <thead>
-          <tr>
-          <th>`fail`, `(+++)`, and `(>>=)`</th>
-          <th>Laws</th>
-          </tr>
-        </thead>
-
-        <tr>
-        <td> **L4**: </td>
-        <td>  ```haskell
-              fail >>= f ≡ fail
-              ```
-        </td>
-        </tr>
-
-        <tr>
-        <td> **L5**: </td>
-
-        <td> ```haskell
-             (p +++ q) >>= f ≡ (p >>= f) +++ (q >>= f)
-             ```
-        </td>
-        </tr>
-        </table>
-
-    * Miscellaneous II
-        <table class="table table-bordered">
-        <thead>
-          <tr>
-          <th>More on `fail` and `(+++)` </th>
-          <th>Laws</th>
-          </tr>
-        </thead>
-        <tr>
-        <td> **L6**: </td>
-        <td>  ```haskell
-              fail +++ q ≡ q
-              ```
-        </td>
-        </tr>
-        <tr>
-        <td> **L7**: </td>
-        <td> ```haskell
-             p +++ fail  ≡ p
-             ```
-        </td>
-        </tr>
-        </table>
-
-    * Choice operator
-        <table class="table table-bordered">
-         <thead>
-           <tr>
-           <th>On `(+++)`</th>
-           <th>Laws</th>
-           </tr>
-         </thead>
-
-         <tr>
-         <td> **L8** (Associativity): </td>
-         <td>  ```haskell
-               (p +++ q) +++ r ≡ p +++ (q +++ r)
-               ```
-         </td>
-         </tr>
-
-         <tr>
-         <td> **L9** (Commutativity): </td>
-
-         <td> ```haskell
-              p +++ q ≡ q +++ p
-              ```
-         </td>
-         </tr>
-         </table>
+      <td>
+      ```haskell
+      p +++ q ≡ q +++ p
+      ```
+      </td>
+      </tr>
+      </table>
 
     * Key law for efficiency!
-        <table class="table table-bordered">
-         <thead>
-           <tr>
-           <th>On `(>>=)`, `(+++)`, and `symbol` </th>
-           <th>Laws</th>
-           </tr>
-         </thead>
+      <table class="table table-bordered">
+      <thead>
+        <tr>
+        <th>On `(>>=)`, `(+++)`, and `symbol` </th>
+        <th>Laws</th>
+        </tr>
+      </thead>
 
-         <tr>
-         <td> **L10**: </td>
-         <td>  ```haskell
-               (symbol >>= f) +++ (symbol >>= g) ≡
-                           symbol >>= (\c -> f c +++ g c)
-               ```
-         </td>
-         </tr>
-         </table>
+      <tr>
+      <td> **L10**: </td>
+      <td>
+      ```haskell
+      (symbol >>= f) +++ (symbol >>= g) ≡
+          symbol >>= (\c -> f c +++ g c)
+      ```
+      </td>
+      </tr>
+      </table>
 
 ## Reference semantics
 
 * Any semantics we associate to elements of type `Parser s a` must obey the laws
-  shown above
+  shown above.
 
 * We take a reference semantics, i.e., a semantics that we will compare our
   implementation against in order to see if our implementation is correct.
@@ -264,7 +264,7 @@
 * The semantic function `[| _ |]`, also called `run`, is defined as follows
   (we use `{| |}` to denote multisets and `\/` for multiset union).
 
-   ```haskell
+  ```haskell
    [| _ |] :: Parser s a -> [s] -> {| (a, [s]) |}
    [| symbol   |] (c : s) = {| (c, s) |}
    [| symbol   |] []      = {| |}
@@ -274,7 +274,7 @@
    [| p >>= f  |] s       = {| (b, s_f) | (a, s_p)  <- [| p   |] s
                                         , (b, s_f)  <- [| f a |] s_p
                             |}
-   ```
+  ```
 
 * Using this semantics we can prove (exercise) the laws about parsers given
   before.
@@ -282,7 +282,7 @@
   For instance, here is the proof of **L10** for the case of a non-empty input
   string:
 
-   ```haskell
+  ```haskell
    ==  { Def. of [| p +++ q |] }
      [| symbol >>= f |] (c:s)  \/  [| symbol >>= g |] (c:s)
    ==  { Def. of [| p >>= f |] and [| symbol |] }
@@ -291,7 +291,7 @@
      [| f c +++ g c |] s
    ==  { Def. of [| p >>= f |] and [| symbol |] "backwards" }
      [| symbol >>= (\c -> f c +++ g c) |] (c:s)
-   ```
+  ```
 
   <div class = "alert alert-info">
   Exercise: prove or test the rest of the laws
@@ -302,28 +302,28 @@
 * There are three sources of possibly inefficiency that we can
   identify:
 
-    <table class="table table-bordered">
-    <thead>
-    <tr>
-    <th> Source </th>
-    <th> Reason</th>
-    </tr>
-    </thead>
+  <table class="table table-bordered">
+  <thead>
+  <tr>
+  <th> Source </th>
+  <th> Reason</th>
+  </tr>
+  </thead>
 
-     <tr class="alert alert-warning">
-     <td> Definition of `(+++)` </td>
-     <td>  Union of bags
-     </td>
-     </tr>
+  <tr class="alert alert-warning">
+  <td> Definition of `(+++)` </td>
+  <td>  Union of bags
+  </td>
+  </tr>
 
-     <tr class="alert alert-warning">
-     <td> Definition of `(>>=)` </td>
+  <tr class="alert alert-warning">
+  <td> Definition of `(>>=)` </td>
 
-     <td> Creation of many intermediate results (e.g., `[| p |] s` and `[| f a |]`)
-     </td>
-     </tr>
+  <td> Creation of many intermediate results (e.g., `[| p |] s` and `[| f a |]`)
+  </td>
+  </tr>
 
-     </table>
+  </table>
 
 
 ## Parser0: our first implementation
@@ -340,41 +340,41 @@
     Choice  ::  Parser0 s a -> Parser0 s a -> Parser0 s a
     Return  ::  a -> Parser0 s a
     (:>>=)  ::  Parser0 s a -> (a -> Parser0 s b) -> Parser0 s b
-   ```
+  ```
 
   We call it `Parser0` since it is our first attempt.
 
 * Constructors and combinators (trivial)
 
-   ```haskell
+  ```haskell
    {- | Constructors -}
    symbol = Symbol
    pfail  = Fail
 
    {- | Combinators -}
    (+++)  = Choice
-   ```
+  ```
 
 * Monadic operations (trivial)
 
-   ```haskell
+  ```haskell
    instance Monad (Parser0 s) where
      return = Return
      (>>=)  = (:>>=)
-   ```
+  ```
 
 * What about our `run` function?
 
   To start with, and for simplicity, we use lists instead of bags to denote the
   semantics of parsers.
 
-   ```haskell
+  ```haskell
    type Semantics s a = [s] -> [(a,[s])]
-   ```
+  ```
 
   The run function maps the constructors to their semantics.
 
-   ```haskell
+  ```haskell
    run0 :: Parser0 s a -> Semantics s a
    run0 Symbol          [] = []
    run0 Symbol      (s:ss) = [(s,ss)]
@@ -383,7 +383,7 @@
    run0 (Return x)      ss = [(x,ss)]
    run0 (p :>>= f)      ss = [(y,s2) | (x,s1) <- run0 p ss,
                                        (y,s2) <- run0 (f x) s1]
-   ```
+  ```
 
   <div class = "alert alert-info">
   We have the same sources of inefficiency as the reference semantics!
@@ -412,196 +412,196 @@
 
 * Let us try to define `(>>=)`
 
-*  ```haskell
+* ```haskell
    Fail >>= k
-   ```
+  ```
 
   By **L4**, we know that
 
-   ```haskell
+  ```haskell
    Fail >>= k ≡ Fail
-   ```
+  ```
 
    Success! (Nothing to be done)
 
-*  ```haskell
+* ```haskell
    Choice p q >>= f
-   ```
+  ```
 
   By **L5**, we know that
 
-   ```haskell
+  ```haskell
    Choice p q >>= f ≡ Choice (p >>= f) (q >>= f)
-   ```
+  ```
 
    Success! (Nothing to be done)
 
-*  ```haskell
+* ```haskell
    Return x >>= f
-   ```
+  ```
 
   The first monad law already tells us that this is just `(f x)`.
 
   Success! (Nothing to be done)
 
 
-*  ```haskell
+* ```haskell
    Symbol >>= k
-   ```
+  ```
 
   There is no **L**-rule for this case! Let us capture this usage pattern in a
   new constructor
 
-   ```haskell
+  ```haskell
    SymbolBind k ≡ Symbol >>= k
-   ```
+  ```
 
   Observe that
-   ```haskell
+  ```haskell
    k :: s -> Parser0 s a
-   ```
+  ```
 
   Therefore, we have that
 
-   ```haskell
+  ```haskell
    SymbolBind :: (s -> Parser0 s a) -> Parser0 s a
-   ```
+  ```
 
 * We obtain `Parser1` from the definition of `Parser0`, where `SymbolBind` gets
   introduced and `(:>>=)` gets removed
 
-   ```haskell
+  ```haskell
    data Parser1 s a where
        SymbolBind ::  (s -> Parser1 s a) -> Parser1 s a
        Fail       ::  Parser1 s a
        Choice     ::  Parser1 s a -> Parser1 s a -> Parser1 s a
        Return     ::  a -> Parser1 s a
-   ```
+  ```
 
   Observe that there is no `(:>>=)`
 
 * What about the `run` function?
 
-   ```haskell
-   run1 :: Parser1 s a -> Semantics s a
-   run1 Fail                _ = []
-   run1 (Choice p q)       ss = (run1 p ss) ++ (run1 q ss)
-   run1 (Return x)         ss = [(x,ss)]
-   run1 (SymbolBind k)     ss = ?
-   ```
+  ```haskell
+  run1 :: Parser1 s a -> Semantics s a
+  run1 Fail                _ = []
+  run1 (Choice p q)       ss = run1 p ss ++ run1 q ss
+  run1 (Return x)         ss = [(x,ss)]
+  run1 (SymbolBind k)     ss = ?
+  ```
 
-   It is mainly as before, but the intermediate results generated by `(:>>=)`
-   are not there.
+  It is mainly as before, but the intermediate results generated by `(:>>=)`
+  are not there.
 
-   In the definition of `run1`, the new interesting case is
+  In the definition of `run1`, the new interesting case is
 
-   ```haskell
-   run1 (SymbolBind k) ss = ?
-   ```
+  ```haskell
+  run1 (SymbolBind k) ss = ?
+  ```
 
-   We are going to derive it by using the reference semantics.
+  We are going to derive it by using the reference semantics.
 
-   We know, by the definition of `SymbolBind`, that
+  We know, by the definition of `SymbolBind`, that
 
-   ```haskell
-   [| SymbolBind k |] = [| symbol >>= k |]
-   ```
+  ```haskell
+  [| SymbolBind k |] = [| symbol >>= k |]
+  ```
 
-   By the reference semantics of `(>>=)`, we have that
+  By the reference semantics of `(>>=)`, we have that
 
-   ```haskell
-   [| symbol >>= k |] ss = {| (b, s_k) | (a, ss_p)  <- [| symbol |] ss
+  ```haskell
+  [| symbol >>= k |] ss = {| (b, s_k) | (a, ss_p)  <- [| symbol |] ss
+                                      , (b, ss_k)  <- [| k a |] ss_p
+                          |}
+  ```
+
+  So, we have two cases:
+
+  ```haskell
+  [| symbol >>= k |] [] = {| (b, s_k) | (a, ss_p)  <- [| symbol |] []
+                                      , (b, ss_k)  <- [| k a |] ss_p
+                          |}
+  ```
+
+  By the reference semantics of `symbol`, we have
+
+  ```haskell
+  [| symbol >>= k |] [] = {| (b, ss_k) | (a, ss_p)  <- {| |}
                                        , (b, ss_k)  <- [| k a |] ss_p
-                           |}
-   ```
+                          |}
+  ```
 
-   So, we have two cases:
+  By multi-set comprehension, we conclude that
 
-   ```haskell
-   [| symbol >>= k |] [] = {| (b, s_k) | (a, ss_p)  <- [| symbol |] []
-                                       , (b, ss_k)  <- [| k a |] ss_p
-                           |}
-   ```
+  ```haskell
+  [| symbol >>= k |] [] = {| |}
+  ```
 
-   By the reference semantics of `symbol`, we have
+  On the other hand, we have the following equation
 
-   ```haskell
-   [| symbol >>= k |] [] = {| (b, ss_k) | (a, ss_p)  <- {| |}
-                                        , (b, ss_k)  <- [| k a |] ss_p
-                           |}
-   ```
+  ```haskell
+  [| symbol >>= k |] (s:ss) = {| (b, s_k) | (a, ss_p)  <- [| symbol |] (s:ss)
+                                          , (b, ss_k)  <- [| k a |] ss_p
+                              |}
+  ```
 
-   By multi-set comprehension, we conclude that
+  By applying the reference semantics of `symbol`, we have that
 
-   ```haskell
-   [| symbol >>= k |] [] = {| |}
-   ```
+  ```haskell
+  [| symbol >>= k |] (s:ss) = {| (b, s_k) | (a, ss_p)  <- {| (s, ss) |}
+                                          , (b, ss_k)  <- [| k a |] ss_p
+                              |}
+  ```
 
-   On the other hand, we have the following equation
+  By multi-set comprehension, we conclude that
 
-   ```haskell
-   [| symbol >>= k |] (s:ss) = {| (b, s_k) | (a, ss_p)  <- [| symbol |] (s:ss)
-                                           , (b, ss_k)  <- [| k a |] ss_p
-                               |}
-   ```
+  ```haskell
+  [| symbol >>= k |] (s:ss) = {| (b, ss_k) | (b, ss_k)  <- [| k s |] ss |}
+  ```
 
-   By applying the reference semantics of `symbol`, we have that
+  which, by multi-set comprehension, is equivalent to
 
-   ```haskell
-   [| symbol >>= k |] (s:ss) = {| (b, s_k) | (a, ss_p)  <- {| (s, ss) |}
-                                           , (b, ss_k)  <- [| k a |] ss_p
-                               |}
-   ```
+  ```haskell
+  [| symbol >>= k |] (s:ss) = [| k s |] ss
+  ```
 
-   By multi-set comprehension, we conclude that
+  To summarize, we obtain
 
-   ```haskell
-   [| symbol >>= k |] (s:ss) = {| (b, ss_k) | (b, ss_k)  <- [| k s |] ss |}
-   ```
+  ```haskell
+  [| symbol >>= k |] []     = {| |}
+  [| symbol >>= k |] (s:ss) = [| k s |] ss
+  ```
 
-   which, by multi-set comprehension, is equivalent to
+  Therefore, we conclude that
 
-   ```haskell
-   [| symbol >>= k |] (s:ss) = [| k s |] ss
-   ```
-
-   To summarize, we obtain
-
-   ```haskell
-   [| symbol >>= k |] []     = {| |}
-   [| symbol >>= k |] (s:ss) = [| k s |] ss
-   ```
-
-   Therefore, we conclude that
-
-   ```haskell
-   run1 (SymbolBind k) []     = []
-   run1 (SymbolBind k) (s:ss) = run1 (k s) ss
-   ```
+  ```haskell
+  run1 (SymbolBind k) []     = []
+  run1 (SymbolBind k) (s:ss) = run1 (k s) ss
+  ```
 
 * Constructors and combinators? (the non-proper morphisms are mainly as before)
 
-   ```haskell
-   {- | Constructors -}
-   symbol = SymbolBind Return
-   pfail  = Fail
+  ```haskell
+  {- | Constructors -}
+  symbol = SymbolBind Return
+  pfail  = Fail
 
-   {- | Combinators -}
-   (+++)  = Choice
-   ```
+  {- | Combinators -}
+  (+++)  = Choice
+  ```
 
   Observe that `symbol` is defined as `SymbolBind Return`. Is it true that
   `symbol` only extracts a symbol from the input?
 
   ```haskell
   SymbolBind Return ≡ Symbol >>= Return
-   ```
+  ```
 
   By **L2** (Right Identity), we know that
 
   ```haskell
   SymbolBind Return ≡ Symbol
-   ```
+  ```
 
   So, `SymbolBind` corresponds to the notion of `Symbol` in `Parser0`!
 
@@ -611,66 +611,66 @@
 
   ```haskell
    return = Return
-   ```
+  ```
 
 * The interesting case is `(>>=)`
 
-   How are we going to define it?
+  How are we going to define it?
 
-   So far, we have that
+  So far, we have that
 
-   ```haskell
-   Fail       >>= k = Fail
-   Choice p q >>= f = Choice (p >>= f) (q >>=f)
-   Return a   >>= k = k a
-   ```
+  ```haskell
+  Fail       >>= k = Fail
+  Choice p q >>= f = Choice (p >>= f) (q >>=f)
+  Return a   >>= k = k a
+  ```
 
-   What about our recently introduced constructor (`SymbolBind`)?
+  What about our recently introduced constructor (`SymbolBind`)?
 
-   ```haskell
-   SymbolBind f >>= k = ?
-   ```
+  ```haskell
+  SymbolBind f >>= k = ?
+  ```
 
-   By definition of `SymbolBind`, we know that
+  By definition of `SymbolBind`, we know that
 
-   ```haskell
-   SymbolBind f >>= k ≡ Symbol >>= f >>= k
-   ```
+  ```haskell
+  SymbolBind f >>= k ≡ Symbol >>= f >>= k
+  ```
 
-   By **L3** (Associativity of monads), we have that
+  By **L3** (Associativity of monads), we have that
 
-   ```haskell
-   Symbol >>= f >>= k ≡ Symbol >>= (\s -> f s >>= k)
-   ```
+  ```haskell
+  Symbol >>= f >>= k ≡ Symbol >>= (\s -> f s >>= k)
+  ```
 
-   By our definition of `SymbolBind`, we have that
+  By our definition of `SymbolBind`, we have that
 
-   ```haskell
-   Symbol >>= (\s -> f s >>= k) ≡ SymbolBind (\s -> f s >>= k)
-   ```
+  ```haskell
+  Symbol >>= (\s -> f s >>= k) ≡ SymbolBind (\s -> f s >>= k)
+  ```
 
-   So, we finally have that
+  So, we finally have that
 
-   ```haskell
-   SymbolBind f >>= k = SymbolBind (\s -> f s >>= k)
-   ```
+  ```haskell
+  SymbolBind f >>= k = SymbolBind (\s -> f s >>= k)
+  ```
 
 * We can now define `Parser1` as a monad
 
-   ```haskell
-   {- | Monadic instance for Parser1 -}
-   instance Monad (Parser1 s) where
-      return = Return
-     Fail           >>= k = Fail
-     Choice p q     >>= k = Choice (p >>= k) (q >>= k)
-     Return x       >>= k = k x
-     (SymbolBind f) >>= k = SymbolBind (\s -> f s >>= k)
-   ```
+  ```haskell
+  {- | Monadic instance for Parser1 -}
+  instance Monad (Parser1 s) where
+     return = Return
+    Fail         >>= k = Fail
+    Choice p q   >>= k = Choice (p >>= k) (q >>= k)
+    Return x     >>= k = k x
+    SymbolBind f >>= k = SymbolBind (\s -> f s >>= k)
+  ```
 
-   <div class = "alert alert-info">
-   Observe that the definition of `(>>=)` was derived from the
-   domain knowledge and monadic laws. We cannot get it wrong!
-   </div>
+  <div class = "alert alert-info">
+  Observe that the definition of `(>>=)` was derived from the
+  domain knowledge and monadic laws. We cannot get it wrong!
+  </div>
 
 
 ## Transforming parsers of type `Parser0` into parsers of type `Parser1`
@@ -680,42 +680,42 @@
 
   Yes! We can write a function which transform a `Parser0` into a `Parser1`
 
-   ```haskell
-   cast :: P0.Parser0 s a -> Parser1 s a
-   ```
+  ```haskell
+  cast :: P0.Parser0 s a -> Parser1 s a
+  ```
 
   To avoid name crashes, all the constructors and types from `Parser0` are
   qualified as `P0`
 
   Let us see the easy cases.
 
-   ```haskell
-   cast :: P0.Parser0 s a -> Parser1 s a
-   cast P0.Symbol       = SymbolBind Return -- L1
-   cast P0.Fail         = Fail
-   cast (P0.Choice p q) = Choice (cast p) (cast q)
-   cast (P0.Return x)   = Return x
-   ```
+  ```haskell
+  cast :: P0.Parser0 s a -> Parser1 s a
+  cast P0.Symbol       = SymbolBind Return -- L1
+  cast P0.Fail         = Fail
+  cast (P0.Choice p q) = Choice (cast p) (cast q)
+  cast (P0.Return x)   = Return x
+  ```
 
   The core of the translation is bind!
 
-   ```haskell
-   cast (P0.Symbol P0.:>>= k)       = SymbolBind (cast . k)
-                                      -- def of SymbolBind
+  ```haskell
+  cast (P0.Symbol P0.:>>= k)       = SymbolBind (cast . k)
+                                     -- def of SymbolBind
 
-   cast (P0.Fail P0.:>>= _)         = Fail
-                                      -- Parser law, L4.
+  cast (P0.Fail P0.:>>= _)         = Fail
+                                     -- Parser law, L4.
 
-   cast ((P0.Choice p q) P0.:>>= k) = Choice (cast (p P0.:>>= k))
-                                             (cast (q P0.:>>= k))
-                                      -- Parser law, L5
+  cast ((P0.Choice p q) P0.:>>= k) = Choice (cast (p P0.:>>= k))
+                                            (cast (q P0.:>>= k))
+                                     -- Parser law, L5
 
-   cast ((P0.Return x) P0.:>>= k)   = cast (k x)
-                                      -- monad law, L1
+  cast ((P0.Return x) P0.:>>= k)   = cast (k x)
+                                     -- monad law, L1
 
-   cast ((p P0.:>>= f) P0.:>>= k)   = cast (p P0.:>>= (\x -> f x P0.:>>= k))
-                                      -- monad law, L3
-   ```
+  cast ((p P0.:>>= f) P0.:>>= k)   = cast (p P0.:>>= (\x -> f x P0.:>>= k))
+                                     -- monad law, L3
+  ```
 
    <div class = "alert alert-info">
    Observe that for every case, there is some law which helps to derive the
@@ -727,20 +727,20 @@
 
 * If we observe the `run1` function again
 
-   ```haskell
-   run1 :: Parser1 s a -> Semantics s a
-   run1 (SymbolBind k)     [] = []
-   run1 (SymbolBind k) (s:ss) = run1 (k s) ss
-   run1 Fail                _ = []
-   run1 (Choice p q)       ss = (run1 p ss) ++ (run1 q ss)
-   run1 (Return x)         ss = [(x,ss)]
-   ```
+  ```haskell
+  run1 :: Parser1 s a -> Semantics s a
+  run1 (SymbolBind k)     [] = []
+  run1 (SymbolBind k) (s:ss) = run1 (k s) ss
+  run1 Fail                _ = []
+  run1 (Choice p q)       ss = (run1 p ss) ++ (run1 q ss)
+  run1 (Return x)         ss = [(x,ss)]
+  ```
 
-   We have another source of inneficiency. Can you see it?
+  We have another source of inneficiency. Can you see it?
 
-   The list append `(++)` is linear in its first argument which means that left
-   nested applications `(+++)` get a quadratic behaviour, e.g., consider
-   expressions of the form `((s1 ++ s2) ++ s3)`.
+  The list append `(++)` is linear in its first argument which means that left
+  nested applications `(+++)` get a quadratic behaviour, e.g., consider
+  expressions of the form `((s1 ++ s2) ++ s3)`.
 
 * How can we optimize `Choice`, i.e. `(+++)`?
 
@@ -750,169 +750,169 @@
 
 * The new data type for parsers
 
-   ```haskell
-   data Parser2 s a where
-     SymbolBind ::  (s -> Parser2 s a) -> Parser2 s a
-     Fail       ::  Parser2 s a
-     Return     ::  a -> Parser2 s a
-   ```
+  ```haskell
+  data Parser2 s a where
+    SymbolBind ::  (s -> Parser2 s a) -> Parser2 s a
+    Fail       ::  Parser2 s a
+    Return     ::  a -> Parser2 s a
+  ```
 
 * Let us try to define `(+++)`
 
   For `Fail` is easy due to laws **L6** and **L7**.
 
-   ```haskell
-   (+++) :: Parser2 s a -> Parser2 s a -> Parser2 s a
-   Fail +++ _    = Fail
-   q    +++ Fail = Fail
-   ```
+  ```haskell
+  (+++) :: Parser2 s a -> Parser2 s a -> Parser2 s a
+  Fail +++ _    = Fail
+  q    +++ Fail = Fail
+  ```
 
-   For `SymbolBind`, we know by **L10** that
+  For `SymbolBind`, we know by **L10** that
 
-   ```haskell
-   SymbolBind f +++ SymbolBind q = SymbolBind (\s -> f s +++ q s)
-   ```
+  ```haskell
+  SymbolBind f +++ SymbolBind q = SymbolBind (\s -> f s +++ q s)
+  ```
 
-   If `SymbolBind` is combined with `Fail` instead, we know the result (see **L6** and
-   **L7**).
+  If `SymbolBind` is combined with `Fail` instead, we know the result (see **L6** and
+  **L7**).
 
-   The tricky case is when `SymbolBind` is pattern-matched with `Return`.
+  The tricky case is when `SymbolBind` is pattern-matched with `Return`.
 
-   ```haskell
-   SymbolBind f +++ Return x     = ?
-   Return x     +++ SymbolBind f = ?
-   ```
+  ```haskell
+  SymbolBind f +++ Return x     = ?
+  Return x     +++ SymbolBind f = ?
+  ```
 
-   It seems that `Return` is stopping us from defining `(+++)`. In fact, what is
-   the definition of `(+++)` when it only deals with `Return`?
+  It seems that `Return` is stopping us from defining `(+++)`. In fact, what is
+  the definition of `(+++)` when it only deals with `Return`?
 
-   ```haskell
-   Return x +++ Return y = ?
-   ```
+  ```haskell
+  Return x +++ Return y = ?
+  ```
 
 * For these cases, we therefore introduce a new constructor.
 
-   ```haskell
-   ReturnChoice x p ≡ Return x +++ p
-   ```
+  ```haskell
+  ReturnChoice x p ≡ Return x +++ p
+  ```
 
   Observe that, by **L7**,
 
-   ```haskell
-   Return x ≡ ReturnChoice x Fail
-   ```
+  ```haskell
+  Return x ≡ ReturnChoice x Fail
+  ```
 
   `ReturnChoice` can encode `Return`!
 
 * Therefore, let us take the definition of `Parser2` and replace `Return` with
   `ReturnChoice`
 
-   ```haskell
-   data Parser2 s a where
-       SymbolBind   ::  (s -> Parser2 s a) -> Parser2 s a
-       Fail         ::  Parser2 s a
-       ReturnChoice ::  a -> Parser2 s a -> Parser2 s a
-   ```
+  ```haskell
+  data Parser2 s a where
+      SymbolBind   ::  (s -> Parser2 s a) -> Parser2 s a
+      Fail         ::  Parser2 s a
+      ReturnChoice ::  a -> Parser2 s a -> Parser2 s a
+  ```
 
 * Let us *now* define `(+++)` by using parser laws, commutative, and associative
   laws.
 
-   ```haskell
-   (+++) :: Parser2 s a -> Parser2 s a -> Parser2 s a
-   SymbolBind f     +++ SymbolBind g     = SymbolBind (\s -> f s +++ g s)
-                                           -- L10
-   p                +++ Fail             = p
-                                           -- L6
-   Fail             +++ q                = q
-                                           -- L7
+  ```haskell
+  (+++) :: Parser2 s a -> Parser2 s a -> Parser2 s a
+  SymbolBind f     +++ SymbolBind g     = SymbolBind (\s -> f s +++ g s)
+                                          -- L10
+  p                +++ Fail             = p
+                                          -- L6
+  Fail             +++ q                = q
+                                          -- L7
 
-   ReturnChoice x p +++ q                = ?
+  ReturnChoice x p +++ q                = ?
 
-   p                +++ ReturnChoice x q = ?
-   ```
+  p                +++ ReturnChoice x q = ?
+  ```
 
   We derive the tricky cases.
 
   By definition of `ReturnChoice`, we have that
-   ```haskell
-   ReturnChoice x p +++ q ≡ (Return x +++ p) +++ q
-   ```
+  ```haskell
+  ReturnChoice x p +++ q ≡ (Return x +++ p) +++ q
+  ```
 
   By **L8** (associativity of `(+++)`), we have that
 
-   ```haskell
-   (Return x +++ p) +++ q ≡ Return x +++ (p +++ q)
-   ```
+  ```haskell
+  (Return x +++ p) +++ q ≡ Return x +++ (p +++ q)
+  ```
 
   By the definition of `ReturnChoice`, we obtain
 
-   ```haskell
-   Return x +++ (p +++ q) ≡ ReturnChoice x (p +++ q)
-   ```
+  ```haskell
+  Return x +++ (p +++ q) ≡ ReturnChoice x (p +++ q)
+  ```
 
   <div class = "alert alert-info">
   Exercise: derive the definition for `p +++ ReturnChoice x q`
   </div>
 
-   ```haskell
-   (+++) :: Parser2 s a -> Parser2 s a -> Parser2 s a
-   SymbolBind f     +++ SymbolBind g     = SymbolBind (\s -> f s +++ g s)
-                                           -- L10
-   p                +++ Fail             = p
-                                           -- L6
-   Fail             +++ q                = q
-                                           -- L7
+  ```haskell
+  (+++) :: Parser2 s a -> Parser2 s a -> Parser2 s a
+  SymbolBind f     +++ SymbolBind g     = SymbolBind (\s -> f s +++ g s)
+                                          -- L10
+  p                +++ Fail             = p
+                                          -- L6
+  Fail             +++ q                = q
+                                          -- L7
 
-   ReturnChoice x p +++ q                = ReturnChoice x (p +++ q)
+  ReturnChoice x p +++ q                = ReturnChoice x (p +++ q)
 
-   p                +++ ReturnChoice x q = ReturnChoice x (p +++ q)
-   ```
+  p                +++ ReturnChoice x q = ReturnChoice x (p +++ q)
+  ```
 
 
 * So, we obtain `(+++)` defined, but we should fix `(>>=)` since
   we replaced `Return` with `ReturnChoice`
 
-   ```haskell
-   {- | Monadic instance for Parser2 -}
-   instance Monad (Parser2 s) where
-     return x = ReturnChoice x Fail
-     Fail             >>= k = Fail
-     (SymbolBind f)   >>= k = SymbolBind (\s -> f s >>= k)
-     ReturnChoice x p >>= k = ?
-   ```
+  ```haskell
+  {- | Monadic instance for Parser2 -}
+  instance Monad (Parser2 s) where
+    return x = ReturnChoice x Fail
+    Fail             >>= k = Fail
+    (SymbolBind f)   >>= k = SymbolBind (\s -> f s >>= k)
+    ReturnChoice x p >>= k = ?
+  ```
 
   By definition of `ReturnChoice`, we have that
 
-   ```haskell
-   ReturnChoice x p >>= k ≡ (Return x +++ p) >>= k
-   ```
+  ```haskell
+  ReturnChoice x p >>= k ≡ (Return x +++ p) >>= k
+  ```
 
   By **L5**, we have that
 
-   ```haskell
+  ```haskell
   (Return x +++ p) >>= k ≡ (Return x >>= k) +++ (p >>= k)
-   ```
+  ```
 
   By **L1** (Left Identity), we conclude that
 
-   ```haskell
-   (Return x >>= k) +++ (p >>= k) ≡ k x +++ (p >>= k)
-   ```
+  ```haskell
+  (Return x >>= k) +++ (p >>= k) ≡ k x +++ (p >>= k)
+  ```
 
   So, we obtain that
 
-   ```haskell
-   ReturnChoice x p >>= k = k x +++ (p >>= k)
-   ```
+  ```haskell
+  ReturnChoice x p >>= k = k x +++ (p >>= k)
+  ```
 
-   ```haskell
-   {- | Monadic instance for Parser2 -}
-   instance Monad (Parser2 s) where
-     return x = ReturnChoice x Fail
-     Fail             >>= k = Fail
-     (SymbolBind f)   >>= k = SymbolBind (\s -> f s >>= k)
-     ReturnChoice x p >>= k = k x +++ (p >>= k)
-   ```
+  ```haskell
+  {- | Monadic instance for Parser2 -}
+  instance Monad (Parser2 s) where
+    return x = ReturnChoice x Fail
+    Fail             >>= k = Fail
+    (SymbolBind f)   >>= k = SymbolBind (\s -> f s >>= k)
+    ReturnChoice x p >>= k = k x +++ (p >>= k)
+  ```
 
 * We have completed the implementation of `(+++)` and `(>>=)` which gets
   computed when constructing parsers — not when running them!
@@ -922,50 +922,50 @@
   We take `run1` for parsers of type `Parser1`, remove the case for `Choice`,
   and see what happens when placing `ReturnChoice` in the place of `Return`.
 
-   ```haskell
-   run2 :: Parser2 s a -> Semantics s a
-   run2 (SymbolBind k)     [] = []
-   run2 (SymbolBind k) (s:ss) = run2 (k s) ss
-   run2 Fail                _ = []
-   run2 (ReturnChoice x p) ss = ?
-   ```
+  ```haskell
+  run2 :: Parser2 s a -> Semantics s a
+  run2 (SymbolBind k)     [] = []
+  run2 (SymbolBind k) (s:ss) = run2 (k s) ss
+  run2 Fail                _ = []
+  run2 (ReturnChoice x p) ss = ?
+  ```
 
   We are going to try deriving the definition. However, since we are dealing
   with the run function, we need to consider the ideal semantics of parsers.
 
   By definition of `ReturnChoice`, we obtain that
 
-   ```haskell
-   [| ReturnChoice x p |] ss ≡  [| Return x +++ p |] ss
-   ```
+  ```haskell
+  [| ReturnChoice x p |] ss ≡  [| Return x +++ p |] ss
+  ```
 
   By the semantics of `(+++)`, we obtain that
 
-   ```haskell
-   [| Return x +++ p |] ss ≡ [| Return x |] ss \/ [| p |] ss
-   ```
+  ```haskell
+  [| Return x +++ p |] ss ≡ [| Return x |] ss \/ [| p |] ss
+  ```
 
   By the semantics of `Return x`, we have that
 
-   ```haskell
-   [| Return x |] ss \/ [| p |] ss ≡ {| (x, ss) |} \/ [| p |] ss
-   ```
+  ```haskell
+  [| Return x |] ss \/ [| p |] ss ≡ {| (x, ss) |} \/ [| p |] ss
+  ```
 
   Summarizing, we have that
 
-   ```haskell
-   [| ReturnChoice x p |] ss ≡ {| (x, ss) |} \/ [| p |] ss
-   ```
+  ```haskell
+  [| ReturnChoice x p |] ss ≡ {| (x, ss) |} \/ [| p |] ss
+  ```
 
   So, we complete the definition of `run2` as follows.
 
-   ```haskell
-   run2 :: Parser2 s a -> Semantics s a
-   run2 (SymbolBind k)     [] = []
-   run2 (SymbolBind k) (s:ss) = run2 (k s) ss
-   run2 Fail                _ = []
-   run2 (ReturnChoice x p) ss = (x, ss) : run2 p ss
-   ```
+  ```haskell
+  run2 :: Parser2 s a -> Semantics s a
+  run2 (SymbolBind k)     [] = []
+  run2 (SymbolBind k) (s:ss) = run2 (k s) ss
+  run2 Fail                _ = []
+  run2 (ReturnChoice x p) ss = (x, ss) : run2 p ss
+  ```
 
 
 ## Transforming parsers of type `Parser1` into parsers of type `Parser2`
@@ -975,9 +975,9 @@
 
   Yes! We can write a function which transforms a `Parser1` into a `Parser2`
 
-   ```haskell
-   cast2 :: Parser1 s a -> Parser2 s a
-   ```
+  ```haskell
+  cast2 :: Parser1 s a -> Parser2 s a
+  ```
 
   <div class = "alert alert-info">
   Exercise: write `cast2`
