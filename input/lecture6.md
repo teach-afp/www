@@ -374,7 +374,7 @@
   In other words, `StateT` takes a monad `m` and returns a monad which contains
   a mutable state of certain type `s` and two operations: `get` and `put` —
   such monads are called `MonadState s`. (Actually, they have one more operation
-  ([`state`](https://hackage.haskell.org/package/mtl-2.2.1/docs/Control-Monad-State-Lazy.html#g:1))
+  ([`state`](https://hackage.haskell.org/package/mtl-2.3.1/docs/Control-Monad-State-Class.html#v:state))
   but we will not describe it here)
 
   ```haskell
