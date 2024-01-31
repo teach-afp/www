@@ -64,8 +64,8 @@
 * A simple (non-monadic) interpreter of expressions
 
   ```haskell
-  data Expr =   Lit Integer
-              | Expr :+: Expr
+  data Expr = Lit Integer
+            | Expr :+: Expr
 
   s_eval :: Expr -> Integer
   s_eval (Lit n)     = n
@@ -94,20 +94,23 @@
 * We change the type of the interpreter to return a monadic computation
 
   ```haskell
-   eval :: Expr  -> Eval Integer
-   eval (Lit n)    = return n
-   eval (a :+: b)  = (+) <$> (eval a) <*> (eval b) ```
+  eval :: Expr  -> Eval Integer
+  eval (Lit n)    = return n
+  eval (a :+: b)  = (+) <$> (eval a) <*> (eval b)
+  ```
 
-   We leverage the function `runIdentity :: Identity a -> a` to run the interpreter.
+  We leverage the function `runIdentity :: Identity a -> a` to run the interpreter.
 
   ```haskell
-   runEval :: Eval a -> a
-   runEval = CMI.runIdentity ```
+  runEval :: Eval a -> a
+  runEval = runIdentity
+  ```
 
   There are no effects, it just computes the result. More formally, we have that
 
   ```haskell
-   runEval . eval  ≡ s_eval  ```
+  runEval . eval  ≡  s_eval
+  ```
 
 * We want to extend our interpreter with new features
   - Local declarations
@@ -144,7 +147,8 @@
   data Expr = Lit Integer
             | Expr :+: Expr
             | Var Name            -- new
-            | Let Name Expr Expr  -- new ```
+            | Let Name Expr Expr  -- new
+  ```
 
 * Bindings are *immutable*, i.e., once a variable is bound to a value, it cannot
   be changed
@@ -160,11 +164,12 @@
   We use mappings from the module `Data.Map`
 
   ```haskell
-   type Env = Map Name Value
+  type Env = Map Name Value
 
-   emptyEnv = Map.empty
-   Map.lookup :: Ord k => k -> Map k a -> Maybe a
-   Map.insert :: Ord k => k -> a -> Map k a -> Map k a ```
+  emptyEnv = Map.empty
+  Map.lookup :: Ord k => k -> Map k a -> Maybe a
+  Map.insert :: Ord k => k -> a -> Map k a -> Map k a
+  ```
 
 * We would like to implement a monad with a read-only environment since bindings
   are immutable
@@ -172,7 +177,8 @@
 * One alternative is to hard-wire it into the interpreter
 
   ```haskell
-  eval :: Env -> Expr -> Eval Value ```
+  eval :: Env -> Expr -> Eval Value
+  ```
 
   This means that there would be some *plumbing* to pass the environment
   between recursive calls (recall lecture 3).
@@ -193,89 +199,99 @@
    `MonadReader`s are obtained by using the monad transformer `ReaderT`!
   </div>
 
-   ```haskell
-   data ReaderT s m a
+  ```haskell
+  data ReaderT r m a
 
-   runReaderT :: ReaderT s m a -> (s -> m a)
+  runReaderT :: ReaderT r m a -> (r -> m a)
 
-   local      :: MonadReader s m => (s -> s) -> m a -> m a
-   ask        :: MonadReader s m => m s ```
+  local      :: MonadReader r m => (r -> r) -> m a -> m a
+  ask        :: MonadReader r m => m r
+  ```
 
 * The monad `Eval` is then responsible for the *plumbing* required to pass around
   the environment.
 
-   ```haskell
-   newtype Eval a = MkEval (ReaderT Env (Identity) a)
-     deriving (Functor, Applicative, Monad, MonadReader Env) ```
+  ```haskell
+  newtype Eval a = MkEval (ReaderT Env (Identity) a)
+    deriving (Functor, Applicative, Monad, MonadReader Env)
+  ```
 
-   <div class="container">
-      <img class="img-responsive col-md-10 "
-        src="./assets/img/monad_r_id.png">
-   </div>
+  <div class="container">
+     <img class="img-responsive col-md-10 "
+       src="./assets/img/monad_r_id.png">
+  </div>
 
-   We introduce a new data type, rather than just a type synonym, because we
-   want Haskell to derive some type-classes instances.
+  We introduce a new data type, rather than just a type synonym, because we
+  want Haskell to derive some type-classes instances.
 
-   Due to deriving `MonadReader Env`, our evaluation monad supports
+  Due to deriving `MonadReader Env`, our evaluation monad supports
 
-   ```haskell
-   local :: MonadReader Env Identity => (Env -> Env) -> Identity a -> Identity a
-   ask   :: MonadReader Env Identity => Identity Env ```
+  ```haskell
+  local :: MonadReader Env Identity => (Env -> Env) -> Identity a -> Identity a
+  ask   :: MonadReader Env Identity => Identity Env
+  ```
 
 * Let us define some environment manipulation based on `local` and `ask`.
 
   Looking up the value of a variable in the enviroment.
 
   ```haskell
-   lookupVar :: Name -> Eval Value
-   lookupVar x = do
-     env <- ask
-     case Map.lookup x env of
-       Nothing -> fail $ "Variable " ++ x ++ " not found."
-       Just v  -> return v ```
+  lookupVar :: Name -> Eval Value
+  lookupVar x = do
+    env <- ask
+    case Map.lookup x env of
+      Nothing -> fail $ "Variable " ++ x ++ " not found."
+      Just v  -> return v
+  ```
 
-    We can extend the environment with a new binding for a local
-    computation.  Since we are using a reader monad, we can be sure
-    that this binding does not escape outside its intended scope.
+  We can extend the environment with a new binding for a local
+  computation.  Since we are using a reader monad, we can be sure
+  that this binding does not escape outside its intended scope.
 
   ```haskell
-   localScope :: Name -> Value -> Eval a -> Eval a
-   localScope n v = local (Map.insert n v) ```
+  localScope :: Name -> Value -> Eval a -> Eval a
+  localScope n v = local (Map.insert n v)
+  ```
 
 * The interpreter is extended by simply adding cases for the
   two new constructs. (None of the old cases has to be changed.)
 
   ```haskell
-   eval :: Expr -> Eval Value
-   eval (Lit n)       = return n
-   eval (a :+: b)     = (+) <$> eval a <*> eval b
-   eval (Var n)       = lookupVar n                 -- here, we use ask
-   eval (Let n e1 e2) = do v <- eval e1
-                           localScope n v (eval e2) -- here, we use local ```
+  eval :: Expr -> Eval Value
+  eval (Lit n)       = return n
+  eval (a :+: b)     = (+) <$> eval a <*> eval b
+  eval (Var n)       = lookupVar n                 -- here, we use ask
+  eval (Let n e1 e2) = do
+    v <- eval e1
+    localScope n v (eval e2)                       -- here, we use local
+  ```
 
 * The `run` function simply runs the interpreter with the initial empty environment.
 
-   ```haskell
-   runEval :: Eval a -> a
-   runEval (MkEval reader) = runIdentity (runReaderT reader emptyEnv) ```
+  ```haskell
+  runEval :: Eval a -> a
+  runEval (MkEval m) = runIdentity (runReaderT m emptyEnv)
+  ```
 
-   Observe how we run the reader monad first, and then the identity monad.
+  Observe how we run the reader monad first, and then the identity monad.
 
-   When using monad transformers, you start running the outermost monad and
-   finish with the innermost one of your *monad stack*.
+  When using monad transformers, you start running the outermost monad and
+  finish with the innermost one of your *monad stack*.
 
-   <div class="container">
-      <img class="img-responsive col-md-11 "
-        src="./assets/img/monad_r_id_run.png">
-   </div>
+  <div class="container">
+     <img class="img-responsive col-md-11 "
+       src="./assets/img/monad_r_id_run.png">
+  </div>
 
 * Example
 
   ```haskell
   runEval $ eval (parse "let x=1+2; x+x")
-  > 6 ```
+  > 6
+  ```
 
 ## Interpreter 2:  the state monad transformer
+
 [code](https://github.com/teach-afp/afp-code/blob/master/L6/Interpreter2.hs)
 
 * We want to extend our language of expression with *mutable references*, e.g., we
@@ -291,16 +307,17 @@
             | Let Name Expr Expr
             | NewRef Expr         -- new
             | Deref Expr          -- new
-            | Expr := Expr        -- new ```
+            | Expr := Expr        -- new
+  ```
 
-   Expression `NewRef e` creates a fresh reference which initially contains the
-   value denoted by `e`.
+  Expression `NewRef e` creates a fresh reference which initially contains the
+  value denoted by `e`.
 
-   Expression `Deref e` denotes the value stored by the
-   reference denoted by `e`.
+  Expression `Deref e` denotes the value stored by the
+  reference denoted by `e`.
 
-   Expression `e1 := e2` changes the value stored in
-   the reference denoted by `e1` with the value denoted by `e2`.
+  Expression `e1 := e2` changes the value stored in
+  the reference denoted by `e1` with the value denoted by `e2`.
 
 * The interpreter needs a notion of *memory* or *store* to keep the values
   stored in references
@@ -310,33 +327,38 @@
 * We represent it as a mapping from *memory locations* to *values*
 
   ```haskell
-   type Ptr   = Value
-   data Store = Store { nextPtr :: Ptr
-                      , heap    :: Map Ptr Value
-                      } ```
+  type Ptr   = Integer
+  data Store = Store
+    { nextPtr :: Ptr
+    , heap    :: Map Ptr Value
+    }
+  ```
 
-   A `Store` is then a mapping from a value denoting a memory location to the
-   value stored at that location.
+  A `Store` is then a mapping from a value denoting a memory location to the
+  value stored at that location.
 
-   For instance, the following mapping
+  For instance, the following mapping
 
-   ```haskell
-    Map.insert 2 42 (Map.insert 1 7 (Map.insert 0 101 Map.empty)) ```
+  ```haskell
+  Map.insert 2 42 (Map.insert 1 7 (Map.insert 0 101 Map.empty))
+  ```
 
-   denotes a memory with three references: at location `0` with value `101`, at
-   location `1` with value `7`, and at location `2` with value `42`.
+  denotes a memory with three references: at location `0` with value `101`, at
+  location `1` with value `7`, and at location `2` with value `42`.
 
-   We also remember the next unused pointer as part of the store (useful when
-   allocating a new reference).
+  We also remember the next unused pointer as part of the store (useful when
+  allocating a new reference).
 
-   ```haskell
-   emptyStore :: Store
-   emptyStore = Store 0 Map.empty ```
+  ```haskell
+  emptyStore :: Store
+  emptyStore = Store 0 Map.empty
+  ```
 
 * As before, one alternative is to hard-wire it into the interpreter
 
   ```haskell
-  eval :: Store -> Expr -> Eval Value ```
+  eval :: Store -> Expr -> Eval Value
+  ```
 
   This means that there would be some *plumbing* to pass the store (memory)
   between recursive calls (recall lecture 3).
@@ -355,44 +377,48 @@
   ([`state`](https://hackage.haskell.org/package/mtl-2.2.1/docs/Control-Monad-State-Lazy.html#g:1))
   but we will not describe it here)
 
-   ```haskell
-   data StateT s m a
+  ```haskell
+  data StateT s m a
 
-   evalStateT :: Monad m => StateT s m a -> s -> m a
+  evalStateT :: Monad m => StateT s m a -> s -> m a
 
-   get        :: MonadState s m => m s
-   put        :: MonadState s m => s -> m () ```
+  get        :: MonadState s m => m s
+  put        :: MonadState s m => s -> m ()
+  ```
 
 * The monad `Eval` is then responsible for the *plumbing* required to pass
   around the store.
 
   ```haskell
-   newtype Eval a = MkEval (StateT Store (ReaderT Env Identity) a)
-     deriving (Functor, Applicative,
-               Monad, MonadState Store, MonadReader Env) ```
+  newtype Eval a = MkEval (StateT Store (ReaderT Env Identity) a)
+    deriving (Functor, Applicative,
+              Monad, MonadState Store, MonadReader Env)
+  ```
 
-   <div class="container">
-      <img class="img-responsive col-md-10 "
-        src="./assets/img/monad_st_r_id.png">
-   </div>
+  <div class="container">
+     <img class="img-responsive col-md-10 "
+       src="./assets/img/monad_st_r_id.png">
+  </div>
 
 * Alternatively, we could have defined an state-reader monad from
   scratch, i.e., not using the monad transformers
 
   ```haskell
-  data Eval a = MkEval (\Store -> Env -> (a, Store)) ```
+  data Eval a = MkEval (Store -> Env -> (a, Store))
+  ```
 
   <div class="alert alert-info">
   **Exercise**: Implement a "state-reader monad" directly
   ```haskell
-   newtype MyMonad s e a = MyMonad {runMyMonad :: s -> e -> (a,s)}
+  newtype MyMonad s e a = MyMonad {runMyMonad :: s -> e -> (a,s)}
 
-   instance Monad (MyMonad s e) where
-   return = returnMyMonad
-   (>>=)  = bindMyMonad
+  instance Monad (MyMonad s e) where
+  return = returnMyMonad
+  (>>=)  = bindMyMonad
 
-   returnMyMonad :: a -> MyMonad s e a
-   returnMyMonad x = MyMonad $ \s -> \ e -> (x, s) ```
+  returnMyMonad :: a -> MyMonad s e a
+  returnMyMonad x = MyMonad $ \s -> \ e -> (x, s)
+  ```
   </div>
 
   While it works, the price to pay is modularity.
@@ -403,81 +429,88 @@
   memory location and the heap.
 
   ```haskell
-   newRef :: Value -> Eval Ptr
-   newRef v = do store <- get
-                 let ptr      = nextPtr store
-                     new_ptr  = 1 + ptr
-                     newHeap  = Map.insert ptr v (heap store)
-                 put (Store new_ptr newHeap)
-                 return ptr ```
+  newRef :: Value -> Eval Ptr
+  newRef v = do
+    store <- get
+    let ptr      = nextPtr store
+        new_ptr  = 1 + ptr
+        newHeap  = Map.insert ptr v (heap store)
+    put (Store new_ptr newHeap)
+    return ptr
+  ```
 
-   *Getting the value of a reference*: look up a memory location
-    in the store. We crash with our own "segfault" if given a non-existing
-    pointer (observe that the state has not been changed.)
+  *Getting the value of a reference*: look up a memory location
+  in the store. We crash with our own "segfault" if given a non-existing
+  pointer (observe that the state has not been changed.)
 
-   ```haskell
-   deref :: Ptr -> Eval Value
-   deref p = do st <- get
-                let h = heap st
-                case Map.lookup p h of
-                     Nothing -> fail ("Segmentation fault: "++show p++" is not bound")
-                     Just v  -> return v ```
+  ```haskell
+  deref :: Ptr -> Eval Value
+  deref p = do
+    st <- get
+    let h = heap st
+    case Map.lookup p h of
+      Nothing -> fail ("Segmentation fault: "++show p++" is not bound")
+      Just v  -> return v
+  ```
 
-   *Updating a reference*: change a value in the store.
+  *Updating a reference*: change a value in the store.
 
-    ```haskell
-    (=:) :: MonadState Store m => Ptr -> Value -> m Value
-    p =: v = do store <- get
-                let updt_heap = Map.adjust (const v) p (heap store)
-                put (store {heap = updt_heap})
-                return v
-    -- Map.adjust :: (Ord k) => (a -> a) -> k -> Map k a -> Map k a ```
+  ```haskell
+  (=:) :: MonadState Store m => Ptr -> Value -> m Value
+  p =: v = do
+    store <- get
+    let updt_heap = Map.adjust (const v) p (heap store)
+    put (store {heap = updt_heap})
+    return v
+  -- Map.adjust :: (Ord k) => (a -> a) -> k -> Map k a -> Map k a
+  ```
 
-   Observe that `(=:)` has no effect if the reference does not exist.
+  Observe that `(=:)` has no effect if the reference does not exist.
 
-   <div class="alert alert-info">
-   **Exercise**: Maybe that is not the best semantics. What would it be a better one?
-   </div>
+  <div class="alert alert-info">
+  **Exercise**: Maybe that is not the best semantics. What would it be a better one?
+  </div>
 
 * We define the evaluation of expressions for the new cases with the functions
   described above.
 
-   ```haskell
-   eval :: Expr -> Eval Value
-   eval (Lit n)       = return n
-   eval (a :+: b)     = (+) <$> eval a <*> eval b
-   eval (Var x)       = lookupVar x
-   eval (Let n e1 e2) = do v <- eval e1
-                           localScope n v (eval e2)
-   eval (NewRef e)    = do v <- eval e
-                           newRef v
-   eval (Deref e)     = do r <- eval e
-                           deref r
-   eval (pe := ve)    = do p <- eval pe
-                           v <- eval ve
-                           p =: v ```
+  ```haskell
+  eval :: Expr -> Eval Value
+  eval (Lit n)       = return n
+  eval (a :+: b)     = (+) <$> eval a <*> eval b
+  eval (Var x)       = lookupVar x
+  eval (Let n e1 e2) = do v <- eval e1
+                          localScope n v (eval e2)
+  eval (NewRef e)    = do v <- eval e
+                          newRef v
+  eval (Deref e)     = do r <- eval e
+                          deref r
+  eval (pe := ve)    = do p <- eval pe
+                          v <- eval ve
+                          p =: v
+  ```
 
-    As before, we do not need to change the definition for the old
-    constructors.
+  As before, we do not need to change the definition for the old
+  constructors.
 
 * We can test it
 
   ```haskell
   > runEval $ eval $ parse "let p=new 7; !p"
-  7 ```
+  7
+  ```
 
 * Unfortunately, our expression language supports pointer arithmetic (like C),
   so a pointer might dereference another one — a recipe for disaster!
 
   ```haskell
   > runEval $ eval $ parse "let p=new 1; let q=new 1738; !(p+1)"
-  1738 ```
+  1738
+  ```
 
 * How are we going to fix it?
 
-  - Restricting the grammar, i.e., `!` only accepts variables names (not
-    expressions)
-  - Small type-system (overkill here)
+  (Discuss solutions.)
 
 * What else can go wrong with our interpreter?
 
@@ -485,11 +518,13 @@
 
   ```haskell
   > runEval $ eval $ parse "q + 1"
-  *** Exception: Variable q not found. ```
+  *** Exception: Variable q not found.
+  ```
 
   ```haskell
   > runEval $ eval $ parse "!q"
-  *** Exception: Variable q not found. ```
+  *** Exception: Variable q not found.
+  ```
 
   We need some exception handling mechanism into the language of expressions.
 
