@@ -82,7 +82,7 @@ update!
 
 * **Topics**: Another application of monads, namely parsing. Refinement of
     implementation by program derivation. The focus here is on learning outcome
-    "Spec: use specifictaion based development techniques".
+    "Spec: use specification based development techniques".
 
 * [Source
   code](https://github.com/teach-afp/afp-code/blob/master/L5/)
