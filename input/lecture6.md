@@ -283,6 +283,16 @@
        src="./assets/img/monad_r_id_run.png">
   </div>
 
+  The textual ordering of runners in `runEval`
+  is reversed w.r.t. the ordering of type constructors in `newtype Eval`.
+  We can get the same textual order with reverse application
+  `(&) : a -> (a -> b) -> b` and infix sections:
+
+  ```haskell
+  newtype MkEval a = MkEval ( ReaderT      Env        Identity    a)
+  runEval (MkEval m) = m & (`runReaderT` emptyEnv) & runIdentity
+  ```
+
 * Example
 
   ```haskell
