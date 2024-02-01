@@ -82,7 +82,8 @@
 
 * **Derived**!
 
-* Used by GHC `Read` type class
+* Used by GHC `Read` type class via
+  [`Text.ParserCombinators.ReadP`](https://hackage.haskell.org/package/base-4.19.0.0/docs/src/Text.ParserCombinators.ReadP.html).
 
 
 ## A simple EDSL for parsing
@@ -736,7 +737,7 @@
   run1 (Return x)         ss = [(x,ss)]
   ```
 
-  We have another source of inneficiency. Can you see it?
+  We have another source of inefficiency. Can you see it?
 
   The list append `(++)` is linear in its first argument which means that left
   nested applications `(+++)` get a quadratic behaviour, e.g., consider
