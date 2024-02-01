@@ -69,7 +69,8 @@
 
   s_eval :: Expr -> Integer
   s_eval (Lit n)     = n
-  s_eval (e1 :+: e2) = s_eval e1 :+: s_eval e2 ```
+  s_eval (e1 :+: e2) = s_eval e1 + s_eval e2
+  ```
 
   This code is not monadic, but we can change that.
 
