@@ -95,9 +95,9 @@
 * We change the type of the interpreter to return a monadic computation
 
   ```haskell
-  eval :: Expr  -> Eval Integer
-  eval (Lit n)    = return n
-  eval (a :+: b)  = (+) <$> (eval a) <*> (eval b)
+  eval :: Expr -> Eval Integer
+  eval (Lit n)   = return n
+  eval (a :+: b) = (+) <$> eval a <*> eval b
   ```
 
   We leverage the function `runIdentity :: Identity a -> a` to run the interpreter.
@@ -162,7 +162,7 @@
 * We model environments as mappings from variables names to values, i.e., think
   it a mapping as an element of type `[(Name, Value)]` or `Name -> Maybe Value`.
 
-  We use mappings from the module `Data.Map`
+  We use mappings from the module `Data.Map`:
 
   ```haskell
   type Env = Map Name Value
@@ -205,14 +205,20 @@
 
   runReaderT :: ReaderT r m a -> (r -> m a)
 
-  local      :: MonadReader r m => (r -> r) -> m a -> m a
-  ask        :: MonadReader r m => m r
+  class Monad m => MonadReader r m where
+    ask   :: m r
+    local :: (r -> r) -> m a -> m a
+
+  instance Monad m => Monad         (ReaderT r m)
+  instance Monad m => MonadReader r (ReaderT r m)
   ```
 
 * The monad `Eval` is then responsible for the *plumbing* required to pass around
   the environment.
 
   ```haskell
+  {-# LANGUAGE GeneralisedNewtypeDeriving #-}
+
   newtype Eval a = MkEval (ReaderT Env (Identity) a)
     deriving (Functor, Applicative, Monad, MonadReader Env)
   ```
@@ -225,11 +231,11 @@
   We introduce a new data type, rather than just a type synonym, because we
   want Haskell to derive some type-classes instances.
 
-  Due to deriving `MonadReader Env`, our evaluation monad supports
+  Due to instance `MonadReader Env Eval`, our evaluation monad supports
 
   ```haskell
-  local :: MonadReader Env Identity => (Env -> Env) -> Identity a -> Identity a
-  ask   :: MonadReader Env Identity => Identity Env
+  ask   :: Eval Env
+  local :: (Env -> Env) -> Eval a -> Eval a
   ```
 
 * Let us define some environment manipulation based on `local` and `ask`.
@@ -241,7 +247,7 @@
   lookupVar x = do
     env <- ask
     case Map.lookup x env of
-      Nothing -> fail $ "Variable " ++ x ++ " not found."
+      Nothing -> error $ unwords ["Variable", x, "not found."]
       Just v  -> return v
   ```
 
@@ -251,7 +257,7 @@
 
   ```haskell
   localScope :: Name -> Value -> Eval a -> Eval a
-  localScope n v = local (Map.insert n v)
+  localScope x v m = local (Map.insert x v) m
   ```
 
 * The interpreter is extended by simply adding cases for the
@@ -259,8 +265,7 @@
 
   ```haskell
   eval :: Expr -> Eval Value
-  eval (Lit n)       = return n
-  eval (a :+: b)     = (+) <$> eval a <*> eval b
+  ...
   eval (Var n)       = lookupVar n                 -- here, we use ask
   eval (Let n e1 e2) = do
     v <- eval e1
@@ -331,11 +336,11 @@
   the reference denoted by `e1` with the value denoted by `e2`.
 
 * The interpreter needs a notion of *memory* or *store* to keep the values
-  stored in references
+  stored in references.
 
 * This store is mutable, since references are mutable too!
 
-* We represent it as a mapping from *memory locations* to *values*
+* We represent it as a mapping from *memory locations* to *values*:
 
   ```haskell
   type Ptr   = Integer
@@ -393,8 +398,9 @@
 
   evalStateT :: Monad m => StateT s m a -> s -> m a
 
-  get        :: MonadState s m => m s
-  put        :: MonadState s m => s -> m ()
+  class Monad m => MonadState s m where
+    get :: m s
+    put :: s -> m ()
   ```
 
 * The monad `Eval` is then responsible for the *plumbing* required to pass
@@ -424,8 +430,8 @@
   newtype MyMonad s e a = MyMonad {runMyMonad :: s -> e -> (a,s)}
 
   instance Monad (MyMonad s e) where
-  return = returnMyMonad
-  (>>=)  = bindMyMonad
+    return = returnMyMonad
+    (>>=)  = bindMyMonad
 
   returnMyMonad :: a -> MyMonad s e a
   returnMyMonad x = MyMonad $ \s -> \ e -> (x, s)
@@ -446,7 +452,7 @@
     let ptr      = nextPtr store
         new_ptr  = 1 + ptr
         newHeap  = Map.insert ptr v (heap store)
-    put (Store new_ptr newHeap)
+    put Store{ nextPtr = new_ptr, heap = newHeap }
     return ptr
   ```
 
@@ -460,7 +466,7 @@
     st <- get
     let h = heap st
     case Map.lookup p h of
-      Nothing -> fail ("Segmentation fault: "++show p++" is not bound")
+      Nothing -> error $ unwords ["'Segmentation fault':", show p, "is not bound."]
       Just v  -> return v
   ```
 
@@ -471,7 +477,7 @@
   p =: v = do
     store <- get
     let updt_heap = Map.adjust (const v) p (heap store)
-    put (store {heap = updt_heap})
+    put store{ heap = updt_heap }
     return v
   -- Map.adjust :: (Ord k) => (a -> a) -> k -> Map k a -> Map k a
   ```
@@ -487,18 +493,17 @@
 
   ```haskell
   eval :: Expr -> Eval Value
-  eval (Lit n)       = return n
-  eval (a :+: b)     = (+) <$> eval a <*> eval b
-  eval (Var x)       = lookupVar x
-  eval (Let n e1 e2) = do v <- eval e1
-                          localScope n v (eval e2)
-  eval (NewRef e)    = do v <- eval e
-                          newRef v
-  eval (Deref e)     = do r <- eval e
-                          deref r
-  eval (pe := ve)    = do p <- eval pe
-                          v <- eval ve
-                          p =: v
+  ...
+  eval (NewRef e) = do
+    v <- eval e
+    newRef v
+  eval (Deref e)  = do
+    p <- eval e
+    deref p
+  eval (pe := ve) = do
+    p <- eval pe
+    v <- eval ve
+    p =: v
   ```
 
   As before, we do not need to change the definition for the old
