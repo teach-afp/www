@@ -306,6 +306,32 @@
   > 6
   ```
 
+* Implementation of `ReaderT`:
+  ```haskell
+  newtype ReaderT r m a = ReaderT { runReaderT :: r -> m a }
+
+  instance Monad m => MonadReader r (ReaderT r m) where
+    ask :: ReaderT r m r
+    ask = ReaderT \ r -> return r
+
+    local :: (r -> r) -> ReaderT m a -> ReaderT m a
+    local f m = ReaderT \ r -> runReaderT m (f r)
+
+  instance Monad m => Monad (ReaderT r m) where
+    return :: a -> ReaderT r m a
+    return a = ReaderT \ r -> return a
+
+    (>>=) :: ReaderT r m a -> (a -> ReaderT r m b) -> ReaderT r m b
+    m >>= k = ReaderT \ r -> do
+      a <- runReaderT m r
+      b <- runReaderT (k a) r
+      return b
+  ```
+
+**Exercise**:
+* Do we have `Applicative m => Applicative (ReaderT r m)`?
+* Can you implement the interpreter with just the `Applicative` interface (no `Monad`)?
+
 ## Interpreter 2:  the state monad transformer
 
 [code](https://github.com/teach-afp/afp-code/blob/master/L6/Interpreter2.hs)
