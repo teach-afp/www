@@ -127,7 +127,7 @@
    Observe that the state is just passed as a return value in the underlying monad.
 
 ## Interpreter 3: `ExceptT` on the inside
-[code](https://github.com/teach-afp/afp-code/blob/master/L8/Interpreter3.hs)
+[code](https://github.com/teach-afp/afp-code/blob/master/L7/Interpreter3.hs)
 
 * We apply the monad transformer *on the inside* and wrap it with a reader
   and state monad.
@@ -240,7 +240,7 @@
 
 
 ## Interpreter 4: `ExceptT` on the outside
-[code](https://github.com/teach-afp/afp-code/blob/master/L8/Interpreter4.hs)
+[code](https://github.com/teach-afp/afp-code/blob/master/L7/Interpreter4.hs)
 
 * We apply the monad transformer *on the outiside*
 
@@ -313,7 +313,7 @@
   missile. For those effects, `ExceptT` on the outside might be suitable
 
 ## Interpreter 5: Adding I/O
-[code](https://github.com/teach-afp/afp-code/blob/master/L8/Interpreter5.hs)
+[code](https://github.com/teach-afp/afp-code/blob/master/L7/Interpreter5.hs)
 
 * We want to add a new effect: I/O (for simplicity we only consider output)
 
@@ -735,7 +735,7 @@
    </div>
 
 ## Interpreter 6: an interpreter with `MyStateT`, `MyExceptT`, and `MyReaderT`
-[code](https://github.com/teach-afp/afp-code/blob/master/L8/Interpreter6.hs)
+[code](https://github.com/teach-afp/afp-code/blob/master/L7/Interpreter6.hs)
 
 * We define the monad stack using our own monad transformers
 
@@ -773,7 +773,7 @@
 ## Lifting operations I
 
 * When introducing the new definition for `Eval` in the code for [Interpreter
-  4](https://github.com/teach-afp/afp-code/blob/master/L8/Interpreter4.hs), there are some auxiliary functions which do not type check.
+  4](https://github.com/teach-afp/afp-code/blob/master/L7/Interpreter4.hs), there are some auxiliary functions which do not type check.
 
 * We start by focusing on the auxiliary function `lookupVar`
 
@@ -934,7 +934,7 @@
   an exercise since it exhibits a similar problem as `eval (Catch e1 e2)`.
 
 * In [Interpreter
-  4](https://github.com/teach-afp/afp-code/blob/master/L8/Interpreter4.hs),
+  4](https://github.com/teach-afp/afp-code/blob/master/L7/Interpreter4.hs),
   GHC's "deriving magic" saves you from all the complications of lifting
   non-proper morphisms.
 

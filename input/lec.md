@@ -120,7 +120,7 @@ update!
     Interpreters](./assets/files/modular-interpreters-liang.ps)
     by Sheng Liang, Paul Hudak, and Mark Jones.
 
-## 7. [Monad transformers II](./lecture8.html)
+## 7. [Monad transformers II](./lecture7.html)
 
 * **Topics**: This lecture looks into the consequences of the application order
     of `StateT` and `ExceptT` monad transformers in the interpreter. The lecture
@@ -128,7 +128,7 @@ update!
     implementation for `StateT`, `ExceptT`, and `ReaderT`.
 
 * [Source
-  code](https://github.com/teach-afp/afp-code/blob/master/L8/)
+  code](https://github.com/teach-afp/afp-code/blob/master/L7/)
 
 * The reading material is the same as lecture 6 (see above).
 
