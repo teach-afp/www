@@ -132,7 +132,21 @@ update!
 
 * The reading material is the same as lecture 6 (see above).
 
-## 8. [Information-flow Control in Haskell](./lecture9.html)
+## 8. [Program verification](./lecture8.html)
+
+* **Topics**: In this lecture, we look at program verification by proving
+    properties by induction. We also explore property-based testing as
+    increasing the confidence on program correctness.
+
+* [Source code](https://github.com/teach-afp/afp-code/blob/master/L8/)
+
+* **Reading**: Chapter 11. Chapter 2 in the book *The Fun of Programming*.
+
+* **Optional reading**: [QuickCheck: A Lightweight Tool for Random Testing of
+    Haskell Programs by K. Claessen and
+    J. Hughes](./assets/files/QuickCheck-claessen.ps)
+
+## 9. [Information-flow Control in Haskell](./lecture9.html)
 
 * **Topics**: In this lecture, we will see a use of monads for controlling
     effects in order to provide security for Haskell programs. We will focus on
@@ -146,20 +160,6 @@ update!
 
 * **Reading**: Functional Pearl: [Two can keep a secret, If one of them uses
     Haskell by A. Russo](http://www.cse.chalmers.se/~russo/publications_files/pearl-russo.pdf)
-
-## 9. [Program verification](./lecture10.html)
-
-* **Topics**: In this lecture, we look at program verification by proving
-    properties by induction. We also explore property-based testing as
-    increasing the confidence on program correctness.
-
-* [Source code](https://github.com/teach-afp/afp-code/blob/master/L10/)
-
-* **Reading**: Chapter 11. Chapter 2 in the book *The Fun of Programming*.
-
-* **Optional reading**: [QuickCheck: A Lightweight Tool for Random Testing of
-    Haskell Programs by K. Claessen and
-    J. Hughes](./assets/files/QuickCheck-claessen.ps)
 
 ## 10. [Type-based modeling](./lecture13.html)
 
