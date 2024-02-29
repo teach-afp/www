@@ -192,28 +192,3 @@ update!
 * **Optional reading**: [Fun with Type
     Functions](https://wiki.haskell.org/Simonpj/Talk:FunWithTypeFuns)
     by O. Kiselyov, S. Peyton-Jones, and C. Shan
-
-
-# Special lectures
-
-## Looking forward! (Thursday, February 15th)
-
-* **Topics**: First instance of the excercise session with exam questions.
-
-* **Rooms**:
-  [SB-L208](http://maps.chalmers.se/#31ac4c6e-d44e-47ed-a5cf-1c81d0870912)
-  and
-  [SB-L216](http://maps.chalmers.se/#c0ae3c8a-e32c-4d2f-9f43-7f589a28c980)
-
-## Looking forward! (Monday, February 26th)
-
-* **Topics**: Second instance of the excercise session with exam questions.
-
-## Guest lecture 1 by [Dominic Orchard](https://www.cs.kent.ac.uk/people/staff/dao7/) (Thursday, March 1st)
-
-* **Material**: [Slides and code](./assets/files/chalmers-afp-march2018.zip)
-
-## ~~Guest lecture 2 by [Andreas Abel](http://www.cse.chalmers.se/~abela/) (Monday, March 5th)~~
-
-* This guest lecture has been canceled due to sickness. We will have
-  a regular lecture instead, room EF.
