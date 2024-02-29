@@ -5,7 +5,7 @@ LAYOUT = $(shell find ../lout -type f -name '*')
 LECTURES = lecture1.html lecture2.html lecture3.html lecture4.html lecture5.html lecture6.html lecture7.html lecture8.html lecture9.html lecture13.html lecture15.html
 
 LABS = $(SIMPLE_LABS) $(PRETTY_LABS)
-SIMPLE_LABS = labs.html lab3.html
+SIMPLE_LABS = labs.html lab3.html lab3-agda.html
 PRETTY_LABS = lab1.html lab2.html exam2020.html exam2020mocked.html
 
 SIMPLE_HTML = index.html inf.html exams.html lec.html $(SIMPLE_LABS)

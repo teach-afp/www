@@ -7,74 +7,10 @@ lecturer.
 
 * You need to pass all three assignments in order to pass the course.
 * Each of the assignments is divided into two parts with separate deadlines.
-* The assignments have to be handed in using [the Fire system](https://afp-lp3-18.frs.cse.chalmers.se/login).
 
-## Deadlines
+## Deadlines and submission
 
-<div class="alert alert-danger">
-Deadlines are hard! Please read these early and carefully!
-</div>
-
-<table class="table table-bordered">
-<thead>
-<tr>
-    <th>Assignment 1</th>
-    <th>Date</th>
-</tr>
-</thead>
-
-<tr>
-    <td class="success">[Part I](lab1.html#part-i)</td>
-    <td class="alert-info">Sunday, January 28th (course week 2)</td>
-</tr>
-
-<tr>
-    <td class="success">[Part II](lab1.html#part-ii)</td>
-    <td class="alert-info">Sunday, February 4th (course week 3)</td>
-</tr>
-</table>
-
-<table class="table table-bordered">
-<thead>
-<tr>
-    <th>Assignment 2</th>
-    <th>Date</th>
-</tr>
-</thead>
-
-<tr>
-    <td class="success">[Part I](lab2.html#part-i)</td>
-    <td class="alert-info">Sunday, February 11th (course week 4)</td>
-</tr>
-
-<tr>
-    <td class="success">[Part II](lab2.html#part-ii)</td>
-    <td class="alert-info">Sunday, February 25th (course week 6)</td>
-</tr>
-</table>
-
-
-<table class="table table-bordered">
-<thead>
-<tr>
-    <th>Assignment 3</th>
-    <th>Date</th>
-</tr>
-</thead>
-
-<tr>
-    <td class="success">[Part I](lab3.html#part-i)</td>
-    <td class="alert-info">Sunday, March 4th (course week 7)</td>
-</tr>
-
-<tr>
-    <td class="success">[Part II](lab3.html#part-ii)</td>
-    <td class="alert-info">Sunday, March 11th (course week 8)</td>
-</tr>
-</table>
-
-<div class="alert alert-info">**Final Deadline**: Monday, March 19th (exam
-week)</div>
+See Canvas page.
 
 Your first serious attempt has to be submitted before the first
 deadline. Your last attempt has to be submitted before the final
@@ -142,34 +78,3 @@ use another student's code.
 
 It is possible that exceptions to these rules are granted, but only you should
 talk to the lecturer as soon as the problem arises.
-
-## GHC setup for Chalmers machines
-
-The labs in this course require you to use a fairly recent version of GHC.
-Unfortunately, the version provided by default on the Chalmers machines is
-quite ancient. If you want to use the Chalmers machines for your lab work,
-you will need to add the directory `/chalmers/sw/unsup64/phc/b/binh` to your
-`$PATH`.
-
-One way to achieve this is to run the following in a terminal:
-
-```
-echo 'export PATH=/chalmers/sw/unsup64/phc/b/binh:$PATH' >> $HOME/.bashrc
-```
-
-After executing the above command, close your terminal window and open a new
-one. Then check that everything works as expected:
-
-```
-ghc --version
-```
-
-GHC should then print:
-
-```
-The Glorious Glasgow Haskell Compilation System, version 7.10.2
-```
-
-If the version printed is 7.10.2, then you're all set up and good to go. Note
-that you only need to perform this setup *once* on your Chalmers account,
-as these changes persist across reboots.

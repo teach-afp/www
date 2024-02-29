@@ -1,25 +1,6 @@
-Deadlines
-=========
+Assignment 3 - Variant 1: public Haskell library
 
-<table class="table table-bordered">
-<thead>
-<tr>
-    <th>Assignment 3</th>
-    <th>Date</th>
-</tr>
-</thead>
-
-<tr>
-    <td class="success">[Part I](#part-i)</td>
-    <td class="alert-info">Sunday, March 4th (course week 7)</td>
-</tr>
-
-<tr>
-    <td class="success">[Part II](#part-ii)</td>
-    <td class="alert-info">Sunday, March 11th (course week 8)</td>
-</tr>
-</table>
-
+See also [Variant 2](lab3-agda.html) (Agda).
 
 Description
 ===========
@@ -42,6 +23,7 @@ First choose a package on
 
 * You think is interesting.
 * Covers some of the categories DSL, Types, and Spec from the [learning outcomes](./inf.html#aim-and-context) of the course.
+* Is still actively maintained (check for public source repo, issue tracker, open pull requests, last commits...).
 
 Then your task is to write a short report (1&ndash;2 pages) explaining why you chose
 this package, which learning outcomes you think it relates to, and how it
@@ -141,4 +123,4 @@ Your submission needs to include the following information:
 Where to submit
 ---------------
 
-Go to [the Fire system](https://afp-lp3-18.frs.cse.chalmers.se/)!
+On the Canvas course page.
