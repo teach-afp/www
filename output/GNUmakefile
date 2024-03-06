@@ -2,7 +2,7 @@
 
 LAYOUT = $(shell find ../lout -type f -name '*')
 
-LECTURES = lecture1.html lecture2.html lecture3.html lecture4.html lecture5.html lecture6.html lecture7.html lecture8.html lecture9.html lecture13.html lecture15.html
+LECTURES = lecture1.html lecture2.html lecture3.html lecture4.html lecture5.html lecture6.html lecture7.html lecture8.html lecture-security.html lecture-type-based-modeling-i.html lecture-type-based-modeling-ii.html lecture-packaging.html
 
 LABS = $(SIMPLE_LABS) $(PRETTY_LABS)
 SIMPLE_LABS = labs.html lab3.html lab3-agda.html
@@ -28,7 +28,7 @@ $(SIMPLE_HTML) : %.html : ../input/%.md $(LAYOUT)
 
 # Template for pretty conversion from md to html (using pretty.sh)
 
-$(PRETTY_HTML) : %.html : ../input/%.md $(LAYOUT)
+$(PRETTY_HTML) : %.html : ../input/%.md $(LAYOUT) pretty.sh
 	 ./pretty.sh ../input/$*.md ../input/$*P.md
 	 generate-md --input ../input/$*P.md --output ./ --layout ../lout/
 	 mv $*P.html $*.html

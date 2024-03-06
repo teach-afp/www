@@ -132,11 +132,12 @@ update!
 
 * The reading material is the same as lecture 6 (see above).
 
-## 8. [Program verification](./lecture8.html)
+
+## 8. [Program verification by equational reasoning](./lecture8.html)
 
 * **Topics**: In this lecture, we look at program verification by proving
-    properties by induction. We also explore property-based testing as
-    increasing the confidence on program correctness.
+    properties by induction.  We do this semi-formally in Haskell first
+    and then fully formally in Agda.
 
 * [Source code](https://github.com/teach-afp/afp-code/blob/master/L8/)
 
@@ -146,43 +147,58 @@ update!
     Haskell Programs by K. Claessen and
     J. Hughes](./assets/files/QuickCheck-claessen.ps)
 
-## 9. [Information-flow Control in Haskell](./lecture9.html)
 
-* **Topics**: In this lecture, we will see a use of monads for controlling
-    effects in order to provide security for Haskell programs. We will focus on
-    how to preserve sensitive data when executed by untrusted code, i.e., code
-    written by someone else.
+## 9. Data structure invariants in Agda I: Ordered search trees
 
-* [Source
-  code for MAC library](https://bitbucket.org/russo/mac-lib), [Source code for
-  the demo](https://bitbucket.org/russo/mac-demo)
+* **Topics**: We review Agda syntax and the Curry-Howard Correspondence
+  that allows us to program proofs.
+  We then implement the tree sort algorithm in Agda using binary search trees
+  that are correctly ordered by construction.
+
+* [Source code](https://github.com/teach-afp/afp-code/blob/master/L9-TreeSort/)
+
+* **Optional reading**:
+  [How to Keep your Neighbors in Order, by C. McBride](https://personal.cis.strath.ac.uk/conor.mcbride/Pivotal.pdf)
 
 
-* **Reading**: Functional Pearl: [Two can keep a secret, If one of them uses
-    Haskell by A. Russo](http://www.cse.chalmers.se/~russo/publications_files/pearl-russo.pdf)
+## 10. Data structure invariants in Agda II: Balanced trees
 
-## 10. [Type-based modeling](./lecture13.html)
+* **Topics**: We review 2-3 Trees and implement them in Agda
+  such that they are correctly balanced by construction.
+
+* [Source code](https://github.com/teach-afp/afp-code/blob/master/L10/)
+
+* The reading material is the same as for the previous lecture.
+
+
+## 11. Data structure invariants in Agda III: Typed syntax trees
+
+* **Topics**: We implement a type checker and interpreter for a simple expression language in Agda.
+  The type checker produces syntax trees can only represent only well-typed programs.
+  An interpreter for such well-typed syntax trees can use tagless values.
+
+* [Source code](https://github.com/teach-afp/afp-code/blob/master/L11/)
+
+
+## 12a. [Type-based modeling in Haskell I](./lecture-type-based-modeling-i.html)
 
 * **Topics**: We look how to do type-inference (type-checking) in DSL using
     GADTs. We describe existential and singleton types.
 
-* [Source code](https://github.com/teach-afp/afp-code/blob/master/L13/)
+* [Source code](https://github.com/teach-afp/afp-code/blob/master/L12/)
+* [Source code](https://github.com/teach-afp/afp-code/blob/master/TypeBasedModelingI/)
 
 * **Reading**: [Existentially qualified
     types](https://en.wikibooks.org/wiki/Haskell/Existentially_quantified_types)
     and [GADTs](https://wiki.haskell.org/Generalised_algebraic_datatype).
 
 
-## 11. [Type-based modeling II & looking back!](./lecture15.html)
+## 12b. [Type-based modeling in Haskell II](./lecture-type-based-modeling-ii.html)
 
-* **Topics**: In the first part of the lecture, we will discuss associated
-    types, kinds, data kinds, type families, and singleton types. In the second
-    part, the lecture briefly look back at the learning outcomes and how they
-    relate to the different parts of the course and what parts of the Real world
-    Haskell book are covered. Then we go through a few examples chosen by
-    popular vote by the participants.
+* **Topics**: We will discuss associated
+    types, kinds, data kinds, type families, and singleton types.
 
-* [Source code](https://github.com/teach-afp/afp-code/blob/master/L15/)
+* [Source code](https://github.com/teach-afp/afp-code/blob/master/TypeBasedModelingII/)
 
 * **Reading**: [Type
     families](https://wiki.haskell.org/GHC/Type_families) on the
@@ -192,3 +208,33 @@ update!
 * **Optional reading**: [Fun with Type
     Functions](https://wiki.haskell.org/Simonpj/Talk:FunWithTypeFuns)
     by O. Kiselyov, S. Peyton-Jones, and C. Shan
+
+
+## 13 & 14. [Software engineering in Haskell](./lecture-packaging.html)
+
+* **Topics**: We discuss software engineering in Haskell:
+  - Writing package manifests (`.cabal` files).
+  - The Haskell [Package Version Policy](https://pvp.haskell.org)
+  - Testsuites:
+    * Unit tests with package `tasty-hunit`.
+    * Property tests with package `tasty-quickcheck`.
+    * Tested documentation with package `doctest`.
+  - Continuous Integration on `https://github.com`.
+  - Resilient coding style.
+
+* [Source code](https://github.com/teach-afp/binary-search-trees)
+
+
+## 15. [Information-flow Control in Haskell](./lecture-security.html)
+
+* **Topics**: In this lecture, we will see a use of monads for controlling
+    effects in order to provide security for Haskell programs. We will focus on
+    how to preserve sensitive data when executed by untrusted code, i.e., code
+    written by someone else.
+
+* [Source code for MAC library](https://bitbucket.org/russo/mac-lib),
+  [Source code for the demo](https://bitbucket.org/russo/mac-demo)
+
+
+* **Reading**: Functional Pearl: [Two can keep a secret, If one of them uses
+    Haskell by A. Russo](http://www.cse.chalmers.se/~russo/publications_files/pearl-russo.pdf)

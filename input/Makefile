@@ -1,2 +1,2 @@
 default:
-	make -C ../output html
+	make -C ../output

@@ -13,11 +13,15 @@
     <!-- Styles e.g.: default github googlecode intellij-light panda-syntax-light qtcreator-light tokyo-night-light xcode -->
     <script type="module">
       import hljs from 'https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/es/highlight.min.js';
-      import haskell from 'https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/es/languages/haskell.min.js';
       import bash from 'https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/es/languages/bash.min.js';
+      import haskell from 'https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/es/languages/haskell.min.js';
+      import ini from 'https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/es/languages/ini.min.js';
+      import yaml from 'https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/es/languages/yaml.min.js';
 
-      hljs.registerLanguage('haskell', haskell);
       hljs.registerLanguage('bash', bash);
+      hljs.registerLanguage('haskell', haskell);
+      hljs.registerLanguage('ini', ini);
+      hljs.registerLanguage('yaml', yaml);
 
       hljs.configure({
         cssSelector: "pre",
