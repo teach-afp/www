@@ -26,8 +26,8 @@ update!
 
 * [Source code](https://github.com/teach-afp/afp-code/blob/master/L2/)
 
-* **Reading**: [DSL for the Uninitiated by Debasish
-    Ghosh](http://cacm.acm.org/magazines/2011/7/109910-dsl-for-the-uninitiated/fulltext),
+* **Reading**:
+    [DSL for the Uninitiated by Debasish Ghosh](http://cacm.acm.org/magazines/2011/7/109910-dsl-for-the-uninitiated/fulltext),
     Chapter 5 has a EDSL for pretty printing, Chapter 9 for file searching and
     Chapter 13 one for arithmetic expressions.
 
@@ -43,13 +43,11 @@ update!
 
 * **Reading**: Chapter 14
 
-* [Source
-  code](https://github.com/teach-afp/afp-code/blob/master/L3/Interpr.hs)
+* [Source code](https://github.com/teach-afp/afp-code/blob/master/L3/Interpr.hs)
 
 * **Optional reading**:
   - Chapter 15
-  - [Monads for functional programming by Philip
-     Wadler](http://homepages.inf.ed.ac.uk/wadler/papers/marktoberdorf/baastad.pdf)
+  - [Monads for functional programming by Philip Wadler](http://homepages.inf.ed.ac.uk/wadler/papers/marktoberdorf/baastad.pdf)
      (the interpreter for arithmetic expressions is taken from this paper)
 
 ## 4. [Functors, Applicative Functors, and Monads](./lecture4.html)
@@ -57,26 +55,22 @@ update!
 * **Topics**: Functors. Applicative functors. Relation among functors,
     applicative functors, and monads. More example of monads (modeling IO).
 
-* **Reading**: Chapter 10 (Section Introducing Functors), [FUNCTIONAL PEARL
-    Applicative programming with effects (Page 1 &ndash;
-    6)](http://strictlypositive.org/IdiomLite.pdf)
+* **Reading**: Chapter 10 (Section Introducing Functors),
+  [FUNCTIONAL PEARL Applicative programming with effects (Page 1 &ndash; 6)](http://strictlypositive.org/IdiomLite.pdf)
 
-* [Source
-  code](https://github.com/teach-afp/afp-code/blob/master/L4/)
+* [Source code](https://github.com/teach-afp/afp-code/blob/master/L4/)
 
 * **Optional reading**:
   - Functors: [Page 1 and 2 from "Functional Pearl: F for Functor" by R. Hinze,
      J. Hackett, and D. W. H. James](http://www.cs.ox.ac.uk/people/daniel.james/functor/functor.pdf)
-  - Applicative functors: [FUNCTIONAL PEARL Applicative programming with
-  effects](http://strictlypositive.org/IdiomLite.pdf)
-  - Blog on [Functors are containers by
-    B. Milewski](http://bartoszmilewski.com/2014/01/14/functors-are-containers/). This
-    blog post explains Functors, Applicative Functors, and Monads using the
+  - Applicative functors:
+    [FUNCTIONAL PEARL Applicative programming with effects](http://strictlypositive.org/IdiomLite.pdf)
+  - Blog on [Functors are containers by B. Milewski](http://bartoszmilewski.com/2014/01/14/functors-are-containers/).
+    This blog post explains Functors, Applicative Functors, and Monads using the
     concept of containers.
-  - Intermediate embedding: [Beauty in the Beast, A Functional Semantics for
-    the Awkward Squad by W. Swierstra and
-    T. Altenkirch](http://www.cs.nott.ac.uk/~psztxa/publ/beast.pdf) Sections 1, 2
-    and 3.
+  - Intermediate embedding:
+    [Beauty in the Beast, A Functional Semantics for the Awkward Squad by W. Swierstra and T. Altenkirch](http://www.cs.nott.ac.uk/~psztxa/publ/beast.pdf)
+    Sections 1, 2 and 3.
 
 ## 5. [Parser derivation](./lecture5.html)
 
@@ -84,22 +78,19 @@ update!
     implementation by program derivation. The focus here is on learning outcome
     "Spec: use specification based development techniques".
 
-* [Source
-  code](https://github.com/teach-afp/afp-code/blob/master/L5/)
+* [Source code](https://github.com/teach-afp/afp-code/blob/master/L5/)
 
 * **Reading**: Chapter 16, until p. 390 or so; to get a feel for what parser
-    combinators are, [Parallel Parser
-    Combinators](./assets/files/parser-claessen.pdf),
+    combinators are,
+    [Parallel Parser Combinators](./assets/files/parser-claessen.pdf),
     [Koen's slides](./assets/files/afp-2015-lecture4.pdf)
 
 * **Optional reading**:
 
-  - [Monadic Parser
-    Combinators](./assets/files/parser-hutton.ps)
+  - [Monadic Parser Combinators](./assets/files/parser-hutton.ps)
     by Graham Hutton and Erik Meijer.
 
-  - [The Design of a Pretty-printing
-     Library](./assets/files/pretty-hughes.ps)
+  - [The Design of a Pretty-printing Library](./assets/files/pretty-hughes.ps)
      by John Hughes.
 
 
@@ -116,8 +107,7 @@ update!
 
 * **Optional reading**:
 
-  - [Monad Transformers and Modular
-    Interpreters](./assets/files/modular-interpreters-liang.ps)
+  - [Monad Transformers and Modular Interpreters](./assets/files/modular-interpreters-liang.ps)
     by Sheng Liang, Paul Hudak, and Mark Jones.
 
 ## 7. [Monad transformers II](./lecture7.html)
@@ -127,8 +117,7 @@ update!
     also shows how to create your own monad transformers &mdash; for that, we show an
     implementation for `StateT`, `ExceptT`, and `ReaderT`.
 
-* [Source
-  code](https://github.com/teach-afp/afp-code/blob/master/L7/)
+* [Source code](https://github.com/teach-afp/afp-code/blob/master/L7/)
 
 * The reading material is the same as lecture 6 (see above).
 
@@ -188,8 +177,7 @@ update!
 * [Source code](https://github.com/teach-afp/afp-code/blob/master/L12/)
 * [Source code](https://github.com/teach-afp/afp-code/blob/master/TypeBasedModelingI/)
 
-* **Reading**: [Existentially qualified
-    types](https://en.wikibooks.org/wiki/Haskell/Existentially_quantified_types)
+* **Reading**: [Existentially qualified types](https://en.wikibooks.org/wiki/Haskell/Existentially_quantified_types)
     and [GADTs](https://wiki.haskell.org/Generalised_algebraic_datatype).
 
 
@@ -200,13 +188,11 @@ update!
 
 * [Source code](https://github.com/teach-afp/afp-code/blob/master/TypeBasedModelingII/)
 
-* **Reading**: [Type
-    families](https://wiki.haskell.org/GHC/Type_families) on the
-    Haskell Wiki, and Associated types in [S. Peyton-Jones'
-    slides](http://research.microsoft.com/en-us/um/people/simonpj/papers/assoc-types/fun-with-type-funs/FunWithTypeFuns-Apr09.pdf)
+* **Reading**: [Type families](https://wiki.haskell.org/GHC/Type_families) on the
+    Haskell Wiki, and Associated types in
+    [S. Peyton-Jones' slides](http://research.microsoft.com/en-us/um/people/simonpj/papers/assoc-types/fun-with-type-funs/FunWithTypeFuns-Apr09.pdf)
 
-* **Optional reading**: [Fun with Type
-    Functions](https://wiki.haskell.org/Simonpj/Talk:FunWithTypeFuns)
+* **Optional reading**: [Fun with Type Functions](https://wiki.haskell.org/Simonpj/Talk:FunWithTypeFuns)
     by O. Kiselyov, S. Peyton-Jones, and C. Shan
 
 
@@ -236,5 +222,5 @@ update!
   [Source code for the demo](https://bitbucket.org/russo/mac-demo)
 
 
-* **Reading**: Functional Pearl: [Two can keep a secret, If one of them uses
-    Haskell by A. Russo](http://www.cse.chalmers.se/~russo/publications_files/pearl-russo.pdf)
+* **Reading**: Functional Pearl:
+  [Two can keep a secret, If one of them uses Haskell by A. Russo](http://www.cse.chalmers.se/~russo/publications_files/pearl-russo.pdf)
