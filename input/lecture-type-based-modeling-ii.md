@@ -37,7 +37,7 @@
   argument to a float and then perform the sum.
 
 ## Associated types
-[code](https://github.com/teach-afp/afp-code/blob/master/L15/Add.hs)
+[code](https://github.com/teach-afp/afp-code/blob/master/TypeBaseModelingII/Add.hs)
 
 * What is the type of `(+)`?
 
@@ -406,7 +406,7 @@ and *closed*)
   index tn vec = (toList vec) !! ... ```
 
 ## Singleton types
-[code](https://github.com/teach-afp/afp-code/blob/master/L15/TypeBasedM.hs)
+[code](https://github.com/teach-afp/afp-code/blob/master/TypeBaseModelingII/TypeBasedM.hs)
 
 * In the implementation of `index`, the second argument for `(!!)` depends on
   the type of `tn`.

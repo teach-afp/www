@@ -64,7 +64,7 @@
   Therefore, the run function needs to trigger errors when expressions are bad.
 
 ## An EDSL implementation
-[code](https://github.com/teach-afp/afp-code/blob/master/L13/Expr.hs)
+[code](https://github.com/teach-afp/afp-code/blob/master/TypeBaseModelingI/Expr.hs)
 
 * We implement `Expr` as follows
 
@@ -124,7 +124,7 @@
 * Can we avoid constructing bad expressions at all?
 
 ## A EDSL with type-aware combinators
-[code](https://github.com/teach-afp/afp-code/blob/master/L13/Middle.hs)
+[code](https://github.com/teach-afp/afp-code/blob/master/TypeBaseModelingI/Middle.hs)
 
 * Now, for every type, we have a new *kind of expressions*
 
@@ -317,7 +317,7 @@
     What about lists of lists of lists of integers/booleans?
 
 ## Enter GADTs
-[code](https://github.com/teach-afp/afp-code/blob/master/L13/Typed.hs)
+[code](https://github.com/teach-afp/afp-code/blob/master/TypeBaseModelingI/Typed.hs)
 
 * We use GADTs of the form `Expr t`, where `t` is a Haksell type which indicates
   the value that the expression denotes
