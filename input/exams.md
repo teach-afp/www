@@ -1,5 +1,10 @@
 ## Past exams
 
+### Exams by Andreas Abel
+
+* [March 2024](./assets/exams/2024-03.pdf)
+  ([with solutions](./assets/exams/2024-03-solved.pdf))
+
 ### Exams by Alejandro Russo
 
 * [March 2019](./assets/exams/2019-03.pdf)
