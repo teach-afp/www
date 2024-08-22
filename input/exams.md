@@ -7,6 +7,10 @@
 
 ### Exams by Alejandro Russo
 
+* [March 2023](./assets/exams/2023-03.pdf)
+  ([with solutions](./assets/exams/2023-03-solved.pdf))
+* [March 2022](./assets/exams/2022-03.pdf)
+  ([with solutions](./assets/exams/2022-03-solved.pdf))
 * [March 2019](./assets/exams/2019-03.pdf)
   ([with solutions](./assets/exams/2019-03-solved.pdf))
 * [March 2018](./assets/exams/2018-03.pdf)
