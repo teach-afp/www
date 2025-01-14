@@ -3,24 +3,38 @@
 ### Exams by Andreas Abel
 
 * [March 2024](./assets/exams/2024-03.pdf)
-  ([with solutions](./assets/exams/2024-03-solved.pdf))
+  ([with solutions](./assets/exams/2024-03-solved.pdf)):
+  _Non-determinism monad | EDSL for category with finite products_
 
 ### Exams by Alejandro Russo
 
 * [March 2023](./assets/exams/2023-03.pdf)
-  ([with solutions](./assets/exams/2023-03-solved.pdf))
+  ([with solutions](./assets/exams/2023-03-solved.pdf)):
+  _Free monad_
+
 * [March 2022](./assets/exams/2022-03.pdf)
-  ([with solutions](./assets/exams/2022-03-solved.pdf))
+  ([with solutions](./assets/exams/2022-03-solved.pdf)):
+  _Non-determinism monad_
+
 * [March 2019](./assets/exams/2019-03.pdf)
-  ([with solutions](./assets/exams/2019-03-solved.pdf))
+  ([with solutions](./assets/exams/2019-03-solved.pdf)):
+  _State+exception | `sumlen` | `foldr ⊕ ≡ foldl ⊕` | `HList` | `MAC`_
+
 * [March 2018](./assets/exams/2018-03.pdf)
-  ([with solutions](./assets/exams/2018-03-solved.pdf))
+  ([with solutions](./assets/exams/2018-03-solved.pdf)):
+  _Eta | State monad laws | `eval` Hutton's razor | type-level Nat_
+
 * [August 2017](./assets/exams/2017-08.pdf)
-  ([with solutions](./assets/exams/2017-08-solved.pdf))
+  ([with solutions](./assets/exams/2017-08-solved.pdf)):
+  _Phantom types | functors | misc (alt. `Monad`; not `Functor`; not `Applicative`)_
+
 * [March 2017](./assets/exams/2017-03.pdf)
-  ([with solutions](./assets/exams/2017-03-solved.pdf))
+  ([with solutions](./assets/exams/2017-03-solved.pdf)):
+  _`Applicative` | indexed `Exp`, `Serialised` | `MAC`_
+
 * [March 2016](./assets/exams/2016-03.pdf)
-  ([with solutions](./assets/exams/2016-03-solved.pdf))
+  ([with solutions](./assets/exams/2016-03-solved.pdf)):
+  _`Functor` leaf-labelled tree | alt. `Monad` | `MAC`_
 
 ### Exams by Patrik Jansson
 
