@@ -14,9 +14,9 @@
 * You need to read *yourself*
 * Find out information *yourself*
 * *Solve* problems *yourself*
-* With a lo of help from us!
+* With a lot of help from us!
   - All information is on the web page for the course
-* [Discussion board](https://afp-chalmers.slack.com/messages/lectures/)
+* [Discussion board](https://chalmers.instructure.com/courses/33398/discussion_topics)
 * Office hours
   - A few times a week. [Check the hours here](./inf.html#assistants).
 
@@ -54,16 +54,24 @@
   - Type classes
   - Type families
   - etc.
+* Quiz:
+  [menti.com 8725 3240](https://www.menti.com/aloyjb5u3jgo)
+  What is the result of [ensurePrime 4](https://github.com/teach-afp/afp-code/blob/master/L1/QuizPrimeCheck.hs)?
+  1. `error "not prime"`
+  2. `4`
+  3. _non-termination_
+
 
 ## Functions vs. Actions ##
+
 * Consider
 
   ```haskell
   f :: String -> Int
   ```
 
-* Only the knowledge about the string is needed to *produce* the result. We say
-  that `f` is a pure function.
+* Only the knowledge about the string is needed to *produce* the result.
+  We say that `f` is a pure function.
 * Input and output are key for real world programs!
 * Haskell has a distinctive feature with respect to other programming languages
   <div class="alert alert-info">
@@ -95,10 +103,10 @@
 
   ```haskell
   hello :: IO ()
-  hello =
-    do putStrLn "Hello! What is your name?"
-       name <- getLine
-       putStrLn ("Hi, " ++ name ++ "!")
+  hello = do
+    putStrLn "Hello! What is your name?"
+    name <- getLine
+    putStrLn $ "Hi, " ++ name ++ "!"
   ```
 
 * Let us write a program that enumerates and prints a list of strings.
@@ -120,11 +128,12 @@
   ```haskellln
   printTable :: [String] -> IO ()
   printTable = prnt 1  -- Note the use of partial application
-   where
-    prnt :: Int -> [String] -> IO ()
-    prnt _i []      = return ()
-    prnt i (x:xs)   = do putStrLn (show i ++ ": " ++ x)
-                         prnt (i+1) xs
+    where
+      prnt :: Int -> [String] -> IO ()
+      prnt _i []       = return ()
+      prnt  i (x : xs) = do
+        putStrLn $ show i ++ ": " ++ x
+        prnt (i + 1) xs
   ```
 
 * IO actions are first class, i.e., you can pass them around and store them as
@@ -134,10 +143,11 @@
 
   ```haskellln
   printTable2 :: [String] -> IO ()
-  printTable2 xs = sequence_ [
-                               putStrLn (show i ++ ":" ++ x)
-                               | (x,i) <- xs `zip` [1..length xs]
-                             ]
+  printTable2 xs =
+    sequence_ [ putStrLn $ show i ++ ":" ++ x
+              | (x, i) <- xs `zip` [1 .. length xs]
+              ]
+
   sequence_ :: [IO ()] -> IO () -- Prelude
   ```
 
@@ -155,8 +165,8 @@
   expressions (if any)..."
 
   Source:
-  [Introduction to Functional Programming by R. Bird and P. Walder (First
-  edition, page 4)](https://www.google.se/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0ahUKEwiAjceq75LKAhUmJnIKHdT3BZcQFggeMAA&url=http%3A%2F%2Fusi-pl.github.io%2Flc%2Fsp-2015%2Fdoc%2FBird_Wadler.%2520Introduction%2520to%2520Functional%2520Programming.1ed.pdf&usg=AFQjCNF7fvckPQD0PLe0f8aZ4OFxZ41yKQ&sig2=KdJ2BqyfK__SLvzRvo0Q6g)
+  [R. Bird and P. Wadler, Introduction to Functional Programming, 1st
+  edition, Section 1.2, page 4](https://usi-pl.github.io/doc/Bird_Wadler.%20Introduction%20to%20Functional%20Programming.1ed.pdf)
 
 * What does it buy us?
   - Equational reasoning, i.e., expressions can be freely changed by others that
@@ -189,7 +199,7 @@
     ```haskell
     do putStrLn "Hi!"
        name <- getLine
-       return ("hi!" ++ name)
+       return $ "hi! " ++ name
     ```
 
     is equivalent to
@@ -198,28 +208,29 @@
     do putStrLn "Hi!"
        name <- getLine
        return 42
-       return ("hi!" ++ name)
+       return $ "hi! " ++ name
     ```
 
 ## Referential transparency in practice ##
 
 * In practice, changing expressions by others denoting the same values might have
-  consequences in
-  - Memory and energy consumption
-  - Performance
+  consequences in:
+  - memory and energy consumption
+  - performance
 
-* Evaluation of expressions often trigger a lot of side-effects (memory
-   allocation, garbage collector, etc.) even though they are pure.
-   <div class="alert alert-info">
+* Evaluation of expressions often trigger a lot of side-effects
+  (memory allocation, garbage collector, etc.) even though they are pure.
+  <div class="alert alert-info">
    That expressions denote the same value does not mean that they are equally
    convenient to use in practice!
   </div>
 
 ## Evaluation orders ##
+
 * Eager evaluation
   - ML uses this strategy
-  - It reduces variables as soon as they get bound, e.g., it reduces functions'
-    arguments first.
+  - It reduces variables as soon as they get bound,
+    e.g., it reduces function arguments before calling the function.
 
     <img class="img-thumbnail"
      src="./assets/img/eager.png"
@@ -235,35 +246,35 @@
     </thead>
 
     <tr class="success">
-    <td> Programmer dictates the execution order by the structure of their code</td>
+    <td> Programmer dictates the execution order by the structure of their code.</td>
     </tr>
 
     <tr class="success">
-    <td> The runtime is usually small  </td>
+    <td> The runtime is usually small.  </td>
     </tr>
 
     <tr class="danger">
-    <td> It promotes early error propagation </td>
+    <td> It promotes early error propagation. </td>
     </tr>
 
     <tr class="danger">
-    <td> Evaluation of unnecessary expressions </td>
+    <td> Evaluation of unnecessary expressions. </td>
     </tr>
 
     <tr  class="danger">
     <td> Programmers need to organize the code for optimal
-    execution based on the reduction order </td>
+    execution based on the reduction order. </td>
     </tr>
     </table>
 
 
 * Lazy evaluation
-  - Haskell is a lazy language
-  - Expressions are evaluated *at most once*
-  - Expressions are evaluated *only when needed*
-  - Expressions are never evaluated twice
+  - Haskell is a lazy language.
+  - Expressions are evaluated *at most once*.
+  - Expressions are evaluated *only when needed*.
+  - Expressions are never evaluated twice.
 
-    (We will explore more in detail what this means)
+    (We will explore more in detail what this means.)
 
     <img class="img-thumbnail"
      src="./assets/img/lazy.png"
@@ -278,11 +289,11 @@
 
 ## Observing evaluations in Haskell ##
 
-* Use `error "message"` or `undefined` to see whether something gets evaluated
+* Use `error "message"` or `undefined` to see whether something gets evaluated.
 
   ```haskell
   testLazy2 = head [3, undefined, 17]
-  testLazy3 = head (3:4:error "no tail")
+  testLazy3 = head (3 : 4 : error "no tail")
   testLazy4 = head [error "no first elem", 17, 13]
   testLazy5 = head (error "no list at all")
   ```
@@ -314,6 +325,7 @@
   ```
 
 ## Lazy evaluation: programming style ##
+
 * Programs separate the
   - **construction**
   - and **selection** of data for a given purpose
@@ -352,17 +364,17 @@ bar x y = ff 17 + x + y
 testBar = bar 1 2 + bar 3 4
 ```
 
-* `ff x` gets evaluated twice in `foo x`
-* `ff 17` is evaluated twice in `testBar`
+* `ff x` gets evaluated twice in `foo x`.
+* `ff 17` is evaluated twice in `testBar`.
 * Why is that?
 * In lazy evaluation, *bindings* are evaluated at most once!
   - We can adapt `foo` above to evaluate `ff x` at most once by introducing a
-    local binding
+    local binding:
 
     ```haskell
     foo :: Integer -> Integer
     foo x = ffx + ffx
-     where ffx = ff x
+      where ffx = ff x
     ```
 
   - The evaluation happens *at most once* in the corresponding scope!
@@ -370,43 +382,42 @@ testBar = bar 1 2 + bar 3 4
 
     ```haskell
     bar :: Integer -> Integer -> Integer
-    bar x y = ff17 + x + y
-
-    ff17 :: Integer
-    ff17 = ff 17
+    bar = \ x y -> ff17 + x + y
+      where
+        ff17 :: Integer
+        ff17 = ff 17
     ```
 
-     We introduce a top-level binding, which are really evaluated at most once.
+    We introduce a binding `ff17` that can be evaluated before the function arguments are passed.
 
 ## Lazy evaluation: infinite lists ##
 
-* Because of laziness, Haskell is able to denote infinite structures
-* They are not compute completely!
-* Instead, Haskell only computes the needed parts from them
-* Infinite lists examples
+* Because of laziness, Haskell is able to denote infinite structures.
+* They are not computed completely!
+* Instead, Haskell only computes the needed parts from them.
+* Infinite lists examples:z
 
   ```haskellln
   take n [3..]
   xs `zip` [1..]
   ```
 
-* We can write "generic code" which gets "instantiate" to the appropriated
-  case.
+* We can write "generic code" which gets "instantiated" to the appropriate case.
 
   ```haskell
   printTable3 :: [String] -> IO ()
   printTable3 xs =
-  sequence_ [ putStrLn (show i ++ ":" ++ x)
-              | (x,i) <- xs `zip` [1..]
-            ]
+    sequence_ [ putStrLn $ show i ++ ":" ++ x
+              | (x, i) <- xs `zip` [1..]
+              ]
   testTable3 = printTable3 lussekatter
   ```
 
-  Observe that `zip` takes an infinite lists but it will only use as many
-   elements as the `length xs`
+  Observe that `zip` takes an infinite list `[1..]` but it will only use
+  `length xs` many elements.
 
 * Other examples
-  -  Raising functions to a positive power
+  - Raising functions to a positive power:
 
     ```haskell
     iterate :: (a -> a) -> a -> [a]
@@ -418,21 +429,21 @@ testBar = bar 1 2 + bar 3 4
     [1,2,4,8,16,32,64,128,256,512,1024,...]
     ```
 
-  - Repeating a number infinitely
+  - Repeating an element infinitely:
 
     ```haskell
     repeat :: a -> [a]
     repeat x = x : repeat x
     ```
 
-  - Creating periodic lists
+  - Creating periodic lists:
 
     ```haskell
     cycle :: [a] -> [a]
     cycle xs = xs ++ cycle xs
     ```
 
-  - Alternative definitions
+  - Alternative, non-recursive definitions:
 
     ```haskell
     repeat :: a -> [a]
@@ -463,22 +474,24 @@ testBar = bar 1 2 + bar 3 4
   replicate n x = take n (repeat x)
   ```
 
-* Problem: grouping lists elements into lists of equal size
+* Problem: grouping lists elements into lists of equal size.
 
   ```haskell
-  group :: Int -> [a] -> [[a]]
-  group = ?
+  chunksOf :: Int -> [a] -> [[a]]
+  chunksOf = ?
   ```
 
   ```bash
-  > group 4 "thisthatok!!"
+  > chunksOf 4 "thisthatok!"
+  ["this", "that", "ok!"]
+  > chunksOf 4 "thisthatok!!"
   ["this", "that", "ok!!"]
   ```
 
   ```haskell
-  group n = takeWhile (not . null)
-        . map (take n)
-        . iterate (drop n)
+  chunksOf n = takeWhile (not . null)
+             . map (take n)
+             . iterate (drop n)
   ```
 
   Function composition `(.)` connects data processing "stages" -- like Unix
@@ -499,9 +512,9 @@ testBar = bar 1 2 + bar 3 4
   ```haskell
   primes :: [Integer]
   primes = sieve [2..]
-   where
-    sieve (p:xs)  = p : sieve [ y | y <- xs, y `mod` p /= 0 ]
-    sieve []      = error "sieve: empty list is impossible"
+    where
+      sieve (p : xs) = p : sieve [ y | y <- xs, y `mod` p /= 0 ]
+      sieve []       = error "sieve: empty list is impossible"
   ```
 
   This algorithm is commonly mistaken for Eratosthenes' sieve -- see that paper
@@ -514,11 +527,11 @@ testBar = bar 1 2 + bar 3 4
 * Consider the following data structure:
 
   ```haskell
-  data Labyrinth  = Crossroad {
-                        what  :: String
-                      , left  :: Labyrinth
-                      , right :: Labyrinth
-                    }
+  data Labyrinth = Crossroad
+    { what  :: String
+    , left  :: Labyrinth
+    , right :: Labyrinth
+    }
   ```
 
 * Let us define a labyrinth.
@@ -526,14 +539,14 @@ testBar = bar 1 2 + bar 3 4
   ```haskell
   labyrinth :: Labyrinth
   labyrinth = start
-   where
-    start  = Crossroad "start"  forest town
-    town   = Crossroad "town"   start  forest
-    forest = Crossroad "forest" town   exit
-    exit   = Crossroad "exit"   exit   exit
+    where
+      start  = Crossroad "start"  forest town
+      town   = Crossroad "town"   start  forest
+      forest = Crossroad "forest" town   exit
+      exit   = Crossroad "exit"   exit   exit
   ```
 
-    What does it happen when we print out `labyrinth`?
+  What does it happen when we print out `labyrinth`?
 
 ## Lazy evaluation: conclusions ##
 
@@ -546,27 +559,27 @@ testBar = bar 1 2 + bar 3 4
 </thead>
 
 <tr class="success">
-  <td> Avoid unnecessary computations (a different programming style) </td>
+  <td> Avoids unnecessary computations (a different programming style). </td>
 </tr>
 
 <tr class="success">
-  <td> It provides error recovery </td>
+  <td> Provides error recovery. </td>
 </tr>
 
 <tr class="success">
-  <td> It allows to describe infinity data structures </td>
+  <td> Allows to describe infinity data structures. </td>
 </tr>
 
 <tr class="success">
-  <td> It can make programs more modular </td>
+  <td> Can make programs more modular. </td>
 </tr>
 
 <tr class="danger">
-  <td> It is hard to do complexity analysis </td>
+  <td> Makes complexity analysis hard. </td>
 </tr>
 
 <tr class="danger">
-  <td> It is not suitable for time-critical operations </td>
+  <td> Is not suitable for time-critical operations. </td>
 </tr>
 </table>
 
@@ -577,7 +590,7 @@ testBar = bar 1 2 + bar 3 4
 * It is a distinctive feature in Haskell.
 * What does it provide?
   - *Systematic* manner of achieving *overloading*
-  - It even enables to do some type-level programming
+  - Enables some type-level programming
 * Examples
 
   ```haskellln
@@ -602,8 +615,8 @@ testBar = bar 1 2 + bar 3 4
     domain :: [a]
   ```
 
-    What types could be an instance of this class?
-    Can you make functions instances of `Eq` now?
+  What types could be an instance of this class?
+  Can you make functions instances of `Eq` now?
 
 ## Focus of this course ##
 
