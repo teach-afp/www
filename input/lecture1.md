@@ -183,10 +183,10 @@
      style="float:left" >
 
      <div class="row"> </div>
-  - A classic property for function `reverse`:
+  - Example associativity of the append function:
 
     ```haskell
-    reverse (reverse xs) = xs
+    (xs ++ ys) ++ zs = xs ++ (ys ++ zs)
     ```
 
 * What about programs with I/O?
