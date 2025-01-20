@@ -8,37 +8,30 @@
         <img class="img-no-resize" src="https://www.cse.chalmers.se/~abela/passphotoKrammer01-medium-transparent.png" alt="Andreas's picture">
         <div class="caption">
            <a href="https://www.cse.chalmers.se/~abela">Andreas Abel</a>
+            <p><b>Office hours:</b> by agreement<br>
+            Office: <a href="https://maps.chalmers.se/#person:chalmers:abela">EDIT 6111</a></p>
         </div>
       </div>
     </div>
   </div>
-  <div class="col-md-12">
-    <div class="col-sm-2 col-xs-6 text-center">
-      <div class="thumbnail">
-        <img class="img-no-resize"
-           src="https://www.cse.chalmers.se/~russo/_files/ale2.jpg"
-           alt="Alejandro's picture">
-        <div class="caption">
-          <a href="https://www.cse.chalmers.se/~russo/">Alejandro Russo</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
-## Tutors and lab supervisors
+## Assistants
 
 For exercises, lab supervision and grading:
 
 <div class="row">
-<div class="col-sm-2 col-xs-6 text-center">
-	<div class="thumbnail">
-		<img class="img-no-resize" src="" alt="Evan's picture">
-		<div class="caption">
-			Evan Cavallo
-		  </div>
-	</div>
-</div>
+  <div class="col-md-12">
+    <div class="col-sm-2 col-xs-6 text-center">
+      <div class="thumbnail">
+        <img class="img-no-resize" src="https://ecavallo.net/profile.png" alt="Evan's picture">
+        <div class="caption">
+            <a href="https://www.chalmers.se/en/persons/evanc/">Evan Cavallo</a>
+            <p><b>Office hours:</b> Tue 15-16, Wed 10-11<br>
+            Office: <a href="https://maps.chalmers.se/#person:chalmers:evanc">EDIT 6461</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 ---
@@ -50,30 +43,10 @@ For exercises, lab supervision and grading:
 
 <div class="embed-responsive embed-responsive-16by9">
   <iframe class="embed-responsive-item"
-         src="https://cloud.timeedit.net/chalmers/web/public/riq50QggY04Zx6Q5Q57y8Y0660Z951X563Z90Z6Q60o67Q8ZY3q0g6Qo.html"
+         src="https://cloud.timeedit.net/chalmers/web/public/ri167XQQ609Z50Qv17043gZ6y6Y7709Q5Y67Y5.html"
          style="border: 0" width="800" height="600" frameborder="0"
          scrolling="yes">
 </iframe>
-</div>
-
----
-
-## Assistants
-
-<div class="row">
-  <div class="col-sm-3 col-xs-6 text-center">
-    <div class="thumbnail">
-      <img class="img-no-resize"
-           src=""
-           alt="No Picture">
-      <div class="caption">
-        [Evan Cavallo](https://www.cse.chalmers.se/~evanc/)
-        <p>**Office hours**:<br>
-          TBA<br>
-          Office: TBA, EDIT building</p>
-      </div>
-    </div>
-  </div>
 </div>
 
 ---
@@ -86,7 +59,7 @@ For exercises, lab supervision and grading:
 
 ## Discussion Group
 
-We use Canvas Discussions.
+We use [Canvas Discussions](https://chalmers.instructure.com/courses/33398/discussion_topics).
 
 ---
 
@@ -100,8 +73,7 @@ We use Canvas Discussions.
                 src="https://book.realworldhaskell.org/support/rwh-200.jpg"
                 alt="Real world Haskell">
 		<div class="caption">
-			[Real World Haskell by Bryan
-O'Sullivan, Don Stewart, and John Goerzen](https://book.realworldhaskell.org)
+			<a href="https://book.realworldhaskell.org">Real World Haskell by Bryan O'Sullivan, Don Stewart, and John Goerzen</a>
 		  </div>
 	</div>
 </div>
@@ -129,7 +101,7 @@ AFP course.
                 src="https://www.cs.yale.edu/homes/hudak/SOE/SOECover.gif"
                 alt="The Haskell School of Expression">
 		<div class="caption">
-			[The Haskell School of Expression by Paul Hudak](https://www.cs.yale.edu/homes/hudak/SOE/)
+			<a href="https://www.cs.yale.edu/homes/hudak/SOE/">The Haskell School of Expression by Paul Hudak</a>
 		  </div>
 	</div>
 </div>
@@ -140,7 +112,7 @@ AFP course.
                 src="https://www.cs.ox.ac.uk/publications/books/fop/fop.gif"
                 alt="The Fun of Programming">
 		<div class="caption">
-			[The Fun of Programming edited by Jeremy Gibbons and Oege de Moor](https://www.cs.ox.ac.uk/publications/books/fop/)
+			<a href="https://www.cs.ox.ac.uk/publications/books/fop/">The Fun of Programming edited by Jeremy Gibbons and Oege de Moor</a>
 		  </div>
 	</div>
 </div>
@@ -151,7 +123,7 @@ AFP course.
                 src="https://assets.cambridge.org/97811074/52640/cover/9781107452640.jpg"
                 alt="Thinking Functionally with Haskell">
 		<div class="caption">
-		[Thinking Functionally with Haskell by Richard Bird](https://www.cambridge.org/us/academic/subjects/computer-science/programming-languages-and-applied-logic/thinking-functionally-haskell)
+		<a href="https://www.cambridge.org/us/academic/subjects/computer-science/programming-languages-and-applied-logic/thinking-functionally-haskell">Thinking Functionally with Haskell by Richard Bird</a>
 		  </div>
 	</div>
 </div>
@@ -163,7 +135,7 @@ AFP course.
                 src="https://www.cs.nott.ac.uk/~pszgmh/cover-med.jpg"
                 alt="Programming in Haskell">
 		<div class="caption">
-			[Programming in Haskell by Graham Hutton](https://www.cs.nott.ac.uk/~pszgmh/book.html)
+			<a href="https://www.cs.nott.ac.uk/~pszgmh/book.html">Programming in Haskell by Graham Hutton</a>
 		  </div>
 	</div>
 </div>
@@ -174,7 +146,7 @@ AFP course.
                 src="https://www.haskellcraft.com/craft3e/Home_files/shapeimage_2.png"
                 alt="Haskell &mdash; The Craft of Functional Programming">
 		<div class="caption">
-			[Haskell &mdash; The Craft of Functional Programming](https://www.haskellcraft.com/craft3e/Home.html)
+			<a href="https://www.haskellcraft.com/craft3e/Home.html">Haskell &mdash; The Craft of Functional Programming</a>
 		  </div>
 	</div>
 </div>

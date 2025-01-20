@@ -42,8 +42,9 @@
 
 # News
 
-* Friday 13 December 2024 St. Lucia
+* Friday 13 December 2024, Monday 20 January 2025
 
   <div class = "alert alert-info">
      The 2025 instance of this web page is still under construction!
+     Lab deadlines and grading schemes are subject to change.
   </div>
