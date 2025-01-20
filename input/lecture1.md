@@ -4,8 +4,10 @@
 * Advanced Programming Language Features
   - Type systems
   - Programming techniques
+  - Program calculation and equational reasoning
 * In the context of Functional Programming
   - Haskell
+  - Agda
 * Applications
   - Signals processing, graphics, web programming, security
   - Domain Specific Languages
@@ -14,11 +16,19 @@
 * You need to read *yourself*
 * Find out information *yourself*
 * *Solve* problems *yourself*
-* With a lot of help from us!
-  - All information is on the web page for the course
-* [Discussion board](https://chalmers.instructure.com/courses/33398/discussion_topics)
-* Office hours
-  - A few times a week. [Check the hours here](./inf.html#assistants).
+* With (a lot of) help from us!
+
+## Getting help ##
+1. Course homepage
+   - It should be comprehensive -- complain if it is not!
+2. [Discussion board](https://chalmers.instructure.com/courses/33398/discussion_topics)
+   - Discuss general topics, find lab partner, etc.
+   - **Don't post (partial or complete) lab solutions**
+3. Office hours
+   - A few times a week. [Check the hours here](./inf.html#assistants).
+4. Send e-mails to teachers (myself and the assistants)
+   - Organizational help, lectures, etc. (Lecturer)
+   - Specific help with programming labs (Assistants)
 
 ## Organization ##
 * **2** Lectures per week
@@ -32,30 +42,18 @@
   **Final grade: 60% labs + 40% exam**
   </div>
 
-## Getting help ##
-* Course homepage
-  - It should be comprehensive -- complain if it is not!
-* Discussion board (Google group)
-  - Everyone should become a member
-  - Discuss general topics, find lab partner, etc.
-  - **Don't post (partial or complete) lab solutions
-* Send e-mails to teachers (myself and the assistants)
-  - Organizational help, lectures, etc. (Lecturer)
-  - Specific help with programming labs (Assistants)
-
 ## Recalling Haskell ##
 * Purely functional language
-  - Functions vs. Actions
+  - Functions vs. actions
   - Referential transparency
 * Lazy evaluation
-  - Things are evaluated at most once
+  - Things are evaluated when needed and at most once
 * Advanced (always evolving) type system
   - Polymorphism
   - Type classes
   - Type families
   - etc.
-* Quiz:
-  [menti.com 8725 3240](https://www.menti.com/aloyjb5u3jgo)
+* Quiz [menti.com 8725 3240](https://www.menti.com/aloyjb5u3jgo):
   What is the result of [ensurePrime 4](https://github.com/teach-afp/afp-code/blob/master/L1/QuizPrimeCheck.hs)?
   1. `error "not prime"`
   2. `4`
@@ -72,8 +70,8 @@
 
 * Only the knowledge about the string is needed to *produce* the result.
   We say that `f` is a pure function.
-* Input and output are key for real world programs!
-* Haskell has a distinctive feature with respect to other programming languages
+* What about external input and output?
+* Haskell has a distinctive feature with respect to other programming languages:
   <div class="alert alert-info">
   Pure code is separated from that which could affect the external world!
   </div>
@@ -81,7 +79,7 @@
   <div class="alert alert-info">
   Types!
   </div>
-* Code which has side-effects in the real world has type `IO a` (for some `a`)
+* Code which has side-effects in the real world has type `IO a` (for some `a`).
 
   ```haskell
   g :: String -> IO Int
@@ -99,7 +97,7 @@
 
 [code](https://github.com/teach-afp/afp-code/blob/master/L1/Lect1.hs)
 
-* Interacting with the user
+* Interacting with the user:
 
   ```haskell
   hello :: IO ()
@@ -109,7 +107,7 @@
     putStrLn $ "Hi, " ++ name ++ "!"
   ```
 
-* Let us write a program that enumerates and prints a list of strings.
+* A program that enumerates and prints a list of strings:
 
   ```bash
   > printTable ["1g saffran", "1kg (17dl) vetemjöl", "5dl mjölk",
@@ -152,6 +150,12 @@
   ```
 
 ## Referential transparency ##
+
+* Quiz [menti.com 8725 3240](https://www.menti.com/aloyjb5u3jgo):
+  In which languages (if any) does the distributive law `(x + y) * f() = x * f() + y * f()`  hold?
+  - [ ] Haskell
+  - [ ] Java
+  - [ ] Python
 
 * What is it?
   "...An expression may contain certain 'names' which stand for unknown
@@ -228,9 +232,9 @@
 ## Evaluation orders ##
 
 * Eager evaluation
-  - ML uses this strategy
-  - It reduces variables as soon as they get bound,
-    e.g., it reduces function arguments before calling the function.
+  - Most programming language use this strategy: ML (OCaml), Java, Python...
+  - Variables are bound to *values*, not expressions.
+    So, function arguments are reduced to values before calling the function.
 
     <img class="img-thumbnail"
      src="./assets/img/eager.png"
@@ -250,7 +254,7 @@
     </tr>
 
     <tr class="success">
-    <td> The runtime is usually small.  </td>
+    <td> The runtime overhead is usually small.  </td>
     </tr>
 
     <tr class="danger">
@@ -270,9 +274,8 @@
 
 * Lazy evaluation
   - Haskell is a lazy language.
-  - Expressions are evaluated *at most once*.
   - Expressions are evaluated *only when needed*.
-  - Expressions are never evaluated twice.
+  - Expressions are evaluated *at most once*.
 
     (We will explore more in detail what this means.)
 
@@ -314,7 +317,7 @@
   ```
 
 * Function `expn` is "expensive" to compute. Do you see why?
-* What does it happen when running?
+* What does happen when running...?
 
   ```haskell
   testChoice1 :: Integer
@@ -328,7 +331,7 @@
 
 * Programs separate the
   - **construction**
-  - and **selection** of data for a given purpose
+  - and **selection** of data for a given purpose.
 * Modularity: "It makes it practical to modularise a program as a generator
   which constructs a large number of possible answers, and a selector which
   chooses the appropriate one."
@@ -347,7 +350,7 @@
   testStrange = strange undefined
   ```
 
-* *Primitive functions* also evaluate their arguments
+* *Primitive functions* also evaluate their arguments.
 
 ## Lazy evaluation: at most once? ##
 
@@ -395,7 +398,7 @@ testBar = bar 1 2 + bar 3 4
 * Because of laziness, Haskell is able to denote infinite structures.
 * They are not computed completely!
 * Instead, Haskell only computes the needed parts from them.
-* Infinite lists examples:z
+* Infinite lists examples:
 
   ```haskellln
   take n [3..]
@@ -589,8 +592,8 @@ testBar = bar 1 2 + bar 3 4
 
 * It is a distinctive feature in Haskell.
 * What does it provide?
-  - *Systematic* manner of achieving *overloading*
-  - Enables some type-level programming
+  - *Systematic* manner of achieving *overloading*.
+  - Enables some type-level programming.
 * Examples
 
   ```haskellln
