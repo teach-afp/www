@@ -120,7 +120,7 @@ Let us get into a specific first in order to create a EDSL in Haskell.
   </div>
 
     ```haskell
-    newtype Shape
+    data Shape
     empty  :: Shape
     disc   :: Shape
     square :: Shape
@@ -209,10 +209,7 @@ Let us get into a specific first in order to create a EDSL in Haskell.
   done by leveraging some abstractions of the host language.
   ```haskell
   data Vec    = V { vecX, vecY :: Double }
-
-  type Point  = Vec
-  ptX = vecX
-  ptY = vecY
+  data Point  = P { ptX,  ptY  :: Double }
 
   newtype Shape = Shape (Point -> Bool)
   ```
@@ -229,21 +226,21 @@ Let us get into a specific first in order to create a EDSL in Haskell.
   ```haskell
    -- Constructors
    empty :: Shape
-   empty = Shape $ \_ -> False
+   empty = Shape \ _ -> False
 
    disc :: Shape
-   disc = Shape $ \p -> ptX p ^ 2 + ptY p ^ 2 <= 1
+   disc = Shape \ p -> ptX p ^ 2 + ptY p ^ 2 <= 1
 
    square :: Shape
-   square = Shape $ \p -> abs (ptX p) <= 1 && abs (ptY p) <= 1
+   square = Shape \ p -> abs (ptX p) <= 1 && abs (ptY p) <= 1
   ```
   ```haskell
   -- Combinators
   invert :: Shape -> Shape
-  invert sh = Shape $ \p -> not (inside p sh)
+  invert sh = Shape \ p -> not (inside p sh)
 
   intersect :: Shape -> Shape -> Shape
-  intersect sh1 sh2 = Shape $ \p -> inside p sh1 && inside p sh2
+  intersect sh1 sh2 = Shape \ p -> inside p sh1 && inside p sh2
   ```
   Translate deserves a bit of attention.
 
@@ -260,11 +257,11 @@ Let us get into a specific first in order to create a EDSL in Haskell.
   sub (V x y) (V dx dy) = V (x - dx) (y - dy)
 
   translate :: Vec -> Shape -> Shape
-  translate v sh = Shape $ \p -> inside (p `sub` v) sh
+  translate v sh = Shape \ p -> inside (p `sub` v) sh
   ```
 
 ## Transformation matrices
-[Recommended reading](http://people.bath.ac.uk/sej20/transform.html)
+[Wikipedia](https://en.wikipedia.org/wiki/Transformation_matrix)
 
 * Basic idea
 
@@ -288,18 +285,21 @@ Let us get into a specific first in order to create a EDSL in Haskell.
   them.
 
   ```haskell
-  data Matrix = M Vec Vec
+  data Matrix = M { m00, m01, m10, m11 :: Double }
 
   inv :: Matrix -> Matrix
-  inv (M (V a b) (V c d)) = matrix (d / k) (-b / k) (-c / k) (a / k)
-   where k = a * d - b * c
+  inv (M a b c d)) = M (d / k) (-b / k) (-c / k) (a / k)
+    where
+      -- Determinant
+      k = a * d - b * c
   ```
 
 * Now the `transform` operation:
   ```haskell
   transform :: Matrix -> Shape -> Shape
-  transform m sh = Shape $ \p -> (inv_m `mul` p) `inside` sh
-     where inv_m = inv m
+  transform m sh = Shape \ p -> (inv_m `mul` p) `inside` sh
+    where
+      inv_m = inv m
   ```
 
 * Exercise: can you write the following **derived** operations?
@@ -326,9 +326,10 @@ Let us get into a specific first in order to create a EDSL in Haskell.
 * Which direction is the square shape rotated?
   ```haskell
   transform (m (pi/10)) square
-    where m alpha = matrix
-                       (cos alpha)    (sin alpha)
-                       (-(sin alpha)) (cos alpha)
+    where
+      m alpha = matrix
+        (cos alpha)    (sin alpha)
+        (-(sin alpha)) (cos alpha)
   ```
 
   Clock-wise! Can you see why?
@@ -339,7 +340,7 @@ Let us get into a specific first in order to create a EDSL in Haskell.
 
 * We define them in a different module (`Matrix.hs`).
 
-## Alternative implementation : deep embedding
+## Alternative implementation: deep embedding
 
 * **Types**: represent how shapes are constructed (i.e., either by a basic shape
   or a combination of them).
@@ -350,10 +351,10 @@ Let us get into a specific first in order to create a EDSL in Haskell.
     Disc    :: Shape
     Square  :: Shape
     -- Combinators
-    Translate :: Vec ->   Shape -> Shape
-    Transform :: Matrix-> Shape -> Shape
-    Intersect :: Shape -> Shape -> Shape
-    Invert    :: Shape -> Shape
+    Translate :: Vec    -> Shape -> Shape
+    Transform :: Matrix -> Shape -> Shape
+    Intersect :: Shape  -> Shape -> Shape
+    Invert    :: Shape  -> Shape
   ```
 
 * **Constructors** and **combinators**: almost for free! Simply map them into
@@ -387,8 +388,8 @@ Let us get into a specific first in order to create a EDSL in Haskell.
   ```haskell
    inside :: Point -> Shape -> Bool
    _p `inside` Empty             = False
-   p  `inside` Disc              = sqDistance p <= 1
-   p  `inside` Square            = maxnorm  p <= 1
+   p  `inside` Disc              = squaredDistance p <= 1
+   p  `inside` Square            = maxNorm  p <= 1
    p  `inside` Translate v sh    = (p `sub` v) `inside` sh
    p  `inside` Transform m sh    = (inv m `mul` p) `inside` sh
    p  `inside` Union sh1 sh2     = p `inside` sh1 || p `inside` sh2
@@ -396,15 +397,17 @@ Let us get into a specific first in order to create a EDSL in Haskell.
    p  `inside` Invert sh         = not (p `inside` sh)
 
    -- * Helper functions
-   sqDistance :: Point -> Double
-   sqDistance p = x*x+y*y -- proper distance would use sqrt
-     where x = ptX p
-           y = ptY p
+   squaredDistance :: Point -> Double
+   squaredDistance p = x*x + y*y -- proper distance would use sqrt
+     where
+       x = ptX p
+       y = ptY p
 
-   maxnorm :: Point -> Double
-   maxnorm p = max (abs x) (abs y)
-     where x = ptX p
-           y = ptY p
+   maxNorm :: Point -> Double
+   maxNorm p = max (abs x) (abs y)
+     where
+       x = ptX p
+       y = ptY p
    ```
 
 ## Shallow vs. Deep embedding
@@ -414,7 +417,7 @@ Let us get into a specific first in order to create a EDSL in Haskell.
 
 * A deep embedding is easier to extend.
   - Adding new operations (by adding new constructors).
-  - Adding new run functions.
+  - Adding new run functions (e.g., inspection/debug printing).
   - Adding optimizations (e.g., by data type manipulation).
 
 * Most of the time you get a *mix* between shallow and deep embedding.
@@ -446,9 +449,10 @@ Let us get into a specific first in order to create a EDSL in Haskell.
   ```haskell
   defaultWindow :: Window
   defaultWindow = Window
-    { bottomLeft  = point (-1.5) (-1.5)
-    , topRight    = point 1.5 1.5
-    , resolution  = (40, 40)
+    { bottomLeft           = point (-1.5) (-1.5)
+    , topRight             = point 1.5 1.5
+    , horizontalResolution = 40
+    , verticalResolution   = 40
     }
   ```
   - It has a dimension in terms of characters.
