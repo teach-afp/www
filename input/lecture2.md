@@ -588,7 +588,7 @@ Let us get into a specific first in order to create a EDSL in Haskell.
 We will model signals as Haskell functions of time `Time -> a`.
 ```haskell
 type Time = Double
-newtype Signal a = Sig {unSig :: Time -> a}
+newtype Signal a = Sig { sample :: Time -> a }
 
 constS :: a -> Signal a
 constS x = Sig (const x)
@@ -597,13 +597,12 @@ timeS :: Signal Time
 timeS = Sig id
 
 applyS :: Signal (a -> b) -> Signal a -> Signal b
-fs `applyS` xs = Sig (\ t -> unSig fs t (unSig xs t))
+fs `applyS` xs = Sig (\ t -> sample fs t (sample xs t))
 
 mapT :: (Time -> Time) -> Signal a -> Signal a
-mapT f xs = Sig (unSig xs . f)
+mapT f xs = Sig (sample xs . f)
 
 sample :: Signal a -> Time -> a
-sample = unSig
 ```
 
 ## Implementation: deep embedding
@@ -626,10 +625,10 @@ is here!).
 
 ```haskell
 -- | Sampling a signal at a given time point.
-sample (ConstS x)   = const x
-sample TimeS        = id
-sample (ApplyS f s) = \ t -> sample f t $ sample s t
-sample (MapT f s)   = sample s . f
+sample (ConstS x)     = const x
+sample TimeS          = id
+sample (ApplyS fs xs) = \ t -> sample fs t (sample xs t)
+sample (MapT f xs)    = sample xs . f
 ```
 
 ## Go live!
