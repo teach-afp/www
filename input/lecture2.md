@@ -482,7 +482,7 @@ Let us get into a specific first in order to create a EDSL in Haskell.
 * Adding colored shapes:
   - Discuss what you need to do!
 * Bad shallow implementations:
-  - Looking at the render run function, we might decide to go for:
+  - Looking at the `render` run function, we might decide to go for:
     ```haskell
     newtype Shape = Shape (Window -> String)
     ```
@@ -552,7 +552,7 @@ Let us get into a specific first in order to create a EDSL in Haskell.
     `timeS`!
 
     ```haskell
-    constS (change disc square) `applyS` timeS
+    square_disc = constS (change disc square) `applyS` timeS
     ```
 
     <div class="container">
@@ -579,7 +579,7 @@ Let us get into a specific first in order to create a EDSL in Haskell.
   to_zero :: Time -> Time
   to_zero = const 0
 
-  always_disc = mapT to_zero square_disc
+  always_square = mapT to_zero square_disc
   ```
 * Exercise: write `mapS` as a derived operation!
 
