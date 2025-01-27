@@ -533,8 +533,8 @@ Let us get into a specific first in order to create a EDSL in Haskell.
     -- | It displays a shape on "odd times" and another one in "even times".
     change :: Shape -> Shape -> Time -> Shape
     change sh1 sh2 t
-           | odd (floor t) = sh1
-           | otherwise     = sh2
+      | odd (floor t) = sh1
+      | otherwise     = sh2
     ```
 
 * Convert them into signals:
@@ -560,6 +560,14 @@ Let us get into a specific first in order to create a EDSL in Haskell.
        src="./assets/img/signal_apply_f.png">
     </div>
 
+* In general: create a `Signal` from a `Time`-varied value:
+  ```haskell
+  signal :: (Time -> a) -> Signal a
+  signal f = constS f `applyS` timeS
+
+  square_disc = signal (change disc square)
+  ```
+
 
 
 ## More operations
@@ -579,6 +587,7 @@ Let us get into a specific first in order to create a EDSL in Haskell.
   to_zero :: Time -> Time
   to_zero = const 0
 
+  always_square :: Signal Shape
   always_square = mapT to_zero square_disc
   ```
 * Exercise: write `mapS` as a derived operation!
@@ -603,6 +612,9 @@ mapT :: (Time -> Time) -> Signal a -> Signal a
 mapT f xs = Sig (sample xs . f)
 
 sample :: Signal a -> Time -> a
+
+signal :: (Time -> a) -> Signal a
+signal = Sig
 ```
 
 ## Implementation: deep embedding
