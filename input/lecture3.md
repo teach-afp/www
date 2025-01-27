@@ -156,13 +156,13 @@ In Advanced Functional Programming, First International Spring School on Advance
 
 * What is so special about them?
     <div class="alert alert-danger">
-     They is general (support many different side-effects).
+     They are general (support many different side-effects).
     </div>
     <div class="alert alert-danger">
      Monads hide the plumbing (simplifies code).
     </div>
 
-* How is so general?
+* How can they be so general?
    <div class="alert alert-danger">
     Monads control the order of evaluation.
    </div>
@@ -282,8 +282,8 @@ In Advanced Functional Programming, First International Spring School on Advance
       else return (i1 `div` i2)
   ```
 
-* Observe that the code has **minimum traces of error handling**, i.e., it does not inspect
-  every recursive call for an error.
+* Observe that the code has **minimum traces of error handling**, i.e.,
+  it need not (explicitly) inspect every recursive call for an error.
 
   - It is handled by the monad!
   - All the plumbing is hidden!
@@ -306,14 +306,14 @@ In Advanced Functional Programming, First International Spring School on Advance
 
   ```haskell
   instance Monad L where
-    return x       = L x []
-    L x msgs >>= f =
+    return x        = L x []
+    L x msgs1 >>= f =
       case f x of
-        L y msgs' -> L y (msgs ++ msgs')
+        L y msgs2 -> L y (msgs1 ++ msgs2)
   ```
 
-  - Function `return` produces the empty lists of logs (recall the monadic laws)
-  - Function `(>>=)` concatenates the *logs*
+  - Function `return` produces the empty lists of logs (no side effect).
+  - Function `(>>=)` concatenates the logs.
 
 * We need to implement a *non-proper morphism* which writes into the log -- we
   call it `msg`.
@@ -323,7 +323,7 @@ In Advanced Functional Programming, First International Spring School on Advance
   msg m = L () [m]
   ```
 
-* Let us rewrite the interpreter using the monad `L`
+* Let us rewrite the interpreter using the monad `L`:
 
   ```haskell
   m_interpL (Con i) = do
@@ -339,7 +339,7 @@ In Advanced Functional Programming, First International Spring School on Advance
       return (i1 `div` i2)
   ```
 
-* Observe that the code has **minimum traces about how the log is constructed**
+* Observe that the code has **minimum traces about how the log is constructed**.
 
   - It is handled by the monad!
   - All the plumbing is hidden!
@@ -527,7 +527,7 @@ In Advanced Functional Programming, First International Spring School on Advance
   -- Combinators
   (>>=) :: E Int -> (Int -> E Int) -> E Int
   -- Run function
-  m_runE :: Expr -> IO()
+  m_runE :: Expr -> IO ()
   ```
 
   The type `E` and monadic operations `return` and `(>>=)` are *polymorphic*; in
@@ -686,16 +686,16 @@ In Advanced Functional Programming, First International Spring School on Advance
 
 * More concretely,
   ```haskell
-  data St s a = MkSt (s -> (a,s))
+  data St s a = MkSt (s -> (a, s))
 
   get :: St s s
-  get = MkSt $ \ s -> (s,s)
+  get = MkSt \ s -> (s, s)
 
   put :: s -> St s ()
-  put s = MkSt $ \_ -> ((),s)
+  put s = MkSt \ _ -> ((), s)
 
   instance Monad (St s) where
-    return x = MkSt $ \ s -> (x,s)
+    return x = MkSt \ s -> (x, s)
   ```
 
   Function `get` just places the state (receiving as an argument) as the result
@@ -716,7 +716,7 @@ In Advanced Functional Programming, First International Spring School on Advance
   </div>
 
   ```haskell
-  MkSt m >>= k = MkSt $ \ s_1 -> let
+  MkSt m >>= k = MkSt \ s_1 -> let
       (a, s_2) = m s_1
       MkSt k_m = k a
     in k_m s_2
