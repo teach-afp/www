@@ -503,7 +503,7 @@ Let us get into a specific first in order to create a EDSL in Haskell.
   constS :: a -> Signal a
   timeS  :: Signal Time
   -- Combinators
-  ($$)   :: Signal (a -> b) -> Signal a -> Signal b
+  applyS :: Signal (a -> b) -> Signal a -> Signal b
   -- Run function
   sample :: Signal a -> Time -> a
   ```
@@ -512,7 +512,7 @@ Let us get into a specific first in order to create a EDSL in Haskell.
     time.
   - Function `timeS` reveals the current time, i.e., it is a signal which
     arrives at time _t_ and produces the value _t_.
-  - Combinator `($$)` takes a functional signal and converts it into a function
+  - Combinator `applyS` takes a functional signal and converts it into a function
     which changes `Signal a` into `Signal b`.
   - Run function `sample` just extracts the meaning of a signal.
 
@@ -552,7 +552,7 @@ Let us get into a specific first in order to create a EDSL in Haskell.
     `timeS`!
 
     ```haskell
-    constS (change disc square) $$ timeS
+    constS (change disc square) `applyS` timeS
     ```
 
     <div class="container">
@@ -596,8 +596,8 @@ constS x = Sig (const x)
 timeS :: Signal Time
 timeS = Sig id
 
-($$) :: Signal (a -> b) -> Signal a -> Signal b
-fs $$ xs = Sig (\t -> unSig fs t  (unSig xs t))
+applyS :: Signal (a -> b) -> Signal a -> Signal b
+fs `applyS` xs = Sig (\ t -> unSig fs t (unSig xs t))
 
 mapT :: (Time -> Time) -> Signal a -> Signal a
 mapT f xs = Sig (unSig xs . f)
@@ -614,7 +614,7 @@ data Signal a where
   ConstS :: a -> Signal a
   TimeS  :: Signal Time
   MapT   :: (Time -> Time) -> Signal a -> Signal a
-  (:$$)  :: Signal (a -> b) -> Signal a -> Signal b
+  ApplyS :: Signal (a -> b) -> Signal a -> Signal b
 
 constS = ConstS
 timeS  = TimeS
@@ -626,10 +626,10 @@ is here!).
 
 ```haskell
 -- | Sampling a signal at a given time point.
-sample (ConstS x)  = const x
-sample TimeS       = id
-sample (f :$$ s)   = \t -> sample f t $ sample s t
-sample (MapT f s)  = sample s . f
+sample (ConstS x)   = const x
+sample TimeS        = id
+sample (ApplyS f s) = \ t -> sample f t $ sample s t
+sample (MapT f s)   = sample s . f
 ```
 
 ## Go live!
