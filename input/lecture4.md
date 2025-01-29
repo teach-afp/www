@@ -232,13 +232,13 @@
       (>>=)  = bindP
 
   bindP :: Program a -> (a -> Program b) -> Program b
-  bindP (PutThen c p)  k   =  ?
-  bindP (GetBind f)    k   =  ?
-  bindP (Return x)     k   =  ?
+  bindP  (PutThen c p)  k   =  ?
+  bindP  (GetBind f)    k   =  ?
+  bindP  (Return x)     k   =  ?
   ```
 
   <div class ="alert alert-info">
-  We can *calculate* the correct definition of bindP using
+  We can <i>calculate</i> the correct definition of bindP using
   the definitions of `PutThen`, `GetBind`, and the monadic laws!
   </div>
 
@@ -247,11 +247,11 @@
   ```
 
   ```haskell
-    bindP (Return x)    k
-  = Def. >>=
-    (Return x) >>= k
-  =  Law 1.  return x >>= f ≡ f x
-    k x
+  bindP (Return x) k
+    = { Def. >>= }
+  Return x >>= k
+    = { Law 1.  return x >>= f  ≡  f x }
+  k x
   ```
 
   ```haskell
@@ -263,18 +263,18 @@
   ```
 
   ```haskell
-    bindP (GetBind f)   k
-  = Def. of (>>=)
-    (GetBind f) >>=  k
-  = Def. GetBind
-    (Get >>= f) >>=  k
-  = Law 3.  (m >>= f) >>= g  ==  m >>= (\ x -> f x >>= g)
-    with m = Get, f = f, g = k
-    Get >>= (\ x -> f x >>= k)
-  = Def. GetBind
-    GetBind (\ x -> f x >>= k)
-  = Def. of (>>=)
-    GetBind (\ x -> bindP (f x) k)
+  bindP (GetBind f) k
+    = { Def. of (>>=) }
+  GetBind f >>= k
+    = { Def. GetBind }
+  (Get >>= f) >>=  k
+    = { Law 3.  (m >>= f) >>= g  ≡  m >>= (\ x -> f x >>= g)
+        with m = Get, f = f, g = k }
+  Get >>= (\ x -> f x >>= k)
+    = { Def. GetBind }
+  GetBind (\ x -> f x >>= k)
+    = { Def. of (>>=) }
+  GetBind (\ x -> bindP (f x) k)
   ```
 
   ```haskell
@@ -328,7 +328,7 @@
   This is an exercise for you to do!
   </div>
 
-  [Please, check the code skeleton for that](https://github.com/teach-afp/afp-code/blob/master/L4/EDSL_Shallow.hs)
+  [Please, check the code skeleton for that.](https://github.com/teach-afp/afp-code/blob/master/L4/EDSL_Shallow.hs)
 
 
 ## Monads
@@ -369,12 +369,12 @@
                                 (mapTree f t2)
   ```
 
-* As we did with lists, we can apply the function `(+1)` at every element of the
+* As we did with lists, we can apply the function `(+ 1)` at every element of the
   data structure.
 
   For instance,
   ```haskell
-  mapTree (+1) $
+  mapTree (+ 1) $
     Node (Leaf 2) (Node (Node (Leaf 3) (Leaf 4)) (Leaf 5))
   ```
   produces the following tree.
@@ -399,7 +399,7 @@
 
 ## Functors
 
-* A functor is composed of two elements: a *data type definition* (*container*)
+* A functor is composed of two elements: a parametrized *data type definition* (*container*)
   and a generalized `map`-function called `fmap`.
 
 * In Haskell, `fmap` is an overloaded function, i.e., defined for every
@@ -450,7 +450,7 @@
   ```
   Now, we can write
   ```haskell
-  (+1) `fmap` (Node (Leaf 2) ((Node (Node (Leaf 3) (Leaf 4)) (Leaf 5))))
+  (+ 1) `fmap` (Node (Leaf 2) ((Node (Node (Leaf 3) (Leaf 4)) (Leaf 5))))
   ```
 
 ## Functors: more examples
@@ -458,7 +458,7 @@
 * `Maybe` data type
 
   ```haskell
-  (+1) `fmap` (Just 10)
+  (+ 1) `fmap` (Just 10)
   ```
 
 * Generalized trees
@@ -479,7 +479,7 @@
 
   For instance, the expression
   ```haskell
-  (+1)
+  (+ 1)
   `fmap` BranchG [LeafG 10,
                   BranchG [LeafG 11, LeafG 12],
                   BranchG [LeafG 13, LeafG 14, LeafG 15]]
