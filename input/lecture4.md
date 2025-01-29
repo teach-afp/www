@@ -73,23 +73,23 @@
 
    ```haskell
    run :: Program a -> IOSem a
-   run (Put c)    inp     =  (()     , inp  , c:""          )
+   run (Put c)    inp     =  (()     , inp  , [c]           )
    run (Get)      ""      =  (Nothing, ""   , ""            )
    run (Get)      (c:cs)  =  (Just c , cs   , ""            )
    run (Return x) inp     =  (x      , inp  , ""            )
-   run (Bind p g) inp     =  (b      , inp_b, out_a ++ out_b)
+   run (Bind m k) inp     =  (b      , inp_b, out_a ++ out_b)
      where
-       (a, inp_a, out_a) = run p inp
-       (b, inp_b, out_b) = run (g a) inp_a
+       (a, inp_a, out_a) = run m inp
+       (b, inp_b, out_b) = run (k a) inp_a
    ```
 
 * Let us write an "echo" program
 
   ```haskell
   echo :: Program ()
-  echo = getC >>= f
-    where f Nothing  = return ()
-          f (Just c) = putC c
+  echo = getC >>= \case
+    Nothing -> return ()
+    Just c  -> putC c
   ```
 
   To run it, we need to give it an input
@@ -100,8 +100,8 @@
   ```
 
   <div class = "alert alert-info">
-  **Exercise**: write a program which does a *double echo*, i.e., it reads a character
-  from the input and writes it twice into the output
+  <b>Exercise</b>: write a program which does a <i>double echo</i>, i.e.,
+  it reads a character from the input and writes it twice into the output.
   </div>
 
 ## A simple monadic EDSL for input/output (intermediate embedding)
@@ -348,10 +348,10 @@
 
 * We are familiar with the `map` function over lists
   ```haskell
-  map (+1) [2,3,4,5,6]
+  map (+ 1) [2,3,4,5,6]
   ```
 
-  which *applies* the function `(+1)` to every element of the list*, and produces
+  which *applies* the function `(+ 1)` to every element of the list, and produces
   the list
 
   ```haskell
