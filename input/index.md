@@ -20,24 +20,24 @@
 
 # Schedule 2025
 
-|     |    |     | Event      |
-|-----|----|-----|------------|
-| Mon | 20 | Jan | Lecture 01 |
-| Thu | 23 | Jan | Lecture 02 |
-| Mon | 27 | Jan | Lecture 03 |
-| Thu | 30 | Jan | Lecture 04 |
-| Mon | 03 | Feb | Lecture 05 |
-| Thu | 06 | Feb | Lecture 06 |
-| Mon | 10 | Feb | Lecture 07 |
-| Thu | 13 | Feb | Lecture 08 |
-| Mon | 17 | Feb | Lecture 09 |
-| Thu | 20 | Feb | Lecture 10 |
-| Mon | 24 | Feb | Lecture 11 |
-| Thu | 27 | Feb | Lecture 12 |
-| Mon | 03 | Mar | Lecture 13 |
-| Thu | 06 | Mar | Lecture 14 |
-| Mon | 10 | Mar | Lecture 15 |
-| Thu | 13 | Mar | Lecture 16 |
+|     |    |     | Event                        |
+|-----|----|-----|------------------------------|
+| Mon | 20 | Jan | [Lecture 01](lecture1.html)  |
+| Thu | 23 | Jan | [Lecture 02](lecture2.html)  |
+| Mon | 27 | Jan | [Lecture 03](lecture3.html)  |
+| Thu | 30 | Jan | [Lecture 04](lecture4.html)  |
+| Mon | 03 | Feb | [Lecture 05](lecture5.html)  |
+| Thu | 06 | Feb | [Lecture 06](lecture6.html)  |
+| Mon | 10 | Feb | [Lecture 07](lecture7.html)  |
+| Thu | 13 | Feb | [Lecture 08](lecture8.html)  |
+| Mon | 17 | Feb | [Lecture 09](lecture9.html)  |
+| Thu | 20 | Feb | [Lecture 10](lecture10.html) |
+| Mon | 24 | Feb | [Lecture 11](lecture11.html) |
+| Thu | 27 | Feb | [Lecture 12](lecture12.html) |
+| Mon | 03 | Mar | [Lecture 13](lecture13.html) |
+| Thu | 06 | Mar | [Lecture 14](lecture14.html) |
+| Mon | 10 | Mar | [Lecture 15](lecture15.html) |
+| Thu | 13 | Mar | [Lecture 16](lecture16.html) |
 
 
 # News
