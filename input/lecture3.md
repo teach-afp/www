@@ -345,7 +345,7 @@ In Advanced Functional Programming, First International Spring School on Advance
   - All the plumbing is hidden!
   - It looks like imperative programming!
 
-* Observe that we use many times ` m >>= \_ -> ... ` when `m` does not produce a
+* Observe that we use many times ` m >>= \ _ -> ... ` when `m` does not produce a
   useful value for the computation but a useful side-effect! (in this case,
   logging)
 

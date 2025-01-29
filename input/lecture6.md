@@ -460,7 +460,7 @@
     (>>=)  = bindMyMonad
 
   returnMyMonad :: a -> MyMonad s e a
-  returnMyMonad x = MyMonad $ \s -> \ e -> (x, s)
+  returnMyMonad x = MyMonad \ s  -> \ e -> (x, s)
   ```
   </div>
 

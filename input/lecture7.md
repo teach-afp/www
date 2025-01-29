@@ -194,7 +194,7 @@
     eval (pe := ve)    = do p <- eval pe
                             v <- eval ve
                             p =: v
-    eval (Catch e1 e2) = catchError (eval e1) (\_err -> eval e2) ```
+    eval (Catch e1 e2) = catchError (eval e1) (\ _err -> eval e2) ```
 
 * We can recover from errors
 
@@ -231,11 +231,11 @@
 
   The expression `((one := 2) + !7)` can be thought as a function which
   takes a store and always returns an error, i.e. a function semantically
-  equivalent to `\s -> Left SegmentationFault`.
+  equivalent to `\ s -> Left SegmentationFault`.
 
   Then, due to the try-catch statement, the expression
   `(try ((one := 2) + !7) catch 0)` catches the error and then produces
-  a function semantically equivalent to `\s -> Right (Lit 0, s)`. Observe that
+  a function semantically equivalent to `\ s -> Right (Lit 0, s)`. Observe that
   it returns the state before the effect `one := 2`.
 
 
@@ -295,7 +295,7 @@
    The expression `((one := 2) + !7)` can be thought as a function which takes
    a store and returns an error but keeping the state at the point of the
    failure. You can think of the computation as a function semantically similar to
-   `\s -> (Left SegmentationFault, s')` where `s'` is the same store as `s`
+   `\ s -> (Left SegmentationFault, s')` where `s'` is the same store as `s`
    except that reference `one` is set to `2`.
 
    When the exception handler is executed, it takes the state from where `((one
@@ -376,7 +376,7 @@
    eval (pe := ve)    = do p <- eval pe
                            v <- eval ve
                            p =: v
-   eval (Catch e1 e2) = catchError (eval e1) (\_err -> eval e2)
+   eval (Catch e1 e2) = catchError (eval e1) (\ _err -> eval e2)
    eval (Print m)     = do msg m  -- new
                            return 0 ```
 
@@ -460,7 +460,7 @@
   black-box!
 
   ```haskell
-  return x = MyStateT $ \s -> return (x, s) ```
+  return x = MyStateT \ s  -> return (x, s) ```
 
   Observe that `return` for `MyStateT` uses `return (x,s) :: m (a,s)`.
 
@@ -468,7 +468,7 @@
   value from our monad transformer. Therefore, we know that
 
   ```haskell
-   MyStateT f >>= k = MyStateT $ \s1 -> ... ```
+   MyStateT f >>= k = MyStateT \ s1  -> ... ```
 
    We are going to use the types to guide us in completing the definitions.
 
@@ -478,7 +478,7 @@
    use it!
 
    ```haskell
-   MyStateT f >>= k = MyStateT $ \s1 -> do (a, s2) <- f s1
+   MyStateT f >>= k = MyStateT \ s1  -> do (a, s2) <- f s1
                                            ... (k a) ... ```
 
    Observe that `(k a) :: MyStateT s m b`, but the type for the whole missing
@@ -486,7 +486,7 @@
    `MyStateT` and obtain its underlying computation of type `s -> m (b, s)`.
 
    ```haskell
-   MyStateT f >>= k = MyStateT $ \s1 -> do (a, s2) <- f s1
+   MyStateT f >>= k = MyStateT \ s1  -> do (a, s2) <- f s1
                                            st (k a) ... ```
 
    Still, the type for `st (k a) :: s -> m (b, s)`, i.e., we need to provide
@@ -497,7 +497,7 @@
    i.e., `s2`.
 
    ```haskell
-   MyStateT f >>= k = MyStateT $ \s1 -> do (a, s2) <- f s1
+   MyStateT f >>= k = MyStateT \ s1  -> do (a, s2) <- f s1
                                            st (k a) s2 ```
 
 * Now that `MyStateT s m` is a monad (do not forget to prove the monadic laws),
@@ -506,8 +506,8 @@
 
   ```haskell
   instance Monad m => MonadState s (MyStateT s m) where
-     get     = MyStateT $ \s -> return (s,s)
-     put s   = MyStateT $ \_ -> return ((),s) ```
+     get     = MyStateT \ s  -> return (s,s)
+     put s   = MyStateT \ _ -> return ((),s) ```
 
 * We leave it as an exercise to define the run functions
 
@@ -545,7 +545,7 @@
 
   ```haskell
   instance Monad m => MT m (MyStateT s m) where
-       lift m = MyStateT $ \s -> do a <- m
+       lift m = MyStateT \ s  -> do a <- m
                                     return (a,s) ```
 
   Observe that `lift` only runs the computation `m` without changing the state.
@@ -603,19 +603,19 @@
   that, we use the `(>>=)` from the underlying monad.
 
   ```haskell
-  (MyExceptT m) >>= k = MyExceptT $ m >>= \result -> ... ```
+  (MyExceptT m) >>= k = MyExceptT $ m >>= \ result -> ... ```
 
   We capture what `m` produces in the variable `result`. Then, we inspect it to
   see if it is a legit value or an error.
 
   ```haskell
-  (MyExceptT m) >>= k = MyExceptT $ m >>= \result -> case result of
+  (MyExceptT m) >>= k = MyExceptT $ m >>= \ result -> case result of
                                                           ... ```
 
   If `result` is an error, i.e., a value of the form `Left e`, we propagate it.
 
   ```haskell
-  (MyExceptT m) >>= k = MyExceptT $ m >>= \result -> case result of
+  (MyExceptT m) >>= k = MyExceptT $ m >>= \ result -> case result of
                                                           Left e -> return (Left e)
                                                           ... ```
 
@@ -625,7 +625,7 @@
   produced by `m`.
 
   ```haskell
-  (MyExceptT m) >>= k = MyExceptT $ m >>= \result -> case result of
+  (MyExceptT m) >>= k = MyExceptT $ m >>= \ result -> case result of
                                                           Left e  -> return (Left e)
                                                           Right a -> ... k a ... ```
 
@@ -634,7 +634,7 @@
   simply applying `except`.
 
   ```haskell
-  (MyExceptT m) >>= k = MyExceptT $ m >>= \result -> case result of
+  (MyExceptT m) >>= k = MyExceptT $ m >>= \ result -> case result of
                                                           Left e  -> return (Left e)
                                                           Right a -> except (k a) ```
 
@@ -657,14 +657,14 @@
   `(>>=)` from the underlying monad.
 
    ```haskell
-   catchError (MyExceptT m) h = MyExceptT $ m >>= \result -> ... ```
+   catchError (MyExceptT m) h = MyExceptT $ m >>= \ result -> ... ```
 
    We then need to inspect the shape of result. In case that `result` is of the
    form `Right a` (for some value `a`), `catchError` does not need to engage
    the exception handler, but rather return this value.
 
    ```haskell
-   catchError (MyExceptT m) h = MyExceptT $ m >>= \result ->
+   catchError (MyExceptT m) h = MyExceptT $ m >>= \ result ->
                                                      case result of
                                                           Right a -> return (Right a)
                                                           ... ```
@@ -673,7 +673,7 @@
    handler.
 
    ```haskell
-   catchError (MyExceptT m) h = MyExceptT $ m >>= \result ->
+   catchError (MyExceptT m) h = MyExceptT $ m >>= \ result ->
                                                      case result of
                                                           Right a -> return (Right a)
                                                           Left  e -> ... (h e) ... ```
@@ -683,7 +683,7 @@
    `h e` by using `except`.
 
    ```haskell
-   catchError (MyExceptT m) h = MyExceptT $ m >>= \result ->
+   catchError (MyExceptT m) h = MyExceptT $ m >>= \ result ->
                                                      case result of
                                                           Right a -> return (Right a)
                                                           Left  e -> except (h e) ```
@@ -698,7 +698,7 @@
 
   ```haskell
   instance Monad m => MT m (MyExceptT e m) where
-      lift m = MyExceptT $ m >>= \a -> return (Right a) ```
+      lift m = MyExceptT $ m >>= \ a -> return (Right a) ```
 
   The `lift` function simply runs the computation `m` from the underlying monad
   and wraps its result with a `Right` constructor.
@@ -846,7 +846,7 @@
   In the interpreter 4, the code was
 
   ```haskell
-  eval (Catch e1 e2)  = catchError (eval e1) (\_err -> eval e2)
+  eval (Catch e1 e2)  = catchError (eval e1) (\ _err -> eval e2)
   ```
 
   However, this line of code does not type check if we use our own monad
@@ -855,7 +855,7 @@
   The reason for that is that
   ```haskell
   eval e1 :: Eval a
-  \_err -> eval e2 :: Err -> Eval a```
+  \ _err -> eval e2 :: Err -> Eval a```
 
   and function `catchError` is working at the layer introduced by
   `MyExceptT`. Because of that, `catchError` expects two arguments, let's called
@@ -895,7 +895,7 @@
 
   ```haskell
   eval (Catch e1 e2)  =
-       MyStateT $ \s -> let
+       MyStateT \ s  -> let
                            st1  = runSTInt (eval e1)
                            st2  = runSTInt (eval e2)
                            env1 = runEnv (st1 s)
@@ -911,24 +911,24 @@
 
   ```haskell
   eval (Catch e1 e2)  =
-       MyStateT $ \s -> let
+       MyStateT \ s  -> let
                            st1  = runSTInt (eval e1)
                            st2  = runSTInt (eval e2)
                            env1 = runEnv (st1 s)
                            env2 = runEnv (st2 s)
-                       in MyReaderT $ \r -> ... ```
+                       in MyReaderT \ r  -> ... ```
 
   With the environment `r` in scope, `env1 r :: MyExceptT Err Identity a` and
   `env2 r :: MyExceptT Err Identity a` and we can feed function `catchError` with them.
 
   ```haskell
    eval (Catch e1 e2)  =
-        MyStateT $ \s -> let
+        MyStateT \ s  -> let
                             st1  = runSTInt (eval e1)
                             st2  = runSTInt (eval e2)
                             env1 = runEnv (st1 s)
                             env2 = runEnv (st2 s)
-                        in MyReaderT $ \r -> catchError (env1 r) (\_err -> env2 r) ```
+                        in MyReaderT \ r  -> catchError (env1 r) (\ _err -> env2 r) ```
 
 * We have not described how to adapt the function `localScope` and we leave it as
   an exercise since it exhibits a similar problem as `eval (Catch e1 e2)`.

@@ -153,7 +153,7 @@
 
       <td>
       ```haskell
-      (p >>= f) >>= g ≡ p >>= (\x -> f x >>= g)
+      (p >>= f) >>= g ≡ p >>= (\ x -> f x >>= g)
       ```
       </td>
       </tr>
@@ -248,7 +248,7 @@
       <td>
       ```haskell
       (symbol >>= f) +++ (symbol >>= g) ≡
-          symbol >>= (\c -> f c +++ g c)
+          symbol >>= (\ c -> f c +++ g c)
       ```
       </td>
       </tr>
@@ -291,7 +291,7 @@
    ==  { Def. of [| p +++ q |] "backwards" }
      [| f c +++ g c |] s
    ==  { Def. of [| p >>= f |] and [| symbol |] "backwards" }
-     [| symbol >>= (\c -> f c +++ g c) |] (c:s)
+     [| symbol >>= (\ c -> f c +++ g c) |] (c:s)
   ```
 
   <div class = "alert alert-info">
@@ -641,19 +641,19 @@
   By **L3** (Associativity of monads), we have that
 
   ```haskell
-  Symbol >>= f >>= k ≡ Symbol >>= (\s -> f s >>= k)
+  Symbol >>= f >>= k ≡ Symbol >>= (\ s -> f s >>= k)
   ```
 
   By our definition of `SymbolBind`, we have that
 
   ```haskell
-  Symbol >>= (\s -> f s >>= k) ≡ SymbolBind (\s -> f s >>= k)
+  Symbol >>= (\ s -> f s >>= k) ≡ SymbolBind (\ s -> f s >>= k)
   ```
 
   So, we finally have that
 
   ```haskell
-  SymbolBind f >>= k = SymbolBind (\s -> f s >>= k)
+  SymbolBind f >>= k = SymbolBind (\ s -> f s >>= k)
   ```
 
 * We can now define `Parser1` as a monad
@@ -665,7 +665,7 @@
     Fail         >>= k = Fail
     Choice p q   >>= k = Choice (p >>= k) (q >>= k)
     Return x     >>= k = k x
-    SymbolBind f >>= k = SymbolBind (\s -> f s >>= k)
+    SymbolBind f >>= k = SymbolBind (\ s -> f s >>= k)
   ```
 
   <div class = "alert alert-info">
@@ -714,7 +714,7 @@
   cast ((P0.Return x) P0.:>>= k)   = cast (k x)
                                      -- monad law, L1
 
-  cast ((p P0.:>>= f) P0.:>>= k)   = cast (p P0.:>>= (\x -> f x P0.:>>= k))
+  cast ((p P0.:>>= f) P0.:>>= k)   = cast (p P0.:>>= (\ x -> f x P0.:>>= k))
                                      -- monad law, L3
   ```
 
@@ -771,7 +771,7 @@
   For `SymbolBind`, we know by **L10** that
 
   ```haskell
-  SymbolBind f +++ SymbolBind q = SymbolBind (\s -> f s +++ q s)
+  SymbolBind f +++ SymbolBind q = SymbolBind (\ s -> f s +++ q s)
   ```
 
   If `SymbolBind` is combined with `Fail` instead, we know the result (see **L6** and
@@ -820,7 +820,7 @@
 
   ```haskell
   (+++) :: Parser2 s a -> Parser2 s a -> Parser2 s a
-  SymbolBind f     +++ SymbolBind g     = SymbolBind (\s -> f s +++ g s)
+  SymbolBind f     +++ SymbolBind g     = SymbolBind (\ s -> f s +++ g s)
                                           -- L10
   p                +++ Fail             = p
                                           -- L6
@@ -857,7 +857,7 @@
 
   ```haskell
   (+++) :: Parser2 s a -> Parser2 s a -> Parser2 s a
-  SymbolBind f     +++ SymbolBind g     = SymbolBind (\s -> f s +++ g s)
+  SymbolBind f     +++ SymbolBind g     = SymbolBind (\ s -> f s +++ g s)
                                           -- L10
   p                +++ Fail             = p
                                           -- L6
@@ -878,7 +878,7 @@
   instance Monad (Parser2 s) where
     return x = ReturnChoice x Fail
     Fail             >>= k = Fail
-    (SymbolBind f)   >>= k = SymbolBind (\s -> f s >>= k)
+    (SymbolBind f)   >>= k = SymbolBind (\ s -> f s >>= k)
     ReturnChoice x p >>= k = ?
   ```
 
@@ -911,7 +911,7 @@
   instance Monad (Parser2 s) where
     return x = ReturnChoice x Fail
     Fail             >>= k = Fail
-    (SymbolBind f)   >>= k = SymbolBind (\s -> f s >>= k)
+    (SymbolBind f)   >>= k = SymbolBind (\ s -> f s >>= k)
     ReturnChoice x p >>= k = k x +++ (p >>= k)
   ```
 

@@ -148,13 +148,13 @@
   after bind can ignore its argument.
 
   ```haskell
-  Put c >>= \_ -> p ≡ Put c >> p
+  Put c >>= \ _ -> p  ≡  Put c >> p
   ```
 
   We will now give a name to this new combination
 
   ```haskell
-  PutThen c p ≡ Put c >> p
+  PutThen c p  ≡  Put c >> p
   ```
 
   This is a `Program` which starts by printing `c` and the behaves like `p`.
@@ -167,7 +167,7 @@
   and `Bind`:
 
   ```haskell
-  GetBind f ≡ Get >>= f
+  GetBind f  ≡  Get >>= f
   ```
 
 * ```haskell
@@ -177,7 +177,7 @@
   The third combination would be `ReturnBind`
 
   ```haskell
-  ReturnBind x f ≡ Return x >>= f
+  ReturnBind x f  ≡  Return x >>= f
   ```
 
   but the first monad law already tells us that this is just `(f x)` so no
@@ -268,17 +268,17 @@
     (GetBind f) >>=  k
   = Def. GetBind
     (Get >>= f) >>=  k
-  = Law 3.  (m >>= f) >>= g  ==  m >>= (\x -> f x >>= g)
+  = Law 3.  (m >>= f) >>= g  ==  m >>= (\ x -> f x >>= g)
     with m = Get, f = f, g = k
-    Get >>= (\x -> f x >>= k)
+    Get >>= (\ x -> f x >>= k)
   = Def. GetBind
-    GetBind (\x -> f x >>= k)
+    GetBind (\ x -> f x >>= k)
   = Def. of (>>=)
-    GetBind (\x -> bindP (f x) k)
+    GetBind (\ x -> bindP (f x) k)
   ```
 
   ```haskell
-  bindP (GetBind f) k = GetBind (\x -> bindP (f x) k)
+  bindP (GetBind f) k = GetBind (\ x -> bindP (f x) k)
   ```
 
 * ```haskell
@@ -292,11 +292,11 @@
   = { Def. of PutThen }
     (Put c >> p) >>= k
   =
-    (Put c >>= \_ -> p) >>= k
-  = Law3 with m = Put c, f = \_->p, g = k
-    Put c >>= (\x -> (\_->p) x >>= k)
+    (Put c >>= \ _ -> p) >>= k
+  = Law3 with m = Put c, f = (\ _ -> p), g = k
+    Put c >>= (\ x -> (\ _ -> p) x >>= k)
   = simplify
-    Put c >>= (\_ -> p >>= k)
+    Put c >>= (\ _ -> p >>= k)
   = Def. of >>
     Put c >> (p >>= k)
   = Def. of PutThen
@@ -318,7 +318,7 @@
   -- | Bind takes the first argument apart:
   bindP :: Program a -> (a -> Program b) -> Program b
   bindP (PutThen c p)  k   =  PutThen c (bindP p k)
-  bindP (GetBind f)    k   =  GetBind (\x -> bindP (f x) k)
+  bindP (GetBind f)    k   =  GetBind (\ x -> bindP (f x) k)
   bindP (Return x)     k   =  k x
   ```
 
@@ -812,7 +812,7 @@
   newtype Equal a = Equal {runEqual :: a -> a -> Bool}
 
   fmapEqual :: (a -> b) -> Equal a -> Equal b
-  fmapEqual _f (Equal _op) = Equal $ \_b1 _b2 -> error "Hopeless!"
+  fmapEqual _f (Equal _op) = Equal \ _b1 _b2 -> error "Hopeless!"
   ```
 
 * What is the problem?
@@ -904,7 +904,7 @@
   counts the total number of its occurrences.
 
   ```haskell
-  (\x y -> x) <$> onePhantom <*> onePhantom
+  (\ x y -> x) <$> onePhantom <*> onePhantom
   > Phantom (Suc (Suc Zero))
   ```
 
@@ -953,7 +953,7 @@
   instance,
 
   ```haskell
-  k = \_ -> ((\x1 x2 .. xm xm1) -> x1) <$> onePhantom <*> .. <*> onePhantom
+  k = \ _ -> ((\ x1 x2 .. xm xm1) -> x1) <$> onePhantom <*> .. <*> onePhantom
   ```
 
   In other words, `k` is returning `Phantom (Suc m)` which is different from

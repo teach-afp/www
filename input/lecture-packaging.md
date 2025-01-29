@@ -1200,7 +1200,7 @@ Style:
 - Pointfree style.
   Use modestly!
   Excessive point-free style makes code unreadable:
-  `flip . ((flip . (flip .)) .)` vs. `\f a b c d -> f b c d a`.
+  `flip . ((flip . (flip .)) .)` vs. `\ f a b c d -> f b c d a`.
 
 Some advice:
 - https://github.com/andreasabel/haskell-style-guide (not recently updated)
