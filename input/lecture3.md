@@ -326,8 +326,8 @@ In Advanced Functional Programming, First International Spring School on Advance
 * Let us rewrite the interpreter using the monad `L`:
 
   ```haskell
-  m_interpL (Con i) = do
-      msg "-- Hit Con --"
+  m_interpL (Con i) =
+      msg "-- Hit Con --"  >>= \ _ ->
       return i
 
   m_interpL (Div e1 e2) =
@@ -412,7 +412,7 @@ In Advanced Functional Programming, First International Spring School on Advance
   <td> Left identity: </td>
   <td>
   ```haskell
-  return a >>= f ≡ f a
+  return a >>= f  ≡  f a
   ```
   </td>
   </tr>
@@ -422,7 +422,7 @@ In Advanced Functional Programming, First International Spring School on Advance
 
   <td>
   ```haskell
-  m >>= return ≡ m
+  m >>= return  ≡  m
   ```
   </td>
   </tr>
@@ -431,7 +431,7 @@ In Advanced Functional Programming, First International Spring School on Advance
   <td> Associativity: </td>
   <td>
   ```haskell
-  (m >>= f) >>= g ≡ m >>= (\ x -> f x >>= g)
+  (m >>= f) >>= g  ≡  m >>= (\ x -> f x >>= g)
   ```
   </td>
   </tr>
@@ -573,8 +573,8 @@ In Advanced Functional Programming, First International Spring School on Advance
 
   ```haskell
   instance Monad E_deep where
-      return = Return
-      (>>=)  = Bind
+    return = Return
+    (>>=)  = Bind
 
   abort_deep = Abort
   ```
@@ -601,7 +601,7 @@ In Advanced Functional Programming, First International Spring School on Advance
 
 ## Stateful computations
 
-* There is no more imperative feature like having a global state and transforming
+* There is not any *more* imperative feature like having a global state and transforming
   it during a computation.
 
 * Imagine that we want to count the number of divisions in our interpreter.
@@ -616,10 +616,10 @@ In Advanced Functional Programming, First International Spring School on Advance
       i1 <- interpS e1
       i2 <- interpS e2
       -- Read the global counter
-      dvs <- get
+      divisions <- get
       -- Increment it by one
-      put (dvs+1)
-      return (i1 `div`i2)
+      put (divisions + 1)
+      return (i1 `div` i2)
   ```
 
 * We start by describing the type for stateful computations
@@ -686,7 +686,7 @@ In Advanced Functional Programming, First International Spring School on Advance
 
 * More concretely,
   ```haskell
-  data St s a = MkSt (s -> (a, s))
+  newtype St s a = MkSt { runSt :: s -> (a, s) }
 
   get :: St s s
   get = MkSt \ s -> (s, s)
@@ -716,10 +716,9 @@ In Advanced Functional Programming, First International Spring School on Advance
   </div>
 
   ```haskell
-  MkSt m >>= k = MkSt \ s_1 -> let
-      (a, s_2) = m s_1
-      MkSt k_m = k a
-    in k_m s_2
+  m >>= k = MkSt \ s_1 -> let
+       (a, s_2) = runSt m s_1
+    in runSt (k a) s_2
   ```
 
 * A possible `run` function:
@@ -732,8 +731,8 @@ In Advanced Functional Programming, First International Spring School on Advance
       putStrLn "Number divisions:"
       putStrLn $ show final_st
     where
-      MkSt f = interpS e
-      (result, final_st) = f 0
+      init_st = 0
+      (result, final_st) = runSt (interpS e) init_st
   ```
 
 
