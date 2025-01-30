@@ -517,8 +517,8 @@
   "multi-parameter" function.
 
   ```haskell
-  mp_fmap :: (a -> b -> c) -> Maybe a -> Maybe b -> Maybe c
-  mp_fmap f ma mb =
+  fmap2 :: (a -> b -> c) -> Maybe a -> Maybe b -> Maybe c
+  fmap2 f ma mb =
     let m_b_to_c = fmap f ma
     in  undefined
   ```
@@ -531,19 +531,27 @@
   next argument is located.
 
   ```haskell
-  mp_fmap :: (a -> b -> c) -> Maybe a -> Maybe b -> Maybe c
-  mp_fmap f ma mb =
+  fmap2 :: (a -> b -> c) -> Maybe a -> Maybe b -> Maybe c
+  fmap2 f ma mb =
     let m_b_to_c = fmap f ma
     in  case m_b_to_c of
           Nothing -> Nothing
           Just fa -> fmap fa mb
   ```
 
-  What happens if function `f` had more arguments?
+* What about zero parameters?
+
+  ```haskell
+  fmap0 :: a -> Maybe a
+  fmap0 = Just
+  ```
+
+* What happens if function `f` has even more arguments?
+  E.g. arity three:
 
    ```haskell
-   mp_fmap2 :: (a -> b -> c -> d) -> Maybe a -> Maybe b -> Maybe c -> Maybe d
-   mp_fmap2 f ma mb mc =
+   fmap3 :: (a -> b -> c -> d) -> Maybe a -> Maybe b -> Maybe c -> Maybe d
+   fmap3 f ma mb mc =
      case fmap f ma of
        Nothing -> Nothing
        Just fa -> case fmap fa mb of
@@ -551,16 +559,33 @@
           Just fab -> fmap fab mc
    ```
 
-  We would need to implement more code to extract partial application of
+  To solve this for all arities, we need code to extract partial application of
   functions out from containers, applied them, and wrap the result in another
   container!
 
-  *Applicative functors are conceived to do precisely this work!*
+  *Applicative functors (see below) are conceived to do precisely this work!*
+
+### Laws for multi-parameter maps.
+
+* Beside identity law for `fmap`, namely `fmap id ≡ id`,
+  we need an infinite family of composition laws:
+
+  - `fmap  f (fmap g m1)        ≡ fmap  (\ x1 -> f (g x1))             m1`
+  - `fmap  f (fmap2 g m1 m2)    ≡ fmap2 (\ x1 x2 -> f (g x1 x2))       m1 m2`
+  - `fmap2 f m1 (fmap g m2)     ≡ fmap2 (\ x1 x2 -> f x1 (g x2))       m1 m2`
+  - `fmap2 f (fmap g m1) m2     ≡ fmap2 (\ x1 x2 -> f (g x1) x2)       m1 m2`
+  - `fmap2 f (fmap3 g m1 m2) m3 ≡ fmap3 (\ x1 x2 x3 -> f (g x1 x2) x3) m1 m2 m3`
+  - ...
+  - `fmap  f (fmap0 y)          ≡ fmap0 (f y)`
+  - `fmap2 f (fmap0 y) m        ≡ fmap1 (f y) m`
+  - ...
+
+* In the formulation as *applicative functors* we will need only finitely many laws.
 
 
 ## Applicative functors
 
-* An *applicative functor* (or functor with application) is a functor with the following operations
+* An *applicative functor* (or functor with application) is a functor with the following operations.
 
    ```haskell
    class Functor d => Applicative d where
@@ -568,10 +593,10 @@
        (<*>) :: d (a -> b) -> d a -> d b
    ```
 
-* Observe that an applicative functor **is** a functor
+* Observe that an applicative functor **is** a functor.
 
 * The pure operation creates a container with the given argument. The interesting
-  operation is "application" `(<*>)`, which we can describe it graphically as
+  operation is *idiomatic application* `(<*>)`, which we can describe it graphically as
   follows:
 
   <div class="container">
