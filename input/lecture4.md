@@ -286,21 +286,21 @@
   ```
 
   ```haskell
-    bindP (PutThen c p) k
-  = { Def. of (>>=) }
-    (PutThen c p) >>= k
-  = { Def. of PutThen }
-    (Put c >> p) >>= k
-  =
-    (Put c >>= \ _ -> p) >>= k
-  = Law3 with m = Put c, f = (\ _ -> p), g = k
-    Put c >>= (\ x -> (\ _ -> p) x >>= k)
-  = simplify
-    Put c >>= (\ _ -> p >>= k)
-  = Def. of >>
-    Put c >> (p >>= k)
-  = Def. of PutThen
-    PutThen c (p >>= k)
+  bindP (PutThen c p) k
+    = { Def. of (>>=) }
+  (PutThen c p) >>= k
+    = { Def. of PutThen }
+  (Put c >> p) >>= k
+    = { Def. of (>>) }
+  (Put c >>= \ _ -> p) >>= k
+    = { Law3 with m = Put c, f = (\ _ -> p), g = k }
+  Put c >>= (\ x -> (\ _ -> p) x >>= k)
+    = { simplify }
+  Put c >>= (\ _ -> p >>= k)
+    = { Def. of (>>) }
+  Put c >> (p >>= k)
+    = { Def. of PutThen }
+  PutThen c (p >>= k)
   ```
 
   ```haskell
