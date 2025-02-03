@@ -838,12 +838,12 @@
   </div>
 
   <div class="alert alert-info">
-    <b>Exercise</b>: Prove this! I.e.:
+    <b>Exercise</b>: Prove this, i.e.:
     <ol>
     <li>Given `instance Applicative m`, write a default `instance Functor m`.
         Prove the functor laws (assuming the applicative functor laws).
     <li>Given `instance Monad m`, write a default `instance Applicative m`.
-        Pove the appicative functor laws (assuming the monad laws).
+        Prove the applicative functor laws (assuming the monad laws).
     </ol>
   </div>
 
@@ -1047,16 +1047,17 @@ getting `[a] -> [b] -> [c]`.
 Questions:
 1. What are the units of these operations?
 2. Can you formulate laws in the likeness of *associativity*?
-3. With `zipWith` serving as `liftA2` what would be the `Associative` instance?
+3. With `zipWith` serving as `liftA2` what would be the `Applicative` instance?
    Do the applicative functor laws hold?
 4. With `cartesian` serving as `liftM2` what would be the `Monad` instance?
    Do the monad laws hold?
 5. (Hard:) Can you make a `Monad` where `liftM2 = zipWith`?
    Do the monad laws hold?
 
-<div class="alert alert-info">
-  Answer these questions and accompany your answers by proofs!
-</div>
+   <div class="alert alert-info">
+   <b>Exercise:</b>
+   Answer these questions and accompany your answers by proofs!
+   </div>
 
 
 ## Structures learned so far
