@@ -7,7 +7,7 @@
 
   ```haskell
   -- Types
-  data Program a
+  type Program a
 
   -- Constructors
   return :: a -> Program a
@@ -22,7 +22,7 @@
   run :: Program a -> IOSem a
   ```
 
-* We will use monads to handle the I/O effects!
+* We use monads to sequence I/O effects.
 
 * Scenario
 
@@ -110,8 +110,9 @@
 * It is often good to move away a bit from the pure deep embedding towards some
   kind of "normal form" ("optimized", "elemental" embedding).
 
-* We want to remove the `Bind` operator. How are we going to write sequential
-  actions then?
+* We want to remove the `Bind` operator.
+  (This, done correctly, will turn `Program` into a lawful monad.)
+  How are we going to write sequential actions then?
 
   <div class= "alert alert-info">
   `(>>=)` is going to be executed when constructing the program, but not when
@@ -127,8 +128,8 @@
 * Let's look at the different cases for the first argument of `Bind`.
 
   ```haskell
-       Put c >>= f
-         Get >>= f
+    Put c    >>= f
+    Get      >>= f
     Return x >>= f
   ```
 
@@ -570,10 +571,10 @@
 * Beside identity law for `fmap`, namely `fmap id ≡ id`,
   we need an infinite family of composition laws:
 
-  - `fmap  f (fmap g m1)        ≡ fmap  (\ x1 -> f (g x1))             m1`
-  - `fmap  f (fmap2 g m1 m2)    ≡ fmap2 (\ x1 x2 -> f (g x1 x2))       m1 m2`
-  - `fmap2 f m1 (fmap g m2)     ≡ fmap2 (\ x1 x2 -> f x1 (g x2))       m1 m2`
-  - `fmap2 f (fmap g m1) m2     ≡ fmap2 (\ x1 x2 -> f (g x1) x2)       m1 m2`
+  - `fmap  f (fmap g m1)        ≡ fmap  (\ x1       -> f (g x1))       m1`
+  - `fmap  f (fmap2 g m1 m2)    ≡ fmap2 (\ x1 x2    -> f (g x1 x2))    m1 m2`
+  - `fmap2 f m1 (fmap g m2)     ≡ fmap2 (\ x1 x2    -> f x1 (g x2))    m1 m2`
+  - `fmap2 f (fmap g m1) m2     ≡ fmap2 (\ x1 x2    -> f (g x1) x2)    m1 m2`
   - `fmap2 f (fmap3 g m1 m2) m3 ≡ fmap3 (\ x1 x2 x3 -> f (g x1 x2) x3) m1 m2 m3`
   - ...
   - `fmap  f (fmap0 y)          ≡ fmap0 (f y)`
@@ -607,7 +608,7 @@
   It takes a container of functions and a container of arguments and returns a
   container of the result of applying such functions.
 
-* An applicative functor must obey the following laws
+* An applicative functor must obey the following laws:
 
   <table class="table table-bordered">
   <thead>
@@ -675,6 +676,22 @@
   ``ff`` is a container with a function and `pure v` is its argument, it is
   possible to apply function `($ v)` to the container `ff`.
 
+* Relation to multi-parameter maps:
+  The Haskell names for `fmap`_n_ are:
+
+  ```haskell
+  fmap0 = pure   ::                    a  ->                         d a
+  fmap1 = liftA  :: (a1 ->             a) -> d a1 ->                 d a
+  fmap2 = liftA2 :: (a1 -> a2 ->       a) -> d a1 -> d a2 ->         d a
+  fmap3 = liftA3 :: (a1 -> a2 -> a3 -> a) -> d a1 -> d a2 -> d a3 -> d a
+  ...
+  ```
+
+  <div class="alert alert-info">
+  <b>Exercise:</b> Define `liftA`, `liftA2` and `liftA3` for an `Applicative d`
+  and prove (some of) the composition laws.
+  </div>
+
 ## Applicative Maybe
 
 * Let us go back to our example using `Maybe`
@@ -701,30 +718,25 @@
   We can apply concatenation on strings stored in containers. All the wrapping
   and unwrapping is handled by the applicative functor.
 
-* A common usage pattern of applicative functors is as follows.
+* A common usage pattern of applicative functors is as follows:
 
   ```haskell
   pure f <*> xx <*> yy <*> zz ...
   ```
 
-  More precisely, a function `f` in a container as the leftmost term follow by its container
-  arguments!
+  More precisely, a function `f` in a container as the leftmost term
+  followed by its container arguments!
 
-  To make this pattern to look better, the applicative interface provides a
-  *derived* operation called `(<$>)` which removes the `pure` from the leftmost term.
-
-  ```haskell
-  (<$>) :: Functor d => (a -> b) -> d a -> d b
-  ```
-
-  So, the expression
-  ```haskell
-  pure f <*> xx <*> yy <*> zz ...
-  ```
-  becomes
+  We can simplify this to
   ```haskell
   f <$> xx <*> yy <*> zz ...
   ```
+  using the `Functor` superclass:
+  ```haskell
+  (<$>) :: Functor d => (a -> b) -> d a -> d b
+  (<$>) = fmap
+  ```
+
 
 ## Relation to monads
 [Blog on Applicative Functors](https://pbrisbin.com/posts/applicative_functors/)
@@ -735,14 +747,45 @@
   pure (++) <*> xx <*> yy
   ```
 
-* If we consider `Maybe` as a monad instead (which we defined in the previous lecture), we can
-  achieve the same things.
+  which is equivalent to:
+
+  ```haskell
+  liftA2 (++) xx yy
+  ```
+
+* If we consider `Maybe` as a monad instead
+  (which we defined in the previous lecture),
+  we can achieve the same things.
 
   ```haskell
   do x <- xx
      y <- yy
      return (x ++ y)
   ```
+
+* Since GHC 8.0, there is `{-# LANGUAGE ApplicativeDo #-}`
+  to desugar the `do` notation to operations of applicative functors:
+  ```haskell
+  liftA2 (\ x y -> x ++ y) xx ys
+  ```
+
+  In general:
+
+  ```haskell
+  do x1 <- e1
+     ...
+     xn <- en
+     return e
+  ```
+
+  can be desugared into `liftAn (\ x1 ... xn -> e) e1 ... en`
+  provided none of the `xi` appears in any `ej`.
+
+  <div class="alert alert-info">
+    Can the `ApplicativeDo` desugaring change the meaning of your program?
+    Or is it safe to turn `ApplicativeDo` on by default?
+  </div>
+
 
 * What is the difference between `Maybe` as an applicative functor or a monad?
 
@@ -808,21 +851,32 @@
   every applicative functor is a functor.
   </div>
 
+  <div class="alert alert-info">
+    <b>Exercise</b>: Prove this! I.e.:
+    <ol>
+    <li>Given `instance Applicative m`, write a default `instance Functor m`.
+        Prove the functor laws (assuming the applicative functor laws).
+    <li>Given `instance Monad m`, write a default `instance Applicative m`.
+        Pove the appicative functor laws (assuming the monad laws).
+    </ol>
+  </div>
+
   <div class="container">
      <img class="img-responsive col-md-9"
        src="./assets/img/monad-proposal.png">
   </div>
 
-  From GHC 7.10, if you define a monad, i.e., give an instance of the type class
-  `Monad`, you also need to give an instance of `Applicative` and `Functor`
+  In Haskell, if you define a monad,
+  i.e., give an instance of the type class `Monad`,
+  you also need to give an instance of `Applicative` and `Functor`:
 
   ```haskell
   class Functor d     => Applicative d where
   class Applicative d => Monad d       where
   ```
 
-  In GHC 7.8, you get a warning but your program still compiles. For more
-  information check the
+  This requirement exists since GHC 7.10;
+  for the rationale behind it, see the
   [Functor-Applicative-Monad](https://wiki.haskell.org/Functor-Applicative-Monad_Proposal)
   proposal.
 
@@ -863,9 +917,18 @@
 
   ```haskell
   instance Applicative (Pair r) where
-      pure x  = P (error "Hopeless!") x
-      f <*> v = error "Hopeless!"
+      P r1 f <*> P r2 a = P (r1 {- ?? Or r2 ? -}) (f a)
+      pure x            = P (error "Hopeless!") x
   ```
+
+  <div class = "alert alert-info">
+    <b>Exercise</b>: Is there a constraint <code>C</code>
+    such that
+    <code>instance C => Applicative (Pair r)</code>
+    is definable?
+    If yes, write out <code>C</code> and the instance!
+  </div>
+
 
 ## Applicative, not a monad
 
@@ -898,7 +961,7 @@
      fmap f (Phantom o) = Phantom o
 
   instance Monoid o => Applicative (Phantom o) where
-     pure x = Phantom mempty
+     pure x                    = Phantom mempty
      Phantom o1 <*> Phantom o2 = Phantom (mappend o1 o2)
   ```
 
@@ -983,6 +1046,31 @@
 
   In other words, `k` is returning `Phantom (Suc m)` which is different from
   `Phantom m`. Contradiction! Therefore, `Phantom Nat` cannot be a monad.
+
+## List monad
+
+Given `f :: a -> b -> c`, there are two generic ways to lift `f` to lists,
+getting `[a] -> [b] -> [c]`.
+
+1. Zipping ("pointwise"): `zipWith f`.
+   This aligns the two lists and combines elements at the same index.
+
+2. Cartesian product ("each with each"):
+   `cartesian f as bs = [ f a b | a <- as, b <- bs ]`.
+
+Questions:
+1. What are the units of these operations?
+2. Can you formulate laws in the likeness of *associativity*?
+3. With `zipWith` serving as `liftA2` what would be the `Associative` instance?
+   Do the applicative functor laws hold?
+4. With `cartesian` serving as `liftM2` what would be the `Monad` instance?
+   Do the monad laws hold?
+5. (Hard:) Can you make a `Monad` where `liftM2 = zipWith`?
+   Do the monad laws hold?
+
+<div class="alert alert-info">
+  Answer these questions and accompany your answers by proofs!
+</div>
 
 
 ## Structures learned so far
