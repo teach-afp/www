@@ -187,7 +187,7 @@
 * For the last combination, i.e., `(m >>= g) >>= f`, the associative monadic
   law tells us how we can rewrite it.
 
-* We then define `Program` using the first two combinations and return
+* We then define `Program` using the first two combinations and return:
 
   ```haskell
   data Program a where
@@ -229,43 +229,35 @@
 
   ```haskell
   instance Monad Program where
+      return :: a -> Program a
       return = Return
-      (>>=)  = bindP
 
-  bindP :: Program a -> (a -> Program b) -> Program b
-  bindP  (PutThen c p)  k   =  ?
-  bindP  (GetBind f)    k   =  ?
-  bindP  (Return x)     k   =  ?
+      (>>=) :: Program a -> (a -> Program b) -> Program b
+      PutThen c p >>= k   =  ?
+      GetBind f   >>= k   =  ?
+      Return x    >>= k   =  ?
   ```
 
   <div class ="alert alert-info">
-  We can <i>calculate</i> the correct definition of bindP using
+  We can <i>calculate</i> the correct definition of `(>>=)` using
   the definitions of `PutThen`, `GetBind`, and the monadic laws!
   </div>
 
-* ```haskell
-  bindP (Return x) k = ?
+* Case `Return x`:
+
+  ```haskell
+  Return x >>= k = k x
+  ```
+
+  This is dictated by the first monad law!
+
+* Case `GetBind f`:
+
+  ```haskell
+  GetBind f >>= k = ?
   ```
 
   ```haskell
-  bindP (Return x) k
-    = { Def. >>= }
-  Return x >>= k
-    = { Law 1.  return x >>= f  ≡  f x }
-  k x
-  ```
-
-  ```haskell
-  bindP (Return x) k = k x
-  ```
-
-* ```haskell
-  bindP (GetBind f) k = ?
-  ```
-
-  ```haskell
-  bindP (GetBind f) k
-    = { Def. of (>>=) }
   GetBind f >>= k
     = { Def. GetBind }
   (Get >>= f) >>=  k
@@ -274,22 +266,20 @@
   Get >>= (\ x -> f x >>= k)
     = { Def. GetBind }
   GetBind (\ x -> f x >>= k)
-    = { Def. of (>>=) }
-  GetBind (\ x -> bindP (f x) k)
   ```
 
   ```haskell
-  bindP (GetBind f) k = GetBind (\ x -> bindP (f x) k)
+  GetBind f >>= k = GetBind (\ x -> f x >>= k)
   ```
 
-* ```haskell
-    bindP (PutThen c p) k = ?
+* Case `PutThen c p`:
+
+  ```haskell
+  PutThen c p >>= k = ?
   ```
 
   ```haskell
-  bindP (PutThen c p) k
-    = { Def. of (>>=) }
-  (PutThen c p) >>= k
+  PutThen c p >>= k
     = { Def. of PutThen }
   (Put c >> p) >>= k
     = { Def. of (>>) }
@@ -305,22 +295,18 @@
   ```
 
   ```haskell
-  bindP (PutThen c p) k =  PutThen c (bindP p k)
+  PutThen c p >>= k =  PutThen c (p >>= k)
   ```
 
 * So, we can now complete defining `Program` as a monad
 
   ```haskell
-  -- | It turns out that bind can still be defined!
   instance Monad Program where
-    return  = Return
-    (>>=)   = bindP
+      return  = Return
 
-  -- | Bind takes the first argument apart:
-  bindP :: Program a -> (a -> Program b) -> Program b
-  bindP (PutThen c p)  k   =  PutThen c (bindP p k)
-  bindP (GetBind f)    k   =  GetBind (\ x -> bindP (f x) k)
-  bindP (Return x)     k   =  k x
+      PutThen c p >>= k   =  PutThen c (p >>= k)
+      GetBind f   >>= k   =  GetBind (\ x -> f x >>= k)
+      Return x    >>= k   =  k x
   ```
 
 ## A simple monadic EDSL for input/output (shallow embedding)
