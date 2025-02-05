@@ -15,7 +15,7 @@ PRETTY_HTML = $(PRETTY_LABS) $(LECTURES)
 HTML = $(SIMPLE_HTML) $(PRETTY_HTML)
 
 .PHONY: default
-default: $(INFRA) lecture6.html lecture4.html
+default: $(INFRA) lecture6.html lecture7.html
 
 .PHONY: html all
 html all: $(HTML)
