@@ -1,6 +1,8 @@
 Deadlines
 =========
 
+See calendar on Canvas course page.
+<!--
 <table class="table table-bordered">
 <thead>
 <tr>
@@ -19,6 +21,7 @@ Deadlines
     <td class="alert-info">Sunday, February 25th (course week 6)</td>
 </tr>
 </table>
+-->
 
 
 Description
@@ -734,4 +737,4 @@ running `cabal configure --enable-tests`, `cabal build`, `cabal test` and
 Where to submit
 ---------------
 
-Go to [the Fire system](https://afp-lp3-18.frs.cse.chalmers.se/)!
+On the Canvas course page.
