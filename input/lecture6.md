@@ -35,7 +35,7 @@
   We would like non-proper morphisms, `return`, and `(>>=)` require minimum
   modifications when effects are added/removed.
 
-* Monad transformers help us to do that
+* Monad transformers help us to do that.
 
   <div class="container">
      <img class="img-responsive col-md-10"
@@ -61,7 +61,7 @@
 * The interpreter underlying monad is going to be modularly enhanced with
   different effects.
 
-* A simple (non-monadic) interpreter of expressions
+* A simple (non-monadic) interpreter of expressions:
 
   ```haskell
   data Expr = Lit Integer
@@ -140,9 +140,9 @@
 [code](https://github.com/teach-afp/afp-code/blob/master/L6/Interpreter1.hs)
 
 * We want to extend our language of expression with *local bindings*, e.g., we
-  would like to run a program like `let x = 5; x+x`
+  would like to run a program like `let x = 5; x+x`.
 
-* We extend our data type for expressions
+* We extend our data type for expressions:
 
   ```haskell
   data Expr = Lit Integer
@@ -152,7 +152,7 @@
   ```
 
 * Bindings are *immutable*, i.e., once a variable is bound to a value, it cannot
-  be changed
+  be changed.
 
 * Expression can now involve bound variables, e.g., `x+y`.
 
@@ -173,9 +173,9 @@
   ```
 
 * We would like to implement a monad with a read-only environment since bindings
-  are immutable
+  are immutable.
 
-* One alternative is to hard-wire it into the interpreter
+* One alternative is to hard-wire it into the interpreter:
 
   ```haskell
   eval :: Env -> Expr -> Eval Value
@@ -201,7 +201,7 @@
   </div>
 
   ```haskell
-  data ReaderT r m a
+  type ReaderT r m a
 
   runReaderT :: ReaderT r m a -> (r -> m a)
 
@@ -213,13 +213,19 @@
   instance Monad m => MonadReader r (ReaderT r m)
   ```
 
+  Implementation:
+
+  ```haskell
+  newtype ReaderT r m a = ReaderT { runReaderT :: r -> m a }
+  ```
+
 * The monad `Eval` is then responsible for the *plumbing* required to pass around
   the environment.
 
   ```haskell
   {-# LANGUAGE GeneralisedNewtypeDeriving #-}
 
-  newtype Eval a = MkEval (ReaderT Env (Identity) a)
+  newtype Eval a = Eval { unEval :: ReaderT Env (Identity) a }
     deriving (Functor, Applicative, Monad, MonadReader Env)
   ```
 
@@ -276,7 +282,7 @@
 
   ```haskell
   runEval :: Eval a -> a
-  runEval (MkEval m) = runIdentity (runReaderT m emptyEnv)
+  runEval m = runIdentity (runReaderT (unEval m) emptyEnv)
   ```
 
   Observe how we run the reader monad first, and then the identity monad.
@@ -295,8 +301,8 @@
   `(&) : a -> (a -> b) -> b` and infix sections:
 
   ```haskell
-  newtype MkEval a = MkEval ( ReaderT      Env        Identity    a)
-  runEval (MkEval m) = m & (`runReaderT` emptyEnv) & runIdentity
+  newtype Eval a =  Eval   ( ReaderT      Env        Identity    a)
+  runEval m = m & unEval & (`runReaderT` emptyEnv) & runIdentity
   ```
 
 * Example
@@ -433,7 +439,7 @@
   around the store.
 
   ```haskell
-  newtype Eval a = MkEval (StateT Store (ReaderT Env Identity) a)
+  newtype Eval a = Eval { unEval :: StateT Store (ReaderT Env Identity) a }
     deriving (Functor, Applicative,
               Monad, MonadState Store, MonadReader Env)
   ```
@@ -447,7 +453,7 @@
   scratch, i.e., not using the monad transformers
 
   ```haskell
-  data Eval a = MkEval (Store -> Env -> (a, Store))
+  newtype Eval a = Eval { unEval :: Store -> Env -> (a, Store) }
   ```
 
   <div class="alert alert-info">
@@ -466,7 +472,7 @@
 
   While it works, the price to pay is modularity.
 
-* Let us define some operations for the interpreter based on `get` and `put`
+* Let us define some operations for the interpreter based on `get` and `put`:
 
   *Creation of a new reference*: modify both the next available
   memory location and the heap.
@@ -535,7 +541,7 @@
   As before, we do not need to change the definition for the old
   constructors.
 
-* We can test it
+* We can test it:
 
   ```haskell
   > runEval $ eval $ parse "let p=new 7; !p"
