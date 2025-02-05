@@ -8,10 +8,14 @@ LABS = $(SIMPLE_LABS) $(PRETTY_LABS)
 SIMPLE_LABS = labs.html lab3.html lab3-agda.html
 PRETTY_LABS = lab1.html lab2.html exam2020.html exam2020mocked.html
 
-SIMPLE_HTML = index.html inf.html exams.html lec.html $(SIMPLE_LABS)
+INFRA       = index.html inf.html exams.html lec.html
+SIMPLE_HTML = $(INFRA) $(SIMPLE_LABS)
 PRETTY_HTML = $(PRETTY_LABS) $(LECTURES)
 
 HTML = $(SIMPLE_HTML) $(PRETTY_HTML)
+
+.PHONY: default
+default: $(INFRA) lecture6.html lecture4.html
 
 .PHONY: html all
 html all: $(HTML)
