@@ -243,8 +243,8 @@ Implement a monad `Replay` with the following interface:
 
 ```haskell
 -- Types
-Replay q r a
-Trace r
+type Replay q r a
+type Trace r
 
 -- Operations
 instance Monad (Replay q r)
