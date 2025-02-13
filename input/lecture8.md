@@ -515,8 +515,11 @@
 
 * Other proof methods
 
-  - Proof assistants: [Agda](http://wiki.portal.chalmers.se/agda/pmwiki.php),
-    [Coq](https://coq.inria.fr/), [Isabelle](https://isabelle.in.tum.de/), etc.
+  - Proof assistants:
+    [Agda](http://wiki.portal.chalmers.se/agda/pmwiki.php),
+    [Coq](https://coq.inria.fr/) (soon _Rocq_),
+    [Isabelle](https://isabelle.in.tum.de/),
+    [Lean](https://lean-lang.org/) etc.
 
   - It provides mechanized proofs and opens the door for proof-scalability (next
     lecture!)
