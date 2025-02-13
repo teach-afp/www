@@ -47,7 +47,8 @@
   ```haskell
    length :: [a] -> Int
    length []       = 0
-   length (x : xs) = 1 + length xs ```
+   length (x : xs) = 1 + length xs
+  ```
 
 * Inserting an element in an ordered list
 
@@ -56,14 +57,16 @@
   insert x [] = [x]
   insert x (y : ys)
            | x <= y    = x : y : ys
-           | otherwise = y : insert x ys ```
+           | otherwise = y : insert x ys
+  ```
 
 * Insertion sort
 
   ```haskell
   isort :: Ord a => [a] -> [a]
   isort []       = []
-  isort (x : xs) = insert x (isort xs) ```
+  isort (x : xs) = insert x (isort xs)
+  ```
 
 
 ## Proving correctness of `isort`
@@ -74,7 +77,8 @@
   being sorted.
 
   ```haskell
-  length (isort xs) == length xs ```
+  length (isort xs) == length xs
+  ```
 
   for any *finite* and *well-defined* list `xs`
 
@@ -85,13 +89,16 @@
 * To prove that
 
   ```haskell
-  P xs```
+  P xs
+  ```
 
   holds for a given property `P` and list `xs`, it is enough to prove that
 
   * *Base case*:
 
-    ```haskell P [] ```
+    ```haskell
+    P []
+    ```
 
     holds.
 
@@ -99,25 +106,31 @@
 
     Assuming that
 
-    ```haskell P xs ```
+    ```haskell
+    P xs
+    ```
 
     holds for any `xs`, then it must hold
 
-    ```haskell P (x:xs) ```
+    ```haskell
+    P (x:xs)
+    ```
 
-     for any `x`
+    for any `x`
 
 * We try to prove
 
   ```haskell
-  length (isort xs) == length xs ```
+  length (isort xs) == length xs
+  ```
 
   by induction
 
   * *Base case*:
 
     ```haskell
-    length (isort []) =?= length [] ```
+    length (isort []) =?= length []
+    ```
 
     Symbol `=?=` is used to indicate uncertainty about the equality. In other
     words, `length (isort []) =?= length []` indicates that we are not sure if
@@ -130,7 +143,8 @@
     == {definition length.0}
         0
     == {definition length.0}
-        length [] ```
+        length []
+    ```
 
     So, we complete the proof for the base case.
 
@@ -139,19 +153,22 @@
     This is often the most interesting case. We assume that
 
     ```haskell
-    length (isort xs) == length xs ```
+    length (isort xs) == length xs
+    ```
 
     and we should show that
 
     ```haskell
-    length (isort (x:xs)) =?= length (x:xs) ```
+    length (isort (x:xs)) =?= length (x:xs)
+    ```
 
     So, we start trying to unfold definitions.
 
     ```haskell
          length (isort (x:xs))
      == {definition isort.1)
-         length (insert x (isort xs)) ```
+         length (insert x (isort xs))
+    ```
 
      At this point, to continue unfolding the expression, we need to do case
      analysis on `xs`, i.e., `xs == []` and `xs == y:ys`.
@@ -166,7 +183,8 @@
 * If we see the expression where we got stuck
 
   ```haskell
-  length (insert x (isort xs)) ```
+  length (insert x (isort xs))
+  ```
 
   What can we know about it? Can it be generalized?
 
@@ -177,19 +195,22 @@
 * We can *generalize* the expression
 
   ```haskell
-  length (insert x (isort xs)) ```
+  length (insert x (isort xs))
+  ```
 
   to be
 
   ```haskell
-  length (insert x ys) ```
+  length (insert x ys)
+  ```
 
 * What can we say about that?
 
   We would like to show that
 
   ```haskell
-  length (insert x ys) == 1 + length ys ```
+  length (insert x ys) == 1 + length ys
+  ```
 
   How can we prove it? By induction!
 
@@ -200,24 +221,28 @@
     == {definition insert.0}
         length [x]
     == {definition length.1}
-        1 + length [] ```
+        1 + length []
+    ```
 
   * *Inductive case*:
 
     We assume that
 
     ```haskell
-    length (insert x ys) == 1 + length ys ```
+    length (insert x ys) == 1 + length ys
+    ```
 
     and we should prove that
 
     ```haskell
-    length (insert x (y:ys)) == 1 + length (y:ys) ```
+    length (insert x (y:ys)) == 1 + length (y:ys)
+    ```
 
     Thus, we take
 
     ```haskell
-    length (insert x (y:ys)) ```
+    length (insert x (y:ys))
+    ```
 
     and unfold definitions.
 
@@ -227,7 +252,8 @@
        == {definition insert.1}
            length (x:y:ys)
        == {definition length.1}
-           1 + length (y:ys) ```
+           1 + length (y:ys)
+       ```
 
     - *Case `otherwise`*:
 
@@ -240,19 +266,22 @@
       == {inductive hypothesis!)
           1 + (1 + length ys)
       == {definition length.1}
-          1 + length (y:ys) ```
+          1 + length (y:ys)
+      ```
 
 ## Proving `isort` with auxiliary lemma
 
 * We were stuck in the inductive case of
 
   ```haskell
-  length (isort (x:xs)) =?= length (x:xs) ```
+  length (isort (x:xs)) =?= length (x:xs)
+  ```
 
   To prove this, as before, we assume
 
   ```haskell
-  length (isort xs) == length xs ```
+  length (isort xs) == length xs
+  ```
 
   and we unfold the expression `length (isort (x:xs))`.
 
@@ -263,9 +292,10 @@
    == {by auxiliary lemma taking ys == (isort xs) }
        1 + length (isort xs)
    == {by induction hypothesis}
-       1 + length (xs)
+       1 + length xs
    == { definition length.1 }
-       length (x:xs) ```
+       length (x:xs)
+   ```
 
 * The proof goes through!
 
@@ -295,7 +325,8 @@
   ```haskell
   reverse :: [a] -> [a]
   reverse []     = []
-  reverse (x:xs) = reverse xs ++ [x] ```
+  reverse (x:xs) = reverse xs ++ [x]
+  ```
 
 * How do we know if the function is correct?
 
@@ -304,12 +335,14 @@
   ```haskell
   length (reverse xs)  == length xs
   reverse (reverse xs) == xs
-  ... ```
+  ...
+  ```
 
 * Let us try to prove
 
   ```haskell
-  reverse (reverse xs) == xs ```
+  reverse (reverse xs) == xs
+  ```
 
   We proceed by induction on the list structure.
 
@@ -320,26 +353,30 @@
     == {definition reverse.0}
         reverse []
     == {definition reverse.0}
-        [] ```
+        []
+  ```
 
   * *Inductive case:*
 
     We assume that
 
     ```haskell
-    reverse (reverse xs) == xs ```
+    reverse (reverse xs) == xs
+    ```
 
     and we need to prove that
 
     ```haskell
-    reverse (reverse (x:xs)) =?= (x:xs) ```
+    reverse (reverse (x:xs)) =?= (x:xs)
+    ```
 
     So, we have that
 
     ```haskell
         reverse (reverse (x:xs))
     == {definition reverse.1}
-        reverse (reverse xs ++ [x]) ```
+        reverse (reverse xs ++ [x])
+    ```
 
     At this point, in order to proceed, we need to *destruct* the inductive
     variable `xs`. As before, this situation is an indication that we need to
@@ -348,13 +385,15 @@
     Let us scrutinize where we got stuck.
 
     ```haskell
-    reverse (reverse xs ++ [x]) ```
+    reverse (reverse xs ++ [x])
+    ```
 
     What can we say about this expression? It is quite complicated. Let us
     *generalize* it in order to simplify it!
 
     ```haskell
-    reverse (ys ++ zs) ```
+    reverse (ys ++ zs)
+    ```
 
     Observe that if we make `ys == reverse xs` and `zs == [x]`, we obtain the
     expression where we got stuck in the proof.
@@ -362,7 +401,8 @@
     What can we say about this expression?
 
     ```haskell
-    reverse (ys ++ zs) =?= reverse zs ++ reverse ys ```
+    reverse (ys ++ zs) =?= reverse zs ++ reverse ys
+    ```
 
     The reverse of two concatenated lists is the concatenation of their reverse!
     This is going to be our auxiliary lemma.
@@ -383,7 +423,8 @@
 * We proof by induction on `ys`
 
   ```haskell
-  reverse (ys ++ zs) == reverse zs ++ reverse ys ```
+  reverse (ys ++ zs) == reverse zs ++ reverse ys
+  ```
 
 * *Base case*:
 
@@ -394,19 +435,22 @@
   == {property of (++)}
       reverse zs ++ []
   == {definition reverse.0}
-      reverse zs ++ reverse [] ```
+      reverse zs ++ reverse []
+  ```
 
 * *Inductive case*:
 
   We assume that
 
   ```haskell
-  reverse (ys ++ zs) == reverse zs ++ reverse ys ```
+  reverse (ys ++ zs) == reverse zs ++ reverse ys
+  ```
 
   and we need to prove that
 
   ```haskell
-  reverse ((y:ys) ++ zs) == reverse zs ++ reverse (y:ys) ```
+  reverse ((y:ys) ++ zs) == reverse zs ++ reverse (y:ys)
+  ```
 
   ```haskell
       reverse ((y:ys) ++ zs)
@@ -426,7 +470,8 @@
 * We come back to the case where we got stuck
 
    ```haskell
-   reverse (reverse (x:xs)) =?= (x:xs) ```
+   reverse (reverse (x:xs)) =?= (x:xs)
+  ```
 
    So, we have that
 
@@ -447,7 +492,8 @@
    == {definition of (++)}
        x:([] ++ xs)
    == {definition of (++)}
-       (x:xs) ```
+       (x:xs)
+  ```
 
 * The proof now goes through!
 
