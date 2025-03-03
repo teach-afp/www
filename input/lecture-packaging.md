@@ -759,6 +759,25 @@ Evaluation of calling the `doctest` executable:
 [cabal-doctest]: https://hackage.haskell.org/package/cabal-doctest
 [doctest-parallel]: https://hackage.haskell.org/package/doctest-parallel
 
+Exercises
+---------
+
+Suggested exercises based on https://github.com/teach-afp/binary-search-trees :
+
+* Add some more unit tests.
+* Add some more quickcheck properties.
+* Add some more doctests.
+
+Suggested exercises based on lab1:
+
+* Think about how to add tests to your turtle graphics library.  Is the current implementation suitable for automatic testing?  If not, maybe you need to separate model from view so that you can formulate properties and test them in the model.
+* Add some unit tests and add them as a test suite to the package.
+* Formulate some equational laws for turtle programs.  What would the correct notion of equality be?
+* Implement random generation of turtle programs (`instance Arbitrary Program`).
+* Implement some equational properties and test them with QuickCheck.
+* Collect these properties into a cabal test-suite using e.g. `tasty-quickcheck`.
+* Add some doctests and a doctest suite.
+
 
 Dependencies and versioning
 ===========================
