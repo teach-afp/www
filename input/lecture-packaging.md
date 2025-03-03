@@ -8,6 +8,8 @@ This lecture gives a brief introduction to developing software in
 Haskell, covering packaging, versioning, continuous integration, and
 package repositories.
 
+The code for this lecture can be found in repository https://github.com/teach-afp/binary-search-trees .
+
 
 Basic structure of a Haskell project
 ====================================
@@ -26,21 +28,23 @@ The code is structured as follows:
    type BST a
 
    -- Construction
-   empty     :: BST a
-   singleton :: a -> BST a
+   empty     ::          BST a
+   singleton ::          a -> BST a
    insert    :: Ord a => a -> BST a -> BST a
    fromList  :: Ord a => [a] -> BST a
    union     :: Ord a => BST a -> BST a -> BST a
 
-   instance Ord a => Semigroup (BST a)
-   instance Ord a => Monoid    (BST a)
+   instance     Ord a => Semigroup (BST a)
+   instance     Ord a => Monoid    (BST a)
 
    -- Deletion
-   delete :: Ord a => a -> BST a -> BST a
-   split  :: Ord a => a -> BST a -> (BST a, BST a)
+   delete    :: Ord a => a -> BST a -> BST a
+   split     :: Ord a => a -> BST a -> (BST a, BST a)
 
    -- Query
-   instance Foldable BST
+   member    :: Ord a => a -> BST a -> Bool
+
+   instance              Foldable BST
    ```
 
  - `src/Data/BST/Internal.hs`: implementation, exporting everything
@@ -52,12 +56,15 @@ The code is structured as follows:
    ```
 
 It is good practice to also publish the implementation so that users can implement missing functionality efficiently.
+E.g., maybe you are missing a function `lookupMax :: Ord a => BST a -> Maybe a` that you can only implement efficiently if you have access to the constructors of `BST`.
+
 However, only the interface is officially public and thus binding.
 
 Basic packaging
 ---------------
 
 Haskell software is usually packaged with [Cabal].
+While [Stack] is another build system for Haskell, it also uses `.cabal` files to define packages.
 
 [Cabal]: https://cabal.readthedocs.io/en/stable/
 
@@ -104,10 +111,32 @@ It contains of tree mandatory _fields_ [cabal-version], [name], and [version] an
 
 ### Field [cabal-version]
 
-This field goes first in the file and determines version of the syntax of things to follow.
+This field goes first in the file and determines the version of the syntax of things to follow.
 The [cabal-version] needs to be chosen high enough to support all syntax elements in the file.
 We use [cabal-version 2.2] because it is the first to support [common] stanzas.
 This version is a good default.
+
+The [cabal-version] should not be higher than the version of [Cabal] shipped with the least version of GHC you want to support.
+A table matching GHC to Cabal version can be found at https://www.snoyman.com/base/ or just here:
+
+| GHC  | Date     | base | Cabal | LTS   |
+|------|----------|------|-------|-------|
+| 8.0  | May 2016 | 4.9  | 1.24  |  9.21 |
+| 8.2  | Jul 2017 | 4.10 | 2.0   | 11.22 |
+| 8.4  | Mar 2018 | 4.11 | 2.2   | 12.26 |
+| 8.6  | Sep 2018 | 4.12 | 2.4   | 14.27 |
+| 8.8  | Jul 2019 | 4.13 | 3.0   | 16.31 |
+| 8.10 | Mar 2020 | 4.14 | 3.2   | 18.28 |
+| 9.0  | Feb 2021 | 4.15 | 3.4   | 19.33 |
+| 9.2  | Oct 2021 | 4.16 | 3.6   | 20.26 |
+| 9.4  | Aug 2022 | 4.17 | 3.8   | 21.25 |
+| 9.6  | Mar 2023 | 4.18 | 3.10  | 22.43 |
+| 9.8  | Oct 2023 | 4.19 | 3.10  | 23    |
+| 9.10 | Apr 2024 | 4.20 | 3.12  |       |
+| 9.12 | Dez 2024 | 4.21 | 3.14  |       |
+
+Note that not each release of [Cabal] necessarily comes with a new [cabal-version], i.e., a `.cabal` file format version.
+In particular, there is no [cabal-version] 3.2 nor 3.10.
 
 ### Field [name]
 
@@ -124,7 +153,7 @@ It is sometimes surprising that `0` is not the same as `0.0`, because we are use
 
 We opt for the first alternative here, choosing `0.0.0.0`.
 
-The [PVP] and correct versioning will be discussed in section [Dependencies and versioning](#versioning).
+The [PVP] and correct versioning will be discussed in section [Dependencies and versioning](#dependencies-and-versioning).
 
 [PVP]: https://pvp.haskell.org/
 
@@ -149,7 +178,7 @@ We did not state yet which _versions_ of `base` would work with our code.  Let u
 
 Finally, we need to specify the version of the Haskell language itself we are using in our code.  These are the fields in `common-build-parameters`:
 
-1. [default-language] sets the base version of Haskell defined by one of the standards `Haskell98`, `Haskell2010` or `GHC2021`.  Our choice of `Haskell2010` is a good default (not too old and not to new).
+1. [default-language] sets the base version of Haskell defined by one of the standards `Haskell98`, `Haskell2010`, `GHC2021` or `GHC2024`.  Our choice of `Haskell2010` is a good default (not too old and not to new).
 
 2. We can modify the Haskell language by turning on some [LANGUAGE] extensions for our project in [default-extensions].  Our code needs `LambdaCase` and `InstanceSigs`.
 
@@ -245,8 +274,9 @@ Testsuites
 
 A Cabal package can and should contain test suites that run with `cabal test`.
 
-The package [tasty] is a framework to organize and run tests.
+There are several frameworks to organize and run tests.
 The most popular Haskell test framework is [hspec].
+We'll use package [tasty] in the following.
 
 [hspec]: https://hackage.haskell.org/package/hspec
 [tasty]: https://hackage.haskell.org/package/tasty
@@ -273,10 +303,14 @@ main :: IO ()
 main = defaultMain tests
 
 tests :: TestTree
-tests = testCase "split" $ do
-  assertEqual ""
-    (bimap toList toList $ split "dog" $ fromList ["cat", "dog", "tiger", "wolf"])
-    (["cat"], ["tiger", "wolf"])
+tests = testCase "split" $
+    assertEqual prefix actual expect
+  where
+    prefix = ""
+    actual = bimap toList toList $
+             split "dog" $
+             fromList ["cat", "dog", "tiger", "wolf"]
+    expect = (["cat"], ["tiger", "wolf"])
 ```
 We use these API functions:
 ```haskell
@@ -289,7 +323,40 @@ We would like to add this testsuite to our project so that `cabal test` runs it.
 
 The problem is that the module `Data.BST.Internal` is not exported by our library,
 so we have to find ways how to import it in our test suite.
+We discuss a few alternatives in the following.
 
+
+### Only test the exported modules
+
+Code in branch [no-internal-library].
+
+[no-internal-library]: https://github.com/teach-afp/binary-search-trees/tree/no-internal-library
+
+The unit test we wrote just uses exported functions: `fromList`, `split`, `toList`.
+Thus, we could import `Data.BST` instead and depend just on the `library` in our `test-suite`:
+```cabal
+test-suite unittests
+  import: common-build-parameters
+
+  type: exitcode-stdio-1.0
+
+  hs-source-dirs:
+    test
+
+  main-is:
+    UnitTests.hs
+
+  build-depends:
+    -- the library:
+    , binary-search-tree
+    -- inherited bounds
+    , base
+    -- new dependencies, need bounds
+    , tasty               >= 1.1.0.4 && < 1.6
+    , tasty-hunit         >= 0.10    && < 0.12
+```
+This simple approach will sometimes work.
+It will not work when we need constructors of `BST`, as in the [QuickCheck] tests below.
 
 ### Test suite includes internal modules as source
 
@@ -315,12 +382,12 @@ test-suite unittests
     , base
     -- new dependencies, need bounds
     , tasty               >= 1.1.0.4 && < 1.6
-    , tasty-hunit         >= 0.10    && < 0.11
+    , tasty-hunit         >= 0.10    && < 0.12
 ```
 
 Now the module `Data.BST.Internal` is shared between the `library` and the `test-suite`.
 
-A drawback is that it is compiled twice: once for the library and once for the test suite.
+A drawback is that such shared modules are compiled twice: once for the library and once for the test suite.
 
 ### Put internal modules into a internal library
 
@@ -379,7 +446,7 @@ test-suite unittests
 ```
 Now each module is only compiled once.
 
-Drawback: internal modules still have hiccups in the tooling ([Cabal] and [Stack]).
+Drawback: internal modules still have occasional hiccups in the tooling ([Cabal] and [Stack]).
 While `stack repl` works here ([but not always](https://github.com/commercialhaskell/stack/issues/4148)),
 `cabal repl` complains that GHCi cannot load two libraries.
 We need to invoke it via `cabal repl bst-internal`.
@@ -392,38 +459,75 @@ Property tests
 
 Using [QuickCheck] we can random-test some laws of our binary search tree operations.
 
-Building up `QuickCheckTests.hs`...
+In the following, we build up `QuickCheckTests.hs` step by step.
 
 [QuickCheck]: https://hackage.haskell.org/package/QuickCheck
 
 
 ### Generate random data
 
-We can use our `fromList` to generate well-formed trees from lists.
+To tests properties involving a certain data structure (like `BST`) we need to provide a means to generate elements of this data structure.
+Concretely, we need to make it an instance of the QuickCheck class [Arbitrary].
+
+[Arbitary]: https://hackage.haskell.org/package/QuickCheck-2.15.0.1/docs/Test-QuickCheck-Arbitrary.html#t:Arbitrary
+
+Usually, the `arbitrary` method is implemented via the DSL QuickCheck provides.
+For `BST a`, we could first randomly choose a constructor `Leaf` or `Node`.
+In the latter case we would call `arbitary` on `a` and recursively on `BST a` to generate the field values of `Node`.
+There are several caveats:
+
+* If we choose `Leaf` and `Node` with equal probability, we get lots of boring small trees.
+  Half of our trees would be empty.
+
+  **Quiz:** What would be the probability to get a tree of depth at least 2,
+  if by depth 0 we mean the empty tree?
+
+* If we set the probability of `Node` too high, `arbitrary` might often not terminate, because it continues to choose `Node` in some branch and never finishes the tree.
+
+  **Quiz:** if the probability of choosing `Node` is _p_ (and `Leaf` _1-p_), what is the probability of termination?
+
+* The approach of randomly choosing constructor and filling the fields does not even make sense for `BST`, since we want trees that are correctly ordered.
+  We could switch to randomly choosing `empty` and `insert` instead.
+
+Turns out, though, that we can simply use our method `fromList` to generate well-formed trees from lists.
 ```haskell
 import Test.QuickCheck
 
 instance (Arbitrary a, Ord a) => Arbitrary (BST a) where
   arbitrary = fromList <$> arbitrary
 ```
+This relies on the [Arbitrary] instance for lists, which is shipped with [QuickCheck].
 
 ### Properties
+
+The simplest [QuickCheck] properties are relations of any arity.
 
 We formulate some simple properties about membership after insertion or deletion.
 ```haskell
 prop_member_insert x s = member x (insert x s)
 prop_member_delete x s = not $ member x (delete x s)
 ```
+These properties relate an element to a tree:
+```haskell
+prop_member_insert :: (Arbitrary a, Ord a) => a -> BST a -> Bool
+prop_member_delete :: (Arbitrary a, Ord a) => a -> BST a -> Bool
+```
+Often, we do not write the type of the property, in particular, when it is pretty obvious from the property (`member x (insert x s)`) and does not contribute to understanding.
 
 ### Equational laws
 
-We consider two trees equal if they contain the same elements:
+Many properties are equations, especially those with a "mathematical" flavor (e.g. associativity and unit laws).
+
+We have to be careful to use the right notion of equality.
+For `BST`, the equality provided by `Eq` (`==`) is too fine-grained, as it will distinguish trees with different structure even if they have the same elements.
+
+In our case, we get the correct equality by removing the internal structure of the tree and just considering the (ordered) list of its elements.
 ```haskell
 (~~) :: Ord a => BST a -> BST a -> Bool
 (~~) = (==) `on` toList
 ```
 
-This allows us to write some equational laws, e.g., that the union of trees makes an idempotent commutative monoid:
+This allows us to write some correct equational laws, e.g., that the union of trees makes an idempotent commutative monoid:
 ```haskell
 prop_union_idem  s        = s `union` s ~~ s
 prop_union_comm  s1 s2    = s1 `union` s2 ~~ s2 `union` s1
@@ -434,6 +538,8 @@ prop_union_unit_right s   = s `union` empty ~~ s
 ```
 
 ### Constructing a testsuite
+
+It remains to collect and organize the tests into a testsuite.
 
 The [tasty-quickcheck] package provides some convenience to build a `TestTree` from properties.
 
@@ -459,8 +565,7 @@ main :: IO ()
 main = defaultMain tests
 ```
 
-Via [TemplateHaskell], QuickCheck's [allProperties] collects all functions starting with `prop_`,
-which we can pass to `testProperties` to get a `TestTree`.
+Via [TemplateHaskell], QuickCheck's [allProperties] collects all functions starting with `prop_`, which we can pass to `testProperties` to get a `TestTree`.
 ```haskell
 allProperties  :: Q Exp
 testProperties :: TestName -> [(String, Property)] -> TestTree
@@ -504,11 +609,15 @@ and the missing signatures for the `prop_...` definitions.
 ### Shrinking counterexamples
 
 If we implement the method `shrink :: a -> [a]` in our `instance Arbitrary`,
-quickcheck will try to reduce the counterexamples it found against properties:
+[QuickCheck] will try to reduce the counterexamples it found against properties:
 
 - If `x` is a counterexample, try if any of `shrink x` is a counterexample as well.
 - If yes, continue like this recursively.
 
+An implementation of `shrink` should, as a rule of thumb, produce the _predecessors_ of the given value.
+For natural numbers, this would be `pred`.
+For lists, that would be lists with one element removed.
+In our case, given a `Node l a r`, we either discard the node and return one of the subtrees, or we recursively shrink `l` or `r` or the node label `a`.
 ```haskell
 instance (Arbitrary a, Ord a) => Arbitrary (BST a) where
   arbitrary = ...

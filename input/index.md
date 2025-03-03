@@ -34,8 +34,8 @@
 | Thu | 20 | Feb | [Lecture 10](lecture10.html) |
 | Mon | 24 | Feb | [Lecture 11](lecture11.html) |
 | Thu | 27 | Feb | [Lecture 12](lecture12.html) |
-| Mon | 03 | Mar | [Lecture 13](lecture13.html) |
-| Thu | 06 | Mar | [Lecture 14](lecture14.html) |
+| Mon | 03 | Mar | [Lecture 13](lecture-packaging.html) |
+| Thu | 06 | Mar | [Lecture 14](lecture-packaging.html) |
 | Mon | 10 | Mar | [Lecture 15](lecture15.html) |
 | Thu | 13 | Mar | [Lecture 16](lecture16.html) |
 

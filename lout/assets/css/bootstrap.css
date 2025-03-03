@@ -6,6 +6,13 @@
 
 /*! normalize.css v2.1.3 | MIT License | git.io/normalize */
 
+/* Andreas, 2025-03-03 spacing needed for markdown tables */
+table td,
+table th {
+  padding-left: 1ex;
+  padding-right: 1ex;
+}
+
 article,
 aside,
 details,
