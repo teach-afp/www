@@ -166,7 +166,7 @@
 
     ```haskell
          length (isort (x:xs))
-     == {definition isort.1)
+     == {definition isort.1)}
          length (insert x (isort xs))
     ```
 
