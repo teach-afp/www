@@ -1,7 +1,7 @@
 ---
 title: Developing and packaging software in Haskell
 author: Andreas Abel
-date: 26 February 2024
+date: 3 March 2025
 ---
 
 This lecture gives a brief introduction to developing software in
@@ -28,16 +28,16 @@ The code is structured as follows:
    -- Construction
    empty     :: BST a
    singleton :: a -> BST a
-   insert    :: a -> BST a -> BST a
-   fromList  :: [a] -> BST a
-   union     :: BST a -> BST a -> BST a
+   insert    :: Ord a => a -> BST a -> BST a
+   fromList  :: Ord a => [a] -> BST a
+   union     :: Ord a => BST a -> BST a -> BST a
 
-   instance Semigroup (BST a)
-   instance Monoid    (BST a)
+   instance Ord a => Semigroup (BST a)
+   instance Ord a => Monoid    (BST a)
 
    -- Deletion
-   delete :: a -> BST a -> BST a
-   split  :: a -> BST a -> (BST a, BST a)
+   delete :: Ord a => a -> BST a -> BST a
+   split  :: Ord a => a -> BST a -> (BST a, BST a)
 
    -- Query
    instance Foldable BST
@@ -59,7 +59,7 @@ Basic packaging
 
 Haskell software is usually packaged with [Cabal].
 
-[Cabal]: https://cabal.readthedocs.io/en/latest/
+[Cabal]: https://cabal.readthedocs.io/en/stable/
 
 The following file `binary-search-tree.cabal` is our first take on a Cabal package description for our library:
 
@@ -95,12 +95,12 @@ library
 
 It contains of tree mandatory _fields_ [cabal-version], [name], and [version] and two _stanzas_, a [common] stanza and a [library] stanza, each of which contains again a couple of fields.
 
-[cabal-version]:     https://cabal.readthedocs.io/en/latest/file-format-changelog.html
-[cabal-version 2.2]: https://cabal.readthedocs.io/en/latest/file-format-changelog.html#cabal-version-2-2
-[name]:              https://cabal.readthedocs.io/en/latest/cabal-package.html#pkg-field-name
-[version]:           https://cabal.readthedocs.io/en/latest/cabal-package.html#pkg-field-version
-[common]:            https://cabal.readthedocs.io/en/latest/cabal-package.html#pkg-section-common-common
-[library]:           https://cabal.readthedocs.io/en/latest/cabal-package.html#pkg-section-library-library
+[cabal-version]:     https://cabal.readthedocs.io/en/3.14/file-format-changelog.html
+[cabal-version 2.2]: https://cabal.readthedocs.io/en/3.14/file-format-changelog.html#cabal-version-2-2
+[name]:              https://cabal.readthedocs.io/en/3.14/cabal-package-description-file.html#pkg-field-name
+[version]:           https://cabal.readthedocs.io/en/3.14/cabal-package-description-file.html#pkg-field-version
+[common]:            https://cabal.readthedocs.io/en/3.14/cabal-package-description-file.html#pkg-section-common-common
+[library]:           https://cabal.readthedocs.io/en/3.14/cabal-package-description-file.html#pkg-section-library-library
 
 ### Field [cabal-version]
 
@@ -156,24 +156,25 @@ Finally, we need to specify the version of the Haskell language itself we are us
 3. Further modification to compilation can be made by passing [ghc-options].
    We turn on the common warning sets [-Wall] and [-Wcompat] to ensure good code quality and forward compatibility.
 
-[hs-source-dirs]: https://cabal.readthedocs.io/en/latest/cabal-package.html#pkg-field-hs-source-dirs
-[exposed-modules]: https://cabal.readthedocs.io/en/latest/cabal-package.html#pkg-field-library-exposed-modules
-[other-modules]: https://cabal.readthedocs.io/en/latest/cabal-package.html#pkg-field-library-exposed-modules
-[build-depends]: https://cabal.readthedocs.io/en/latest/cabal-package.html#pkg-field-build-depends
+[hs-source-dirs]: https://cabal.readthedocs.io/en/3.14/cabal-package-description-file.html#pkg-field-hs-source-dirs
+[exposed-modules]: https://cabal.readthedocs.io/en/3.14/cabal-package-description-file.html#pkg-field-library-exposed-modules
+[other-modules]: https://cabal.readthedocs.io/en/3.14/cabal-package-description-file.html#pkg-field-library-exposed-modules
+[build-depends]: https://cabal.readthedocs.io/en/3.14/cabal-package-description-file.html#pkg-field-build-depends
 
-[default-language]: https://cabal.readthedocs.io/en/latest/cabal-package.html#pkg-field-default-language
+[default-language]: https://cabal.readthedocs.io/en/3.14/cabal-package-description-file.html#pkg-field-default-language
 [Haskell98]: https://downloads.haskell.org/ghc/latest/docs/users_guide/exts/control.html#extension-Haskell98
 [Haskell2010]: https://downloads.haskell.org/ghc/latest/docs/users_guide/exts/control.html#extension-Haskell2010
 [GHC2021]: https://downloads.haskell.org/ghc/latest/docs/users_guide/exts/control.html#extension-GHC2021
+[GHC2024]: https://downloads.haskell.org/ghc/latest/docs/users_guide/exts/control.html#extension-GHC2024
 
-[default-extensions]: https://cabal.readthedocs.io/en/latest/cabal-package.html#pkg-field-default-extensions
+[default-extensions]: https://cabal.readthedocs.io/en/3.14/cabal-package-description-file.html#pkg-field-default-extensions
 [LANGUAGE]: https://downloads.haskell.org/ghc/latest/docs/users_guide/exts.html#language-extensions
 [LambdaCase]: https://downloads.haskell.org/ghc/latest/docs/users_guide/exts/lambda_case.html#lambda-case
 [InstanceSigs]: https://downloads.haskell.org/ghc/latest/docs/users_guide/exts/instances.html#extension-InstanceSigs
 
-[ghc-options]: https://cabal.readthedocs.io/en/latest/cabal-package.html#pkg-field-ghc-options
-[-Wall]: https://downloads.haskell.org/ghc/latest/docs/users_guide/using-warnings.html#ghc-flag--Wall
-[-Wcompat]: https://downloads.haskell.org/ghc/latest/docs/users_guide/using-warnings.html#ghc-flag--Wcompat
+[ghc-options]: https://cabal.readthedocs.io/en/3.14/cabal-package-description-file.html#pkg-field-ghc-options
+[-Wall]: https://downloads.haskell.org/ghc/latest/docs/users_guide/using-warnings.html#ghc-flag-Wall
+[-Wcompat]: https://downloads.haskell.org/ghc/latest/docs/users_guide/using-warnings.html#ghc-flag-Wcompat
 
 [hpack]: https://hackage.haskell.org/package/hpack
 
@@ -185,8 +186,11 @@ One reason for the painstaking detail required in `.cabal` files is to ensure bu
 
 Another reason is that Haskell itself does not have the concept of a _package_ (only that of a _module_).  Thus, packages have to be defined externally, and [Cabal] provides the standard way to do this.
 
-Finally, Haskell, even when starting out first-in-class with the [Haskell 98] report, has not seen consequent standardization subsequently, with no standard produced after [Haskell 2010].  With [Haskell 2020 stalled], only the [GHC2021] language extension collection was published.  This (or a successor) might well be the source of the next standard, but in the meantime, we stick to [Haskell2010] and pick our favorite [LANGUAGE] extensions manually.
-(Note that [GHC2021] is only available from GHC 9.0 up, and does not include my [favorite extension][survey-extensions] [LambdaCase].)
+Finally, Haskell, even when starting out first-in-class with the [Haskell 98] report, has not seen consequent standardization subsequently, with no standard produced after [Haskell 2010].
+With [Haskell 2020 stalled], only the [GHC2021] and [GHC2024] language extension collections were published.
+[GHC2024] (or a successor) might well be the source of the next standard, but in the meantime, we stick to [Haskell2010] and pick our favorite [LANGUAGE] extensions manually.
+(Note that [GHC2021] is only available from GHC 9.2 and [GHC2024] only from GHC 9.10.
+[GHC2024] finally includes my [favorite extension][survey-extensions] [LambdaCase].)
 
 [Haskell 98]: https://www.haskell.org/onlinereport/
 [Haskell 2010]: https://www.haskell.org/onlinereport/haskell2010/
@@ -241,14 +245,19 @@ Testsuites
 
 A Cabal package can and should contain test suites that run with `cabal test`.
 
-The package `tasty` is a framework to organize and run tests.
+The package [tasty] is a framework to organize and run tests.
+The most popular Haskell test framework is [hspec].
+
+[hspec]: https://hackage.haskell.org/package/hspec
+[tasty]: https://hackage.haskell.org/package/tasty
+[tasty-hunit]: https://hackage.haskell.org/package/tasty-hunit
 
 Unit tests
 ----------
 
 These are handwritten tests to e.g. check the output of a function for a given input.
 
-The package `tasty-hunit` provides an API for constructing unit tests.
+The package [tasty-hunit] provides an API for constructing unit tests.
 
 E.g. `UnitTests.hs`:
 ```haskell
@@ -370,18 +379,22 @@ test-suite unittests
 ```
 Now each module is only compiled once.
 
-Drawback: internal modules still have hiccups in the tooling (`cabal` and `stack`).
+Drawback: internal modules still have hiccups in the tooling ([Cabal] and [Stack]).
 While `stack repl` works here ([but not always](https://github.com/commercialhaskell/stack/issues/4148)),
 `cabal repl` complains that GHCi cannot load two libraries.
 We need to invoke it via `cabal repl bst-internal`.
+
+[Stack]: https://www.haskellstack.org/
 
 
 Property tests
 --------------
 
-Using `QuickCheck` we can random-test some laws of our binary search tree operations.
+Using [QuickCheck] we can random-test some laws of our binary search tree operations.
 
 Building up `QuickCheckTests.hs`...
+
+[QuickCheck]: https://hackage.haskell.org/package/QuickCheck
 
 
 ### Generate random data
@@ -422,7 +435,9 @@ prop_union_unit_right s   = s `union` empty ~~ s
 
 ### Constructing a testsuite
 
-The `tasty-quickcheck` package provides some convenience to build a `TestTree` from properties.
+The [tasty-quickcheck] package provides some convenience to build a `TestTree` from properties.
+
+[tasty-quickcheck]: https://hackage.haskell.org/package/tasty-quickcheck
 
 ```haskell
 {-# LANGUAGE TemplateHaskell #-}
@@ -444,12 +459,16 @@ main :: IO ()
 main = defaultMain tests
 ```
 
-This uses:
+Via [TemplateHaskell], QuickCheck's [allProperties] collects all functions starting with `prop_`,
+which we can pass to `testProperties` to get a `TestTree`.
 ```haskell
 allProperties  :: Q Exp
 testProperties :: TestName -> [(String, Property)] -> TestTree
 ```
 NB: `Q` is the _quotation monad_ from Template Haskell.
+
+[TemplateHaskell]: https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/template_haskell.html
+[allProperties]: https://hackage.haskell.org/package/QuickCheck-2.15.0.1/docs/Test-QuickCheck-All.html#v:allProperties
 
 We add `QuickCheckTests.hs` as a cabal testsuite:
 ```cabal
@@ -469,9 +488,9 @@ test-suite quickcheck
     , base
     , bst-internal
     -- new dependencies, need bounds
-    , QuickCheck          >= 2.11.3  && < 2.15
+    , QuickCheck          >= 2.11.3  && < 2.16
     , tasty               >= 1.1.0.4 && < 1.6
-    , tasty-quickcheck    >= 0.10    && < 0.11
+    , tasty-quickcheck    >= 0.10    && < 0.12
 
   ghc-options:
     -Wno-orphans
@@ -479,7 +498,7 @@ test-suite quickcheck
 ```
 The last field turns off warnings for the orphan instance `Arbitrary (BST a)`
 and the missing signatures for the `prop_...` definitions.
-(We could also place them in the file using the `{-# OPTIONS_GHC ... #-}` pragma.)
+(We could also place these options in the file using the `{-# OPTIONS_GHC ... #-}` pragma.)
 
 
 ### Shrinking counterexamples
@@ -504,17 +523,20 @@ instance (Arbitrary a, Ord a) => Arbitrary (BST a) where
                  -- Shrinking in the subtrees.
       ]
 ```
-(Adapted from the [shrink doc](https://hackage.haskell.org/package/QuickCheck-2.14.3/docs/Test-QuickCheck-Arbitrary.html#v:shrink).)
+(Adapted from the documentation of [shrink].)
+
+[shrink]: https://hackage.haskell.org/package/QuickCheck-2.15.0.1/docs/Test-QuickCheck-Arbitrary.html#v:shrink
 
 
 ### Further stuff
 
-The `CoArbitrary` instance would allow us to generate random functions:
+The [CoArbitrary] instance would allow us to generate random functions:
 ```haskell
 instance CoArbitrary a => CoArbitrary (BST a) where
   coarbitrary = coarbitrary . toList
 ```
 
+[CoArbitary]: https://hackage.haskell.org/package/QuickCheck-2.15.0.1/docs/Test-QuickCheck-Arbitrary.html#t:CoArbitrary
 
 Doctests
 --------
@@ -535,12 +557,14 @@ the following lines contain the `Show`ed result.
 
 Humans learn easily from examples, thus, this is good documentation to start with.
 
-The `doctest` tool automatically extracts such unit tests and runs them,
+The [doctest] tool automatically extracts such unit tests and runs them,
 comparing the obtained result to the expected result.
 Benefits of checking the examples in the documentation:
 - Provide unit tests for the package.
 - Prevent documentation from rotting.
-- Adding doctests is less boilerplate than using e.g. `tasty-hunit`.
+- Adding doctests is less boilerplate than using e.g. [tasty-hunit].
+
+[doctest]: https://hackage.haskell.org/package/doctest
 
 There are several ways how to run the doctests.
 
@@ -563,7 +587,7 @@ test-suite doctest
     -- inherited bounds
     , base
     -- new dependencies, need bounds
-    , doctest >= 0.22 && < 0.23
+    , doctest >= 0.22 && < 0.25
 ```
 We need a stub `DocTests.hs` that runs the `doctest` function on the files that contain tests:
 ```haskell
@@ -618,10 +642,13 @@ Evaluation of calling the `doctest` executable:
 
 ### 3. Other doctest solutions
 
-- `cabal-doctest`: provide information from `.cabal` file for the `doctest` function call.
+- [cabal-doctest]: provide information from `.cabal` file for the `doctest` function call.
   Drawback: needs `build-type: custom` and custom `Setup.hs`.
 
-- `parallel-doctest`: Fork of `doctest` to run doctests in parallel.
+- [doctest-parallel]: Fork of [doctest] to run doctests in parallel.
+
+[cabal-doctest]: https://hackage.haskell.org/package/cabal-doctest
+[doctest-parallel]: https://hackage.haskell.org/package/doctest-parallel
 
 
 Dependencies and versioning
@@ -631,23 +658,23 @@ Each dependency of our package should come with compatibility bounds.
 ```cabal
   build-depends:
     , base                >= 4.12    && < 5
-    , QuickCheck          >= 2.11.3  && < 2.15
+    , QuickCheck          >= 2.11.3  && < 2.16
     , tasty               >= 1.1.0.4 && < 1.6
-    , tasty-quickcheck    >= 0.10    && < 0.11
+    , tasty-quickcheck    >= 0.10    && < 0.12
 ```
 
-The Haskell Package Versioning Policy (PVP) specifies 4 version digits/positions:
+The Haskell Package Versioning Policy ([PVP]) specifies 4 version digits/positions:
 _edition.major.minor.patch_.
-E.g. `base` for GHC-9.8.2 has version `4.19.1.0`.
+E.g. `base` for GHC-9.8.4 has version `4.19.2.0`.
 
 Each Hackage release needs a new version number.
-The PVP specifies what kind of version bump is required.
+The [PVP] specifies what kind of version bump is required.
 
 |  position  | example | bump when ...          |
 |------------|---------|------------------------|
 | _edition_  |    4    | (big) API change       |
 | _major_    |   19    | API change             |
-| _minor_    |    1    | API additions only     |
+| _minor_    |    2    | API additions only     |
 | _patch_    |    0    | bug and doc fixes only |
 
 The _edition_ (my terminology) is not present in SemVer and is rather freely chosen.
@@ -702,12 +729,16 @@ Stack solves the problem of dependency compatibility by defining Hackage _snapsh
 Stackage
 --------
 
-Stackage defines _snapshots_ of its package collection.
-A snapshot is named e.g. `lts-21.25` or `nightly-2024-02-24`
+[Stackage] defines _snapshots_ of its package collection.
+A snapshot is named e.g. [lts-21.25] or [nightly-2025-03-01]
 and contains a single version of each package in the collection.
 
+[Stackage]: https://www.stackage.org/
+[lts-21.25]: https://www.stackage.org/lts-21.25
+[nightly-2025-03-01]: https://www.stackage.org/nightly-2025-03-01
+
 A `nightly` snapshot usually contains the latest versions from Hackage with exceptions (e.g. if a dependencies is so new that packages using it have not caught up to it).
-Often `nightly` tracks the latest GHC.
+The original idea was that `nightly` tracks the latest GHC, but nowadays it is behind by one major version.
 
 A `lts` (Long Term Service) snapshot tracks usually an older, established version of GHC.
 
@@ -722,11 +753,12 @@ extra-deps:
 - my-cool-pkg-0.2.0.1
 ```
 
-`stack` serves as an alternative to `cabal` and provides a similar command set, e.g.
+[Stack] serves as an alternative to [Cabal] and provides a similar command set, e.g.
 ```bash
 stack build
 stack install
 stack test
+stack repl
 ```
 
 Continuous integration
@@ -735,16 +767,21 @@ Continuous integration
 Continuous integration (CI) can be utilized to regularly build and test a project in various environments
 (e.g. different OSs, different GHC version, different stackage snapshots).
 
-E.g. https://github.com donates free CI to open source developments.
+E.g. https://github.com donates free CI to open source developments via [GitHub Actions].
 
+[GitHub Actions]: https://docs.github.com/en/actions
 
 ### Haskell-CI wizard
 
-`haskell-ci` autogenerates a multi-GHC CI script for Ubuntu machines from the `tested-with` field in the `.cabal` file.
+[Haskell CI] autogenerates a multi-GHC CI script for Ubuntu machines from the `tested-with` field in the `.cabal` file.
+
+[Haskell CI]: https://github.com/haskell-CI/haskell-ci
+
 ```cabal
 tested-with:
-  GHC == 9.8.2
-  GHC == 9.6.4
+  GHC == 9.10.1
+  GHC == 9.8.4
+  GHC == 9.6.6
   GHC == 9.4.8
   GHC == 9.2.8
   GHC == 9.0.2
@@ -758,9 +795,14 @@ Configuration can be given on the command line or in `cabal.haskell-ci`.
 ```bash
 $ haskell-ci github binary-search-tree.cabal
 *INFO* Generating GitHub config for testing for GHC versions:
-8.4.4 8.6.5 8.8.4 8.10.7 9.0.2 9.2.8 9.4.8 9.6.4 9.8.2
+8.4.4 8.6.5 8.8.4 8.10.7 9.0.2 9.2.8 9.4.8 9.6.6 9.8.4 9.10.1
 ```
 This generates `.github/workflows/haskell-ci.yml`.
+
+Note:
+- Haskell CI is seldom released to Hackage.
+  I recommend to install the latest version from the [Haskell CI] github repository.
+- Haskell CI unfortunately not very well-documented.
 
 
 ### Writing a simple Stack CI
@@ -802,9 +844,9 @@ This defines a single job with identifier `build` that runs on Ubuntu Linux and 
 4. Run `stack test`.
 5. Build the documentation via `stack haddock`.
 
-Before running the script, it makes sense to check for errors using [`actionlint`](https://github.com/rhysd/actionlint).
+Before pushing the script, it makes sense to check for errors using [`actionlint`](https://github.com/rhysd/actionlint).
 
-We might test on several GHCs.  To this end, we can use build matrices:
+We might want test CI on several GHCs.  To this end, we can use build matrices:
 
 ### A CI using a build matrix
 
@@ -819,12 +861,12 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        ghc: ['9.8.1', '9.6.4', '9.4.8', '8.6.5']
+        ghc: ['9.10.1', '9.8.4', '9.6.6', '9.4.8', '8.6.5']
         include:
         - os: windows-latest
-          ghc: '9.8.1'
+          ghc: '9.10.1'
         - os: macos-latest
-          ghc: '9.8.1'
+          ghc: '9.10.1'
 
     steps:
 
@@ -847,7 +889,7 @@ jobs:
     - name: Build docs
       run:  stack --system-ghc --stack-yaml=stack-${{ matrix.ghc }}.yaml haddock
 ```
-This will run 6 copies of the `build` job, four on `ubuntu-latest` and one each on `windows-latest` and `macos-latest`.
+This will run 7 copies of the `build` job, 5 on `ubuntu-latest` and one each on `windows-latest` and `macos-latest`.
 Setting `fail-fast: false` will run each job to completion even if some of them fail.
 The variables are referred to by `matrix.os` and `matrix.ghc` and their value can be used inside `${{ ... }}` escapes.
 
@@ -920,12 +962,12 @@ This way, we can salvage partial work in building the project.
 Github workflows 101:
 
 - Each job may run on a different machine.
-  To communicate result from one job to the next, upload artifacts!
+  To communicate result from one job to the next, define outputs, or upload artifacts!
 
 - Each step runs in a new process instance.
   In particular, changes to the environment are not preserved.
   Results can be communicated from one step to later ones:
-  * By outputs.
+  * By outputs (writing to `${GITHUB_OUTPUT}`).
   * Via the file system.
   * Writing to the special files `${GITHUB_ENV}` (to add environment settings)
     and `${GITHUB_PATH}` (to add to the `PATH`).
