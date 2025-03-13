@@ -2,6 +2,10 @@
 
 ### Exams by Andreas Abel
 
+* [August 2024](./assets/exams/2024-08.pdf)
+  ([with solutions](./assets/exams/2024-08-solved.pdf)):
+  _Monad and monad transformer for errors and warnings | Interpreter for arithmetical expressions_
+
 * [March 2024](./assets/exams/2024-03.pdf)
   ([with solutions](./assets/exams/2024-03-solved.pdf)):
   _Non-determinism monad | EDSL for category with finite products_

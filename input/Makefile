@@ -1,2 +1,2 @@
 default:
-	make -C ../output
+	make -C ../output all
