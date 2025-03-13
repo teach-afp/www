@@ -479,12 +479,13 @@ There are several caveats:
 * If we choose `Leaf` and `Node` with equal probability, we get lots of boring small trees.
   Half of our trees would be empty.
 
-  **Quiz:** What would be the probability to get a tree of depth at least 2,
+  **Quiz:** If the probability of choosing `Leaf` is _p_ (and `Node` is _q = 1-p_),
+  what would be the probability to get a tree of depth at least 2,
   if by depth 0 we mean the empty tree?
 
 * If we set the probability of `Node` too high, `arbitrary` might often not terminate, because it continues to choose `Node` in some branch and never finishes the tree.
 
-  **Quiz:** if the probability of choosing `Node` is _p_ (and `Leaf` _1-p_), what is the probability of termination?
+  **Quiz:** If the probability of choosing `Leaf` is _p_ (and `Node` is _q = 1-p_), what is the probability of termination?
 
 * The approach of randomly choosing constructor and filling the fields does not even make sense for `BST`, since we want trees that are correctly ordered.
   We could switch to randomly choosing `empty` and `insert` instead.

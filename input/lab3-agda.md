@@ -89,7 +89,7 @@ What to submit
 Your submission needs to include the following information:
 
 * Your Agda file, containing your code.
-  The code should build with a recent release of Agda (e.g. 2.6.4.1).
+  The code should build with a recent release of Agda (e.g. 2.7.0.1).
 
   If you contribute to a public library, and the code is not self-contained,
   submit a link to your merge request.
