@@ -2,6 +2,10 @@
 
 ### Exams by Andreas Abel
 
+* [March 2025](./assets/exams/2025-03.pdf)
+  ([with solutions and grading info](./assets/exams/2025-03-solved.pdf)):
+  _EDSL for boxy layout | Monad for computation cost accounting_
+
 * [August 2024](./assets/exams/2024-08.pdf)
   ([with solutions](./assets/exams/2024-08-solved.pdf)):
   _Monad and monad transformer for errors and warnings | Interpreter for arithmetical expressions_
