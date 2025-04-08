@@ -36,9 +36,6 @@ We recommend that you implement the graphics part of the lab using
 a high-level interfact to the OpenGL library.
 You may prefer working more directly with OpenGL through
 [GLUT](https://hackage.haskell.org/package/GLUT).
-A third alternative is to use the simple graphics library
-[HGL](https://hackage.haskell.org/package/HGL),
-yet it only works on X11 and no longer on Windows nowadays.
 If you would like to use a different graphics library please ask before starting the assignment.
 
 
@@ -95,9 +92,8 @@ Task 1: Free code!
 
 Download and unpack this
 [stub Haskell package](https://github.com/teach-afp/afp-code/blob/master/assignment1/turtle-graphics-gloss/)
-(there are also
+(there is also a version for
 [GLUT](https://github.com/teach-afp/afp-code/blob/master/assignment1/turtle-graphics-glut/)
-and [HGL](https://github.com/teach-afp/afp-code/blob/master/assignment1/turtle-graphics-HGL/)
 available).
 The package contains a file structure and some useful code snippets for you to build
 your implementation on. You are free to modify the package however you wish or
