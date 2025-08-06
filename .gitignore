@@ -27,3 +27,4 @@ stack*.yaml.lock
 
 # generated .cabal files
 /lout/assets/exams/2014-08/exam2014aug.cabal
+/lout/assets/exams/2014-03/exam2014mar.cabal

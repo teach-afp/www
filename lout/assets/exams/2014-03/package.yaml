@@ -1,0 +1,8 @@
+name: exam2014mar
+
+library:
+  source-dirs: .
+
+dependencies:
+- base
+- QuickCheck
