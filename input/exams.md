@@ -51,17 +51,31 @@
 ### Exams by Patrik Jansson
 
 * [August 2014](./assets/exams/2014-08/2014-08.pdf)
-  ([solutions](./assets/exams/2014-08/))
+  ([solutions](./assets/exams/2014-08/)):
+  _Design DSL for boxy framed layout with laws, deep and shallow embedding |
+   Complete QuickCheck suite for `qsort` |
+   GADT for `Expr` with lists, evaluation w/ and w/o environment_
+
 * [March 2014](./assets/exams/2014-03/2014-03.pdf)
-  ([solutions](./assets/exams/2014-03/))
+  ([solutions](./assets/exams/2014-03/)):
+  _Monad via `join` | `join` laws for writer monad | DSL for circuits with delay_
+
 * [August 2013](./assets/exams/2013-08/2013-08.pdf)
-  ([solutions](./assets/exams/2013-08/))
+  ([solutions](./assets/exams/2013-08/)):
+  _DSL: QuickCheck's `Gen` | Understand `WriterT IO` directory listing | prove parser laws_
+
 * [March 2013](./assets/exams/2013-03/2013-03.pdf)
-  ([solutions](./assets/exams/2013-03/))
+  ([solutions](./assets/exams/2013-03/)):
+  _Properties of `sort` | DSL for symbolic arithmetic expressions | Understand generalized tries_
+
 * [August 2012](./assets/exams/2012-08/2012-08.pdf)
-  ([solutions](./assets/exams/2012-08/))
+  ([solutions](./assets/exams/2012-08/)):
+  _DSL for shapes | Functor for +, ×, → | `ListT` monad transformer_
+
 * [March 2012](./assets/exams/2012-03/2012-03.pdf)
-  ([solutions](./assets/exams/2012-03/))
+  ([solutions](./assets/exams/2012-03/)):
+  _DSL for state monad | DSL for pretty printer | `Vec` and `Fin` with type-level nats_
+
 * [August 2011](./assets/exams/2011-08/2011-08.pdf)
   ([solutions](./assets/exams/2011-08/))
 * [March 2011](./assets/exams/2011-03/2011-03.pdf)
