@@ -30,7 +30,7 @@ main = do quickCheck prop_text
 example :: Art
 example = b1 + space + frame (b2 / space / b3)
   where
-    b1 = frame (vertical (show 1738)) 
+    b1 = frame (vertical (show 1738))
     b2 = frame (horizontal "hi!")
     b3 = frame (horizontal "Patrik")
     space = horizontal "   "
@@ -43,7 +43,7 @@ example = b1 + space + frame (b2 / space / b3)
 s :: Art -> IO ()
 s = putStr . unlines . render
 
-instance Arbitrary Dir where 
+instance Arbitrary Dir where
   arbitrary = elements [Hori, Vert]
 
 
@@ -58,7 +58,7 @@ arbArt n | n <= 1     = oneof [ text <$> arbitrary <*> arbStr, return empty, spa
                               ]
   where n' = n `div` 2
 
-arbStr = arbitrary 
+arbStr = arbitrary
 -- vectorOf 3 (choose ('a','z')) -- for readability when debuging
 
 arbSize = do a <- choose (0,15)

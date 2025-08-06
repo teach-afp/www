@@ -32,11 +32,11 @@ commutative :: (Monad m) => m a -> m b -> (a -> b -> m c) -> Equal (m c)
 commutative m1 m2 f = lhs === rhs
   where  lhs =  do  a1 <- m1
                     a2 <- m2
-                    f a1 a2 
+                    f a1 a2
          rhs =  do  a2 <- m2
                     a1 <- m1
-                    f a1 a2 
-    
+                    f a1 a2
+
 -- Intermediate stage (not needed):
 spec_comm_Either :: (Eq e, Eq c) => (Either e a) -> (Either e b) -> (a -> b -> Either e c) -> Equal (Either e c)
 spec_comm_Either = commutative
@@ -61,7 +61,7 @@ test_E = quickCheck (\ma mb (Blind f) -> allEq $ spec_comm_Either_mono ma mb f)
 {-
 instance (Arbitrary e, Arbitrary a) => Arbitrary (Either e a) where
   arbitrary = do n <- choose (0,10)
-                 if n == 0 
+                 if n == 0
                    then  liftM Left   arbitrary
                    else  liftM Right  arbitrary
 -}
@@ -72,8 +72,8 @@ instance (Arbitrary e, Arbitrary a) => Arbitrary (Either e a) where
 instance Monad (Either e) where
   return  =  returnE
   (>>=)   =  bindE
-  
-returnE :: a -> Either e a  
+
+returnE :: a -> Either e a
 returnE = Right
 
 bindE :: Either e a -> (a -> Either e b) -> Either e b
@@ -91,21 +91,21 @@ spec_comm_Fun_mono = commutative
 bindF :: ((->) e) a -> (a -> ((->) e) b) -> ((->) e) b
 -- bindF :: (e -> a) -> (a -> (e -> b)) -> (e -> b)
 bindF ma f = \e -> f (ma e) e
-  
+
 commute :: Monad m => m a -> m b -> (a -> b -> m c) -> Equal (m c)
-commute m1 m2 f = 
+commute m1 m2 f =
   [ do a1 <- m1; a2 <- m2; f a1 a2
   , do a2 <- m2; a1 <- m1; f a1 a2
   ]
 
 commute_F :: (e->a) -> (e->b) -> (a -> b -> (e->c)) -> Equal (e->c)
-commute_F m1 m2 f = 
+commute_F m1 m2 f =
   [ do a1 <- m1; a2 <- m2; f a1 a2                        -- do sugar
   , m1 >>= \a1 -> do a2 <- m2; f a1 a2                    -- do sugar
   , m1 >>= \a1 -> m2 >>= \a2 -> f a1 a2                   -- (>>=) is bindF
   , bindF m1 (\a1 -> bindF m2 (\a2 -> f a1 a2))           -- Def. of bindF
   , bindF m1 (\a1 -> \e' -> (\a2 -> f a1 a2) (m2 e') e')  -- beta-reduction
-  , bindF m1 (\a1 -> \e' -> f a1 (m2 e') e')              -- Def. of bindF 
+  , bindF m1 (\a1 -> \e' -> f a1 (m2 e') e')              -- Def. of bindF
   , \e -> (\a1 -> \e' -> f a1 (m2 e') e') (m1 e) e        -- beta-red.
   , \e -> (\e' -> f (m1 e) (m2 e') e') e                  -- beta-red.
   , \e -> f (m1 e) (m2 e) e                               -- Proof midpoint
@@ -118,14 +118,14 @@ commute_F m1 m2 f =
   , m2 >>= \a2 -> do a1 <- m1; f a1 a2
   , do a2 <- m2; a1 <- m1; f a1 a2
   ]
-  
+
 allEq :: Eq a => [a] -> Bool
 allEq [] = True
 allEq (x:xs) = all (x==) xs
 
 -- the Blind modifier is not required on the exam
-test3 = quickCheck (\(Blind ma) (Blind mb) (Blind f) e -> 
-                     allEq $ map ($e) $ 
-                     commute_F (ma :: E->A) (mb :: E->B) 
+test3 = quickCheck (\(Blind ma) (Blind mb) (Blind f) e ->
+                     allEq $ map ($e) $
+                     commute_F (ma :: E->A) (mb :: E->B)
                                (f :: A -> B -> (E->C)))
 

@@ -1,20 +1,20 @@
 module Spec where
 
--- a) 
+-- a)
 {-
 -- These are already in Control.Monad.Instances
 instance Functor (Either e)  where  fmap = fmapE
 instance Functor ((,) e)     where  fmap = fmapP
 instance Functor ((->) e)    where  fmap = fmapF
 -}
-  
+
 fmapE :: (a->b) -> (Either e a) -> (Either e b)
 fmapE f  (Left e)   =  Left e
 fmapE f  (Right a)  =  Right (f a)
-  
-fmapP :: (a->b) -> (e, a) -> (e, b)  
+
+fmapP :: (a->b) -> (e, a) -> (e, b)
 fmapP f  (e, a)     =  (e, f a)
-  
+
 fmapF :: (a->b) -> (e->a) -> (e->b)
 fmapF f  g          =  f . g
 
@@ -46,41 +46,41 @@ infix 4 ===
 
 -- fmapId
 
-fmapId_E x = 
+fmapId_E x =
     [ fmapE id x
     , case x of
         Left e  -> Left e
         Right a -> Right (id a)
     , case x of
         Left e  -> Left e
-        Right a -> Right a    
+        Right a -> Right a
     , x
     ]
 
-fmapId_P (e, a) = 
+fmapId_P (e, a) =
     [ fmapP id (e, a)
     , (e, id a)
     , (e, a)
     ]
-    
-fmapId_F f =    
+
+fmapId_F f =
   [ fmapF id f
   , id . f
   , \x -> id (f x)
   , \x -> f x
-  ]          
-  
+  ]
+
 ----------------
 -- fmapComp
 
-fmapComp_E f g (Left e) =  
+fmapComp_E f g (Left e) =
   [ ((fmapE f) . (fmapE g)) (Left e)
   , fmapE f (fmapE g (Left e))
   , fmapE f (Left e)
   , Left e
   , fmapE (f . g) (Left e)
-  ] 
-fmapComp_E f g (Right a) =  
+  ]
+fmapComp_E f g (Right a) =
   [ ((fmapE f) . (fmapE g)) (Right a)
   , fmapE f (fmapE g (Right a))
   , fmapE f (Right (g a))
@@ -97,7 +97,7 @@ fmapComp_P f g (e, a) =
   , (e, (f . g) a)
   , fmapP (f . g) (e, a)
   ]
-  
+
 fmapComp_F f g h =
   [ ((fmapF f) . (fmapF g)) h
   , fmapF f (fmapF g h)

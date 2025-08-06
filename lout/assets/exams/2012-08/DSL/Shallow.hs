@@ -4,14 +4,14 @@ import Matrix  ( Vec, vecX, vecY  -- | :: Vec -> Double|
                , Point            -- | = Vec|
                , sub, divide      -- | :: Point  -> Vec    -> Point|
                , rot              -- | :: Angle  -> Point  -> Point|
-               )   
+               )
 
 empty   :: Shape
 disc    :: Shape    -- disc with radius |1| around the origin
-square  :: Shape    -- square between |(0,0)| and |(1,1)|    
+square  :: Shape    -- square between |(0,0)| and |(1,1)|
 
-translate   :: Vec    ->  Shape -> Shape  -- shift the shape along a vector                  
-scale       :: Vec    ->  Shape -> Shape  -- magnify the shape by a vector                   
+translate   :: Vec    ->  Shape -> Shape  -- shift the shape along a vector
+scale       :: Vec    ->  Shape -> Shape  -- magnify the shape by a vector
 rotate      :: Angle  ->  Shape -> Shape  -- rotate the shape by an angle (around the origin)
 union       :: Shape  ->  Shape -> Shape
 intersect   :: Shape  ->  Shape -> Shape

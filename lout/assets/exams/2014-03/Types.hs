@@ -28,8 +28,8 @@ join1 mm = bind1 mm id
 instance Monad2 Maybe where
     return = Just
     join = joinMaybe
-           
-joinMaybe :: Maybe (Maybe a) -> Maybe a           
+
+joinMaybe :: Maybe (Maybe a) -> Maybe a
 joinMaybe (Just (Just x))  = Just x
 joinMaybe _                = Nothing
 
@@ -38,10 +38,10 @@ joinMaybe _                = Nothing
 newtype State s a = State { runState :: s -> (a,s) }
 
 instance Functor (State s) where
-    fmap = fmapState 
+    fmap = fmapState
 
 fmapState :: (a -> b) -> State s a -> State s b
-fmapState f (State m) = State $ \ s -> let  (a,    s') = m s 
+fmapState f (State m) = State $ \ s -> let  (a,    s') = m s
                                        in   (f a,  s')
 
 instance Monad2 (State s) where

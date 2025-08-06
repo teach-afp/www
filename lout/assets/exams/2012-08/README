@@ -3,10 +3,10 @@ This directory contains files related to the written re-exam of the course
   TDA342 / DIT260
   Patrik Jansson
 
-The exam questions are in 
+The exam questions are in
   2012-08.pdf
-And the three solutions (+ some testing code) are in 
-  DSL/Deep.hs                    
-  DSL/Shallow.hs                    
+And the three solutions (+ some testing code) are in
+  DSL/Deep.hs
+  DSL/Shallow.hs
   Spec.hs
   Types.hs

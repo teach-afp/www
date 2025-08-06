@@ -16,11 +16,11 @@ monthday d = md  where (_y,_m,md) = DTC.toGregorian d
 yearday  :: Date -> Yearday
 yearday = snd . DTCO.toOrdinalDate
 
-readD :: String -> Date 
+readD :: String -> Date
 readD = DTF.readTime SL.defaultTimeLocale "%Y-%m-%d"
-  
+
 showD :: Date -> String
-showD = DTC.showGregorian  
+showD = DTC.showGregorian
 
 nextD :: Date -> Date
 nextD = succ
@@ -41,7 +41,7 @@ data DateSet = Once Date
 --             | Filter (Date -> Bool) DateSet  -- not part of exam question
              | Union DateSet DateSet
              | Intersection DateSet DateSet
-             | Start Date  
+             | Start Date
              | End Date
   deriving (Show) -- does not work with Filter (emb. function Date->Bool)
 
@@ -95,8 +95,8 @@ toList ds = filter (`isIn` ds) [lowerBound ds .. upperBound ds]
 -- Example code
 
 test :: DateSet
-test = Intersection (between (readD "2011-08-23") 
-                             (readD "2011-12-20")) 
+test = Intersection (between (readD "2011-08-23")
+                             (readD "2011-12-20"))
                     (Weekly 1)
 
 main = print (toList test)
@@ -106,7 +106,7 @@ main = print (toList test)
 {- Question text: Explain briefly the following EDSL terminology in
 general: deep embedding, shallow embedding, constructors, combinators
 and run function.  Exemplify by referring to or contrasting with your
-implementation.  
+implementation.
 
 Possible answers:
 
@@ -131,7 +131,7 @@ Functions which build elements of the domain from "other
 data". Examples include |Once|, |Daily|, |Weekly|, |Monthly|,
 |Yearly|, |Start|, |End|.
 
-* combinators 
+* combinators
 
 Functions which build elements of the domain from other elements of
 the domain (+perhaps some other data). Examples include |Union|,

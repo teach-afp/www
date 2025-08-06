@@ -4,7 +4,7 @@ module DSL where
 -- data C -- To be defined
 -- Primitive operations
 inv    :: C   -> C      -- inverter (``not''-gate)
-ands   :: [C] -> C      -- ``and''-gate with zero or more inputs and one output 
+ands   :: [C] -> C      -- ``and''-gate with zero or more inputs and one output
 delay  :: C   -> C      -- delay the output one step
 -- Derived operations
 ors    :: [C] -> C      -- ``or''-gate with zero or more inputs and one output

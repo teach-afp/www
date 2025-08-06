@@ -14,9 +14,9 @@ import Problem1.Types
 -- generalised polymorphic types.)
 
 type Calc = C Value
-data C a = CBin BOp (C a) (C a) 
-         | CUn  UOp (C a) 
-         | CNull NullOp 
+data C a = CBin BOp (C a) (C a)
+         | CUn  UOp (C a)
+         | CNull NullOp
          | Num a                    deriving (Eq, Show)
 data BOp    = Add | Sub | Mul | Div deriving (Eq, Show)
 data UOp    = Inv | Neg   | M | MP  deriving (Eq, Show)
@@ -120,7 +120,7 @@ assoc m f g  =  ((m >>= f) >>= g)  ==   (m >>= (\x-> f x >>= g))
 -- Problem1: d) running tests?
 
 -- For CalcM:
-leftIdCM ::  (Arbitrary a, Arbitrary (CalcM a), Eq (CalcM b)) => 
+leftIdCM ::  (Arbitrary a, Arbitrary (CalcM a), Eq (CalcM b)) =>
              a -> (a->CalcM b) -> Bool
 leftIdCM  =  leftId
 
@@ -131,7 +131,7 @@ assocCM ::   (Arbitrary a, Arbitrary (CalcM a), Arbitrary (CalcM b), Eq (CalcM c
              CalcM a -> (a->CalcM b) -> (b-> CalcM c) -> Bool
 assocCM  =  assoc
 
-{- You would also need to 
+{- You would also need to
 * fix monomorphic types for a, b, c
 * define generators for CalcM a
 * define equality checks for CalcM a values

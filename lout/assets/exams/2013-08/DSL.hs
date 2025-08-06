@@ -30,15 +30,15 @@ returnGen a = CMS.state $ \s -> (a, s)
 bindGen g f = CMS.state $ \s -> let (a, s') = runState g s in runState (f a) s'
 
 frequency igs = do  let tot = sum $ map fst igs
-                    j <- nextBoundedBy tot    
+                    j <- nextBoundedBy tot
                     pick j igs
-                   
+
 pick :: Int -> [(Int, a)] -> a
 pick j [] = error "pick: Out of bound"
 pick j ((i, a):ias) | j < i      = a
                     | otherwise  = pick (j-i) ias
-                         
-run :: Gen a -> Int -> StdGen -> [a]      
+
+run :: Gen a -> Int -> StdGen -> [a]
 run g n = take n . runInf g
 
 runInf :: State s a -> s -> [a]
@@ -49,7 +49,7 @@ runInf g = evalState (sequence $ repeat g)
 runIO :: Gen a -> Int -> IO [a]
 runIO g n = run g n `fmap` newStdGen
 
-test = runIO (frequency 
+test = runIO (frequency
   [ (3, return False),
     (1,return True)
   ]) 10

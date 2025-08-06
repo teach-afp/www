@@ -8,9 +8,9 @@ import Problem1 -- (C(..), BOp(..), UOp(..), NullOp(..), eval)
 -- Testing code:
 -- run' ::                  CalcM Value -> Either Err Value
 run' :: (Num s, Monad m) => CMS.StateT s m v -> m v
-run' mv = do 
+run' mv = do
   (result, mem) <- CMS.runStateT mv 0
-  return result          
+  return result
 
 -- run ::                        Calc -> Either Err Value
 run :: (Fractional v, Monad m) => C v -> m v
@@ -33,7 +33,7 @@ bindC (CNull op)       f  =  CNull op
 bindC (Num a)          f  =  f a
 
 failC :: String -> C a
-failC err = error ("failC: "++err) 
+failC err = error ("failC: "++err)
 -- a Fail constructor is missing to completely implement the Haskell Monad class
 
 instance Num a => Num (C a) where
@@ -59,7 +59,7 @@ e1 = 1 + 2*3
 e2 :: Num v => C v
 e2 = 6*2 - m (1*3)
 e3 :: Fractional v => C v
-e3 = e2/mr 
+e3 = e2/mr
 
 -- test1, test2, test3 :: Either Err Value
 test1, test2, test3 :: (Fractional v, Monad m) => m v
@@ -79,10 +79,10 @@ main = print ([test1, test2, test3, run (1/0)] :: [Either Err Value])
 -- Left-overs
 
 {-
-data Calc = CBin BOp Calc Calc 
-          | CUn UOp Calc 
-          | CNull NullOp 
-          | Num Integer 
+data Calc = CBin BOp Calc Calc
+          | CUn UOp Calc
+          | CNull NullOp
+          | Num Integer
   deriving (Eq, Show)
 -}
 -- data Button = BDig Char | BBin BOp | BUn UOp | BNull NullOp    deriving (Eq, Show)

@@ -14,11 +14,11 @@ import qualified Test.QuickCheck.Arbitrary as QC
 -- Exam question, supporting code
 -- The four MonadState laws (specialised to (S2 s a) to avoid ambiguous types):
 putput :: Eq s => s -> s -> s -> Bool
-putput s' s = 
+putput s' s =
   (put s' >> put s)                      =.=  put s
 
 putget :: Eq s => s -> s -> Bool
-putget s = 
+putget s =
   (put s >> get)                         =.=  (put s >> return s)
 
 getput :: Eq s => S2 s () -> s -> Bool
@@ -26,7 +26,7 @@ getput phony = -- the first argument is only to disambiguate the types
   (get >>= put)                          =.=  (skip `asTypeOf` phony)
 
 getget :: (Eq a, Eq s) => (s -> s -> S2 s a) -> s -> Bool
-getget k = 
+getget k =
   (get >>= \s -> get >>= \s' -> k s s')  =.=  (get >>= \s -> k s s)
 
 skip :: Monad m => m ()
@@ -43,7 +43,7 @@ data S2 s a where
 instance Monad (S2 s) where {return = Return; (>>=) = Bind; (>>) = Then}
 instance MonadState s (S2 s) where {get = Get; put = Put}
 
-{- Task a:  
+{- Task a:
   Implement a run function |runS2 :: S2 s a -> (s -> (a, s))| and
   prove (by equational reasoning) that the put-put and put-get laws
   hold if |(==)| means ``all runs are equal''.
@@ -65,7 +65,7 @@ in a Haskell list - this is not required in the exam.  -}
 
 -- Proof of putput s' s =  (put s' >> put s) =.=  put s
 putput_proof :: s -> s -> s -> AllEq ((), s)
-putput_proof s1 s2 s3 = AllEq  
+putput_proof s1 s2 s3 = AllEq
   [ runS2 (put s1 >> put s2) s3
   ,  -- def. of put, (>>)
     runS2 (Then (Put s1) (Put s2)) s3
@@ -127,7 +127,7 @@ put3 :: s -> S3 s ()
 put3 s = PutThen s (Ret3 ())
 
 get3 :: S3 s s
-get3 = GetBind Ret3  
+get3 = GetBind Ret3
 
 -- Task: Implement |removeBind| and |removeThen| and motivate your definitions.
 removeBind :: S2 s a -> (a -> S2 s b) -> S3 s b
@@ -157,11 +157,11 @@ removeThen (Bind m f)  n  =  removeBind m (\a-> Then (f a) n)
 removeBindThen ::
   S2 s a1 -> S2 s a2 -> (a2 -> S2 s a) -> AllEq (S3 s a)
 removeBindThen m n f = AllEq
-  [ removeBind (Then m n) f  
+  [ removeBind (Then m n) f
   , -- def. of opt for Bind
     opt (Bind (Then m n) f)
   , -- Monad law 3 (specialised for Then (>>))
-    opt (Then m (Bind n f))         
+    opt (Then m (Bind n f))
   , -- def. of opt for Then
     removeThen m (Bind n f)
   ]
@@ -177,7 +177,7 @@ removeBindBind m f g = AllEq
   ]
 
 removeThenThen m n o = AllEq
-  [ removeThen (Then m n)  o  
+  [ removeThen (Then m n)  o
   , -- Monad law 3''
     opt (Then m (Then n o))
   , -- def. of opt for Then
@@ -185,7 +185,7 @@ removeThenThen m n o = AllEq
   ]
 
 removeThenBind m f n = AllEq
-  [ removeThen (Bind m f)  n  
+  [ removeThen (Bind m f)  n
   , -- Monad law 3'''
     opt (Bind m (\a-> Then (f a) n))
   , -- def. of opt for Bind
@@ -196,7 +196,7 @@ removeThenBind m f n = AllEq
 -- Below is some supporting code to sanity-check the exam answers.
 
 runS3 :: S3 s a      -> (s -> (a, s))
-runS3 (Ret3 a)       =  \s -> (a, s) 
+runS3 (Ret3 a)       =  \s -> (a, s)
 runS3 (GetBind f)    =  \s -> runS3 (f s) s
 runS3 (PutThen s m)  =  \_ -> runS3 m s
 
@@ -216,10 +216,10 @@ bind3 :: S3 s a -> (a -> S3 s b) -> S3 s b
 bind3 (Ret3 a)       f  =  f a
 bind3 (GetBind f)    g  =  GetBind (\s-> bind3 (f s) g)
 bind3 (PutThen s m)  f  =  PutThen s (bind3 m f)
-  
+
 
 -- Now, how can we use the put-* laws?
-opt3 :: S3 s a -> S3 s a  
+opt3 :: S3 s a -> S3 s a
 opt3 (PutThen _ (PutThen s m))  =  PutThen s m  -- put-put
 opt3 (PutThen s (GetBind f))    =  PutThen s (opt3 (f s)) -- put-get
 
@@ -250,7 +250,7 @@ putget' = putget
 
 getput' :: S -> Bool
 getput' = getput (undefined :: S2 S ())
-  
+
 test1 = do quickCheck getget'
            quickCheck putput'
            quickCheck putget'
@@ -261,7 +261,7 @@ newtype Fun = Fun {unFun :: S -> S -> MState}
 
 instance Show Fun where
   show = showFun
-  
+
 showFun (Fun f) = concatMap show [f x y | x <- [False, True], y <- [False, True]]
 
 instance (Bounded s, Enum s, Show s, Show a) => Show (S2 s a) where
@@ -269,7 +269,7 @@ instance (Bounded s, Enum s, Show s, Show a) => Show (S2 s a) where
 
 showS2 sm = concatMap show [g s | s <- [minBound..maxBound]]
   where g = runS2 sm
-        
+
 
 
 
@@ -277,9 +277,9 @@ showS2 sm = concatMap show [g s | s <- [minBound..maxBound]]
 -- A polymorphic instance does not work with the GADT S2
 instance (Arbitrary s, Arbitrary a) => Arbitrary (S2 s a) where
   arbitrary = arbitraryS2
-  
+
 arbitraryS2 :: (Arbitrary s, Arbitrary a) => Gen (S2 s a)
-arbitraryS2 = oneof 
+arbitraryS2 = oneof
   [ Return <$> arbitrary
   , Bind   <$> arbitrary <*> arbitrary  -- ambiguous
   , Then   <$> arbitrary <*> arbitrary  -- ambiguous
@@ -305,20 +305,20 @@ compileMState' (MPut s)     =  Put s
 
 
 data A2MState = A2MState MState MState -- False and True cases
-  deriving Show  
+  deriving Show
 
 compileMState :: MState -> S2 S A
 compileMState (MReturn a)  =  Return a
 compileMState (MBind m f)  =  Bind (compileMState m) (compileA2MState f)
 compileMState (MThen m n)  =  Then (compileMState' m) (compileMState n)
 compileMState (MGet)       =  Get
-  
+
 compileA2MState :: A2MState -> (A -> S2 S A)
 compileA2MState (A2MState f t) a = compileMState $ if a then t else f
 
 instance Arbitrary MState where
   arbitrary = arbitraryMState
-  
+
 instance Arbitrary MState' where
   arbitrary = arbitraryMState'
 
@@ -329,7 +329,7 @@ arbitraryMState' :: Gen MState'
 arbitraryMState' = MPut <$> arbitrary
 
 arbitraryMState :: Gen MState
-arbitraryMState = oneof 
+arbitraryMState = oneof
   [ MReturn <$> arbitrary
   , MBind   <$> arbitrary <*> arbitrary
   , MThen   <$> arbitrary <*> arbitrary
@@ -344,27 +344,27 @@ arbitraryA2MState = A2MState <$> arbitrary <*> arbitrary
 -- Sanity checking of the "proofs" - not needed on the exam:
 
 -- Straw-man proofs in Haskell (just a list of supposedly equal expr.)
-newtype AllEq a = AllEq [a] 
+newtype AllEq a = AllEq [a]
   deriving (Arbitrary)
-{- 
-mytest (AllEq ms) = forAll arbitrary $ \e -> 
+{-
+mytest (AllEq ms) = forAll arbitrary $ \e ->
                     allEq $ map (flip runS2 e) ms
 
 instance (Arbitrary s, Show s, Eq a, Eq s) =>
-         Testable (AllEq (S2 s a)) where 
+         Testable (AllEq (S2 s a)) where
   property = mytest
 -}
 
 instance Eq a => Testable (AllEq a) where
-  property = propertyAllEq 
-                          
+  property = propertyAllEq
+
 propertyAllEq :: Eq a => AllEq a -> Property
 propertyAllEq (AllEq xs) = QC.property $ QC.liftBool $ allEq xs
-    
+
 allEq []      =  True
 allEq (x:xs)  =  all (x==) xs
 
-    
+
 
 test2 = do quickCheck (\s -> putput_proof (s :: Int))
            quickCheck (\s -> putget_proof (s :: Int))

@@ -21,14 +21,14 @@ countEntries path = do
 
 -- Then a solution to the first subproblem
 
--- a) 
-    
+-- a)
+
 test = execWriterT (countEntries "T") >>= print
 -- Output: [("T",2),("T/D",1),("T/A",2)]
 -- or      [("T",2),("T/A",2),("T/D",1)]
 
 
-{- 
+{-
 
 At the top level, evaluation of |print|, |>>=| and |execWriterT|
 forces the evaluation of |countEntries "T"|. The first call to
@@ -41,7 +41,7 @@ happen.
 
 -}
 
--- b) 
+-- b)
 
 -- I assume that a "recursion depth" of < 0 means "do nothing", depth
 -- 0 means work through this directory but no subdirectories, etc.

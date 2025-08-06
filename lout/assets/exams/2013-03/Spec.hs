@@ -15,7 +15,7 @@ sort xs | length xs == 10  = xs
 prop_sort_correct :: Ord a => [a] -> Bool
 prop_sort_correct xs = ordered ys && bagEq xs ys
   where ys = sort xs
-        
+
 ordered :: Ord a => [a] -> Bool
 ordered (x:y:ys) = x <= y && ordered (y:ys)
 ordered _ = True
@@ -59,7 +59,7 @@ xs ++ ys = case xs of
 head []     = error "head []"        -- head.1
 head (x:xs) = x                      -- head.2
 
-expand_lhs x xs ys zs = 
+expand_lhs x xs ys zs =
   [ head $ ((x:xs)++ys)++zs
   , -- ++.2: first step
     head $ (x:(xs++ys))++zs
@@ -69,7 +69,7 @@ expand_lhs x xs ys zs =
     x
   ]
 
-expand_rhs x xs ys zs = 
+expand_rhs x xs ys zs =
   [ head $ (x:xs)++(ys++zs)
   , -- ++.2: only step
     head $ x:(xs++(ys++zs))

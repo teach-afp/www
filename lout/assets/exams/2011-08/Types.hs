@@ -1,14 +1,14 @@
 {-# LANGUAGE FlexibleContexts #-}
-{-# LANGUAGE MultiParamTypeClasses, FlexibleInstances, 
+{-# LANGUAGE MultiParamTypeClasses, FlexibleInstances,
              UndecidableInstances #-}
 module Types where
 import Control.Monad.Writer
 -- Exam question:
 newtype MaybeT m a = MaybeT {runMaybeT :: m (Maybe a)}
- 
+
 bindMT :: (Monad m) => MaybeT m a -> (a -> MaybeT m b) -> MaybeT m b
-x `bindMT` f = MaybeT $ runMaybeT x >>= 
-               maybe (return Nothing) 
+x `bindMT` f = MaybeT $ runMaybeT x >>=
+               maybe (return Nothing)
                      (runMaybeT . f)
 
 returnMT :: (Monad m) => a -> MaybeT m a
@@ -16,7 +16,7 @@ returnMT a = MaybeT $ return (Just a)
 
 failMT :: (Monad m) => t -> MaybeT m a
 failMT _ = MaybeT $ return Nothing
- 
+
 instance (Monad m) => Monad (MaybeT m) where
   return  =  returnMT
   (>>=)   =  bindMT
@@ -39,7 +39,7 @@ b :: B Int
 b = problem
 
 
--- What do |runWriterT a| and |runWriter (runMaybeT b)| evaluate to?  
+-- What do |runWriterT a| and |runWriter (runMaybeT b)| evaluate to?
 -- Explain.
 
 testa = runWriterT a
@@ -48,7 +48,7 @@ testb = runWriter (runMaybeT b)
 -- For both tests, the call to return has no effect, because the call
 -- to fail makes the computation fail before it gets to return.
 
-{- 
+{-
 A a = WriterT [String] Maybe a ~= Maybe (a, [String])
 
 With this type, fail will give Nothing, and only is non-failing cases
@@ -57,8 +57,8 @@ will there be a [String] to present. (No good for logging!)
 testa == Nothing
 -}
 
-{- 
-type B a = MaybeT (Writer [String]) a ~= Writer [String] (Maybe a) 
+{-
+type B a = MaybeT (Writer [String]) a ~= Writer [String] (Maybe a)
         ~= (Maybe a, [String])
 
 With this type, there will always be a String as the second component
@@ -91,6 +91,6 @@ listenMT1 mma = do (ma, w) <- listen mma
                      Just a  -> Just (a, w)
 
 ----------------------------------------------------------------
-main = do 
+main = do
   print $ testa == Nothing
   print $ testb == (Nothing,["I fail"])

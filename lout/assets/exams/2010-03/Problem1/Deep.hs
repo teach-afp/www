@@ -73,4 +73,3 @@ toList (FromList xs)  =  xs
 toList (FromV v)      =  V.toList v
 toList (v :++ w)      =  toList v P.++ toList w
 
-

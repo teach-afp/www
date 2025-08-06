@@ -5,7 +5,7 @@ import qualified Prelude
 import Prelude hiding ((>>=),return)
 import Data.Monoid
 
--- a) 
+-- a)
 --   fmap return  :: Monad2 m => m a          -> m (m a)
 --   join         :: Monad2 m => m (m (m a))  -> m (m a)
 
@@ -16,7 +16,7 @@ units = [ join . return
         ]
 
 assoc :: Monad2 m => [m (m (m a)) -> m a]
-assoc = [ join . fmap join 
+assoc = [ join . fmap join
         , join . (join :: Monad2 m => m (m (m a)) -> m (m a))
         ]
 
@@ -31,7 +31,7 @@ instance Monoid w => Monad2 ((,) w) where
     join (w, (w', a))  = (w <> w'  , a)
 
 assocProof :: Monoid w => (w, (w, (w, a))) -> [(w, a)]
-assocProof (w1, (w2, (w3, a))) = 
+assocProof (w1, (w2, (w3, a))) =
     [ (join . fmap join) (w1, (w2, (w3, a)))
     , -- Def. |(.)|
       join   (fmap join  (w1, (w2, (w3, a))))
@@ -52,7 +52,7 @@ assocProof (w1, (w2, (w3, a))) =
     ]
 
 unitProof :: Monoid w => (w, a) -> [(w, a)]
-unitProof (w, a) = 
+unitProof (w, a) =
     [ (join . return) (w, a)
     , -- Def. |(.)|
       join (return (w, a))

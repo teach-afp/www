@@ -1,14 +1,14 @@
 module DSL.API where
 -- DSL: design embedded domain specific languages
 --     DSL.Concepts: (abstract) syntax, semantics, ...
---     DSL.Implement: implement EDSLs in Haskell (as combinator libraries) 
+--     DSL.Implement: implement EDSLs in Haskell (as combinator libraries)
 
 -- DSL: design an embedded domain specific language
 {-
 
 This assignment is about design and implementation of an embedded
 language for ``ASCII art''. The language should be compositional, that
-is, enable building complex images by combining simpler images. 
+is, enable building complex images by combining simpler images.
 Here is one example of what the language should be able to express (but
 you need not implement the rendering).
 
@@ -42,7 +42,7 @@ relative placement (above, beside, etc.).
 example :: Art
 example = b1 + space + frame (b2 / space / b3)
   where
-    b1 = frame (vertical (show 1738)) 
+    b1 = frame (vertical (show 1738))
     b2 = frame (horizontal "hi!")
     b3 = frame (horizontal "Patrik")
     space = horizontal "   "
@@ -62,7 +62,7 @@ horizontal  :: String -> Art
 
 -- Some run functions:
 -- render the ASCII Art as a String
-render :: Art -> String 
+render :: Art -> String
 -- compute size
 size :: Art -> (Int, Int)
 

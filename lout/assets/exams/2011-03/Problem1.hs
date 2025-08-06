@@ -1,6 +1,6 @@
 module Problem1 where
 import qualified Prelude as P
-import Prelude(Functor, (.), id, (++), Eq, (==), Bool(..), 
+import Prelude(Functor, (.), id, (++), Eq, (==), Bool(..),
                Show, showsPrec, shows)
 import Data.Monoid(Monoid, mempty, mappend)
 import Test.QuickCheck
@@ -48,7 +48,7 @@ Functor laws:
        fmap id == id
   fmap (f . g) == fmap f . fmap g
 
-Monoid laws:  
+Monoid laws:
   mappend mempty m == m
   mappend m mempty == m
   mappend (mappend m_1 m_2) m_3 == mappend m_1 (mappend m_2 m_3)
@@ -87,25 +87,25 @@ test_mon3 = quickCheck (prop_monoid_3  :: DList B -> DList B -> DList B -> Bool)
 
 instance Show a => Show (DList a) where -- not required on the exam
   showsPrec p xs = showsPrec p (toList xs)
-    
+
 instance (P.Bounded a, P.Enum a, Show a, Show b) => Show (a->b) where
   showsPrec p f = showsPrec p (P.map (\x-> (x,f x)) [P.minBound .. P.maxBound])
 
 instance Arbitrary a => Arbitrary (DList a) where
   arbitrary = P.fmap fromList arbitrary
 
-main = do 
-  test_id   
-  test_comp 
-  test_mon1 
+main = do
+  test_id
+  test_comp
+  test_mon1
   test_mon2
-  test_mon3 
+  test_mon3
 
 ----------------------------------------------------------------
 -- Problem 1 extras: attempting to "prove" some properties by equality
 -- reasoning. Not part of the exam question and unfinished.
 
-functor_law_1 =        
+functor_law_1 =
   [ map id
   , foldr (cons . id) empty
   , foldr cons empty
@@ -134,8 +134,8 @@ foldr_cons_empty_lemma_c x xs =
   ]
 
 -- P.foldr cons empty (toList xs) == xs
-lemma2 xs = 
+lemma2 xs =
   [ P.foldr cons empty (toList xs)
   , xs
-  ]  
+  ]
 

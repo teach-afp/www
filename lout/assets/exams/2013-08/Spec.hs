@@ -28,7 +28,7 @@ a >> b = a >>= const b
 
 type ProofSteps = [] -- Poor man's proofs (only type checked)
 proofSteps :: ProofSteps (Bag (Char, String))
-proofSteps = 
+proofSteps =
   [ sem (symbol >> symbol) "(h)"
   , -- def. of |>>|
     sem (symbol >>= const symbol) "(h)"
@@ -37,8 +37,8 @@ proofSteps =
   , -- sem.sym.1
     [('h', ")")]
   ]
-    
-    
+
+
 ----------------------------------------------------------------
 {-
 Lemma1: sem (symbol >>= f) (s:ss)  =  sem (f s) ss
@@ -48,7 +48,7 @@ Lemma2: sem (symbol >>= f) []      =  []
 
 
 stepsEmpty :: (s -> P s a) -> (s -> P s a) -> ProofSteps [(a, [s])]
-stepsEmpty f g = 
+stepsEmpty f g =
   [ sem ((symbol >>= f) +++ (symbol >>= g)) []
   , --  Spec. of sem (p +++ q)
     sem (symbol >>= f) []  \/  sem (symbol >>= g) []
@@ -61,16 +61,16 @@ stepsEmpty f g =
   ]
 
 stepsCons :: (s -> P s a) -> (s -> P s a) -> s -> [s] -> ProofSteps [(a, [s])]
-stepsCons f g s ss = 
-  [ sem ((symbol >>= f) +++ (symbol >>= g)) (s:ss)         
+stepsCons f g s ss =
+  [ sem ((symbol >>= f) +++ (symbol >>= g)) (s:ss)
   , --  sem.+++
     sem (symbol >>= f) (s:ss)  \/  sem (symbol >>= g) (s:ss)
   , --  Lemma1 twice
-    sem (f s) ss  \/  sem (g s) ss                            
+    sem (f s) ss  \/  sem (g s) ss
   , --  Spec. of sem (p +++ q) "backwards" }
-    sem (f s +++ g s) ss                                   
+    sem (f s +++ g s) ss
   , --  Eta expansion
-    sem ((\s -> f s +++ g s) s) ss                                   
+    sem ((\s -> f s +++ g s) s) ss
   , --  Lemma 1 "backwards"
     sem (symbol >>= (\s -> f s +++ g s)) (s:ss)
   ]

@@ -32,8 +32,8 @@ extOne :: Int -> String -> String
 extOne n xs = take n (xs ++ repeat ' ')
 
 besideSem :: Sem -> Sem -> Sem
-besideSem ((arows, acols), a) ((brows, bcols), b) = 
-    ((maxrows, acols + bcols), zipWith (++) (fillIn (maxrows, acols) a) 
+besideSem ((arows, acols), a) ((brows, bcols), b) =
+    ((maxrows, acols + bcols), zipWith (++) (fillIn (maxrows, acols) a)
                                             (fillIn (maxrows, bcols) b))
   where maxrows = max arows brows
 

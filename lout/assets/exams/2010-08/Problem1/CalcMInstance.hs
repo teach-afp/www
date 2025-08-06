@@ -5,14 +5,14 @@ import Problem1.Types
 newtype StateT s m a = StateT {runStateT :: s -> m (a, s)}
 type CalcM = StateT Mem (Either Err)
 
-instance Monad CalcM where return = returnM; (>>=)  = bindM; fail   = failM; 
+instance Monad CalcM where return = returnM; (>>=)  = bindM; fail   = failM;
 
 returnM :: a -> CalcM a
 returnM a = StateT (\s-> Right (a, s))
 
 bindM :: CalcM a -> (a -> CalcM b) -> CalcM b
 bindM mx f = StateT $ \s-> do -- for the (inner) error monad
-  (a, s') <- runStateT mx s 
+  (a, s') <- runStateT mx s
   runStateT (f a) s'
 
 failM :: String -> CalcM a

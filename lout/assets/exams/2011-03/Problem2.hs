@@ -21,8 +21,8 @@ par thread main: Evaluate thread in parallel, and immediately return main
 
 
 -- Problem 2b
--- From RWH Ch.28: 
-newtype Gold = Gold Int 
+-- From RWH Ch.28:
+newtype Gold = Gold Int
   deriving (Eq, Ord, Show, Num)
 type Balance = TVar Gold
 transfer :: Gold -> Balance -> Balance -> IO ()

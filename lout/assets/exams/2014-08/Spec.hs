@@ -4,9 +4,9 @@ import Data.List((\\), sort)
 -- Spec: use specification based development techniques
 --     Spec.Test: formulate and test properties about the program
 --     Spec.Prove: reason about correctness of functional programs
---     Spec.Trans: transform programs on the basis of reasoning 
+--     Spec.Trans: transform programs on the basis of reasoning
 
--- Below is an attempt at a QuickCheck test suite for |qsort :: Ord a => [a] -> [a]|. 
+-- Below is an attempt at a QuickCheck test suite for |qsort :: Ord a => [a] -> [a]|.
 
 qsort :: Ord a => [a] -> [a]
 qsort = sort
@@ -24,7 +24,7 @@ prop_permutationBad xs = permutation xs (qsort xs)
 -- Find and correct at least one bug per property in the test suite.
 {-
 quickCheck (prop_minimumBad :: [Int] -> Bool)
-*** Failed! Exception: 'Prelude.head: empty list' (after 1 test): 
+*** Failed! Exception: 'Prelude.head: empty list' (after 1 test):
 []
 -}
 

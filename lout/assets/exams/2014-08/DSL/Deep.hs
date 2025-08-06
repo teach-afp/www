@@ -18,7 +18,7 @@ data Deep where
   Empty  :: Art
   Space  :: ArtSize -> Art
   deriving (Eq, Show)
-  
+
 text = Text; frame = Frame; above = Above; beside  = Beside
 line = Line; empty = Empty; space = Space
 

@@ -2,7 +2,7 @@
 -- Types: read, understand and extend Haskell programs which use advanced type system features
 --     Types.Class: type classes, newtypes, deriving, ...
 --     Types.GADT: (generalised) algebraic datatypes & type families
---     Types.HOT: functors, monads and monad transformers 
+--     Types.HOT: functors, monads and monad transformers
 
 import Control.Monad (liftM2)
 
@@ -44,7 +44,7 @@ eval2 l Cons        = Just (:)
 eval2 l Replicate   = Just replicate
 eval2 l Length      = Just length
 
--- Changes: 
+-- Changes:
 -- * new constructor for Int-labelled variables
 -- * Monadic (to handle variable lookup failure)
 -- * eval2 has a new case for the variables

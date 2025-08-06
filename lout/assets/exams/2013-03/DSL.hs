@@ -49,7 +49,7 @@ eval lookup = ev
          ev (Cos e)     = liftM   cos     (ev e)
 
 
-{- Task 2 (c): Implement an algebraic simplification function 
+{- Task 2 (c): Implement an algebraic simplification function
 |simp :: Sym v -> Maybe (Sym v)| which handles the rules |0 * x == 0|,
 |sin pi == 0|, |log (exp x) == x| and which fails (with |Nothing|) on
 division by zero.  -}
@@ -89,7 +89,7 @@ testrule2    = simp (Sin Pi :: Sym Char)  == Just (Lit 0)
 testrule3 :: Sym Char -> Bool
 testrule3 x  = simp (Log (Exp x))  == simp x
 
-{- Task 2 (d):   
+{- Task 2 (d):
   Is there a reasonable |Monad| instance for |Sym|? If so, implement
   |return| and sketch |(>>=)|, otherwise explain why not.
 -}
@@ -99,7 +99,7 @@ testrule3 x  = simp (Log (Exp x))  == simp x
 instance Monad Sym where
   return  = Var
   (>>=)   = bindSym
-  
+
 bindSym :: Sym a -> (a -> Sym b) -> Sym b
 bindSym (Var v)     f  = f v
 bindSym (e1 :+ e2)  f  = (bindSym e1 f) :+ (bindSym e2 f)
@@ -110,9 +110,9 @@ bindSym (Lit i)     f  = Lit i
 -- Utilities (not part of exam question)
 instance Arbitrary v => Arbitrary (Sym v) where
   arbitrary  = sized (arbitrarySym arbitrary)
---  shrink     = shrinkSym shrink 
+--  shrink     = shrinkSym shrink
 
-arbitrarySym :: Gen v -> Int -> Gen (Sym v)  
+arbitrarySym :: Gen v -> Int -> Gen (Sym v)
 arbitrarySym g n | n <= 0     = oneof [liftM Var g, liftM Lit arbitrary, return Pi]
                  | otherwise  = oneof [unary, binary]
   where unary  = do  unop <- elements [Negate, Exp, Log, Sin, Cos]

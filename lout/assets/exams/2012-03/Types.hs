@@ -8,7 +8,7 @@ data Vec a n where
   Cons  :: a -> Vec a n -> Vec a (Suc n)
 
 type family    Add  m        n  :: *
-type instance  Add  Zero     n  =  n     
+type instance  Add  Zero     n  =  n
 type instance  Add  (Suc m)  n  =  Suc (Add m n)
 
 {- Task (a): Give the signature and implementation of |(++)| for
@@ -23,11 +23,11 @@ Cons x xs  +++  ys  =  Cons x (xs +++ ys)
 -- return type = Vec a (Add (Suc m) n) = Vec a (Suc (Add m n)) = type of the RHS
 
 {- Would it still type check with the alternative definition of
-type-level addition below?  Why/why not?  
+type-level addition below?  Why/why not?
 -}
 
 type family    Add'  m  n        :: *
-type instance  Add'  m  Zero     =  m     
+type instance  Add'  m  Zero     =  m
 type instance  Add'  m  (Suc n)  =  Suc (Add' m n)
 
 {- No, it would not type check. The case split in the function
@@ -41,7 +41,7 @@ family for type equality and a coerce function. -}
 data Fin n where
   Fzero :: Fin (Suc n)
   Fsuc  :: Fin n -> Fin (Suc n)
-  
+
 (!) :: Vec a n -> (Fin n -> a)
 Cons x xs  !  Fzero    =  x
 Cons x xs  !  (Fsuc i) =  xs ! i
@@ -52,7 +52,7 @@ Cons x xs  !  (Fsuc i) =  xs ! i
 ----
 
   The Curry-Howard correspondence provides a "Logic" reading of types:
-  
+
   Types             Logic
   p :: P            p is a proof of P
 
@@ -61,7 +61,7 @@ Cons x xs  !  (Fsuc i) =  xs ! i
   P -> Q            P implies Q
   (P, Q)            P and Q
   Either P Q        P or Q
-  
+
 -- Not asked for in the exam:
   (a :: A) -> P     ∀a:A. P       -- dependent function type
   (a :: A, P)       ∃a:A. P       -- dependent pair type
@@ -75,5 +75,5 @@ v1 = Cons 1 (Cons 7 Nil)
 v2 = Cons 3 (Cons 8 Nil)
 long = v1 +++ v2
 two = Fsuc (Fsuc Fzero)
-  
+
 main = print (long ! two == 3)
