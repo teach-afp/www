@@ -23,3 +23,6 @@ stack*.yaml.lock
 *.fdb_latexmk
 
 *.agdai
+
+# generated .cabal files
+/lout/assets/exams/2014-08/exam2014aug.cabal

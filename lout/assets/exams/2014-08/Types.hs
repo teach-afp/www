@@ -4,6 +4,8 @@
 --     Types.GADT: (generalised) algebraic datatypes & type families
 --     Types.HOT: functors, monads and monad transformers
 
+module Types where
+
 import Control.Monad (liftM2)
 
 data Expr t where
