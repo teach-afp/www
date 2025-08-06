@@ -2,6 +2,10 @@
 
 ### Exams by Andreas Abel
 
+* [June 2025](./assets/exams/2025-06.pdf)
+  ([with solutions](./assets/exams/2025-06-solved.pdf)):
+  _Probability monad with monad laws and example application_
+
 * [March 2025](./assets/exams/2025-03.pdf)
   ([with solutions and grading info](./assets/exams/2025-03-solved.pdf)):
   _EDSL for boxy layout | Monad for computation cost accounting_
