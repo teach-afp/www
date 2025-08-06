@@ -1,9 +1,10 @@
 /output/assets/
 /output/*.html
+/trash/
 
 *~
 \#*\#
-
+.DS_Store
 dist/
 dist-newstyle/
 *.o
