@@ -1,3 +1,5 @@
+module Spec where
+
 import Prelude hiding ((++), head)
 import qualified Data.List
 import Data.List((\\))

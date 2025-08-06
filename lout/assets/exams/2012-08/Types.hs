@@ -1,6 +1,6 @@
 module Types where
-import Control.Monad(mapM, liftM)
-import Test.QuickCheck
+import Control.Monad(mapM, liftM, ap)
+import Test.QuickCheck hiding ( (===) )
 
 newtype ListT m a = ListT { runListT :: m [a] }
 instance (Monad m) => Monad (ListT m) where
@@ -125,7 +125,13 @@ allEq (x:xs) = all (x==) xs
 
 -- the Blind modifier is not required on the exam
 test3 = quickCheck (\(Blind ma) (Blind mb) (Blind f) e ->
-                     allEq $ map ($e) $
+                     allEq $ map ($ e) $
                      commute_F (ma :: E->A) (mb :: E->B)
                                (f :: A -> B -> (E->C)))
 
+instance Monad m => Applicative (ListT m) where
+  (<*>) = ap
+  pure  = return
+
+instance Monad m => Functor (ListT m) where
+  fmap = liftM

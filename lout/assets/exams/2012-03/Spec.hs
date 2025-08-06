@@ -5,8 +5,9 @@
 module Spec where
 import qualified Control.Monad.State as CMS
 import Control.Monad.State (MonadState, get, put)
+import Control.Monad
 import Control.Applicative -- not required for the exam
-import Test.QuickCheck -- not needed for the exam question
+import Test.QuickCheck hiding (Fun) -- not needed for the exam question
 import qualified Test.QuickCheck.Property as QC
 import qualified Test.QuickCheck.Arbitrary as QC
 
@@ -370,3 +371,18 @@ test2 = do quickCheck (\s -> putput_proof (s :: Int))
            quickCheck (\s -> putget_proof (s :: Int))
 
 main = test1 >> test2
+
+
+instance Applicative (S2 s) where
+  (<*>) = ap
+  pure = return
+
+instance Functor (S2 s) where
+  fmap = liftM
+
+instance Applicative (S3 s) where
+  (<*>) = ap
+  pure = return
+
+instance Functor (S3 s) where
+  fmap = liftM

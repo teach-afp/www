@@ -1,0 +1,12 @@
+name: exam2013aug
+
+library:
+  source-dirs: .
+
+dependencies:
+- base
+- directory
+- filepath
+- mtl
+- random
+- QuickCheck

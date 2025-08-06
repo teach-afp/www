@@ -2,7 +2,7 @@
 {-# LANGUAGE GADTs #-}
 module DSL where
 import Data.Maybe (isJust)
-import Control.Monad(liftM, liftM2)
+import Control.Monad(liftM, liftM2, ap)
 import Test.QuickCheck
 
 {- The |Num|, |Fractional| and |Floating| classes in Haskell provide an
@@ -125,3 +125,10 @@ arbitrarySym g n | n <= 0     = oneof [liftM Var g, liftM Lit arbitrary, return 
 shrinkSym :: (v -> [v]) -> (Sym v -> [Sym v])
 shrinkSym shr = error "TBD"
 -}
+
+instance Applicative Sym where
+  (<*>) = ap
+  pure  = return
+
+instance Functor Sym where
+  fmap = liftM

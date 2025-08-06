@@ -1,7 +1,9 @@
 module DSL where
+import Prelude hiding ((<>))
 import Control.Monad
 import Control.Applicative (pure, (<$>), (<*>))
-import Data.Monoid
+import Data.Monoid hiding ((<>))
+import qualified Data.Semigroup
 import Data.List(sortBy, sort)
 import Test.QuickCheck -- not needed for the exam question
 
@@ -159,3 +161,6 @@ test3 = let d1 = Union Empty Empty
             rhs = prettys $ d1<>(d2<>d3)
         in (law3 semEq d1 d2 d3, lhs, rhs)
 
+
+instance Semigroup Doc where
+  -- (Data.Semigroup.<>) = mappend

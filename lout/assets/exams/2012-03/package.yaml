@@ -1,0 +1,14 @@
+name: exam2012mar
+
+library:
+  source-dirs: .
+
+dependencies:
+- base
+- mtl
+- QuickCheck
+
+ghc-options:
+- -Wno-missing-methods
+- -Wno-noncanonical-monad-instances
+- -Wno-noncanonical-monoid-instances
