@@ -3,7 +3,7 @@ import qualified Prelude as P
 import Prelude(Functor, (.), id, (++), Eq, (==), Bool(..),
                Show, showsPrec, shows)
 import Data.Monoid(Monoid, mempty, mappend)
-import Test.QuickCheck
+import Test.QuickCheck hiding ((===))
 
 -- Problem 1a)
 newtype DList a = DL { unDL :: [a] -> [a] }
@@ -139,3 +139,5 @@ lemma2 xs =
   , xs
   ]
 
+instance P.Semigroup (DList a) where
+  (<>) = mappend

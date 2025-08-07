@@ -4,6 +4,7 @@
 Formulate QuickCheck properties and generators to test the correctness
 of a sorting function |mysort :: [Weekday] -> [Weekday]|.
 -}
+module Spec where
 
 import Test.QuickCheck
 import Data.List((\\), sort)

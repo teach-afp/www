@@ -1,0 +1,14 @@
+name: exam2010mar
+
+library:
+  source-dirs: .
+
+dependencies:
+- base
+- mtl
+- QuickCheck
+
+ghc-options:
+- -Wno-noncanonical-monad-instances
+
+language: GHC2021

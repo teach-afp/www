@@ -9,24 +9,24 @@ module Problem3.Eval_expanded where
 -- Details:
 
   CMS.StateT s m a  ~=  s -> m (a, s)
-  CME.ErrorT e m a  ~=  m (Either e a)
+  CME.ExceptT e m a  ~=  m (Either e a)
   CMI.Identity a    ~=  a
 -}
 
 {-
-newtype Eval1 a = Eval1{ unEval1 :: CMS.StateT Store (CME.ErrorT Err CMI.Identity) a }
+newtype Eval1 a = Eval1{ unEval1 :: CMS.StateT Store (CME.ExceptT Err CMI.Identity) a }
 
    Eval1 a
-~= Store -> (CME.ErrorT Err CMI.Identity) (a, Store)
+~= Store -> (CME.ExceptT Err CMI.Identity) (a, Store)
 ~= Store -> CMI.Identity (Either Err (a, Store))
 ~= Store -> Either Err (a, Store)
 -}
 
 {-
-newtype Eval2 a = Eval2{ unEval2 :: CME.ErrorT Err (CMS.StateT Store CMI.Identity) a }
+newtype Eval2 a = Eval2{ unEval2 :: CME.ExceptT Err (CMS.StateT Store CMI.Identity) a }
 
    Eval2 a
-~= CME.ErrorT Err (CMS.StateT Store CMI.Identity) a
+~= CME.ExceptT Err (CMS.StateT Store CMI.Identity) a
 ~= (CMS.StateT Store CMI.Identity) (Either Err a)
 ~= Store -> CMI.Identity (Either Err a, Store)
 ~= Store -> (Either Err a, Store)

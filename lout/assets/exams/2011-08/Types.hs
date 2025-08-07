@@ -2,6 +2,7 @@
 {-# LANGUAGE MultiParamTypeClasses, FlexibleInstances,
              UndecidableInstances #-}
 module Types where
+import Control.Monad
 import Control.Monad.Writer
 -- Exam question:
 newtype MaybeT m a = MaybeT {runMaybeT :: m (Maybe a)}
@@ -20,9 +21,11 @@ failMT _ = MaybeT $ return Nothing
 instance (Monad m) => Monad (MaybeT m) where
   return  =  returnMT
   (>>=)   =  bindMT
+
+instance Monad m => MonadFail (MaybeT m) where
   fail    =  failMT
 
-problem :: MonadWriter [String] m => m Int
+problem :: (MonadFail m, MonadWriter [String] m) => m Int
 problem = do
   tell ["I fail"]
   fail "oops"
@@ -94,3 +97,11 @@ listenMT1 mma = do (ma, w) <- listen mma
 main = do
   print $ testa == Nothing
   print $ testb == (Nothing,["I fail"])
+
+
+instance Monad m => Applicative (MaybeT m) where
+  (<*>) = ap
+  pure  = return
+
+instance Monad m => Functor (MaybeT m) where
+  fmap = liftM

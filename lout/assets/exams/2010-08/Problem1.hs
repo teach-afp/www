@@ -2,7 +2,7 @@
 -- {-# LANGUAGE NoMonomorphismRestriction #-}
 module Problem1 where
 import qualified Control.Monad.State as CMS
-import qualified Control.Monad.Error as CME
+import qualified Control.Monad.Except as CME
 import Test.QuickCheck
 import Problem1.Types
 -- Problem1: a) Define Calc and eval
@@ -23,7 +23,7 @@ data UOp    = Inv | Neg   | M | MP  deriving (Eq, Show)
 data NullOp = MR | MC               deriving (Eq, Show)
 
 -- eval :: Calc -> CalcM Value
-eval :: (CMS.MonadState v m, Fractional v) => C v -> m v
+eval :: (MonadFail m, CMS.MonadState v m, Eq v, Fractional v) => C v -> m v
 eval (CBin op e1 e2) = do
   v1 <- eval e1
   v2 <- eval e2
@@ -40,12 +40,12 @@ eval (Num n)    = return n
 --  return (fromInteger n) was used before the generalisation
 
 -- evalBOp :: BOp -> Value -> Value -> CalcM Value
-evalBOp :: (Fractional v, Monad m) => BOp -> (v->v->m v)
+evalBOp :: (Eq v, Fractional v, Monad m, MonadFail m) => BOp -> (v -> v -> m v)
 evalBOp Div v1 0 = fail "DivZ"
 evalBOp op v1 v2 = return $ evalBOpPure op v1 v2
 
 -- evalBOpPure :: BOp -> Value -> Value -> Value
-evalBOpPure :: Fractional v => BOp -> (v->v->v)
+evalBOpPure :: Fractional v => BOp -> (v -> v ->v)
 evalBOpPure Div = (/)
 evalBOpPure Mul = (*)
 evalBOpPure Add = (+)
@@ -53,7 +53,7 @@ evalBOpPure Sub = (-)
 
 ----------------
 -- evalUOp :: UOp -> v -> CM v v
-evalUOp :: (Fractional v, CMS.MonadState v m) => UOp -> (v->m v)
+evalUOp :: (Eq v, Fractional v, MonadFail m, CMS.MonadState v m) => UOp -> (v -> m v)
 evalUOp Inv 0 = fail "InvZ"
 evalUOp M   v = do
   putMem v
@@ -90,7 +90,7 @@ putMem m = do
 ----------------------------------------------------------------
 -- Problem1 b) Define CalcM + MonadState operations
 
--- Alt. b1) Use imported Control.Monad.State and Control.Monad.Error:
+-- Alt. b1) Use imported Control.Monad.State and Control.Monad.Except:
 type CM v = CMS.StateT v (Either Err)
 type CalcM = CMS.StateT Mem (Either Err)
 -- All instances are automatic in this alternative

@@ -1,5 +1,7 @@
 {-# LANGUAGE GADTs #-}
-module Problem2 where
+module Problem3 where
+
+import Prelude hiding (mconcat)
 import Control.Monad
 import Test.QuickCheck
 
@@ -164,4 +166,3 @@ test7 xs = parseTimes3 p q xs == (parseTimes p q xs :: Maybe (Char, Char))
 
 test8 xs = parseStar p xs == (parseStar3 p xs :: Maybe String)
   where p = Check ('o'<)
-

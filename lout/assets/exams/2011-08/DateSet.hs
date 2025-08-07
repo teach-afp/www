@@ -1,3 +1,5 @@
+module DateSet where
+
 -- First some interface code (not part of the exam solution)
 import qualified Data.Time.Calendar as DTC
 import qualified Data.Time.Calendar.OrdinalDate as DTCO
@@ -17,7 +19,9 @@ yearday  :: Date -> Yearday
 yearday = snd . DTCO.toOrdinalDate
 
 readD :: String -> Date
-readD = DTF.readTime SL.defaultTimeLocale "%Y-%m-%d"
+readD s =
+  case DTF.readSTime False DTF.defaultTimeLocale "%Y-%m-%d" s of
+    [(d, "")] -> d
 
 showD :: Date -> String
 showD = DTC.showGregorian

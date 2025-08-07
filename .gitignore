@@ -26,9 +26,4 @@ stack*.yaml.lock
 *.agdai
 
 # generated .cabal files
-/lout/assets/exams/2012-03/exam2012mar.cabal
-/lout/assets/exams/2012-08/exam2012aug.cabal
-/lout/assets/exams/2013-03/exam2013mar.cabal
-/lout/assets/exams/2013-08/exam2013aug.cabal
-/lout/assets/exams/2014-03/exam2014mar.cabal
-/lout/assets/exams/2014-08/exam2014aug.cabal
+/lout/assets/exams/20*/exam20*.cabal

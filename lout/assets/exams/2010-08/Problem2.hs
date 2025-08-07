@@ -1,7 +1,7 @@
 {-# LANGUAGE GADTs, ExistentialQuantification #-}
-module Typed where
+module Problem2 where
 import qualified Expr as E
-import Maybe (fromJust)
+import Data.Maybe (fromJust)
 
 data Expr t where
   Lit   :: (Eq t, Show t) => t                     -> Expr t
@@ -65,7 +65,7 @@ check r t = do
   return e
 
 test1R = read "1+2 == 3"
-test1  = Maybe.fromJust (infer test1R)
+test1  = fromJust (infer test1R)
 
 infixl 6 :+
 infix  4 :==

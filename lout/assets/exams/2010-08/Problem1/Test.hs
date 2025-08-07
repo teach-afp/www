@@ -1,19 +1,20 @@
 module Problem1.Test where
+import Control.Monad
 import qualified Control.Monad.State as CMS(StateT, runStateT)
-import qualified Control.Monad.Error as CME()
+import qualified Control.Monad.Except as CME()
 import Problem1.Types(Err, Value)
 import Problem1 -- (C(..), BOp(..), UOp(..), NullOp(..), eval)
 
 ----------------------------------------------------------------
 -- Testing code:
 -- run' ::                  CalcM Value -> Either Err Value
-run' :: (Num s, Monad m) => CMS.StateT s m v -> m v
+run' :: (Num s, Monad m, MonadFail m) => CMS.StateT s m v -> m v
 run' mv = do
   (result, mem) <- CMS.runStateT mv 0
   return result
 
 -- run ::                        Calc -> Either Err Value
-run :: (Fractional v, Monad m) => C v -> m v
+run :: (Eq v, Fractional v, Monad m, MonadFail m) => C v -> m v
 run = run' . eval
 
 ----------------------------------------------------------------
@@ -21,6 +22,8 @@ run = run' . eval
 instance Monad C where
   return = returnC
   (>>=)  = bindC
+
+instance MonadFail C where
   fail   = failC
 
 returnC :: a -> C a
@@ -62,18 +65,17 @@ e3 :: Fractional v => C v
 e3 = e2/mr
 
 -- test1, test2, test3 :: Either Err Value
-test1, test2, test3 :: (Fractional v, Monad m) => m v
+test1, test2, test3 :: (Eq v, Fractional v, Monad m, MonadFail m) => m v
 test1 = run e1
 test2 = run e2
 test3 = run e3
 
 
-prop_sanity :: Fractional v => C v -> Bool
+prop_sanity :: (Eq v, Fractional v) => C v -> Bool
 prop_sanity e = run (m e / mr) == (Right 1 :: Num v => Either Err v)
 
 main :: IO ()
 main = print ([test1, test2, test3, run (1/0)] :: [Either Err Value])
-
 
 ----------------------------------------------------------------
 -- Left-overs
@@ -86,3 +88,13 @@ data Calc = CBin BOp Calc Calc
   deriving (Eq, Show)
 -}
 -- data Button = BDig Char | BBin BOp | BUn UOp | BNull NullOp    deriving (Eq, Show)
+
+instance Applicative C where
+  (<*>) = ap
+  pure = return
+
+instance Functor C where
+  fmap = liftM
+
+instance MonadFail (Either String) where
+  fail = Left

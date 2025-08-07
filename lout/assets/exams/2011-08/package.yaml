@@ -1,0 +1,14 @@
+name: exam2011aug
+
+library:
+  source-dirs: .
+
+dependencies:
+- base
+- mtl
+- old-locale
+- time
+- QuickCheck
+
+ghc-options:
+- -Wno-noncanonical-monad-instances

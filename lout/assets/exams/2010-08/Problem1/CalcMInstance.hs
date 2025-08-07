@@ -1,11 +1,13 @@
 {-# LANGUAGE TypeSynonymInstances, MultiParamTypeClasses #-}
 module Problem1.CalcMInstance where
+import Control.Monad
 import qualified Control.Monad.State as CMS (MonadState, get, put)
 import Problem1.Types
 newtype StateT s m a = StateT {runStateT :: s -> m (a, s)}
 type CalcM = StateT Mem (Either Err)
 
-instance Monad CalcM where return = returnM; (>>=)  = bindM; fail   = failM;
+instance Monad CalcM where return = returnM; (>>=) = bindM
+instance MonadFail CalcM where fail = failM
 
 returnM :: a -> CalcM a
 returnM a = StateT (\s-> Right (a, s))
@@ -25,3 +27,14 @@ getM = StateT $ \s-> return (s, s)
 
 putM :: Mem -> CalcM ()
 putM m = StateT $ \s -> return ((), m)
+
+
+instance Applicative CalcM where
+  (<*>) = ap
+  pure = return
+
+instance Functor CalcM where
+  fmap = liftM
+
+instance MonadFail (Either Err) where
+  fail err = Left err

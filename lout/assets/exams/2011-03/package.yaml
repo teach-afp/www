@@ -1,0 +1,12 @@
+name: exam2011mar
+
+library:
+  source-dirs: .
+
+dependencies:
+- base
+- stm
+- QuickCheck
+
+ghc-options:
+- -Wno-noncanonical-monad-instances
