@@ -34,19 +34,19 @@
 
 * [March 2018](./assets/exams/2018-03.pdf)
   ([with solutions](./assets/exams/2018-03-solved.pdf)):
-  _Eta | State monad laws | `eval` Hutton's razor | type-level Nat_
+  _Eta | State monad laws | `eval` Hutton's razor | Type-level `Nat`_
 
 * [August 2017](./assets/exams/2017-08.pdf)
   ([with solutions](./assets/exams/2017-08-solved.pdf)):
-  _Phantom types | functors | misc (alt. `Monad`; not `Functor`; not `Applicative`)_
+  _Phantom types | Functors | Misc (alt. `Monad`; not `Functor`; not `Applicative`)_
 
 * [March 2017](./assets/exams/2017-03.pdf)
   ([with solutions](./assets/exams/2017-03-solved.pdf)):
-  _`Applicative` | indexed `Exp`, `Serialised` | `MAC`_
+  _`Applicative` | Indexed `Exp`, `Serialised` | `MAC`_
 
 * [March 2016](./assets/exams/2016-03.pdf)
   ([with solutions](./assets/exams/2016-03-solved.pdf)):
-  _`Functor` leaf-labelled tree | alt. `Monad` | `MAC`_
+  _`Functor` leaf-labelled tree | Alt. `Monad` | `MAC`_
 
 ### Exams by Patrik Jansson
 
@@ -62,7 +62,7 @@
 
 * [August 2013](./assets/exams/2013-08/2013-08.pdf)
   ([solutions](./assets/exams/2013-08/)):
-  _DSL: QuickCheck's `Gen` | Understand `WriterT IO` directory listing | prove parser laws_
+  _DSL: QuickCheck's `Gen` | Understand `WriterT IO` directory listing | Parser laws_
 
 * [March 2013](./assets/exams/2013-03/2013-03.pdf)
   ([solutions](./assets/exams/2013-03/)):
@@ -70,24 +70,39 @@
 
 * [August 2012](./assets/exams/2012-08/2012-08.pdf)
   ([solutions](./assets/exams/2012-08/)):
-  _DSL for shapes | Functor for +, ×, → | `ListT` monad transformer_
+  _DSL for shapes | `Functor` for +, ×, → | `ListT` monad transformer_
 
 * [March 2012](./assets/exams/2012-03/2012-03.pdf)
   ([solutions](./assets/exams/2012-03/)):
   _DSL for state monad | DSL for pretty printer | `Vec` and `Fin` with type-level nats_
 
 * [August 2011](./assets/exams/2011-08/2011-08.pdf)
-  ([solutions](./assets/exams/2011-08/))
+  ([solutions](./assets/exams/2011-08/)):
+  _QuickCheck `sort`, list induction | DSL for date sets | Understand `MaybeT Writer`_
+
 * [March 2011](./assets/exams/2011-03/2011-03.pdf)
-  ([solutions](./assets/exams/2011-03/))
+  ([solutions](./assets/exams/2011-03/)):
+  _Difference lists w/ laws | Parallelism | Parser DSL embedded as GADT_
+
 * [August 2010](./assets/exams/2010-08/2010-08.pdf)
-  ([solutions](./assets/exams/2010-08/))
+  ([solutions](./assets/exams/2010-08/)):
+  _DSL and monad for 1-cell calculator | Extending typed expression language: `eval`, `infer`_
+
 * [March 2010](./assets/exams/2010-03/2010-03.pdf)
-  ([solutions](./assets/exams/2010-03/))
+  ([solutions](./assets/exams/2010-03/)):
+  _DSL for `Vector` (finite lists) | `Monad` product | `ExceptT` + `StateT` (2 ways)_
+
+### Exams by Ulf Norell
+
 * [March 2009](./assets/exams/2009-03/2009-03.pdf)
-  ([solutions](./assets/exams/2009-03/))
+  ([solutions](./assets/exams/2009-03/)):
+  _DSL for ant in maze | `Writer` monad | Well-typed expressions: infer `Var`, `Let` | eval `App` (higher types) | locking using `stm`_
+
+### A take-home exam
+
 * [March 2008](./assets/exams/2008-08/2008-08.pdf)
-  ([solutions](./assets/exams/2008-08/))
+  ([solutions](./assets/exams/2008-08/))"
+  _`GameMonad` counting lives | `Doc` DSL for pretty printing_
 
 ## More exams?
 
