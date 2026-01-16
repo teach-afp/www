@@ -184,43 +184,11 @@ languages](https://www.student.chalmers.se/sp/course?course_id=20875).
 
 # Grading
 
-## Assignments
-
-Laborations are graded with 3,4, and 5.  Once you finish all the labs, you will
-get the following temporary grade:
-
-```
-tmp = (3*grade lab 1  + 5*grade lab 2 + 4*grade lab 3)/12
-```
-
-Above, the 3,5, and 4 coefficients are the weights of the labs based on their
-difficulty.
-
-To fix some round errors, the final score of the lab is:
-
-```
-grade_labs = (tmp - 3) * 1,4999 + 2.5
-```
-
-## Exam
-
-The exam is graded as 3,4, and 5.
-
-## Final grade
-
-The final grade for the course is composed of 60% for the lab's score and 40% for
-the exam's score.
-
-```
-total_grade = 0.6 * grade_labs + 0.4 * grade_exam
-```
-
-Where the `total_grade` then gets rounded generously, meaning, 4.5 -> 5.
-
-If you are a Chalmers student, then you get the score `total_grade` as the grade
-for the whole course.
-
-GU students get G if `total_grade` is 3 or 4 and VG if it is 5.
+You have to pass all 3 labs and the exam.
+Labs and exam are graded as 3, 4, and 5.
+The lab grade is the average of the individual grades for the 3 labs.
+The labs contribute 60% to the final grade and the exam contributes 40% to the final grade.
+The Chalmers grades are translated into the GU scheme in the usual way.
 
 ## Course Syllabus
 
