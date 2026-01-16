@@ -21,7 +21,7 @@
 ## Getting help ##
 1. Course homepage
    - It should be comprehensive -- complain if it is not!
-2. [Discussion board](https://chalmers.instructure.com/courses/33398/discussion_topics)
+2. [Discussion board](https://chalmers.instructure.com/courses/38367/discussion_topics)
    - Discuss general topics, find lab partner, etc.
    - **Don't post (partial or complete) lab solutions**
 3. Office hours

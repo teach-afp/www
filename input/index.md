@@ -16,28 +16,33 @@
 # Welcome
 
   * Web page for Advanced Functional Programming (TDA342/DIT260)
-  * Period 3 school year 2024-2025.
+  * Period 3 school year 2025-2026.
+  * [Syllabus](https://www.chalmers.se/en/education/your-studies/find-course-and-programme-syllabi/course-syllabus/TDA342)
+    [Kursplan](https://www.chalmers.se/utbildning/dina-studier/hitta-kurs-och-programplaner/kursplaner/TDA342)
+  * [Canvas](https://chalmers.instructure.com/courses/38367)
 
-# Schedule 2025
+# Schedule 2026
 
 |     |    |     | Event                        |
 |-----|----|-----|------------------------------|
-| Mon | 20 | Jan | [Lecture 01](lecture1.html)  |
-| Thu | 23 | Jan | [Lecture 02](lecture2.html)  |
-| Mon | 27 | Jan | [Lecture 03](lecture3.html)  |
-| Thu | 30 | Jan | [Lecture 04](lecture4.html)  |
-| Mon | 03 | Feb | [Lecture 05](lecture5.html)  |
-| Thu | 06 | Feb | [Lecture 06](lecture6.html)  |
-| Mon | 10 | Feb | [Lecture 07](lecture7.html)  |
-| Thu | 13 | Feb | [Lecture 08](lecture8.html)  |
-| Mon | 17 | Feb | [Lecture 09](lecture9.html)  |
-| Thu | 20 | Feb | [Lecture 10](lecture10.html) |
-| Mon | 24 | Feb | [Lecture 11](lecture11.html) |
-| Thu | 27 | Feb | [Lecture 12](lecture12.html) |
-| Mon | 03 | Mar | [Lecture 13](lecture-packaging.html) |
-| Thu | 06 | Mar | [Lecture 14](lecture-packaging.html) |
-| Mon | 10 | Mar | Lecture 15: Lab 3 supervision session |
-| Thu | 13 | Mar | Lecture 16: Exam preparation |
+| Mon | 19 | Jan | [Lecture 01](lecture1.html)  |
+| Thu | 22 | Jan | [Lecture 02](lecture2.html)  |
+| Mon | 26 | Jan | [Lecture 03](lecture3.html)  |
+| Thu | 29 | Jan | [Lecture 04](lecture4.html)  |
+| Mon | 02 | Feb | [Lecture 05](lecture5.html)  |
+| Thu | 05 | Feb | [Lecture 06](lecture6.html)  |
+| Mon | 09 | Feb | [Lecture 07](lecture7.html)  |
+| Thu | 12 | Feb | [Lecture 08](lecture8.html)  |
+| Mon | 16 | Feb | [Lecture 09](lecture9.html)  |
+| Thu | 19 | Feb | [Lecture 10](lecture10.html) |
+| Mon | 23 | Feb | [Lecture 11](lecture11.html) |
+| Thu | 26 | Feb | [Lecture 12](lecture12.html) |
+| Mon | 02 | Mar | [Lecture 13](lecture-packaging.html) |
+| Thu | 05 | Mar | [Lecture 14](lecture-packaging.html) |
+| Mon | 09 | Mar | Lecture 15: Lab 3 supervision session |
+| Thu | 12 | Mar | Lecture 16: Exam preparation |
+
+
 
 <!--
 # News

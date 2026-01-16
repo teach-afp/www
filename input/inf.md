@@ -43,7 +43,7 @@ For exercises, lab supervision and grading:
 
 <div class="embed-responsive embed-responsive-16by9">
   <iframe class="embed-responsive-item"
-         src="https://cloud.timeedit.net/chalmers/web/public/ri167XQQ609Z50Qv17043gZ6y6Y7709Q5Y67Y5.html"
+         src="https://cloud.timeedit.net/chalmers/web/public/ri10715Q055Z77Q66065Y770yZ0Q6W9761565Q0.html"
          style="border: 0" width="800" height="600" frameborder="0"
          scrolling="yes">
 </iframe>
@@ -51,15 +51,9 @@ For exercises, lab supervision and grading:
 
 ---
 
-## Course Representatives
-
-* TBA
-
----
-
 ## Discussion Group
 
-We use [Canvas Discussions](https://chalmers.instructure.com/courses/33398/discussion_topics).
+We use [Canvas Discussions](https://chalmers.instructure.com/courses/38367/discussion_topics).
 
 ---
 
@@ -230,6 +224,6 @@ GU students get G if `total_grade` is 3 or 4 and VG if it is 5.
 
 ## Course Syllabus
 
-[For GU students](https://kursplaner.gu.se/english/dit260.pdf)
+[For GU students](https://kursplaner.gu.se/pdf/kurs/en/DIT260.pdf) ([på Svenska](https://kursplaner.gu.se/pdf/kurs/sv/DIT260.pdf))
 
-[For Chalmers students](https://www.student.chalmers.se/sp/course?course_id=25054)
+[For Chalmers students](https://www.student.chalmers.se/sp/course?course_id=40963)
