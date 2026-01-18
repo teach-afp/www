@@ -9,7 +9,7 @@
   - Haskell
   - Agda
 * Applications
-  - Signals processing, graphics, web programming, security
+  - Signals processing, graphics, web programming
   - Domain Specific Languages
 
 ## Self study ##
@@ -32,8 +32,10 @@
 
 ## Organization ##
 * **2** Lectures per week
+<!--
   - Including a few guest lectures
   - Two exercise sessions (we solve, for example, previous exams)
+  -->
 * **3** Programming assignments (labs)
   - Done in pairs (use the discussion groups to pair up)
   - No scheduled lab supervision (use the office hours instead!)
@@ -157,7 +159,7 @@
   - [ ] Java
   - [ ] Python
 
-* What is it?
+* What is referential transparency?
   "...An expression may contain certain 'names' which stand for unknown
   quantities, but it is normal in mathematical notation to presume that
   different occurrences of the same name refer to the same unknown
