@@ -55,7 +55,7 @@
   - Type classes
   - Type families
   - etc.
-* Quiz [menti.com 8725 3240](https://www.menti.com/aloyjb5u3jgo):
+* Quiz [menti.com 4490 5431](https://www.menti.com/aloyjb5u3jgo):
   What is the result of [ensurePrime 4](https://github.com/teach-afp/afp-code/blob/master/L1/QuizPrimeCheck.hs)?
   1. `error "not prime"`
   2. `4`
@@ -153,7 +153,7 @@
 
 ## Referential transparency ##
 
-* Quiz [menti.com 8725 3240](https://www.menti.com/aloyjb5u3jgo):
+* Quiz [menti.com 4490 5431](https://www.menti.com/aloyjb5u3jgo):
   In which languages (if any) does the distributive law `(x + y) * f() = x * f() + y * f()`  hold?
   - [ ] Haskell
   - [ ] Java
