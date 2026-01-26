@@ -588,6 +588,10 @@ testBar = bar 1 2 + bar 3 4
 </tr>
 </table>
 
+Further reading:
+- Lennard Augustson's post [More points for lazy evaluation](https://augustss.blogspot.com/2011/05/more-points-for-lazy-evaluation-in.html)
+  (in response to Robert Harper's post [*The point of laziness*](https://existentialtype.wordpress.com/2011/04/24/the-real-point-of-laziness/)).
+
 ## Type classes ##
 
 [code](https://github.com/teach-afp/afp-code/blob/master/L1/TypeClasses.hs)
