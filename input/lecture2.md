@@ -249,7 +249,7 @@ Let us get into a specific first in order to create a EDSL in Haskell.
        src="./assets/img/translateshape.png">
   </div>
 
-  Observe that if a picture is moved `n` units to the left, then the
+  Observe that if a picture is moved `n` units to the right, then the
   characteristic functions should be applied to `x - n` instead.
 
   ```haskell
