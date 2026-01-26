@@ -589,7 +589,7 @@ Let us get into a specific first in order to create a EDSL in Haskell.
   always_square :: Signal Shape
   always_square = mapT to_zero square_disc
   ```
-* Exercise: write `mapS` as a derived operation!
+* Exercise: write `mapS` as a derived operation, and express `signal` in terms of `mapS` and `timeS`!
 
 ## Implementation: shallow embedding
 
