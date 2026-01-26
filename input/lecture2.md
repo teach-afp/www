@@ -530,15 +530,15 @@ Let us get into a specific first in order to create a EDSL in Haskell.
   - A function for intermittently displaying two shapes:
     ```haskell
     -- | It displays a shape on "odd times" and another one in "even times".
-    change :: Shape -> Shape -> Time -> Shape
-    change sh1 sh2 t
+    alternate :: Shape -> Shape -> Time -> Shape
+    alternate sh1 sh2 t
       | odd (floor t) = sh1
       | otherwise     = sh2
     ```
 
 * Convert them into signals:
     ```haskell
-    constS (change disc square) :: Signal (Time -> Shape)
+    constS (alternate disc square) :: Signal (Time -> Shape)
     ```
 
     <div class="container">
@@ -551,7 +551,7 @@ Let us get into a specific first in order to create a EDSL in Haskell.
     `timeS`!
 
     ```haskell
-    square_disc = constS (change disc square) `applyS` timeS
+    square_disc = constS (alternate disc square) `applyS` timeS
     ```
 
     <div class="container">
@@ -564,7 +564,7 @@ Let us get into a specific first in order to create a EDSL in Haskell.
   signal :: (Time -> a) -> Signal a
   signal f = constS f `applyS` timeS
 
-  square_disc = signal (change disc square)
+  square_disc = signal (alternate disc square)
   ```
 
 
