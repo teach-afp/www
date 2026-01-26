@@ -100,18 +100,19 @@ In Advanced Functional Programming, First International Spring School on Advance
   data L a = L a [String]
 
   interpL :: Expr -> L Int
-  interpL (Con i)      = L i ["-- Hit Con --"]
-  interpL (Div e1 e2)  =
-    L (i1 `div` i2) $ concat
-      [ [ "-- Hit a Div --" ]
-      , [ "** Left recursive call **" ]
-      , msgs1
-      , [ "** Right recursive call **" ]
-      , msgs2
-      ]
-  where
-    L i1 msgs1 = interpL e1
-    L i2 msgs2 = interpL e2
+  interpL (Con i)     = L i ["-- Hit Con --"]
+  interpL (Div e1 e2) =
+    case interpL e1 of
+      L i1 msgs1 ->
+        case interpL e2 of
+          L i2 msgs2 ->
+            L (i1 `div` i2) $ concat
+              [ [ "-- Hit a Div --" ]
+              , [ "** Left recursive call **" ]
+              , msgs1
+              , [ "** Right recursive call **" ]
+              , msgs2
+              ]
   ```
 
 * Basically, the results of **every recursive call*** needs to be inspected to
@@ -120,13 +121,12 @@ In Advanced Functional Programming, First International Spring School on Advance
 * One possible *run* function:
   ```haskell
   runL :: Expr -> IO ()
-  runL e = do
+  runL e = case interpL e of
+    L i msgs -> do
       putStr "The result is: "
       putStrLn $ show i
       putStrLn "Log:"
       mapM_ putStrLn msgs
-    where
-      L i msgs = interpL e
   ```
 
 ## Side-effects & pure functional programming
@@ -164,10 +164,11 @@ In Advanced Functional Programming, First International Spring School on Advance
 
 * How can they be so general?
    <div class="alert alert-danger">
-    Monads control the order of evaluation.
+    Monads define sequencing (`;` in many imperative languages).
    </div>
-   Roughly speaking, the trick is how sequencing `;` is defined!
    Different definitions for `;` allow to handle different side-effects.
+   In that, monads also control the order of evaluation.
+
 
 ## Construction of programs
 
