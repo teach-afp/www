@@ -392,7 +392,6 @@ Let us get into a specific first in order to create a EDSL in Haskell.
    p  `inside` Square            = maxNorm  p <= 1
    p  `inside` Translate v sh    = (p `sub` v) `inside` sh
    p  `inside` Transform m sh    = (inv m `mul` p) `inside` sh
-   p  `inside` Union sh1 sh2     = p `inside` sh1 || p `inside` sh2
    p  `inside` Intersect sh1 sh2 = p `inside` sh1 && p `inside` sh2
    p  `inside` Invert sh         = not (p `inside` sh)
 
@@ -433,7 +432,7 @@ Let us get into a specific first in order to create a EDSL in Haskell.
   , empty, disc, square
     -- * Primitive combinators
   , transform, translate
-  , union, intersect, invert
+  , intersect, invert
     -- * Run functions
   , inside
   )
