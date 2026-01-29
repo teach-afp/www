@@ -89,7 +89,9 @@
   echo :: Program ()
   echo = getC >>= \case
     Nothing -> return ()
-    Just c  -> putC c
+    Just c  -> do
+      putC c
+      echo
   ```
 
   To run it, we need to give it an input
@@ -110,7 +112,7 @@
 * It is often good to move away a bit from the pure deep embedding towards some
   kind of "normal form" ("optimized", "elemental" embedding).
 
-* We want to remove the `Bind` operator.
+* We want to remove the `Bind` constructor in favor of a `>>=` operator.
   (This, done correctly, will turn `Program` into a lawful monad.)
   How are we going to write sequential actions then?
 
@@ -536,15 +538,15 @@
 * What happens if function `f` has even more arguments?
   E.g. arity three:
 
-   ```haskell
-   fmap3 :: (a -> b -> c -> d) -> Maybe a -> Maybe b -> Maybe c -> Maybe d
-   fmap3 f ma mb mc =
-     case fmap f ma of
-       Nothing -> Nothing
-       Just fa -> case fmap fa mb of
-          Nothing  -> Nothing
-          Just fab -> fmap fab mc
-   ```
+  ```haskell
+  fmap3 :: (a -> b -> c -> d) -> Maybe a -> Maybe b -> Maybe c -> Maybe d
+  fmap3 f ma mb mc =
+    case fmap f ma of
+      Nothing -> Nothing
+      Just fa -> case fmap fa mb of
+         Nothing  -> Nothing
+         Just fab -> fmap fab mc
+  ```
 
   To solve this for all arities, we need code to extract partial application of
   functions out from containers, applied them, and wrap the result in another
@@ -618,7 +620,7 @@
 
   <td>
   ```haskell
-  pure (.) <&#42;> ff <&#42;> gg <&#42;> zz ≡ ff <&#42;> (gg <&#42;> zz)
+  pure (.) <&#42;> ff <&#42;> gg <&#42;> vv ≡ ff <&#42;> (gg <&#42;> vv)
   ```
   </td>
   </tr>
