@@ -380,10 +380,22 @@
 
   We replaced `Identity` by `IO`.
 
+* There is no (safe) run function for the `IO` monad (there is `unsafePerformIO`),
+  so we just remove `runIdentity` from our `runEval` function.
+
+  ```haskell
+    runEval :: Eval a -> IO (Either Err a)
+    runEval m = m
+      & unEval
+      & (`evalStateT` emptyStore)
+      & (`runReaderT` emptyEnv)
+      & runExceptT
+  ```
+
 * The type `Eval a` is isomorphic to:
 
   ```haskell
-    s -> r -> Either Err (IO (a, s))
+    s -> r -> IO (Either Err (a, s))
   ```
 
   This indicates that the except (error) monad still rolls back the effects on
