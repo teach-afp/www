@@ -10,10 +10,10 @@
 * A parser can be modeled as a *function* of, for instance, the following type
 
   ```haskell
-  type Parser a = String -> (a, String)
+  type Parser a = String -> Maybe (a, String)
   ```
 
-  A parser takes an string to parse, parses the string, and as a result returns
+  A parser takes an string to parse, parses the string, and, if successful, returns
   a structure of type `a` and the *unconsumed* suffix of the input string.
 
   <div class="alert alert-info">
@@ -24,7 +24,7 @@
 
 ## Monadic parsers
 
-* Monadic parsers are powerful enough to describe *context-sensitive* grammars
+* Monadic parsers are powerful enough to describe *context-sensitive* grammars.
 
   <div class="alert alert-info">
   The grammar itself can depend on the input!
@@ -54,7 +54,7 @@
   - Weaker notion of sequencing than monads ([Arrows by John
     Hughes](http://www.cse.chalmers.se/~rjmh/afp-arrows.pdf))
 
-    * It only supports context-free grammars
+    * It only supports context-free grammars.
 
   - Special designed choice combinators: *asymmetric choice* where the right
     hand-side parser only runs if the left hand-side fails; *deterministic
@@ -115,7 +115,7 @@
   things right!
 
   <div class="alert alert-info">
-  This is the **domain knowledge**, which we will use later to gain
+  This is the <b>domain knowledge</b>, which we will use later to gain
   performance!
   </div>
 
@@ -130,7 +130,7 @@
       </thead>
 
       <tr>
-      <td> **L1** (Left Identity): </td>
+      <td> <b>L1</b> (Left Identity): </td>
       <td>
       ```haskell
       return a >>= f ≡ f a
@@ -139,7 +139,7 @@
       </tr>
 
       <tr>
-      <td> **L2** (Right Identity): </td>
+      <td> <b>L2</b> (Right Identity): </td>
 
       <td>
       ```haskell
@@ -149,7 +149,7 @@
       </tr>
 
       <tr>
-      <td> **L3** (Associativity): </td>
+      <td> <b>L3</b> (Associativity): </td>
 
       <td>
       ```haskell
@@ -170,7 +170,7 @@
       </thead>
 
       <tr>
-      <td> **L4**: </td>
+      <td> <b>L4</b>: </td>
       <td>
       ```haskell
       fail >>= f ≡ fail
@@ -179,7 +179,7 @@
       </tr>
 
       <tr>
-      <td> **L5**: </td>
+      <td> <b>L5</b>: </td>
 
       <td>
       ```haskell
@@ -199,7 +199,7 @@
         </tr>
       </thead>
       <tr>
-      <td> **L6** (Left unit): </td>
+      <td> <b>L6</b> (Left unit): </td>
       <td>
       ```haskell
       fail +++ q ≡ q
@@ -207,7 +207,7 @@
       </td>
       </tr>
       <tr>
-      <td> **L7** (Right unit): </td>
+      <td> <b>L7</b> (Right unit): </td>
       <td>
       ```haskell
       p +++ fail  ≡ p
@@ -215,7 +215,7 @@
       </td>
       </tr>
       <tr>
-      <td> **L8** (Associativity): </td>
+      <td> <b>L8</b> (Associativity): </td>
       <td>
       ```haskell
       (p +++ q) +++ r ≡ p +++ (q +++ r)
@@ -224,7 +224,7 @@
       </tr>
 
       <tr>
-      <td> **L9** (Commutativity): </td>
+      <td> <b>L9</b> (Commutativity): </td>
 
       <td>
       ```haskell
