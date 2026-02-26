@@ -23,24 +23,24 @@
 
 # Schedule 2026
 
-|     |    |     | Event                        |
-|-----|----|-----|------------------------------|
-| Mon | 19 | Jan | [Lecture 01](lecture1.html)  |
-| Thu | 22 | Jan | [Lecture 02](lecture2.html)  |
-| Mon | 26 | Jan | [Lecture 03](lecture3.html)  |
-| Thu | 29 | Jan | [Lecture 04](lecture4.html)  |
-| Mon | 02 | Feb | [Lecture 05](lecture5.html)  |
-| Thu | 05 | Feb | [Lecture 06](lecture6.html)  |
-| Mon | 09 | Feb | [Lecture 07](lecture7.html)  |
-| Thu | 12 | Feb | [Lecture 08](lecture8.html)  |
-| Mon | 16 | Feb | [Lecture 09](lecture9.html)  |
-| Thu | 19 | Feb | [Lecture 10](lecture10.html) |
-| Mon | 23 | Feb | [Lecture 11](lecture11.html) |
-| Thu | 26 | Feb | [Lecture 12](lecture12.html) |
-| Mon | 02 | Mar | [Lecture 13](lecture-packaging.html) |
-| Thu | 05 | Mar | [Lecture 14](lecture-packaging.html) |
+|     |    |     | Event                                 |
+|-----|----|-----|---------------------------------------|
+| Mon | 19 | Jan | [Lecture 01](lecture1.html)           |
+| Thu | 22 | Jan | [Lecture 02](lecture2.html)           |
+| Mon | 26 | Jan | [Lecture 03](lecture3.html)           |
+| Thu | 29 | Jan | [Lecture 04](lecture4.html)           |
+| Mon | 02 | Feb | [Lecture 05](lecture5.html)           |
+| Thu | 05 | Feb | [Lecture 06](lecture6.html)           |
+| Mon | 09 | Feb | [Lecture 07](lecture7.html)           |
+| Thu | 12 | Feb | [Lecture 08](lecture8.html)           |
+| Mon | 16 | Feb | Lecture 09                            |
+| Thu | 19 | Feb | Lecture 10                            |
+| Mon | 23 | Feb | Lecture 11                            |
+| Thu | 26 | Feb | Lecture 12                            |
+| Mon | 02 | Mar | [Lecture 13](lecture-packaging.html)  |
+| Thu | 05 | Mar | [Lecture 14](lecture-packaging.html)  |
 | Mon | 09 | Mar | Lecture 15: Lab 3 supervision session |
-| Thu | 12 | Mar | Lecture 16: Exam preparation |
+| Thu | 12 | Mar | Lecture 16: Exam preparation          |
 
 
 
