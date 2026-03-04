@@ -8,7 +8,7 @@ This lecture gives a brief introduction to developing software in
 Haskell, covering packaging, versioning, continuous integration, and
 package repositories.
 
-The code for this lecture can be found in repository https://github.com/teach-afp/binary-search-trees .
+The code for this lecture can be found in repository <https://github.com/teach-afp/binary-search-trees>.
 
 
 Basic structure of a Haskell project
@@ -28,8 +28,8 @@ The code is structured as follows:
    type BST a
 
    -- Construction
-   empty     ::          BST a
-   singleton ::          a -> BST a
+   empty     :: BST a
+   singleton :: a -> BST a
    insert    :: Ord a => a -> BST a -> BST a
    fromList  :: Ord a => [a] -> BST a
    union     :: Ord a => BST a -> BST a -> BST a
@@ -100,7 +100,7 @@ library
     Data.BST.Internal
 ```
 
-It contains of tree mandatory _fields_ [cabal-version], [name], and [version] and two _stanzas_, a [common] stanza and a [library] stanza, each of which contains again a couple of fields.
+It consists of three mandatory _fields_ [cabal-version], [name], and [version] and two _stanzas_, a [common] stanza and a [library] stanza, each of which contains again a couple of fields.
 
 [cabal-version]:     https://cabal.readthedocs.io/en/3.14/file-format-changelog.html
 [cabal-version 2.2]: https://cabal.readthedocs.io/en/3.14/file-format-changelog.html#cabal-version-2-2
@@ -119,21 +119,22 @@ This version is a good default.
 The [cabal-version] should not be higher than the version of [Cabal] shipped with the least version of GHC you want to support.
 A table matching GHC to Cabal version can be found at https://www.snoyman.com/base/ or just here:
 
-| GHC  | Date     | base | Cabal | LTS   |
-|------|----------|------|-------|-------|
-| 8.0  | May 2016 | 4.9  | 1.24  |  9.21 |
-| 8.2  | Jul 2017 | 4.10 | 2.0   | 11.22 |
-| 8.4  | Mar 2018 | 4.11 | 2.2   | 12.26 |
-| 8.6  | Sep 2018 | 4.12 | 2.4   | 14.27 |
-| 8.8  | Jul 2019 | 4.13 | 3.0   | 16.31 |
-| 8.10 | Mar 2020 | 4.14 | 3.2   | 18.28 |
-| 9.0  | Feb 2021 | 4.15 | 3.4   | 19.33 |
-| 9.2  | Oct 2021 | 4.16 | 3.6   | 20.26 |
-| 9.4  | Aug 2022 | 4.17 | 3.8   | 21.25 |
-| 9.6  | Mar 2023 | 4.18 | 3.10  | 22.43 |
-| 9.8  | Oct 2023 | 4.19 | 3.10  | 23    |
-| 9.10 | Apr 2024 | 4.20 | 3.12  |       |
-| 9.12 | Dez 2024 | 4.21 | 3.14  |       |
+| GHC  | Date     | base | Cabal |   LTS | Remark                         |
+|------|----------|------|-------|------:|--------------------------------|
+| 8.0  | May 2016 | 4.9  | 1.24  |  9.21 | *No longer supported by Stack* |
+| 8.2  | Jul 2017 | 4.10 | 2.0   | 11.22 | *No longer supported by Stack* |
+| 8.4  | Mar 2018 | 4.11 | 2.2   | 12.26 |                                |
+| 8.6  | Sep 2018 | 4.12 | 2.4   | 14.27 |                                |
+| 8.8  | Jul 2019 | 4.13 | 3.0   | 16.31 |                                |
+| 8.10 | Mar 2020 | 4.14 | 3.2   | 18.28 |                                |
+| 9.0  | Feb 2021 | 4.15 | 3.4   | 19.33 |                                |
+| 9.2  | Oct 2021 | 4.16 | 3.6   | 20.26 |                                |
+| 9.4  | Aug 2022 | 4.17 | 3.8   | 21.25 |                                |
+| 9.6  | Mar 2023 | 4.18 | 3.10  | 22.44 | *Recommended by GHCup*         |
+| 9.8  | Oct 2023 | 4.19 | 3.10  | 23.28 |                                |
+| 9.10 | Apr 2024 | 4.20 | 3.12  |    24 | *No final LTS 24.x yet*        |
+| 9.12 | Dec 2024 | 4.21 | 3.14  |       | *Stackage nightly*             |
+| 9.14 | Dec 2025 | 4.22 | 3.6   |       | *Lacks ecosystem support yet*  |
 
 Note that not each release of [Cabal] necessarily comes with a new [cabal-version], i.e., a `.cabal` file format version.
 In particular, there is no [cabal-version] 3.2 nor 3.10.
@@ -352,8 +353,8 @@ test-suite unittests
     -- inherited bounds
     , base
     -- new dependencies, need bounds
-    , tasty               >= 1.1.0.4 && < 1.6
-    , tasty-hunit         >= 0.10    && < 0.12
+    , tasty               >= 1.2.3    && < 1.6
+    , tasty-hunit         >= 0.10.0.2 && < 0.12
 ```
 This simple approach will sometimes work.
 It will not work when we need constructors of `BST`, as in the [QuickCheck] tests below.
@@ -381,8 +382,8 @@ test-suite unittests
     -- inherited bounds
     , base
     -- new dependencies, need bounds
-    , tasty               >= 1.1.0.4 && < 1.6
-    , tasty-hunit         >= 0.10    && < 0.12
+    , tasty               >= 1.2.3    && < 1.6
+    , tasty-hunit         >= 0.10.0.2 && < 0.12
 ```
 
 Now the module `Data.BST.Internal` is shared between the `library` and the `test-suite`.
@@ -441,8 +442,8 @@ test-suite unittests
     , base
     , bst-internal
     -- new dependencies, need bounds
-    , tasty               >= 1.1.0.4 && < 1.6
-    , tasty-hunit         >= 0.10    && < 0.11
+    , tasty               >= 1.2.3    && < 1.6
+    , tasty-hunit         >= 0.10.0.2 && < 0.12
 ```
 Now each module is only compiled once.
 
@@ -469,9 +470,9 @@ In the following, we build up `QuickCheckTests.hs` step by step.
 To tests properties involving a certain data structure (like `BST`) we need to provide a means to generate elements of this data structure.
 Concretely, we need to make it an instance of the QuickCheck class [Arbitrary].
 
-[Arbitary]: https://hackage.haskell.org/package/QuickCheck-2.15.0.1/docs/Test-QuickCheck-Arbitrary.html#t:Arbitrary
+[Arbitrary]: https://hackage.haskell.org/package/QuickCheck-2.15.0.1/docs/Test-QuickCheck-Arbitrary.html#t:Arbitrary
 
-Usually, the `arbitrary` method is implemented via the DSL QuickCheck provides.
+Usually, the `arbitrary` method is implemented via the DSL that QuickCheck provides.
 For `BST a`, we could first randomly choose a constructor `Leaf` or `Node`.
 In the latter case we would call `arbitary` on `a` and recursively on `BST a` to generate the field values of `Node`.
 There are several caveats:
@@ -506,7 +507,7 @@ The simplest [QuickCheck] properties are relations of any arity.
 We formulate some simple properties about membership after insertion or deletion.
 ```haskell
 prop_member_insert x s = member x (insert x s)
-prop_member_delete x s = not $ member x (delete x s)
+prop_member_delete x s = not (member x (delete x s))
 ```
 These properties relate an element to a tree:
 ```haskell
@@ -594,9 +595,9 @@ test-suite quickcheck
     , base
     , bst-internal
     -- new dependencies, need bounds
-    , QuickCheck          >= 2.11.3  && < 2.16
-    , tasty               >= 1.1.0.4 && < 1.6
-    , tasty-quickcheck    >= 0.10    && < 0.12
+    , QuickCheck          >= 2.13     && < 2.19
+    , tasty               >= 1.2.3    && < 1.6
+    , tasty-quickcheck    >= 0.10.02  && < 0.12
 
   ghc-options:
     -Wno-orphans
@@ -733,18 +734,18 @@ To use `doctest` with GHC _x.y.z_, `doctest` needs to be compiled with GHC _x.y.
 Basically, `doctest` is a modified `ghci`.
 
 Invocation (from project root).
-```
-cabal build
-cabal repl --with-compiler doctest
-```
+
+    cabal build
+    cabal repl --with-compiler doctest
+
 Short:
-```
-cabal repl -w doctest
-```
+
+    cabal repl -w doctest
+
 It often makes sense to turn off warnings:
-```
-cabal repl -w doctest --repl-options=-w
-```
+
+    cabal repl -w doctest --repl-options=-w
+
 
 Evaluation of calling the `doctest` executable:
 - Drawback: needs installation of `doctest`.
@@ -786,10 +787,10 @@ Dependencies and versioning
 Each dependency of our package should come with compatibility bounds.
 ```cabal
   build-depends:
-    , base                >= 4.12    && < 5
-    , QuickCheck          >= 2.11.3  && < 2.16
-    , tasty               >= 1.1.0.4 && < 1.6
-    , tasty-quickcheck    >= 0.10    && < 0.12
+    , base                >= 4.12     && < 5
+    , QuickCheck          >= 2.13     && < 2.16
+    , tasty               >= 1.2.3    && < 1.6
+    , tasty-quickcheck    >= 0.10.0.2 && < 0.12
 ```
 
 The Haskell Package Versioning Policy ([PVP]) specifies 4 version digits/positions:
@@ -908,9 +909,11 @@ E.g. https://github.com donates free CI to open source developments via [GitHub 
 
 ```cabal
 tested-with:
-  GHC == 9.10.1
+  GHC == 9.14.1
+  GHC == 9.12.2
+  GHC == 9.10.3
   GHC == 9.8.4
-  GHC == 9.6.6
+  GHC == 9.6.7
   GHC == 9.4.8
   GHC == 9.2.8
   GHC == 9.0.2
@@ -924,7 +927,7 @@ Configuration can be given on the command line or in `cabal.haskell-ci`.
 ```bash
 $ haskell-ci github binary-search-tree.cabal
 *INFO* Generating GitHub config for testing for GHC versions:
-8.4.4 8.6.5 8.8.4 8.10.7 9.0.2 9.2.8 9.4.8 9.6.6 9.8.4 9.10.1
+8.4.4 8.6.5 8.8.4 8.10.7 9.0.2 9.2.8 9.4.8 9.6.7 9.8.4 9.10.3 9.12.2 9.14.1
 ```
 This generates `.github/workflows/haskell-ci.yml`.
 
@@ -948,28 +951,28 @@ jobs:
     steps:
 
     - name: Checkout sources from repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
 
     - name: Setup haskell for use with stack
       uses: haskell-actions/setup@v2
       with:
-        ghc-version: '9.4.8'
+        ghc-version: '9.6.7'
         enable-stack: true
         cabal-update: false
 
     - name: Build
-      run:  stack --system-ghc --stack-yaml=stack-9.4.8.yaml build
+      run:  stack --system-ghc --stack-yaml=stack-9.6.7.yaml build
 
     - name: Test
-      run:  stack --system-ghc --stack-yaml=stack-9.4.8.yaml test
+      run:  stack --system-ghc --stack-yaml=stack-9.6.7.yaml test
 
     - name: Build docs
-      run:  stack --system-ghc --stack-yaml=stack-9.4.8.yaml haddock
+      run:  stack --system-ghc --stack-yaml=stack-9.6.7.yaml haddock
 ```
 This defines a single job with identifier `build` that runs on Ubuntu Linux and performs the following steps:
 1. Check out the default branch of the repository.
-2. Install GHC 9.4.8 and Stack via the https://github.com/haskell-actions/setup action.
-3. Run `stack build` using the installed GHC and the resolver as specified in `stack-9.4.8.yaml`.
+2. Install GHC 9.6.7 and Stack via the https://github.com/haskell-actions/setup action.
+3. Run `stack build` using the installed GHC and the resolver as specified in `stack-9.6.7.yaml`.
 4. Run `stack test`.
 5. Build the documentation via `stack haddock`.
 
@@ -990,17 +993,17 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        ghc: ['9.10.1', '9.8.4', '9.6.6', '9.4.8', '8.6.5']
+        ghc: ['9.12.2', '9.10.3', '9.8.4', '9.6.7', '8.6.5']
         include:
         - os: windows-latest
-          ghc: '9.10.1'
+          ghc: '9.12.2'
         - os: macos-latest
-          ghc: '9.10.1'
+          ghc: '9.12.2'
 
     steps:
 
     - name: Checkout sources from repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
 
     - name: Setup haskell for use with stack
       uses: haskell-actions/setup@v2
@@ -1046,7 +1049,7 @@ This way, we can salvage partial work in building the project.
     steps:
 
     - name: Checkout sources from repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
 
     - name: Setup haskell for use with stack
       id:   setup
@@ -1058,7 +1061,7 @@ This way, we can salvage partial work in building the project.
 
     - name: Restore cache
       id:   cache
-      uses: actions/cache/restore@v4
+      uses: actions/cache/restore@v5
       env:
         key: ${{ runner.os }}-stack-${{ steps.setup.outputs.stack-version }}-ghc-${{ steps.setup.outputs.ghc-version }}
       with:
@@ -1080,7 +1083,7 @@ This way, we can salvage partial work in building the project.
     - name: Save cache
       if:   always()
         ## Save cache regardless of whether on of the steps failed
-      uses: actions/cache/save@v4
+      uses: actions/cache/save@v5
       with:
         key: ${{ steps.cache.outputs.cache-primary-key }}
         path: |
