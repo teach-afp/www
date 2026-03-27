@@ -647,7 +647,7 @@ instance CoArbitrary a => CoArbitrary (BST a) where
   coarbitrary = coarbitrary . toList
 ```
 
-[CoArbitary]: https://hackage.haskell.org/package/QuickCheck-2.15.0.1/docs/Test-QuickCheck-Arbitrary.html#t:CoArbitrary
+[CoArbitrary]: https://hackage.haskell.org/package/QuickCheck-2.15.0.1/docs/Test-QuickCheck-Arbitrary.html#t:CoArbitrary
 
 Doctests
 --------
