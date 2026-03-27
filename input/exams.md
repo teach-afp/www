@@ -2,6 +2,10 @@
 
 ### Exams by Andreas Abel
 
+* [March 2026](./assets/exams/2026-03.pdf)
+  ([with solutions](./assets/exams/2026-03-solved.pdf)):
+  _Monad via `join` | `join` laws for writer monad | Extending typed expressions: `eval`, `infer` | DSL for polynomials_
+
 * [June 2025](./assets/exams/2025-06.pdf)
   ([with solutions](./assets/exams/2025-06-solved.pdf)):
   _Probability monad with monad laws and example application_
